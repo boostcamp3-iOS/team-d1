@@ -12,7 +12,6 @@
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
 		C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98241B121F6B73500FCCFBE /* Assets.xcassets */; };
 		C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */; };
-		C98241E621F6FE9F00FCCFBE /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241E521F6FE9F00FCCFBE /* EndPoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +23,6 @@
 		C98241B421F6B73500FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C98241B621F6B73500FCCFBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C98241E221F6FD8200FCCFBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		C98241E521F6FE9F00FCCFBE /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +39,6 @@
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
-				C98241E321F6FE7300FCCFBE /* Networking */,
 				C98241A921F6B73400FCCFBE /* BeBrav */,
 				C98241A821F6B73400FCCFBE /* Products */,
 			);
@@ -66,22 +63,6 @@
 				C98241B621F6B73500FCCFBE /* Info.plist */,
 			);
 			path = BeBrav;
-			sourceTree = "<group>";
-		};
-		C98241E321F6FE7300FCCFBE /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				C98241E421F6FE7B00FCCFBE /* EndPoint */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		C98241E421F6FE7B00FCCFBE /* EndPoint */ = {
-			isa = PBXGroup;
-			children = (
-				C98241E521F6FE9F00FCCFBE /* EndPoint.swift */,
-			);
-			path = EndPoint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,7 +136,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98241E621F6FE9F00FCCFBE /* EndPoint.swift in Sources */,
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
 			);
