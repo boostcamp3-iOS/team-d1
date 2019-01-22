@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		889706B721F6CFC5002D4BDF /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889706B621F6CFC5002D4BDF /* ArtAddViewController.swift */; };
+		889706BD21F6F8F0002D4BDF /* ArtistDetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889706BC21F6F8F0002D4BDF /* ArtistDetailCollectionViewController.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
-		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
 		C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98241B121F6B73500FCCFBE /* Assets.xcassets */; };
 		C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		889706B621F6CFC5002D4BDF /* ArtAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddViewController.swift; sourceTree = "<group>"; };
+		889706BC21F6F8F0002D4BDF /* ArtistDetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailCollectionViewController.swift; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C98241AC21F6B73400FCCFBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C98241AF21F6B73400FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C98241B121F6B73500FCCFBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C98241B421F6B73500FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,7 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
-				C98241AC21F6B73400FCCFBE /* ViewController.swift */,
+				889706B621F6CFC5002D4BDF /* ArtAddViewController.swift */,
+				889706BC21F6F8F0002D4BDF /* ArtistDetailCollectionViewController.swift */,
 				C98241AE21F6B73400FCCFBE /* Main.storyboard */,
 				C98241B121F6B73500FCCFBE /* Assets.xcassets */,
 				C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */,
@@ -135,8 +138,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
+				889706B721F6CFC5002D4BDF /* ArtAddViewController.swift in Sources */,
+				889706BD21F6F8F0002D4BDF /* ArtistDetailCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +292,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBrav;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -305,7 +309,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBrav;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
