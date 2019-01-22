@@ -10,6 +10,7 @@ import UIKit
 
 @IBDesignable
 class PhotoViewController: UIViewController {
+    
     // MARK:- Outlet
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -56,7 +57,7 @@ class PhotoViewController: UIViewController {
     
     // MARK:- Tap Artist Label
     #warning("Add ViewController for Artist Detail")
-    @objc func tapArtistLabel(_ sender: UITapGestureRecognizer) {
+    @objc func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
         dismiss(animated: true) {
             let VC = UIViewController()
             self.navigationController?.pushViewController(VC, animated: true)
@@ -64,7 +65,7 @@ class PhotoViewController: UIViewController {
     }
     
     // MARK:- Pinch ImageView
-    @objc func pinchImageView(_ sender: UIPinchGestureRecognizer) {
+    @objc func imageViewDidPinched(_ sender: UIPinchGestureRecognizer) {
         if sender.state == .ended {
             if sender.scale < 0.8 {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -130,11 +131,11 @@ extension PhotoViewController {
     
     // MARK:- Set Gesture Recognizer
     private func setGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapArtistLabel(_:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
         artistLabel.isUserInteractionEnabled = true
         artistLabel.addGestureRecognizer(tapGestureRecognizer)
         
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchImageView(_:)))
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(imageViewDidPinched(_:)))
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(pinchGestureRecognizer)
     }
