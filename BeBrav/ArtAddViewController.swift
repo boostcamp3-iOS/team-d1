@@ -1,4 +1,4 @@
-//
+//  작품 등록 화면
 //  ArtAddModalViewController.swift
 //  BeBrav
 //
@@ -10,11 +10,11 @@ import UIKit
 
 class ArtAddViewController: UIViewController {
     
-    //MARK : - Properties
-    let titleLabel: UILabel = {
+    //MARK: - Properties
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "작품 등록하기"
-        label.font = UIFont.boldSystemFont(ofSize: 40)
+        label.font = UIFont.boldSystemFont(ofSize: view.frame.width * 0.08)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,51 +42,31 @@ class ArtAddViewController: UIViewController {
         return picker
     }()
     
-    //MARK : - Life Cycle
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        artNameTextField.delegate = self
         setUpViews()
-        
-        //artImageView에 tapGesture를 추가
+        setTapGestureRecognizer()
+    }
+    
+    //MARK: - Helper Method
+    #warning("네비바 등록 버튼에 대한 동작 구현")
+    private func setTapGestureRecognizer() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artImageViewTapped))
         artImageView.isUserInteractionEnabled = true
         artImageView.addGestureRecognizer(tapGestureRecognizer)
-        
-        artNameTextField.delegate = self
     }
     
-    //MARK : - Helper Method
     @objc func artImageViewTapped() {
         imagePicker.allowsEditing = true
-        
         present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func setUpViews() {
-        view.addSubview(artImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(artNameTextField)
-        
-        titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        
-        artImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //artImageView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
-        artImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30).isActive = true
-        //artImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        artImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
-        //artImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        artImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
-        
-        artNameTextField.topAnchor.constraint(equalTo: artImageView.bottomAnchor, constant: 20).isActive = true
-        artNameTextField.leadingAnchor.constraint(equalTo: artImageView.leadingAnchor).isActive = true
-        artNameTextField.trailingAnchor.constraint(equalTo: artImageView.trailingAnchor).isActive = true
     }
 }
 
+//MARK: - Image Picker Delegate
 extension ArtAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         artImageView.image = editedImage
@@ -95,6 +75,7 @@ extension ArtAddViewController: UIImagePickerControllerDelegate, UINavigationCon
     }
 }
 
+//MARK: - TextField Delegate
 extension ArtAddViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -103,5 +84,26 @@ extension ArtAddViewController: UITextFieldDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         artNameTextField.resignFirstResponder()
+    }
+}
+
+//MARK: - Set Layout
+extension ArtAddViewController {
+    private func setUpViews() {
+        view.addSubview(artImageView)
+        view.addSubview(titleLabel)
+        view.addSubview(artNameTextField)
+        
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+  
+        artImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        artImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+        artImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
+        artImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
+        
+        artNameTextField.topAnchor.constraint(equalTo: artImageView.bottomAnchor, constant: 20).isActive = true
+        artNameTextField.leadingAnchor.constraint(equalTo: artImageView.leadingAnchor).isActive = true
+        artNameTextField.trailingAnchor.constraint(equalTo: artImageView.trailingAnchor).isActive = true
     }
 }
