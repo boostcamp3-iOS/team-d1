@@ -46,11 +46,7 @@ class ArtAddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(artImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(artNameTextField)
-        
-        setUpLayout()
+        setUpViews()
         
         //artImageView에 tapGesture를 추가
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artImageViewTapped))
@@ -67,7 +63,11 @@ class ArtAddViewController: UIViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
-    func setUpLayout() {
+    func setUpViews() {
+        view.addSubview(artImageView)
+        view.addSubview(titleLabel)
+        view.addSubview(artNameTextField)
+        
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
