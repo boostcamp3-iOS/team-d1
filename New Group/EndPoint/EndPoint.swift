@@ -8,13 +8,12 @@
 
 import Foundation
 
-public var baseURL: String {
+public var dataBaseBaseURL: String {
     return "https://bravyprototype.firebaseio.com"
 }
 
-public enum DataBaseApi {
-    case baseURL
-    case users
+public var storageBaseURL: String {
+    return "https://firebasestorage.googleapis.com/v0/b/bravyprototype.appspot.com/o"
 }
 
 public enum Result<Value> {
@@ -22,45 +21,5 @@ public enum Result<Value> {
     case failure(Error)
 }
 
-enum APIError: Error {
-    case requestFailed
-    case jsonConversionFailure
-    case invalidData
-    case responseUnsuccessful
-    case jsonParsingFailure
-    case urlFailure
-    
-    var localizedDescription: String {
-        switch self {
-        case .requestFailed: return "Request Failed"
-        case .invalidData: return "Invalid Data"
-        case .responseUnsuccessful: return "Response Unsuccessful"
-        case .jsonParsingFailure: return "JSON Parsing Failure"
-        case .jsonConversionFailure: return "JSON Conversion Failure"
-        case .urlFailure: return "url Failure, app is gonna be off"
-        }
-    }
-}
-extension DataBaseApi {
-    
-    
-    /*
-    var path: String {
-        switch self {
-        case .recommended(let id):
-            return "\(id)/recommendations"
-        case .popular:
-            return "popular"
-        case .newMovies:
-            return "now_playing"
-        case .video(let id):
-            return "\(id)/videos"
-        }
-        
-    }
-    */
-    var httpMethod: HTTPMethod {
-        return .get
-    }
-}
+
 
