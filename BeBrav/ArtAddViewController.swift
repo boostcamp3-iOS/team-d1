@@ -54,12 +54,12 @@ class ArtAddViewController: UIViewController {
     //MARK: - Helper Method
     #warning("네비바 등록 버튼에 대한 동작 구현")
     private func setTapGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artImageViewTapped))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artImageViewDidTap))
         artImageView.isUserInteractionEnabled = true
         artImageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func artImageViewTapped() {
+    @objc func artImageViewDidTap() {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
