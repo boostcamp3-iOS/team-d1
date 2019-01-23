@@ -18,6 +18,7 @@
 		C98241F421F7DF9300FCCFBE /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F321F7DF9300FCCFBE /* Storage.swift */; };
 		C98241F721F8170D00FCCFBE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F621F8170D00FCCFBE /* Error.swift */; };
 		C98241F921F8191C00FCCFBE /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F821F8191C00FCCFBE /* HTTPMethod.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		C98241F321F7DF9300FCCFBE /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		C98241F621F8170D00FCCFBE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		C98241F821F8191C00FCCFBE /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +53,9 @@
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
+
 				C98241E721F7035D00FCCFBE /* Networking */,
+
 				C98241A921F6B73400FCCFBE /* BeBrav */,
 				C98241A821F6B73400FCCFBE /* Products */,
 			);
@@ -78,6 +82,7 @@
 			path = BeBrav;
 			sourceTree = "<group>";
 		};
+
 		C98241E721F7035D00FCCFBE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +129,7 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
