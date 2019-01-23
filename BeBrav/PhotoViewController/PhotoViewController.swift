@@ -8,24 +8,26 @@
 
 import UIKit
 
-@IBDesignable
 class PhotoViewController: UIViewController {
     
     // MARK:- Outlet
     var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.maximumZoomScale = 1.5
         scrollView.minimumZoomScale = 0.7
         return scrollView
     }()
     var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     var artistLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.text = "작가 이름"
@@ -33,6 +35,7 @@ class PhotoViewController: UIViewController {
     }()
     var titleLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 19)
         label.text = "작품 제목"
@@ -55,22 +58,19 @@ class PhotoViewController: UIViewController {
         scrollView.setContentOffset(centerPoint, animated: false)
     }
     
-    // MARK:- Tap Artist Label
-    #warning("Add ViewController for Artist Detail")
+    // MARK:- Artist Label Did Tap
+    #warning("Add ViewController and Push for Artist Detail")
     @objc func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
         dismiss(animated: true) {
-            let VC = UIViewController()
-            self.navigationController?.pushViewController(VC, animated: true)
+            //TODO: 화면 닫은 후에 메인화면의 navigationController에서 작가상세화면으로 push 하도록 코드 추가
         }
     }
     
-    // MARK:- Pinch ImageView
+    // MARK:- ImageView Did Pinched
     @objc func imageViewDidPinched(_ sender: UIPinchGestureRecognizer) {
         if sender.state == .ended {
             if sender.scale < 0.8 {
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.dismiss(animated: false, completion: nil)
-                })
+                dismiss(animated: true, completion: nil)
             } else {
                 scrollView.zoomScale = 1.0
             }
@@ -97,35 +97,25 @@ extension PhotoViewController {
         scrollView.addSubview(titleLabel)
         scrollView.delegate = self
         
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
-        let left = imageView.leftAnchor.constraint(equalTo: scrollView.leftAnchor)
+        let left = imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
         left.priority = .init(1)
         left.isActive = true
-        let right = imageView.rightAnchor.constraint(equalTo: scrollView.rightAnchor)
+        let right = imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
         right.priority = .init(1)
         right.isActive = true
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        let titleBottom = titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        titleBottom.constant += -20
-        titleBottom.isActive = true
-        let titleRight = titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        titleRight.constant += -20
-        titleRight.isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         
-        artistLabel.translatesAutoresizingMaskIntoConstraints = false
-        let artistBottom = artistLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor)
-        artistBottom.constant += -10
-        artistBottom.isActive = true
+        artistLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10).isActive = true
         artistLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
     }
     
