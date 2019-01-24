@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A365385921F704040045C732 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365385821F704040045C732 /* PhotoViewController.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
@@ -16,7 +15,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A365385821F704040045C732 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98241AC21F6B73400FCCFBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,14 +36,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A365385721F703F50045C732 /* PhotoViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A365385821F704040045C732 /* PhotoViewController.swift */,
-			);
-			path = PhotoViewController;
-			sourceTree = "<group>";
-		};
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
@@ -67,7 +57,6 @@
 			children = (
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
 				C98241AC21F6B73400FCCFBE /* ViewController.swift */,
-				A365385721F703F50045C732 /* PhotoViewController */,
 				C98241AE21F6B73400FCCFBE /* Main.storyboard */,
 				C98241B121F6B73500FCCFBE /* Assets.xcassets */,
 				C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */,
@@ -149,7 +138,6 @@
 			files = (
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
-				A365385921F704040045C732 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
