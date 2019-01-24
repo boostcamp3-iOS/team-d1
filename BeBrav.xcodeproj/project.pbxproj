@@ -12,13 +12,6 @@
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
 		C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98241B121F6B73500FCCFBE /* Assets.xcassets */; };
 		C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */; };
-		C98241E921F7038900FCCFBE /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241E821F7038900FCCFBE /* EndPoint.swift */; };
-		C98241EF21F707E000FCCFBE /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241EE21F707E000FCCFBE /* DataBase.swift */; };
-		C98241F121F70D4000FCCFBE /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F021F70D4000FCCFBE /* APIService.swift */; };
-		C98241F421F7DF9300FCCFBE /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F321F7DF9300FCCFBE /* Storage.swift */; };
-		C98241F721F8170D00FCCFBE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F621F8170D00FCCFBE /* Error.swift */; };
-		C98241F921F8191C00FCCFBE /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241F821F8191C00FCCFBE /* HTTPMethod.swift */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,13 +23,6 @@
 		C98241B421F6B73500FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C98241B621F6B73500FCCFBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C98241E221F6FD8200FCCFBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		C98241E821F7038900FCCFBE /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
-		C98241EE21F707E000FCCFBE /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
-		C98241F021F70D4000FCCFBE /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		C98241F321F7DF9300FCCFBE /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		C98241F621F8170D00FCCFBE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		C98241F821F8191C00FCCFBE /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +39,11 @@
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
-
+				C982420621F8863B00FCCFBE /* Model */,
+				C982420121F8477F00FCCFBE /* Layouts */,
+				C98241FC21F82FF500FCCFBE /* Views */,
+				C98241FB21F82FEA00FCCFBE /* Controllers */,
 				C98241E721F7035D00FCCFBE /* Networking */,
-
 				C98241A921F6B73400FCCFBE /* BeBrav */,
 				C98241A821F6B73400FCCFBE /* Products */,
 			);
@@ -82,54 +70,50 @@
 			path = BeBrav;
 			sourceTree = "<group>";
 		};
-
 		C98241E721F7035D00FCCFBE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				C98241F521F816C700FCCFBE /* Error */,
-				C98241F221F7D95000FCCFBE /* Storage */,
-				C98241ED21F7040700FCCFBE /* DataBase */,
-				C98241EC21F703FB00FCCFBE /* EndPoint */,
-				C98241F021F70D4000FCCFBE /* APIService.swift */,
 			);
 			name = Networking;
 			path = "New Group";
 			sourceTree = "<group>";
 		};
-		C98241EC21F703FB00FCCFBE /* EndPoint */ = {
-			isa = PBXGroup;
-			children = (
-				C98241F821F8191C00FCCFBE /* HTTPMethod.swift */,
-				C98241E821F7038900FCCFBE /* EndPoint.swift */,
-			);
-			path = EndPoint;
-			sourceTree = "<group>";
-		};
-		C98241ED21F7040700FCCFBE /* DataBase */ = {
-			isa = PBXGroup;
-			children = (
-				C98241EE21F707E000FCCFBE /* DataBase.swift */,
-			);
-			path = DataBase;
-			sourceTree = "<group>";
-		};
-		C98241F221F7D95000FCCFBE /* Storage */ = {
-			isa = PBXGroup;
-			children = (
-				C98241F321F7DF9300FCCFBE /* Storage.swift */,
-			);
-			path = Storage;
-			sourceTree = "<group>";
-		};
 		C98241F521F816C700FCCFBE /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				C98241F621F8170D00FCCFBE /* Error.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
 		};
-
+		C98241FB21F82FEA00FCCFBE /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C98241FC21F82FF500FCCFBE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C982420121F8477F00FCCFBE /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Layouts;
+			sourceTree = "<group>";
+		};
+		C982420621F8863B00FCCFBE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -201,13 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98241F721F8170D00FCCFBE /* Error.swift in Sources */,
-				C98241EF21F707E000FCCFBE /* DataBase.swift in Sources */,
-				C98241F421F7DF9300FCCFBE /* Storage.swift in Sources */,
-				C98241E921F7038900FCCFBE /* EndPoint.swift in Sources */,
-				C98241F921F8191C00FCCFBE /* HTTPMethod.swift in Sources */,
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
-				C98241F121F70D4000FCCFBE /* APIService.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
