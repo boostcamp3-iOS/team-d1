@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		889DD3C521F833310054692A /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD3C421F833310054692A /* SupplementaryView.swift */; };
+		889DD3C521F833310054692A /* ArtistDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD3C421F833310054692A /* ArtistDetailHeaderView.swift */; };
 		889DD3C721F834940054692A /* ArtistCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD3C621F834940054692A /* ArtistCollectionViewController.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		889DD3C421F833310054692A /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
+		889DD3C421F833310054692A /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
 		889DD3C621F834940054692A /* ArtistCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistCollectionViewController.swift; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 		C98241A921F6B73400FCCFBE /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
-				889DD3C421F833310054692A /* SupplementaryView.swift */,
+				889DD3C421F833310054692A /* ArtistDetailHeaderView.swift */,
 				889DD3C621F834940054692A /* ArtistCollectionViewController.swift */,
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
 				C98241AE21F6B73400FCCFBE /* Main.storyboard */,
@@ -140,7 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				889DD3C721F834940054692A /* ArtistCollectionViewController.swift in Sources */,
-				889DD3C521F833310054692A /* SupplementaryView.swift in Sources */,
+				889DD3C521F833310054692A /* ArtistDetailHeaderView.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
