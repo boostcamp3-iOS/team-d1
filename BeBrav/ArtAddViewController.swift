@@ -11,10 +11,10 @@ import UIKit
 class ArtAddViewController: UIViewController {
     
     //MARK: - Properties
-    lazy var titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "작품 등록하기"
-        label.font = UIFont.boldSystemFont(ofSize: view.frame.width * 0.08)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
