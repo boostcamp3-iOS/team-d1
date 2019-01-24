@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C973520E21F99EA20011ED86 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973520D21F99EA20011ED86 /* EndPoint.swift */; };
+		C973521021F99EAB0011ED86 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973520F21F99EAB0011ED86 /* HTTPMethod.swift */; };
+		C973521221F99EB20011ED86 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521121F99EB20011ED86 /* Error.swift */; };
+		C973521421F99EBC0011ED86 /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521321F99EBC0011ED86 /* ServerDatabase.swift */; };
+		C973521621F99EC50011ED86 /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521521F99EC50011ED86 /* ServerStorage.swift */; };
+		C973521921F99F120011ED86 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521821F99F120011ED86 /* APIService.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
@@ -15,6 +21,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C973520D21F99EA20011ED86 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		C973520F21F99EAB0011ED86 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		C973521121F99EB20011ED86 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		C973521321F99EBC0011ED86 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
+		C973521521F99EC50011ED86 /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
+		C973521821F99F120011ED86 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98241AC21F6B73400FCCFBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,13 +48,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C973520921F99E520011ED86 /* ServerStorage */ = {
+			isa = PBXGroup;
+			children = (
+				C973521521F99EC50011ED86 /* ServerStorage.swift */,
+			);
+			path = ServerStorage;
+			sourceTree = "<group>";
+		};
+		C973520A21F99E5F0011ED86 /* ServerDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				C973521321F99EBC0011ED86 /* ServerDatabase.swift */,
+			);
+			path = ServerDatabase;
+			sourceTree = "<group>";
+		};
+		C973520B21F99E670011ED86 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				C973521121F99EB20011ED86 /* Error.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		C973520C21F99E6C0011ED86 /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				C973520D21F99EA20011ED86 /* EndPoint.swift */,
+				C973520F21F99EAB0011ED86 /* HTTPMethod.swift */,
+			);
+			name = EndPoint;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		C973521721F99F070011ED86 /* APIService */ = {
+			isa = PBXGroup;
+			children = (
+				C973521821F99F120011ED86 /* APIService.swift */,
+			);
+			path = APIService;
+			sourceTree = "<group>";
+		};
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
-				C982420621F8863B00FCCFBE /* Model */,
-				C982420121F8477F00FCCFBE /* Layouts */,
-				C98241FC21F82FF500FCCFBE /* Views */,
-				C98241FB21F82FEA00FCCFBE /* Controllers */,
 				C98241E721F7035D00FCCFBE /* Networking */,
 				C98241A921F6B73400FCCFBE /* BeBrav */,
 				C98241A821F6B73400FCCFBE /* Products */,
@@ -73,45 +123,14 @@
 		C98241E721F7035D00FCCFBE /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				C98241F521F816C700FCCFBE /* Error */,
+				C973521721F99F070011ED86 /* APIService */,
+				C973520C21F99E6C0011ED86 /* EndPoint */,
+				C973520B21F99E670011ED86 /* Error */,
+				C973520A21F99E5F0011ED86 /* ServerDatabase */,
+				C973520921F99E520011ED86 /* ServerStorage */,
 			);
 			name = Networking;
 			path = "New Group";
-			sourceTree = "<group>";
-		};
-		C98241F521F816C700FCCFBE /* Error */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		C98241FB21F82FEA00FCCFBE /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		C98241FC21F82FF500FCCFBE /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		C982420121F8477F00FCCFBE /* Layouts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Layouts;
-			sourceTree = "<group>";
-		};
-		C982420621F8863B00FCCFBE /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,8 +204,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C973521621F99EC50011ED86 /* ServerStorage.swift in Sources */,
+				C973521021F99EAB0011ED86 /* HTTPMethod.swift in Sources */,
+				C973520E21F99EA20011ED86 /* EndPoint.swift in Sources */,
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
+				C973521221F99EB20011ED86 /* Error.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
+				C973521921F99F120011ED86 /* APIService.swift in Sources */,
+				C973521421F99EBC0011ED86 /* ServerDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
