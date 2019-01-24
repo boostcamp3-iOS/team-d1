@@ -21,7 +21,6 @@ class ArtAddViewController: UIViewController {
     
     let artImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "add-image"))
-        imageView.contentMode = .scaleToFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -35,10 +34,9 @@ class ArtAddViewController: UIViewController {
         return textField
     }()
     
-    lazy var imagePicker: UIImagePickerController = {
+    let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
-        picker.delegate = self
         return picker
     }()
     
@@ -47,12 +45,14 @@ class ArtAddViewController: UIViewController {
         super.viewDidLoad()
         
         artNameTextField.delegate = self
+        imagePicker.delegate = self
+        
         setUpViews()
+        
         setTapGestureRecognizer()
     }
     
     //MARK: - Helper Method
-    #warning("네비바 등록 버튼에 대한 동작 구현")
     private func setTapGestureRecognizer() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artImageViewDidTap))
         artImageView.isUserInteractionEnabled = true
@@ -63,6 +63,8 @@ class ArtAddViewController: UIViewController {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
+    
+    //TODO: - 네비바 등록 버튼에 대한 동작 구현
 }
 
 //MARK: - Image Picker Delegate
