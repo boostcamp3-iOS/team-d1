@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A365385921F704040045C732 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365385821F704040045C732 /* PhotoViewController.swift */; };
+		A365386221F96F130045C732 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365386121F96F130045C732 /* ArtistViewController.swift */; };
+		A365386421F96F4C0045C732 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365386321F96F4C0045C732 /* PhotoListCollectionViewCell.swift */; };
+		A365386621F96F830045C732 /* PhotoListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365386521F96F830045C732 /* PhotoListHeaderCollectionReusableView.swift */; };
+		A365386A21F975140045C732 /* photographer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A365386921F975140045C732 /* photographer.jpg */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
 		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
@@ -17,6 +21,10 @@
 
 /* Begin PBXFileReference section */
 		A365385821F704040045C732 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		A365386121F96F130045C732 /* ArtistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
+		A365386321F96F4C0045C732 /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = "<group>"; };
+		A365386521F96F830045C732 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		A365386921F975140045C732 /* photographer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = photographer.jpg; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98241AC21F6B73400FCCFBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +54,16 @@
 			path = PhotoViewController;
 			sourceTree = "<group>";
 		};
+		A365386021F96ECE0045C732 /* ArtistViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A365386121F96F130045C732 /* ArtistViewController.swift */,
+				A365386321F96F4C0045C732 /* PhotoListCollectionViewCell.swift */,
+				A365386521F96F830045C732 /* PhotoListHeaderCollectionReusableView.swift */,
+			);
+			path = ArtistViewController;
+			sourceTree = "<group>";
+		};
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
@@ -67,9 +85,11 @@
 			children = (
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
 				C98241AC21F6B73400FCCFBE /* ViewController.swift */,
+				A365386021F96ECE0045C732 /* ArtistViewController */,
 				A365385721F703F50045C732 /* PhotoViewController */,
 				C98241AE21F6B73400FCCFBE /* Main.storyboard */,
 				C98241B121F6B73500FCCFBE /* Assets.xcassets */,
+				A365386921F975140045C732 /* photographer.jpg */,
 				C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */,
 				C98241B621F6B73500FCCFBE /* Info.plist */,
 			);
@@ -136,6 +156,7 @@
 			files = (
 				C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */,
 				C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */,
+				A365386A21F975140045C732 /* photographer.jpg in Resources */,
 				C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,7 +170,10 @@
 			files = (
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
+				A365386421F96F4C0045C732 /* PhotoListCollectionViewCell.swift in Sources */,
 				A365385921F704040045C732 /* PhotoViewController.swift in Sources */,
+				A365386221F96F130045C732 /* ArtistViewController.swift in Sources */,
+				A365386621F96F830045C732 /* PhotoListHeaderCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
