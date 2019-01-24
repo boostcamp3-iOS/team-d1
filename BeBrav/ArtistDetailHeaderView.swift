@@ -12,8 +12,9 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     
     //MARK: - Outlet
     let artistImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "user"))
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = #imageLiteral(resourceName: "user")
         return imageView
     }()
     
@@ -36,17 +37,18 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     
     //편집모드 상황을 위한 temporary edit button
     let editButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: UIButton.ButtonType.system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .black
         button.setTitle("편집하기", for: .normal)
+        //button.tintColor =
         return button
     }()
     
-    var isEditMode: Bool = false {
+    var isEditMode = false {
         didSet {
-            artistNameTextField.isEnabled = isEditMode ? true : false
-            artistIntroTextView.isEditable = isEditMode ? true : false
+            artistNameTextField.isEnabled = isEditMode
+            artistIntroTextView.isEditable = isEditMode
             
             if isEditMode {
                 editButton.setTitle("편집완료", for: .normal)
@@ -97,13 +99,13 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         editButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         editButton.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         
-        artistImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
-        artistImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        artistImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
+        artistImageView.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        artistImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        artistImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3).isActive = true
         artistImageView.heightAnchor.constraint(equalTo: artistImageView.widthAnchor, multiplier: 1).isActive = true
         
         artistNameTextField.topAnchor.constraint(equalTo: artistImageView.bottomAnchor, constant: 20).isActive = true
-        artistNameTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        artistNameTextField.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         artistNameTextField.leadingAnchor.constraint(equalTo: artistIntroTextView.leadingAnchor).isActive = true
         artistNameTextField.trailingAnchor.constraint(equalTo: artistIntroTextView.trailingAnchor).isActive = true
         
