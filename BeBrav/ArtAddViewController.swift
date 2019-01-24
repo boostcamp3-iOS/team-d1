@@ -11,11 +11,22 @@ import UIKit
 class ArtAddViewController: UIViewController {
     
     //MARK: - Properties
+    let navigationBar: UINavigationBar = {
+        let naviBar = UINavigationBar()
+        naviBar.translatesAutoresizingMaskIntoConstraints = false
+        return naviBar
+    }()
+    
+    let naviItem: UINavigationItem = {
+        let item = UINavigationItem(title: "작품 등록")
+        return item
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "작품 등록하기"
         label.font = UIFont.boldSystemFont(ofSize: 25)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -27,10 +38,10 @@ class ArtAddViewController: UIViewController {
     
     let artNameTextField: UITextField = {
         let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "작품명을 입력해주세요."
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -39,6 +50,16 @@ class ArtAddViewController: UIViewController {
         picker.sourceType = .photoLibrary
         return picker
     }()
+    
+    lazy var rightBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(rightBarButtonDidTap))
+        button.title = "등록"
+        return button
+    }()
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -64,15 +85,28 @@ class ArtAddViewController: UIViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
-    //TODO: - 네비바 등록 버튼에 대한 동작 구현
+    //MARK: - TODO
+    @objc func rightBarButtonDidTap() {
+        print("rightBarButtonDidTap")
+        //TODO: - register image...
+    }
     
     //MARK: - Set Layout
     private func setUpViews() {
+        navigationBar.pushItem(naviItem, animated: true)
+        naviItem.rightBarButtonItem = rightBarButton
+        
+        view.addSubview(navigationBar)
         view.addSubview(artImageView)
         view.addSubview(titleLabel)
         view.addSubview(artNameTextField)
         
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        navigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        navigationBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+
+        titleLabel.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 3).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         artImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -80,7 +114,7 @@ class ArtAddViewController: UIViewController {
         artImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
         artImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
         
-        artNameTextField.topAnchor.constraint(equalTo: artImageView.bottomAnchor, constant: 20).isActive = true
+        artNameTextField.topAnchor.constraint(equalTo: artImageView.bottomAnchor, constant: 15).isActive = true
         artNameTextField.leadingAnchor.constraint(equalTo: artImageView.leadingAnchor).isActive = true
         artNameTextField.trailingAnchor.constraint(equalTo: artImageView.trailingAnchor).isActive = true
     }
