@@ -58,6 +58,17 @@ class PhotoViewController: UIViewController {
         scrollView.setContentOffset(centerPoint, animated: false)
     }
     
+    // MARK:- Set Gesture Recognizer
+    private func setGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
+        artistLabel.isUserInteractionEnabled = true
+        artistLabel.addGestureRecognizer(tapGestureRecognizer)
+        
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(imageViewDidPinched(_:)))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(pinchGestureRecognizer)
+    }
+    
     // MARK:- Artist Label Did Tap
     #warning("Add ViewController and Push for Artist Detail")
     @objc func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
@@ -78,17 +89,7 @@ class PhotoViewController: UIViewController {
             scrollView.zoomScale = sender.scale
         }
     }
-}
-
-// MARK:- UIScrollView Delegate
-extension PhotoViewController: UIScrollViewDelegate {
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return imageView
-    }
-}
-
-// MARK:- Set Layout And Gesture
-extension PhotoViewController {
+    
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(scrollView)
@@ -118,15 +119,11 @@ extension PhotoViewController {
         artistLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10).isActive = true
         artistLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
     }
-    
-    // MARK:- Set Gesture Recognizer
-    private func setGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
-        artistLabel.isUserInteractionEnabled = true
-        artistLabel.addGestureRecognizer(tapGestureRecognizer)
-        
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(imageViewDidPinched(_:)))
-        imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(pinchGestureRecognizer)
+}
+
+// MARK:- UIScrollView Delegate
+extension PhotoViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
 }
