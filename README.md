@@ -33,9 +33,9 @@ https://github.com/raywenderlich/swift-style-guide
 
 <img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51735628-40da2980-20cb-11e9-8941-15e215eef968.png">
 <div>
-<img width="200" alt="2019-01-25 6 04 49" src="https://user-images.githubusercontent.com/34180216/51736110-9a8f2380-20cc-11e9-9b76-01b9ec963ddf.png"><
-
-<img width="200" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736019-64ea3a80-20cc-11e9-9033-3df97f47daaf.jpg"></div>
+<img width="200" alt="2019-01-25 6 04 49" src="https://user-images.githubusercontent.com/34180216/51736110-9a8f2380-20cc-11e9-9b76-01b9ec963ddf.png">
+<img width="200" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736019-64ea3a80-20cc-11e9-9033-3df97f47daaf.jpg">
+</div>
 <div>
 <img width="200" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736021-674c9480-20cc-11e9-9527-7b4f3fe46318.png">
 <img width="200" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736023-674c9480-20cc-11e9-913e-76b5a60657ba.png"></div>
