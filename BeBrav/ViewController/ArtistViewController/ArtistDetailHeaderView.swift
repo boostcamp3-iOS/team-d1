@@ -35,23 +35,12 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         return textView
     }()
     
-    //편집모드 상황을 위한 temporary edit button
-    let editButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        button.setTitle("편집하기", for: .normal)
-        //button.tintColor =
-        return button
-    }()
-    
     var isEditMode = false {
         didSet {
             artistNameTextField.isEnabled = isEditMode
             artistIntroTextView.isEditable = isEditMode
             
             if isEditMode {
-                editButton.setTitle("편집완료", for: .normal)
                 artistNameTextField.becomeFirstResponder()
             }
         }
@@ -63,8 +52,6 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         
         setUpViews()
         
-        editButton.addTarget(self, action: #selector(editButtonDidTap), for: .touchUpInside)
-        
         artistNameTextField.delegate = self
     }
     
@@ -73,11 +60,6 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     }
     
     //MARK: - Method
-    //편집모드 상황을 위한 temporary action method
-    @objc func editButtonDidTap() {
-        isEditMode = !isEditMode
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if artistNameTextField.isFirstResponder {
             artistNameTextField.resignFirstResponder()
@@ -90,14 +72,9 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     
     //MARK: - Set Layout
     private func setUpViews() {
-        self.addSubview(editButton) //temporary code
-        self.addSubview(artistImageView)
-        self.addSubview(artistNameTextField)
-        self.addSubview(artistIntroTextView)
-        
-        //temporary code
-        editButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        editButton.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        addSubview(artistImageView)
+        addSubview(artistNameTextField)
+        addSubview(artistIntroTextView)
         
         artistImageView.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
         artistImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

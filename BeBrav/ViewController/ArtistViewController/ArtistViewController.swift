@@ -10,6 +10,8 @@ import UIKit
 
 class ArtistViewController: UIViewController {
     
+    private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
+    
     // MARK:- Outlet
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
@@ -17,11 +19,11 @@ class ArtistViewController: UIViewController {
         collectionView.backgroundColor = .white
         return collectionView
     }()
+    
     private let editButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.title = "편집"
         barButtonItem.style = .plain
-        barButtonItem.action = #selector(editButtonDidTap(_:))
         return barButtonItem
     }()
     
@@ -48,6 +50,7 @@ class ArtistViewController: UIViewController {
         setCollectionView()
         
         editButton.target = self
+        editButton.action = #selector(editButtonDidTap(_:))
     }
     
     private func setCollectionView() {
@@ -68,11 +71,11 @@ class ArtistViewController: UIViewController {
     private func collectionViewLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.minimumLineSpacing = 5
-        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.sectionInset = UIEdgeInsets(top: layout.inset, left: layout.inset, bottom: layout.inset, right: layout.inset)
+        flowLayout.minimumLineSpacing = layout.spacing
+        flowLayout.minimumInteritemSpacing = layout.spacing
         
-        let cellWitdh = ((view.frame.width - 10) / 3.0)
+        let cellWitdh = ((view.frame.width - (layout.spacing * 2)) / 3)
         let cellHeight = cellWitdh
         flowLayout.itemSize = CGSize(width: cellWitdh, height: cellHeight)
         
