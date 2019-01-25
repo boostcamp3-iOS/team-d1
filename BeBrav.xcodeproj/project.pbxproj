@@ -13,6 +13,7 @@
 		2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20033BAD390497A8FC3D9B796B8C3CDB /* PhotoViewController.swift */; };
 		6EDA1628DE81C6BB7510F38E95CD783C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */; };
 		9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */; };
+		A365389521FAA4240045C732 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365389421FAA4240045C732 /* Test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A365389421FAA4240045C732 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Test.swift; path = PhotoViewController/Test.swift; sourceTree = "<group>"; };
 		A55FA2256822BAF4A73B3F1EA92B4CCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -38,6 +40,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
+			isa = PBXGroup;
+			children = (
+				9714B70EFAB8F26BB4E4564D7010BC57 /* PhotoViewController */,
+				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
+				A365389421FAA4240045C732 /* Test.swift */,
+				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
+				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
+				A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */,
+				A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */,
+				150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */,
+			);
+			path = BeBrav;
+			sourceTree = "<group>";
+		};
+		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9714B70EFAB8F26BB4E4564D7010BC57 /* PhotoViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -52,28 +77,6 @@
 				0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */,
 				1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
-			isa = PBXGroup;
-			children = (
-				9714B70EFAB8F26BB4E4564D7010BC57 /* PhotoViewController */,
-				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
-				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
-				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
-				A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */,
-				A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */,
-				150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */,
-			);
-			path = BeBrav;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
+				A365389521FAA4240045C732 /* Test.swift in Sources */,
 				2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */,
 				9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */,
 			);
@@ -156,14 +160,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -171,6 +167,14 @@
 				1395FC5342A6AB6949BC371772F3B62F /* de */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -238,6 +242,24 @@
 			};
 			name = Debug;
 		};
+		7753C088B4A3F3334ADC7C81849AD0D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				INFOPLIST_FILE = BeBrav/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		78C98576BA51BB6701A1AE341D90124A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -293,24 +315,6 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		7753C088B4A3F3334ADC7C81849AD0D4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
-				INFOPLIST_FILE = BeBrav/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		A75AC4CC3D5BCAA8F704F35ABA83D326 /* Release */ = {
 			isa = XCBuildConfiguration;
