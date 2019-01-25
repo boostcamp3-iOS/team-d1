@@ -21,7 +21,8 @@ class PhotoViewController: UIViewController {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "")
+        #warning("Replace Image after Add placeholder")
+        imageView.image = UIImage(named: "north") // TODO: 테스트를 위한 기본 이미지로 placeholder 추가 후 변경
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
