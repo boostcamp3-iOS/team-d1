@@ -123,7 +123,7 @@ class ArtAddViewController: UIViewController {
 //MARK: - Image Picker Delegate
 extension ArtAddViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        let editedImage = info[.editedImage] as? UIImage
         artImageView.image = editedImage
         
         dismiss(animated: true, completion: nil)
