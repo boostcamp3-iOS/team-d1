@@ -32,3 +32,7 @@ https://github.com/raywenderlich/swift-style-guide
 
 
 <img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51735628-40da2980-20cb-11e9-8941-15e215eef968.png">
+
+
+
+<img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51735955-294f7080-20cc-11e9-810e-8d6536e03107.png">
