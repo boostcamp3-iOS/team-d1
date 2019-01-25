@@ -53,9 +53,11 @@
 				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
 				A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */,
 				A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */,
+
 				D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */,
 				B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */,
 				8A7C431BD2F1FB39CC25048CF419EDE8 /* MainCollectionViewLayoutModel.swift */,
+
 				150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */,
 			);
 			path = BeBrav;
