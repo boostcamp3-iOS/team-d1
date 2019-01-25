@@ -36,3 +36,10 @@ https://github.com/raywenderlich/swift-style-guide
 
 
 <img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51735955-294f7080-20cc-11e9-810e-8d6536e03107.png">
+
+<img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736019-64ea3a80-20cc-11e9-9033-3df97f47daaf.jpg">
+<img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736021-674c9480-20cc-11e9-9527-7b4f3fe46318.png">
+<img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736023-674c9480-20cc-11e9-913e-76b5a60657ba.png">
+
+
+
