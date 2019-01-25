@@ -10,13 +10,14 @@ import UIKit
 
 protocol APIService {
     
-    var session: URLSession { get }
+    var session: URLSessionProtocol { get }
+    
+    func checkResponse(error: Error?, response: URLResponse?) -> Result<URLResponse>
     
     func fetch<T: Decodable>(with request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T>, URLResponse?) -> Void)
+    
 }
-/*
- 다양한 JSON형식에 대응할 수 있도록 제너릭 타입으로 구현하였고 해당 프로토콜을 확장하여 기본적인 fetching 기능을 추가해놓았습니다.
- */
+
 extension APIService {
     
     func fetch<T: Decodable>(with request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T>, URLResponse?) -> Void) {
@@ -24,37 +25,47 @@ extension APIService {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         
-        defer {
-            DispatchQueue.main.async {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                
-            }
-        }
         let task = session.dataTask(with: request) { (data, response, error) in
-            if error != nil {
-                completion(.failure(APIError.requestFailed), response)
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
+                completion(.failure(error), nil)
                 return
-            }
-            
-            guard let localResponse = response as? HTTPURLResponse,
-                (200...299).contains(localResponse.statusCode) else {
-                    completion(.failure(APIError.responseUnsuccessful), response)
+            case .success(let response):
+                if let mimeType = response.mimeType, mimeType == "application/json", let data = data {
+                    do {
+                        let apiResponse = try JSONDecoder().decode(T.self, from: data)
+                        completion(.success(apiResponse), response)
+                    } catch(_ ) {
+                        completion(.failure(APIError.jsonParsingFailure), nil)
+                    }
+                } else {
+                    completion(.failure(APIError.invalidData), response)
+                    DispatchQueue.main.async {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }
                     return
-            }
-            
-            if let mimeType = localResponse.mimeType, mimeType == "application/json", let data = data {
-                do {
-                    let apiResponse = try JSONDecoder().decode(T.self, from: data)
-                    completion(.success(apiResponse), response)
-                } catch(_ ) {
-                    completion(.failure(APIError.jsonParsingFailure), nil)
                 }
-            } else {
-                completion(.failure(APIError.invalidData), response)
-                return
             }
         }
         task.resume()
+    }
+    
+    func checkResponse(error: Error?, response: URLResponse?) -> Result<URLResponse> {
+        if let error = error {
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
+            return .failure(error)
+        }
+        
+        guard let localResponse = response as? HTTPURLResponse,
+            (200...299).contains(localResponse.statusCode) else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
+                return .failure(APIError.responseUnsuccessful)
+        }
+        return .success(localResponse)
     }
 }
 

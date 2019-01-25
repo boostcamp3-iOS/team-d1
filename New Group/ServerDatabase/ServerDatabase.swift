@@ -11,26 +11,11 @@ import Foundation
 
 class ServerDataBase: APIService {
     
-    static let shared = ServerDataBase()
-    let session: URLSession
+    let session: URLSessionProtocol
     
-    private let safetyQueue = DispatchQueue(label: "safeQueue", attributes: .concurrent)
     private var currentURL = EndPoint.dataBaseBaseURL
     
-    var syncUrl: String {
-        get {
-            return safetyQueue.sync {
-                currentURL
-            }
-        }
-        set(newValue) {
-            safetyQueue.async(flags: .barrier) {
-                self.currentURL = newValue
-            }
-        }
-    }
-    
-    private init() {
+    init(session: URLSessionProtocol) {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 7.0
         sessionConfig.timeoutIntervalForResource = 5.0
@@ -40,8 +25,8 @@ class ServerDataBase: APIService {
     
     func child(_ name: String) -> ServerDataBase {
         assert(!name.contains("/"), "no '/' in the String")
-        syncUrl = syncUrl.replacingOccurrences(of: ".json", with: "")
-        syncUrl = "\(syncUrl)/\(name).json"
+        currentURL = currentURL.replacingOccurrences(of: ".json", with: "")
+        currentURL = "\(currentURL)/\(name).json"
         return self
     }
     
@@ -63,6 +48,9 @@ class ServerDataBase: APIService {
         case .patch:
             request.httpMethod = method.rawValue
             return request
+        case .delete:
+            request.httpMethod = method.rawValue
+            return request
         default:
             return nil
         }
@@ -80,14 +68,12 @@ class ServerDataBase: APIService {
      }
      */
     func fetchData<T: Decodable>(by decodeType: T.Type, _ completion: @escaping (Result<T>, URLResponse?)->()) {
-        guard let request = makeRequest(urlString: syncUrl) else {
+        guard let request = makeRequest(urlString: currentURL) else {
             //TODO: UI 구현시 뷰에서 에러메세지 출력부 추가
             assertionFailure("request failed")
             return
         }
-        
-        syncUrl = EndPoint.dataBaseBaseURL // 사용후 URL 초기화
-        
+        currentURL = EndPoint.dataBaseBaseURL // 사용후 URL 초기화
         fetch(with: request, decodeType: decodeType) { (result, response) in
             switch result {
             case .success(let data):
@@ -102,15 +88,9 @@ class ServerDataBase: APIService {
     }
     
     //POST 로 데이터베이스에 보내는 방식. UID 가 자동으로 하나 생성되고 데이터가 덮어씌어진다
-    
     func setData<T: Encodable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
-        var safeUrl = ""
-        // safeQueue.sync {
-        safeUrl = currentURL
-        print("set\(safeUrl)")
-        //   }
-        if var request = makeRequest(urlString: syncUrl, method: .post) {
-            syncUrl = EndPoint.dataBaseBaseURL
+        if var request = makeRequest(urlString: currentURL, method: .post) {
+            currentURL = EndPoint.dataBaseBaseURL
             do {
                 request.httpBody = try JSONEncoder().encode(data)
             } catch(_) {
@@ -118,19 +98,16 @@ class ServerDataBase: APIService {
                 assertionFailure("json failed")
             }
             let task = session.dataTask(with: request) { (data, response, error) in
-                if let error = error {
+                switch self.checkResponse(error: error, response: response) {
+                case .failure(let error):
                     completion(.failure(error))
                     return
-                }
-                guard let localResponse = response as? HTTPURLResponse,
-                    (200...299).contains(localResponse.statusCode) else {
-                        completion(.failure(APIError.responseUnsuccessful))
-                        return
-                }
-                completion(.success(localResponse))
+                case .success(let response):
+                completion(.success(response))
             }
+        }
             task.resume()
-        } else {
+    } else {
             assert(true, "request failed")
             return
         }
@@ -150,8 +127,8 @@ class ServerDataBase: APIService {
      }
      */
     func updateData<T: Encodable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
-        if var request = makeRequest(urlString: syncUrl, method: .patch) {
-            syncUrl = EndPoint.dataBaseBaseURL
+        if var request = makeRequest(urlString: currentURL, method: .patch) {
+            currentURL = EndPoint.dataBaseBaseURL
             do {
                 request.httpBody = try JSONEncoder().encode(data)
             } catch(_) {
@@ -159,16 +136,13 @@ class ServerDataBase: APIService {
                 assertionFailure("json failed")
             }
             let task = session.dataTask(with: request) { (data, response, error) in
-                if let error = error {
+                switch self.checkResponse(error: error, response: response) {
+                case .failure(let error):
                     completion(.failure(error))
                     return
+                case .success(let response):
+                    completion(.success(response))
                 }
-                guard let localResponse = response as? HTTPURLResponse,
-                    (200...299).contains(localResponse.statusCode) else {
-                        completion(.failure(APIError.responseUnsuccessful))
-                        return
-                }
-                completion(.success(localResponse))
             }
             task.resume()
         } else {
@@ -176,5 +150,21 @@ class ServerDataBase: APIService {
             assertionFailure("request failed")
             return
         }
+    }
+    
+    //deleteData와 다른 메서드 간의 의존성에 주의하세요! 비동기 상황에서 어느것이 먼저 실행될 지 모르므로 핸들러를 이용해주세요
+    func deleteData(_ completion: @escaping (Result<URLResponse?>)->()) {
+        guard let request = makeRequest(urlString: currentURL, method: .delete) else { return }
+        currentURL = EndPoint.dataBaseBaseURL
+        let task = session.dataTask(with: request) { (data, response, error) in
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
+                completion(.failure(error))
+                return
+            case .success(let response):
+                completion(.success(response))
+            }
+        }
+        task.resume()
     }
 }
