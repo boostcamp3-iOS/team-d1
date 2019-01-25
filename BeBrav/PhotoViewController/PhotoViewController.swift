@@ -11,21 +11,21 @@ import UIKit
 class PhotoViewController: UIViewController {
     
     // MARK:- Outlet
-    var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.maximumZoomScale = 1.5
         scrollView.minimumZoomScale = 0.7
         return scrollView
     }()
-    var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    var artistLabel: UILabel = {
+    private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
@@ -33,7 +33,7 @@ class PhotoViewController: UIViewController {
         label.text = "작가 이름"
         return label
     }()
-    var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white

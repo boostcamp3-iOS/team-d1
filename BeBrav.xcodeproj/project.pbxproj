@@ -13,7 +13,6 @@
 		2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20033BAD390497A8FC3D9B796B8C3CDB /* PhotoViewController.swift */; };
 		6EDA1628DE81C6BB7510F38E95CD783C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */; };
 		9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */; };
-		A365389521FAA4240045C732 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365389421FAA4240045C732 /* Test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +23,6 @@
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A365389421FAA4240045C732 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Test.swift; path = PhotoViewController/Test.swift; sourceTree = "<group>"; };
 		A55FA2256822BAF4A73B3F1EA92B4CCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -45,7 +43,6 @@
 			children = (
 				9714B70EFAB8F26BB4E4564D7010BC57 /* PhotoViewController */,
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
-				A365389421FAA4240045C732 /* Test.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
 				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
 				A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */,
@@ -151,7 +148,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
-				A365389521FAA4240045C732 /* Test.swift in Sources */,
 				2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */,
 				9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */,
 			);
