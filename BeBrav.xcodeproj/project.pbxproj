@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		889DD3EB21FAABF20054692A /* ArtistDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD3EA21FAABF20054692A /* ArtistDetailHeaderView.swift */; };
 		A365385921F704040045C732 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365385821F704040045C732 /* PhotoViewController.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		889DD3EA21FAABF20054692A /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
 		A365385821F704040045C732 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 		C98241A921F6B73400FCCFBE /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
+				889DD3EA21FAABF20054692A /* ArtistDetailHeaderView.swift */,
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
 				C98241AC21F6B73400FCCFBE /* ViewController.swift */,
 				A365385721F703F50045C732 /* PhotoViewController */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */,
+				889DD3EB21FAABF20054692A /* ArtistDetailHeaderView.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
 				A365385921F704040045C732 /* PhotoViewController.swift in Sources */,
 			);
