@@ -11,14 +11,14 @@ import UIKit
 class ArtistDetailHeaderView: UICollectionReusableView {
     
     //MARK: - Outlet
-    let artistImageView: UIImageView = {
+    private let artistImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = #imageLiteral(resourceName: "cat1")
         return imageView
     }()
     
-    let artistNameTextField: UITextField = {
+    public let artistNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.text = "작가이름" //temporary input
@@ -27,7 +27,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         return textField
     }()
     
-    let artistIntroTextView: UITextView = {
+    public let artistIntroTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개" //temporary input
@@ -35,7 +35,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         return textView
     }()
     
-    var isEditMode = false {
+    public var isEditMode = false {
         didSet {
             artistNameTextField.isEnabled = isEditMode
             artistIntroTextView.isEditable = isEditMode

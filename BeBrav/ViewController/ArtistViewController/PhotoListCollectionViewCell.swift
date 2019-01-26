@@ -22,7 +22,7 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
     // MARK:- Properties
     override var isSelected: Bool {
         didSet {
-            cellDidSelected(isSelected: isSelected)
+            ChangeCellLayout(isSelected: isSelected)
         }
     }
     
@@ -44,7 +44,8 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
         isSelected = false
     }
     
-    private func cellDidSelected(isSelected: Bool) {
+    // MARK:- ChangeCellLayout
+    private func ChangeCellLayout(isSelected: Bool) {
         imageView.alpha = isSelected ? 0.5 : 1.0
         
         contentView.layer.borderColor = isSelected ? #colorLiteral(red: 7.121353701e-05, green: 0.3243641257, blue: 0.9695228934, alpha: 1) : UIColor.clear.cgColor

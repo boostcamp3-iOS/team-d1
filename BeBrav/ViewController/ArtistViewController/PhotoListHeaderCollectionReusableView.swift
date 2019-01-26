@@ -19,7 +19,7 @@ class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
     }()
     
     public lazy var deleteButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         // TODO: 삭제아이콘 추가시 타이틀 삭제 및 버튼 이미지 추가
         button.setTitle("삭제", for: .normal)

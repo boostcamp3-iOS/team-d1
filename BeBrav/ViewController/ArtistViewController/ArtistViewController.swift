@@ -46,11 +46,16 @@ class ArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setLayout()
         setCollectionView()
         
         editButton.target = self
         editButton.action = #selector(editButtonDidTap(_:))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setLayout()
     }
     
     private func setCollectionView() {
