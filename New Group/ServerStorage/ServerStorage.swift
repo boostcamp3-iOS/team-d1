@@ -12,38 +12,20 @@ import UIKit
 
 class ServerStorage: APIService {
     
-    static let shared = ServerStorage()
+    let session: URLSessionProtocol
     
-    let session: URLSession
-
     private var currentURL = EndPoint.storageBaseURL
-    private let safetyQueue = DispatchQueue(label: "safeQueue", attributes: .concurrent)
     
-    var syncUrl: String {
-        get {
-            return safetyQueue.sync {
-                currentURL
-            }
-        }
-        set(newValue) {
-            safetyQueue.async(flags: .barrier) {
-                self.currentURL = newValue
-            }
-        }
+    init(session: URLSessionProtocol) {
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 7.0
+        sessionConfig.timeoutIntervalForResource = 5.0
+        let session = URLSession(configuration: sessionConfig)
+        self.session = session
     }
-    
-    private init(configuration: URLSessionConfiguration) {
-        self.session = URLSession(configuration: configuration)
-    }
-    
-    private convenience init() {
-        self.init(configuration: .default)
-    }
-    
     func child(_ name: String) -> ServerStorage {
         assert(!name.contains("/"), "no '/' in the String")
-        syncUrl = syncUrl.replacingOccurrences(of: ".json", with: "")
-        syncUrl = "\(syncUrl)/\(name).json"
+        currentURL.append("/\(name)")
         return self
     }
     //리퀘스트를 만든다.
@@ -72,22 +54,16 @@ class ServerStorage: APIService {
     }
     //GET 으로 스토리지에 있는 데이터의 URL 토큰을 얻어온다
     private func fetchData(fileName: String, _ completion: @escaping (Result<URLResponse?>)->()) {
-        
         guard let request = makeRequest(urlString: currentURL, method: .get, fileName: fileName) else { return }
         currentURL = EndPoint.storageBaseURL
-        
         let task = session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
                 completion(.failure(error))
                 return
+            case .success(let response):
+                completion(.success(response))
             }
-            
-            guard let localResponse = response as? HTTPURLResponse,
-                (200...299).contains(localResponse.statusCode) else {
-                    completion(.failure(APIError.responseUnsuccessful))
-                    return
-            }
-            completion(.success(localResponse))
         }
         task.resume()
     }
@@ -149,19 +125,15 @@ class ServerStorage: APIService {
         if var request = makeRequest(urlString: currentURL, method: .post, fileName: fileName) {
             currentURL = EndPoint.storageBaseURL
             request.httpBody = image.jpegData(compressionQuality: scale)
-            let task = session.dataTask(with: request) { (data, response, error) in
-                if let error = error {
+            let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+                guard let self = self else { return }
+                switch self.checkResponse(error: error, response: response) {
+                case .failure(let error):
                     completion(.failure(error))
                     return
+                case .success(let response):
+                    completion(.success(response))
                 }
-                
-                guard let localResponse = response as? HTTPURLResponse,
-                    (200...299).contains(localResponse.statusCode) else {
-                        completion(.failure(APIError.responseUnsuccessful))
-                        return
-                }
-                
-                completion(.success(localResponse))
             }
             task.resume()
         } else {
