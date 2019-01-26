@@ -46,6 +46,9 @@ class ArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "아티스트"
+        navigationItem.rightBarButtonItem = editButton
+        
         setCollectionView()
         
         editButton.target = self
@@ -102,9 +105,6 @@ class ArtistViewController: UIViewController {
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(collectionView)
-        
-        navigationItem.title = "아티스트"
-        navigationItem.rightBarButtonItem = editButton
         
         collectionView.collectionViewLayout = collectionViewLayout()
         collectionView.collectionViewLayout.invalidateLayout()
