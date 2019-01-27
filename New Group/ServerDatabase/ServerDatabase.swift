@@ -9,7 +9,7 @@
 
 import Foundation
 
-class ServerDataBase: APIService {
+class ServerDataBase: APIService {    
     
     let session: URLSessionProtocol
     
@@ -67,7 +67,7 @@ class ServerDataBase: APIService {
      }
      }
      */
-    func fetchData<T: Decodable>(by decodeType: T.Type, _ completion: @escaping (Result<T>, URLResponse?)->()) {
+    func fetchData<T: Codable>(by decodeType: T.Type, _ completion: @escaping (Result<T>, URLResponse?)->()) {
         guard let request = makeRequest(urlString: currentURL) else {
             //TODO: UI 구현시 뷰에서 에러메세지 출력부 추가
             assertionFailure("request failed")
@@ -88,14 +88,18 @@ class ServerDataBase: APIService {
     }
     
     //POST 로 데이터베이스에 보내는 방식. UID 가 자동으로 하나 생성되고 데이터가 덮어씌어진다
-    func setData<T: Encodable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
+    func setData<T: Codable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
         if var request = makeRequest(urlString: currentURL, method: .post) {
             currentURL = EndPoint.dataBaseBaseURL
-            do {
-                request.httpBody = try JSONEncoder().encode(data)
-            } catch(_) {
-                //TODO: UI 구현시 삭제
-                assertionFailure("json failed")
+            checkJsonDataValidation(codingType: .encoding(data)) { (result, response) in
+                switch result {
+                case .failure(_):
+                    assertionFailure("json failed")
+                case .encodingSuccess(let data):
+                    request.httpBody = data
+                case .decodingSuccess(_):
+                    return
+                }
             }
             let task = session.dataTask(with: request) { (data, response, error) in
                 switch self.checkResponse(error: error, response: response) {
@@ -126,14 +130,18 @@ class ServerDataBase: APIService {
      }
      }
      */
-    func updateData<T: Encodable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
+    func updateData<T: Codable>(data: T, _ completion: @escaping (Result<URLResponse?>)->()) {
         if var request = makeRequest(urlString: currentURL, method: .patch) {
             currentURL = EndPoint.dataBaseBaseURL
-            do {
-                request.httpBody = try JSONEncoder().encode(data)
-            } catch(_) {
-                //TODO: UI 구현시 삭제
-                assertionFailure("json failed")
+            checkJsonDataValidation(codingType: .encoding(data)) { (result, response) in
+                switch result {
+                case .failure(_):
+                    assertionFailure("json failed")
+                case .encodingSuccess(let data):
+                    request.httpBody = data
+                case .decodingSuccess(_):
+                    return
+                }
             }
             let task = session.dataTask(with: request) { (data, response, error) in
                 switch self.checkResponse(error: error, response: response) {

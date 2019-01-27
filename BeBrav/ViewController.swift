@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Users : Decodable {
+struct Users : Codable {
     let users: [String: String]
 }
 
@@ -17,8 +17,43 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ServerDataBase(session: URLSession.shared).child("root").fetchData(by: Users.self) { (result, res) in
+       /* ServerDataBase(session: URLSession.shared).child("root").fetchData(by: Users.self) { (result, res) in
+            switch result {
+            case .failure:
+                return
+            case .success:
+                print(result)
+            }
+        }
+        ServerDataBase(session: URLSession.shared).child("root").setData(data: Users(users: ["bum": "himan"])) { (result) in
+            switch result {
+            case .failure:
+                return
+            case .success:
+                print(result)
+            }
+        }
+        */
+        /*ServerAuth(session: URLSession.shared).signUpUser(email: "ki9151@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure:
+                return
+            case .success(let res):
+                guard let response = res as? HTTPURLResponse else {return}
+                print(response.allHeaderFields)
+            }
+        }*/
+        ServerAuth(session: URLSession.shared).signInUser(email: "ki9151@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure:
+                return
+            case .success(let res):
+                guard let response = res as? HTTPURLResponse else {return}
+                print(response.allHeaderFields)
+                print("success")
+            }
+        }
+       /* ServerDataBase(session: URLSession.shared).child("root").fetchData(by: Users.self) { (result, res) in
             switch result {
             case .failure:
                 return
@@ -52,7 +87,10 @@ class ViewController: UIViewController {
             case .success:
                 print(result)
             }
-        }
+        }*/
+       //
+        
+        print(Auth.signUp.urlComponents.url)
     }
 }
 

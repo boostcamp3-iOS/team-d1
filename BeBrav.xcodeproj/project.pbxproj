@@ -1,12 +1,14 @@
 // !$*UTF8*$!
 {
-    archiveVersion = 1;
-    classes = {
-    };
-    objectVersion = 50;
-    objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
 
 /* Begin PBXBuildFile section */
+		C9530F6D21FC2889000BD5AE /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9530F6C21FC2889000BD5AE /* ServerAuth.swift */; };
+		C9530F9C21FD8BD7000BD5AE /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9530F9B21FD8BD7000BD5AE /* NetworkModel.swift */; };
 		C973520E21F99EA20011ED86 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973520D21F99EA20011ED86 /* EndPoint.swift */; };
 		C973521021F99EAB0011ED86 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973520F21F99EAB0011ED86 /* HTTPMethod.swift */; };
 		C973521221F99EB20011ED86 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521121F99EB20011ED86 /* Error.swift */; };
@@ -15,9 +17,9 @@
 		C973521921F99F120011ED86 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C973521821F99F120011ED86 /* APIService.swift */; };
 		C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AA21F6B73400FCCFBE /* AppDelegate.swift */; };
 		C98241AD21F6B73400FCCFBE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98241AC21F6B73400FCCFBE /* ViewController.swift */; };
-		C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241AE21F6B73400FCCFBE /* Main.storyboard */; };
+		C98241B021F6B73400FCCFBE /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98241B121F6B73500FCCFBE /* Assets.xcassets */; };
-		C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */; };
+		C98241B521F6B73500FCCFBE /* (null) in Resources */ = {isa = PBXBuildFile; };
 		C98F0BDF21FAD350001B6B07 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F0BDE21FAD350001B6B07 /* URLSessionProtocol.swift */; };
 		C98F0BE121FAD35F001B6B07 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F0BE021FAD35F001B6B07 /* URLSessionTaskProtocol.swift */; };
 		C98F0BEC21FAE719001B6B07 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98F0BEB21FAE719001B6B07 /* BeBravUnitTests.swift */; };
@@ -26,16 +28,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-        C98F0BEE21FAE719001B6B07 /* PBXContainerItemProxy */ = {
-            isa = PBXContainerItemProxy;
-            containerPortal = C982419F21F6B73400FCCFBE /* Project object */;
-            proxyType = 1;
-            remoteGlobalIDString = C98241A621F6B73400FCCFBE;
-            remoteInfo = BeBrav;
-        };
+		C98F0BEE21FAE719001B6B07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C982419F21F6B73400FCCFBE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C98241A621F6B73400FCCFBE;
+			remoteInfo = BeBrav;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C9530F6C21FC2889000BD5AE /* ServerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAuth.swift; sourceTree = "<group>"; };
+		C9530F9B21FD8BD7000BD5AE /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		C973520D21F99EA20011ED86 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		C973520F21F99EAB0011ED86 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		C973521121F99EB20011ED86 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -45,11 +49,8 @@
 		C98241A721F6B73400FCCFBE /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98241AA21F6B73400FCCFBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98241AC21F6B73400FCCFBE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C98241AF21F6B73400FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C98241B121F6B73500FCCFBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C98241B421F6B73500FCCFBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C98241B621F6B73500FCCFBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C98241E221F6FD8200FCCFBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		C98F0BDE21FAD350001B6B07 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		C98F0BE021FAD35F001B6B07 /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
 		C98F0BE921FAE719001B6B07 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +78,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C9530F6B21FC2866000BD5AE /* ServerAuth */ = {
+			isa = PBXGroup;
+			children = (
+				C9530F6C21FC2889000BD5AE /* ServerAuth.swift */,
+			);
+			path = ServerAuth;
+			sourceTree = "<group>";
+		};
+		C9530F9A21FD8BC2000BD5AE /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				C9530F9B21FD8BD7000BD5AE /* NetworkModel.swift */,
+			);
+			path = NetworkModels;
+			sourceTree = "<group>";
+		};
 		C973520921F99E520011ED86 /* ServerStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +139,7 @@
 		C982419E21F6B73400FCCFBE = {
 			isa = PBXGroup;
 			children = (
+				C9530F9A21FD8BC2000BD5AE /* NetworkModels */,
 				C98F0BDD21FAD33F001B6B07 /* Utils */,
 				C98241E721F7035D00FCCFBE /* Networking */,
 				C98241A921F6B73400FCCFBE /* BeBrav */,
@@ -144,9 +162,7 @@
 			children = (
 				C98241AA21F6B73400FCCFBE /* AppDelegate.swift */,
 				C98241AC21F6B73400FCCFBE /* ViewController.swift */,
-				C98241AE21F6B73400FCCFBE /* Main.storyboard */,
 				C98241B121F6B73500FCCFBE /* Assets.xcassets */,
-				C98241B321F6B73500FCCFBE /* LaunchScreen.storyboard */,
 				C98241B621F6B73500FCCFBE /* Info.plist */,
 			);
 			path = BeBrav;
@@ -158,6 +174,7 @@
 				C973521721F99F070011ED86 /* APIService */,
 				C973520C21F99E6C0011ED86 /* EndPoint */,
 				C973520B21F99E670011ED86 /* Error */,
+				C9530F6B21FC2866000BD5AE /* ServerAuth */,
 				C973520A21F99E5F0011ED86 /* ServerDatabase */,
 				C973520921F99E520011ED86 /* ServerStorage */,
 			);
@@ -266,9 +283,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98241B521F6B73500FCCFBE /* LaunchScreen.storyboard in Resources */,
+				C98241B521F6B73500FCCFBE /* (null) in Resources */,
 				C98241B221F6B73500FCCFBE /* Assets.xcassets in Resources */,
-				C98241B021F6B73400FCCFBE /* Main.storyboard in Resources */,
+				C98241B021F6B73400FCCFBE /* (null) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +314,8 @@
 				C973521221F99EB20011ED86 /* Error.swift in Sources */,
 				C98241AB21F6B73400FCCFBE /* AppDelegate.swift in Sources */,
 				C973521921F99F120011ED86 /* APIService.swift in Sources */,
+				C9530F6D21FC2889000BD5AE /* ServerAuth.swift in Sources */,
+				C9530F9C21FD8BD7000BD5AE /* NetworkModel.swift in Sources */,
 				C973521421F99EBC0011ED86 /* ServerDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,32 +331,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-        C98F0BEF21FAE719001B6B07 /* PBXTargetDependency */ = {
-            isa = PBXTargetDependency;
-            target = C98241A621F6B73400FCCFBE /* BeBrav */;
-            targetProxy = C98F0BEE21FAE719001B6B07 /* PBXContainerItemProxy */;
-        };
+		C98F0BEF21FAE719001B6B07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C98241A621F6B73400FCCFBE /* BeBrav */;
+			targetProxy = C98F0BEE21FAE719001B6B07 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-        A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */ = {
-            isa = PBXVariantGroup;
-            children = (
-                8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */,
-            );
-            name = Main.storyboard;
-            sourceTree = "<group>";
-        };
-        A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */ = {
-            isa = PBXVariantGroup;
-            children = (
-                A55FA2256822BAF4A73B3F1EA92B4CCE /* Base */,
-                1395FC5342A6AB6949BC371772F3B62F /* de */,
-            );
-            name = LaunchScreen.storyboard;
-            sourceTree = "<group>";
-        };
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C98241B721F6B73500FCCFBE /* Debug */ = {
