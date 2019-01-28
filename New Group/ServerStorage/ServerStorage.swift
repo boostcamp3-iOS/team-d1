@@ -137,7 +137,7 @@ class ServerStorage: APIService {
             }
             task.resume()
         } else {
-            assert(true, "request failed")
+            assertionFailure("request failed")
             return
         }
     }
