@@ -11,18 +11,18 @@ import UIKit
 class ArtAddViewController: UIViewController {
     
     //MARK: - Properties
-    let navigationBar: UINavigationBar = {
+    private let navigationBar: UINavigationBar = {
         let naviBar = UINavigationBar()
         naviBar.translatesAutoresizingMaskIntoConstraints = false
         return naviBar
     }()
     
-    let naviItem: UINavigationItem = {
+    private let naviItem: UINavigationItem = {
         let item = UINavigationItem(title: "작품 등록")
         return item
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "작품 등록하기"
@@ -30,13 +30,13 @@ class ArtAddViewController: UIViewController {
         return label
     }()
     
-    let artImageView: UIImageView = {
+    private let artImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "add-image"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let artNameTextField: UITextField = {
+    private let artNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "작품명을 입력해주세요."
@@ -45,13 +45,13 @@ class ArtAddViewController: UIViewController {
         return textField
     }()
     
-    let imagePicker: UIImagePickerController = {
+    private let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         return picker
     }()
     
-    lazy var rightBarButton: UIBarButtonItem = {
+    private lazy var rightBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(rightBarButtonDidTap))
         button.title = "등록"
         return button
