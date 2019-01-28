@@ -16,6 +16,7 @@
 		83611C6717A80B3D4821D8A9AE5B621F /* MainAutoResizingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */; };
 		9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */; };
 		D6F352EC06A46119D0CB096CF883816C /* MainAutoResizingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */; };
+    BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +29,12 @@
 		8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A55FA2256822BAF4A73B3F1EA92B4CCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+
 		B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewController.swift; sourceTree = "<group>"; };
 		D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewCell.swift; sourceTree = "<group>"; };
-		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
+
+		ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddViewController.swift; sourceTree = "<group>"; };
+    D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,7 @@
 		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
+				0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */,
 				9714B70EFAB8F26BB4E4564D7010BC57 /* PhotoViewController */,
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
@@ -77,6 +82,14 @@
 				20033BAD390497A8FC3D9B796B8C3CDB /* PhotoViewController.swift */,
 			);
 			path = PhotoViewController;
+			sourceTree = "<group>";
+		};
+		0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */,
+			);
+			path = ArtAddViewController;
 			sourceTree = "<group>";
 		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
@@ -159,9 +172,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
+
 				83611C6717A80B3D4821D8A9AE5B621F /* MainAutoResizingCollectionViewCell.swift in Sources */,
 				D6F352EC06A46119D0CB096CF883816C /* MainAutoResizingCollectionViewController.swift in Sources */,
 				33421A2D49208219BD5D50392A2D92C4 /* MainCollectionViewLayoutModel.swift in Sources */,
+				BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */,
 				2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */,
 				9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */,
 			);
