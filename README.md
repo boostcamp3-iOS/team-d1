@@ -25,11 +25,9 @@ version 1.0
 ## Contributor
   *Mentor*  - [Chope](https://github.com/yoonhg84)
 
-  *team D1* - [SangbumGoh](https://github.com/bumsgoh)
-  
-            - [SeonghunKim](https://github.com/Seonghun23)
-            
-            - [JiwonGong](https://github.com/jyeoni0919)
+  *team D1*  - [SangbumGoh](https://github.com/bumsgoh)/n
+             - [SeonghunKim](https://github.com/Seonghun23)/n
+             - [JiwonGong](https://github.com/jyeoni0919)/n
            
            
 ## License
