@@ -10,6 +10,7 @@ import UIKit
 
 class ArtistViewController: UIViewController {
     
+    // MARK:- Properties
     private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
     
     // MARK:- Outlet
