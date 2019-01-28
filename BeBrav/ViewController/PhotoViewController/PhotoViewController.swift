@@ -18,7 +18,7 @@ class PhotoViewController: UIViewController {
         scrollView.minimumZoomScale = 0.7
         return scrollView
     }()
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         #warning("Replace Image after Add placeholder")
@@ -73,9 +73,11 @@ class PhotoViewController: UIViewController {
     // MARK:- Artist Label Did Tap
     #warning("Add ViewController and Push for Artist Detail")
     @objc func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
-        dismiss(animated: true) {
-            //TODO: 화면 닫은 후에 메인화면의 navigationController에서 작가상세화면으로 push 하도록 코드 추가
-        }
+//        dismiss(animated: true) {
+//
+//        }
+        let controller = ArtistViewController()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK:- ImageView Did Pinched

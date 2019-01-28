@@ -34,54 +34,16 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
             return
         }
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
-        var xOffset = [CGFloat]()
-        var yOffset = [CGFloat]()
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 1)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 1)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 1)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 1)
-        xOffset.append(columnWidth * 2)
-        xOffset.append(columnWidth * 0)
-        xOffset.append(columnWidth * 1)
-        xOffset.append(columnWidth * 2)
-        
-        yOffset.append(columnWidth * 0)
-        yOffset.append(columnWidth * 0)
-        yOffset.append(columnWidth * 1)
-        yOffset.append(columnWidth * 2)
-        yOffset.append(columnWidth * 2)
-        yOffset.append(columnWidth * 2)
-        yOffset.append(columnWidth * 3)
-        yOffset.append(columnWidth * 3)
-        yOffset.append(columnWidth * 3)
-        yOffset.append(columnWidth * 4)
-        yOffset.append(columnWidth * 4)
-        yOffset.append(columnWidth * 4)
-        yOffset.append(columnWidth * 5)
-        yOffset.append(columnWidth * 5)
-        yOffset.append(columnWidth * 5)
-        yOffset.append(columnWidth * 6)
-        yOffset.append(columnWidth * 6)
-        yOffset.append(columnWidth * 6)
+        let offsets = generateOffSets(numberOfColumns: 3, numberOfItems: 18, indexOfMostViewedItem: 0)
         for item in 0 ..< collectionView.numberOfItems(inSection: 0) {
             
             let indexPath = IndexPath(item: item, section: 0)
             var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             if isOnce {
-                frame = CGRect(x: xOffset[item], y: yOffset[item], width: columnWidth * 2, height: columnWidth * 2)
+                frame = CGRect(x: columnWidth * CGFloat(offsets[item].0), y: columnWidth * CGFloat(offsets[item].1), width: columnWidth * 2, height: columnWidth * 2)
                 isOnce = false
             } else {
-                frame = CGRect(x: xOffset[item], y: yOffset[item], width: columnWidth, height: columnWidth)
+                frame = CGRect(x: columnWidth * CGFloat(offsets[item].0), y: columnWidth * CGFloat(offsets[item].1), width: columnWidth, height: columnWidth)
             }
             
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
@@ -93,48 +55,48 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         //TODO: 알고리즘 구현부
         
         /*for column in 0..<numberOfColumns {
-            if isOnce {
-                xOffset.append(CGFloat(column) * columnWidth * 2)
-            } else {
-                
-            }
-        }*/
+         if isOnce {
+         xOffset.append(CGFloat(column) * columnWidth * 2)
+         } else {
+         
+         }
+         }*/
         
         
         /*
-        for column in 0 ..< numberOfColumns {
-            if !isOnce {
-                xOffset.append(CGFloat(column) * columnWidth * 2)
-                continue
-            }
-            xOffset.append(CGFloat(column) * columnWidth)
-            print(xOffset)
-        }
-        var column = 0
-        var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
-        
- 
-        for item in 0 ..< collectionView.numberOfItems(inSection: 0) {
-            
-            let indexPath = IndexPath(item: item, section: 0)
-            
- 
-            let photoHeight = delegate.collectionView(collectionView, mostViewedArtworkIndexPath: indexPath)
-            //let height = cellPadding * 2 + photoHeight
-            let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: columnWidth)
-            let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-            
- 
-            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            attributes.frame = insetFrame
-            cache.append(attributes)
-            
- 
-            contentHeight = max(contentHeight, frame.maxY)
-            yOffset[column] = yOffset[column] + cellPadding * 2 +
-            
-            column = column < (numberOfColumns - 1) ? (column + 1) : 0
-        }*/
+         for column in 0 ..< numberOfColumns {
+         if !isOnce {
+         xOffset.append(CGFloat(column) * columnWidth * 2)
+         continue
+         }
+         xOffset.append(CGFloat(column) * columnWidth)
+         print(xOffset)
+         }
+         var column = 0
+         var yOffset = [CGFloat](repeating: 0, count: numberOfColumns)
+         
+         
+         for item in 0 ..< collectionView.numberOfItems(inSection: 0) {
+         
+         let indexPath = IndexPath(item: item, section: 0)
+         
+         
+         let photoHeight = delegate.collectionView(collectionView, mostViewedArtworkIndexPath: indexPath)
+         //let height = cellPadding * 2 + photoHeight
+         let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: columnWidth)
+         let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
+         
+         
+         let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+         attributes.frame = insetFrame
+         cache.append(attributes)
+         
+         
+         contentHeight = max(contentHeight, frame.maxY)
+         yOffset[column] = yOffset[column] + cellPadding * 2 +
+         
+         column = column < (numberOfColumns - 1) ? (column + 1) : 0
+         }*/
     }
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         

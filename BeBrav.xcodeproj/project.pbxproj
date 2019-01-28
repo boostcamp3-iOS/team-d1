@@ -16,6 +16,8 @@
 		6EDA1628DE81C6BB7510F38E95CD783C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */; };
 		75DFA1244C9D79F79E604704A3EDF0BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BF566A69B5115DE89EE2DC19DA1EDF /* ViewController.swift */; };
 		7B7ECBA7781A4E4AF512FDB2F0F8CB08 /* MostViewedArtworkFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15926B27B12B62F5575DC043DE2E5020 /* MostViewedArtworkFlowLayout.swift */; };
+		889DD48C21FEED880054692A /* CollectionFooterReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD48B21FEED880054692A /* CollectionFooterReusableView.swift */; };
+		889DD48E21FF07530054692A /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889DD48D21FF07530054692A /* ArtAddViewController.swift */; };
 		A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */; };
 		AE167E670A2C2B3170024AADCBF71FFA /* PhotoListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9334EA69920597B4D1E04DC04B86BD /* PhotoListHeaderCollectionReusableView.swift */; };
 		BD3A7366D38A8B3BFC54341014F29032 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE69A33846D764590CA38B15250E1C /* PhotoListCollectionViewCell.swift */; };
@@ -36,6 +38,8 @@
 		4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkDelegate.swift; sourceTree = "<group>"; };
 		4D9334EA69920597B4D1E04DC04B86BD /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		889DD48B21FEED880054692A /* CollectionFooterReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFooterReusableView.swift; sourceTree = "<group>"; };
+		889DD48D21FF07530054692A /* ArtAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddViewController.swift; sourceTree = "<group>"; };
 		8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8ECE69A33846D764590CA38B15250E1C /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = "<group>"; };
 		90BF566A69B5115DE89EE2DC19DA1EDF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,24 @@
 			path = ArtistViewController;
 			sourceTree = "<group>";
 		};
+		62B96E5BC5986356407DE93DDA64ED8F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EFF9E1C28BF829AF02CAC32895B9A138 /* MainAutoResizingCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		742A3D1E448751D87CD0D367A72D5595 /* MainViewContoller */ = {
+			isa = PBXGroup;
+			children = (
+				28B58C7EB2EC07DC2B10105C39D9C858 /* MainAutoResizingCollectionViewController.swift */,
+				889DD48D21FF07530054692A /* ArtAddViewController.swift */,
+				889DD48B21FEED880054692A /* CollectionFooterReusableView.swift */,
+			);
+			path = MainViewContoller;
+			sourceTree = "<group>";
+		};
 		9442277CEB2F952ACFD8AB745AC3A3A6 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +126,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		98D44641D66E6AF8B1F7BE4806AB766A /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				15926B27B12B62F5575DC043DE2E5020 /* MostViewedArtworkFlowLayout.swift */,
+			);
+			path = Layouts;
+			sourceTree = "<group>";
+		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
 			isa = PBXGroup;
 			children = (
@@ -112,20 +142,12 @@
 			);
 			sourceTree = "<group>";
 		};
-		742A3D1E448751D87CD0D367A72D5595 /* MainViewContoller */ = {
+		CD28E727E6CB5A00B2CA67166B1FAA03 /* PhotoViewController */ = {
 			isa = PBXGroup;
 			children = (
-				28B58C7EB2EC07DC2B10105C39D9C858 /* MainAutoResizingCollectionViewController.swift */,
+				28F0569C5876AA72741F6EADF2CA0764 /* PhotoViewController.swift */,
 			);
-			path = MainViewContoller;
-			sourceTree = "<group>";
-		};
-		62B96E5BC5986356407DE93DDA64ED8F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				EFF9E1C28BF829AF02CAC32895B9A138 /* MainAutoResizingCollectionViewCell.swift */,
-			);
-			path = Views;
+			path = PhotoViewController;
 			sourceTree = "<group>";
 		};
 		FF261075A33C23DEDF441571EEB2EC5D /* Models */ = {
@@ -136,22 +158,6 @@
 				4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		98D44641D66E6AF8B1F7BE4806AB766A /* Layouts */ = {
-			isa = PBXGroup;
-			children = (
-				15926B27B12B62F5575DC043DE2E5020 /* MostViewedArtworkFlowLayout.swift */,
-			);
-			path = Layouts;
-			sourceTree = "<group>";
-		};
-		CD28E727E6CB5A00B2CA67166B1FAA03 /* PhotoViewController */ = {
-			isa = PBXGroup;
-			children = (
-				28F0569C5876AA72741F6EADF2CA0764 /* PhotoViewController.swift */,
-			);
-			path = PhotoViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,10 +233,12 @@
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
 				DF6682CE8B4107FE1A89CDEACC37CCDC /* ArtistDetailHeaderView.swift in Sources */,
+				889DD48C21FEED880054692A /* CollectionFooterReusableView.swift in Sources */,
 				FE1D5BF6EE0D760F7F8F41D16DD7840E /* ArtistViewController.swift in Sources */,
 				26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */,
 				A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */,
 				EA78EFD9160665DA85CAF97258DAC0C8 /* MainAutoResizingCollectionViewCell.swift in Sources */,
+				889DD48E21FF07530054692A /* ArtAddViewController.swift in Sources */,
 				1B8B42AB8304769243995EB04FE06C0F /* MainAutoResizingCollectionViewController.swift in Sources */,
 				F21FE802E189D867C530B644ECC7CE02 /* MostViewedArtworkDelegate.swift in Sources */,
 				7B7ECBA7781A4E4AF512FDB2F0F8CB08 /* MostViewedArtworkFlowLayout.swift in Sources */,

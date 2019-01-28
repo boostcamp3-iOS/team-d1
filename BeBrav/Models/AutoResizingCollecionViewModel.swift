@@ -56,3 +56,41 @@ func calculateNumberOfArtworksPerPage(numberOfColums: CGFloat, viewWidth: CGFloa
 func calculatePositionOfMostViewedArtwork() {
     
 }
+func generateOffSets(numberOfColumns: Int, numberOfItems: Int, indexOfMostViewedItem: Int) -> [(Int,Int)]{
+    assert((indexOfMostViewedItem+1) % numberOfColumns != 0, "not implemented yet")
+    // indexOfMostViewedItem row에서 처음일 경우만 구현됨
+    var offsetBucket: [(Int,Int)] = []
+    var rowIndex = 0
+    var isMostViewedItemFound = false
+    var isOnce = true
+    if numberOfItems % numberOfColumns == 0 {
+        let loopCount = numberOfItems / numberOfColumns
+        var lastValue = -1
+        for row in 0..<loopCount {
+            for column in 0..<numberOfColumns {
+                var coordinate = (0,0)
+                if indexOfMostViewedItem / numberOfColumns == row {
+                    if isOnce {
+                        coordinate = (xOffset: 0, yOffset: row)
+                        isOnce = false
+                        isMostViewedItemFound = true
+                    } else {
+                        coordinate = (xOffset: numberOfColumns - 1, yOffset: column + lastValue)
+                    }
+                    //lastValue = lastValue - 1
+                } else {
+                    coordinate = (xOffset: column, yOffset: row+1)
+                }
+                offsetBucket.append(coordinate)
+            }
+            if isMostViewedItemFound {
+                rowIndex = rowIndex + 1
+                isMostViewedItemFound = false
+            }
+            rowIndex = rowIndex + 1
+        }
+    } else {
+        return [(0,0)]
+    }
+    return offsetBucket
+}

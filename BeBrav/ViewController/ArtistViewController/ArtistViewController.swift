@@ -188,7 +188,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     {
         switch section {
         case 0:
-            return CGSize(width: view.frame.width, height: view.frame.height * 0.5)
+            return CGSize(width: view.frame.width, height: view.frame.height * 0.3)
         case 1:
             return CGSize(width: view.frame.width, height: 50)
         default:

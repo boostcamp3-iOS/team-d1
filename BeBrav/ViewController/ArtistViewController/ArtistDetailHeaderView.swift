@@ -14,7 +14,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     private let artistImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = #imageLiteral(resourceName: "cat1")
+        imageView.image = #imageLiteral(resourceName: "user")
         return imageView
     }()
     
