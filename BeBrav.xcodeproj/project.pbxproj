@@ -88,6 +88,14 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */,
+			);
+			path = ArtAddViewController;
+			sourceTree = "<group>";
+		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
 			isa = PBXGroup;
 			children = (
