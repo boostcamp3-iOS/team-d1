@@ -23,9 +23,13 @@
 version 1.0
 
 ## Contributor
+  *Mentor*  - [chope](https://github.com/yoonhg84)
 
- *team D1* - [SangbumGoh](https://github.com/bumsgoh)
-
+  *team D1* - [SangbumGoh](https://github.com/bumsgoh)
+            - [SeonghunKim](https://github.com/Seonghun23)
+            - [JiwonGong](https://github.com/jyeoni0919)
+           
+           
 ## License
 
 MIT License
