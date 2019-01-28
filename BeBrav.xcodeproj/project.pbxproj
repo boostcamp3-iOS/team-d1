@@ -17,7 +17,7 @@
 		5FDAA1790C83B8B32FC46DF8456AD4C0 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */; };
 		611E0707E7872CD4F079AF91237CBBCC /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB209DD3204102B650D21793AFFFC88 /* URLSessionProtocol.swift */; };
 		7B3514547DFADEDC0DE04F35EC857A8B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6C695E56E599B833DA1E3F864BDE7 /* APIService.swift */; };
-		9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */; };
+		9E33EBEDF0AA996BB6B06EA702CA2180 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ExampleViewController.swift */; };
 		C3A6AA12CC20B23F7EBB1D66E4AFF125 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94260D256F2DFF1FA0A92FAE548880B /* ServerAuth.swift */; };
 		C6B6B6ADD0313C5C070F3237101ED7C6 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4687F8BE8A371BED4DAC3812E5D779 /* URLSessionTaskProtocol.swift */; };
 		DBED72BC5EFBFE8CE7CD4322CF9366BC /* MockDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64591D27BDF3FF8DDA2D440705892AE /* MockDataTask.swift */; };
@@ -38,7 +38,7 @@
 /* Begin PBXFileReference section */
 		02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A6F0313B37DDE4FAFD493264961BA7D /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
-		150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		150038B05EBA78FC382C4E40DF95D2D2 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		2CB209DD3204102B650D21793AFFFC88 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39C6C695E56E599B833DA1E3F864BDE7 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -59,14 +59,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6B7D302F71B8400B14119A6BD755BEEF /* Frameworks */ = {
+		6267DC440BAD93277067EB9E10CB50D7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6267DC440BAD93277067EB9E10CB50D7 /* Frameworks */ = {
+		6B7D302F71B8400B14119A6BD755BEEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -76,12 +76,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		385A98B322A4B2B0C2A99764C08FB6C1 /* ServerAuth */ = {
+		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
-				A94260D256F2DFF1FA0A92FAE548880B /* ServerAuth.swift */,
+				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
+				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
+				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
+				150038B05EBA78FC382C4E40DF95D2D2 /* ExampleViewController.swift */,
 			);
-			path = ServerAuth;
+			path = BeBrav;
+			sourceTree = "<group>";
+		};
+		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */,
+				926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		2B9116161B32FB5120A001374079C61E /* NetworkModels */ = {
@@ -90,6 +102,33 @@
 				ED2AD6594C0930A27D087A6323981C0F /* NetworkModel.swift */,
 			);
 			path = NetworkModels;
+			sourceTree = "<group>";
+		};
+		2F3ED2A58D132E864D96BAAFF227E6C8 /* BeBravUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */,
+				359BD64513138B2A7F79B192779A1FBF /* Info.plist */,
+			);
+			path = BeBravUnitTests;
+			sourceTree = "<group>";
+		};
+		385A98B322A4B2B0C2A99764C08FB6C1 /* ServerAuth */ = {
+			isa = PBXGroup;
+			children = (
+				A94260D256F2DFF1FA0A92FAE548880B /* ServerAuth.swift */,
+			);
+			path = ServerAuth;
+			sourceTree = "<group>";
+		};
+		3BA11B6213846F8BB313807AA1099975 /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				DA4ECCEBB6060FE7C16F3427147D8DB1 /* EndPoint.swift */,
+				9CBA08F543787DD077B77246BBAB8D56 /* HTTPMethod.swift */,
+			);
+			name = EndPoint;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		49915A466688720E5192CDD8C5B256A3 /* ServerStorage */ = {
@@ -108,30 +147,15 @@
 			path = ServerDatabase;
 			sourceTree = "<group>";
 		};
-		E58BF8A5359B2B189A74A5D89AE41487 /* Error */ = {
+		B0213647F9A6976FB4371911006BA07A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */,
+				C64591D27BDF3FF8DDA2D440705892AE /* MockDataTask.swift */,
+				0A6F0313B37DDE4FAFD493264961BA7D /* MockSession.swift */,
+				2CB209DD3204102B650D21793AFFFC88 /* URLSessionProtocol.swift */,
+				AF4687F8BE8A371BED4DAC3812E5D779 /* URLSessionTaskProtocol.swift */,
 			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		3BA11B6213846F8BB313807AA1099975 /* EndPoint */ = {
-			isa = PBXGroup;
-			children = (
-				DA4ECCEBB6060FE7C16F3427147D8DB1 /* EndPoint.swift */,
-				9CBA08F543787DD077B77246BBAB8D56 /* HTTPMethod.swift */,
-			);
-			name = EndPoint;
-			path = "New Group";
-			sourceTree = "<group>";
-		};
-		C32A64FF9CC5CB2827AB694609B9EF5B /* APIService */ = {
-			isa = PBXGroup;
-			children = (
-				39C6C695E56E599B833DA1E3F864BDE7 /* APIService.swift */,
-			);
-			path = APIService;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
@@ -146,24 +170,12 @@
 			);
 			sourceTree = "<group>";
 		};
-		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
+		C32A64FF9CC5CB2827AB694609B9EF5B /* APIService */ = {
 			isa = PBXGroup;
 			children = (
-				D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */,
-				926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */,
+				39C6C695E56E599B833DA1E3F864BDE7 /* APIService.swift */,
 			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
-			isa = PBXGroup;
-			children = (
-				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
-				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
-				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
-				150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */,
-			);
-			path = BeBrav;
+			path = APIService;
 			sourceTree = "<group>";
 		};
 		CDF544D943249E38CD05CEF55CD79DD9 /* Networking */ = {
@@ -180,46 +192,17 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
-		B0213647F9A6976FB4371911006BA07A /* Utils */ = {
+		E58BF8A5359B2B189A74A5D89AE41487 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				C64591D27BDF3FF8DDA2D440705892AE /* MockDataTask.swift */,
-				0A6F0313B37DDE4FAFD493264961BA7D /* MockSession.swift */,
-				2CB209DD3204102B650D21793AFFFC88 /* URLSessionProtocol.swift */,
-				AF4687F8BE8A371BED4DAC3812E5D779 /* URLSessionTaskProtocol.swift */,
+				A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */,
 			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		2F3ED2A58D132E864D96BAAFF227E6C8 /* BeBravUnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */,
-				359BD64513138B2A7F79B192779A1FBF /* Info.plist */,
-			);
-			path = BeBravUnitTests;
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EE61BE386E63B40F421A4E4C91040822 /* BeBrav */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 94D9DAF124B4628CE23F348C0A2BB75B /* Build configuration list for PBXNativeTarget "BeBrav" */;
-			buildPhases = (
-				47DBFA2BBEEF4BE030DF07DAD01B99EE /* Sources */,
-				6B7D302F71B8400B14119A6BD755BEEF /* Frameworks */,
-				7C6157751A3E6CF8F533B1B201773D0A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = BeBrav;
-			productName = BeBrav;
-			productReference = D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */;
-			productType = "com.apple.product-type.application";
-		};
 		2908041E6EB8D2351D82D158BB518FD6 /* BeBravUnitTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA813AC3A17F93BBA13E80D616F30521 /* Build configuration list for PBXNativeTarget "BeBravUnitTests" */;
@@ -238,6 +221,23 @@
 			productReference = 926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		EE61BE386E63B40F421A4E4C91040822 /* BeBrav */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94D9DAF124B4628CE23F348C0A2BB75B /* Build configuration list for PBXNativeTarget "BeBrav" */;
+			buildPhases = (
+				47DBFA2BBEEF4BE030DF07DAD01B99EE /* Sources */,
+				6B7D302F71B8400B14119A6BD755BEEF /* Frameworks */,
+				7C6157751A3E6CF8F533B1B201773D0A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeBrav;
+			productName = BeBrav;
+			productReference = D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -248,12 +248,12 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = bumslap;
 				TargetAttributes = {
-					EE61BE386E63B40F421A4E4C91040822 = {
-						CreatedOnToolsVersion = 10.1;
-					};
 					2908041E6EB8D2351D82D158BB518FD6 = {
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = EE61BE386E63B40F421A4E4C91040822;
+					};
+					EE61BE386E63B40F421A4E4C91040822 = {
+						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
@@ -312,7 +312,7 @@
 				3AC76BD1B831E41FE17E835D37C966FA /* ServerStorage.swift in Sources */,
 				611E0707E7872CD4F079AF91237CBBCC /* URLSessionProtocol.swift in Sources */,
 				C6B6B6ADD0313C5C070F3237101ED7C6 /* URLSessionTaskProtocol.swift in Sources */,
-				9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */,
+				9E33EBEDF0AA996BB6B06EA702CA2180 /* ExampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +335,25 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1B45A78D3A1D5E8367063D4FA86C5C47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeBravUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBravUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeBrav.app/BeBrav";
+			};
+			name = Release;
+		};
 		3E7AAF5739FFC3E7C03782B43FE504E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -397,6 +416,43 @@
 			};
 			name = Debug;
 		};
+		597A6B1B518A443BF577A43A32822E2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeBravUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBravUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeBrav.app/BeBrav";
+			};
+			name = Debug;
+		};
+		7753C088B4A3F3334ADC7C81849AD0D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				INFOPLIST_FILE = BeBrav/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		78C98576BA51BB6701A1AE341D90124A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -453,24 +509,6 @@
 			};
 			name = Release;
 		};
-		7753C088B4A3F3334ADC7C81849AD0D4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
-				INFOPLIST_FILE = BeBrav/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		A75AC4CC3D5BCAA8F704F35ABA83D326 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -486,44 +524,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		597A6B1B518A443BF577A43A32822E2F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeBravUnitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBravUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeBrav.app/BeBrav";
-			};
-			name = Debug;
-		};
-		1B45A78D3A1D5E8367063D4FA86C5C47 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeBravUnitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.BeBravUnitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeBrav.app/BeBrav";
 			};
 			name = Release;
 		};

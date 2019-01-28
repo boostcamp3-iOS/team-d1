@@ -12,7 +12,7 @@ struct Users : Codable {
     let users: [String: String]
 }
 
-class ViewController: UIViewController {
+class ExampleViewController: UIViewController {
     
     
     override func viewDidLoad() {
