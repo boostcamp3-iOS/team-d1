@@ -14,27 +14,23 @@
 		33421A2D49208219BD5D50392A2D92C4 /* MainCollectionViewLayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7C431BD2F1FB39CC25048CF419EDE8 /* MainCollectionViewLayoutModel.swift */; };
 		6EDA1628DE81C6BB7510F38E95CD783C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */; };
 		83611C6717A80B3D4821D8A9AE5B621F /* MainAutoResizingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */; };
-		9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */; };
+		BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */; };
 		D6F352EC06A46119D0CB096CF883816C /* MainAutoResizingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */; };
-    BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1395FC5342A6AB6949BC371772F3B62F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		20033BAD390497A8FC3D9B796B8C3CDB /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A7C431BD2F1FB39CC25048CF419EDE8 /* MainCollectionViewLayoutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewLayoutModel.swift; sourceTree = "<group>"; };
 		8B8FD5D520AEA95D7835D39B98EBEE0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A55FA2256822BAF4A73B3F1EA92B4CCE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-
+		ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddViewController.swift; sourceTree = "<group>"; };
 		B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewController.swift; sourceTree = "<group>"; };
 		D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewCell.swift; sourceTree = "<group>"; };
-
-		ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddViewController.swift; sourceTree = "<group>"; };
-    D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */,
+			);
+			path = ArtAddViewController;
+			sourceTree = "<group>";
+		};
 		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,12 +62,9 @@
 				A2D1144A4E33DA411D8CEE71478D7749 /* Info.plist */,
 				A2CD47ADC39421D6F866A772E43FDB75 /* LaunchScreen.storyboard */,
 				A71127E59979806DFF9455A13BCACE0D /* Main.storyboard */,
-
 				D3276518B1236E976B87F60254C6409F /* MainAutoResizingCollectionViewCell.swift */,
 				B782B886FE4B6021BE1FE5C7A5CCC19E /* MainAutoResizingCollectionViewController.swift */,
 				8A7C431BD2F1FB39CC25048CF419EDE8 /* MainCollectionViewLayoutModel.swift */,
-
-				150038B05EBA78FC382C4E40DF95D2D2 /* ViewController.swift */,
 			);
 			path = BeBrav;
 			sourceTree = "<group>";
@@ -82,14 +83,6 @@
 				20033BAD390497A8FC3D9B796B8C3CDB /* PhotoViewController.swift */,
 			);
 			path = PhotoViewController;
-			sourceTree = "<group>";
-		};
-		0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */ = {
-			isa = PBXGroup;
-			children = (
-				ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */,
-			);
-			path = ArtAddViewController;
 			sourceTree = "<group>";
 		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
@@ -172,13 +165,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
-
 				83611C6717A80B3D4821D8A9AE5B621F /* MainAutoResizingCollectionViewCell.swift in Sources */,
 				D6F352EC06A46119D0CB096CF883816C /* MainAutoResizingCollectionViewController.swift in Sources */,
 				33421A2D49208219BD5D50392A2D92C4 /* MainCollectionViewLayoutModel.swift in Sources */,
 				BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */,
 				2FBE9E9DE2BF1C211C9C2A200E4B115C /* PhotoViewController.swift in Sources */,
-				9E33EBEDF0AA996BB6B06EA702CA2180 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
