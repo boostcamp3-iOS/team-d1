@@ -69,9 +69,15 @@ https://github.com/raywenderlich/swift-style-guide
 
 11. 변수 접근자끼리 먼저 묶고 let var 로 나눈다
 
+# 프로젝트 계획표
+<div align="middle">
+<img width="1630" alt="2019-01-28 11 57 00" src="https://user-images.githubusercontent.com/34180216/51812209-ef60b300-22f3-11e9-98c8-295bd0c29f82.png">
+ </div>
 
-
+# 와이어프레임
 <img width="1262" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51735628-40da2980-20cb-11e9-8941-15e215eef968.png">
+
+# UI 프로토타입
 <div align="middle">
 <img width="300" alt="2019-01-25 6 04 49" src="https://user-images.githubusercontent.com/34180216/51736110-9a8f2380-20cc-11e9-9b76-01b9ec963ddf.png">
 <img width="300" alt="2019-01-22 2 38 37" src="https://user-images.githubusercontent.com/34180216/51736019-64ea3a80-20cc-11e9-9033-3df97f47daaf.jpg">
