@@ -1,5 +1,41 @@
 # team-d1
 
+# Project BeBrav
+
+비 주류 사진/그림 작가들이 자신의 작품을 업로드하고 일반인들과 공유할 수 있는 플랫폼을 제공하는 앱
+
+## Getting Started
+
+메인뷰에서 작품사진을 CollectionView를 통해서 보여주고 페이지당 뷰 수가 가장 많은 작품은 2x2 사이즈로 나타나게된다. 이후 작품을 터치하게 되면 스크롤 뷰를 통해서 더 자세한 작품 사진을 볼 수 있고 해당 뷰에서 작가 이름을 터치하면 작가의 상세정보와 전체 작품을 감상할 수 있다. 로그인한 모든 유저는 작품 업로드 버튼을 통해서 자신의 작품을 언제든지 업로드 할 수 있으며 업로드시 가로/세로 크기, 작품의 색온도 등 알고리즘을 통해서 분류한 뒤 서버 데이터베이스에 올라가게 된다.
+
+### Tech stack
+
+* Firebase Rest API
+* SQLite3
+
+## Deployment
+
+2019.02.21 예정
+
+
+## Versioning
+
+version 1.0
+
+## Contributor
+
+ *team D1* - [SangbumGoh](https://github.com/bumsgoh)
+
+## License
+
+MIT License
+
+
+# 1주차
+  - 팀내 코딩 규칙으 정한다
+  - 개발계획을 세부적으로 정한다
+  - 와이어 프레임을 작서한다
+  - 기본적인 UI를 구현한다
 
 # 코딩 컨벤션 참고 사이트
 https://github.com/StyleShare/swift-style-guide
