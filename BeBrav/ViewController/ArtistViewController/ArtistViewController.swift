@@ -55,12 +55,13 @@ class ArtistViewController: UIViewController {
         editButton.action = #selector(editButtonDidTap(_:))
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
         setLayout()
     }
     
+    // MARK:- Set CollectionView
     private func setCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -75,19 +76,15 @@ class ArtistViewController: UIViewController {
                                 withReuseIdentifier: artistDetailHeaderView)
     }
     
-    // MARK:- CollectionView Flow Layout
-    private func collectionViewLayout() -> UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
+    // MARK:- Set Layout
+    private func setLayout() {
+        view.addSubview(collectionView)
         
-        flowLayout.sectionInset = UIEdgeInsets(top: layout.inset, left: layout.inset, bottom: layout.inset, right: layout.inset)
-        flowLayout.minimumLineSpacing = layout.spacing
-        flowLayout.minimumInteritemSpacing = layout.spacing
-        
-        let cellWitdh = ((view.frame.width - (layout.spacing * 2)) / 3)
-        let cellHeight = cellWitdh
-        flowLayout.itemSize = CGSize(width: cellWitdh, height: cellHeight)
-        
-        return flowLayout
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
     // MARK:- Edit Button Did Tap
@@ -100,18 +97,6 @@ class ArtistViewController: UIViewController {
     // MARK:- Delete Photo Button Did Tap
     @objc func deletePhotoButtonDidTap(_ sender: UIButton) {
         // TODO: 이미지 삭제 네트워킹 추가 후 코드 변경
-    }
-    
-    // MARK:- Set Layout
-    private func setLayout() {
-        view.addSubview(collectionView)
-        
-        collectionView.collectionViewLayout = collectionViewLayout()
-        collectionView.collectionViewLayout.invalidateLayout()
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
 }
 
@@ -208,5 +193,25 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
         default:
             return CGSize()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let cellWitdh = ((collectionView.frame.width - (layout.spacing * 2)) / 3)
+        let cellHeight = cellWitdh
+        return CGSize(width: cellWitdh, height: cellHeight)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return layout.spacing
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return layout.spacing
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        return UIEdgeInsets(top: layout.inset, left: layout.inset, bottom: layout.inset, right: layout.inset)
     }
 }
