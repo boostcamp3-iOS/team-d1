@@ -78,3 +78,5 @@ https://github.com/raywenderlich/swift-style-guide
 
 
 
+# 2주차
+ 
