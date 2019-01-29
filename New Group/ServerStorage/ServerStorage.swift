@@ -17,10 +17,6 @@ class ServerStorage: APIService {
     private var currentURL = EndPoint.storageBaseURL
     
     init(session: URLSessionProtocol) {
-        let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 7.0
-        sessionConfig.timeoutIntervalForResource = 5.0
-        let session = URLSession(configuration: sessionConfig)
         self.session = session
     }
     func child(_ name: String) -> ServerStorage {
