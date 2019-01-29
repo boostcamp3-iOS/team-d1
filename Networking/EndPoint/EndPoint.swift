@@ -16,8 +16,6 @@ struct EndPoint {
     static let appKey = "AIzaSyAYybIIekNduWeVeHIQhcgW9M4TmVuwGn0"
 }
 
-
-
 enum Auth: String {
     case signUp
     case signIn
