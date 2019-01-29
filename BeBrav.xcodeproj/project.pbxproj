@@ -127,8 +127,7 @@
 				DA4ECCEBB6060FE7C16F3427147D8DB1 /* EndPoint.swift */,
 				9CBA08F543787DD077B77246BBAB8D56 /* HTTPMethod.swift */,
 			);
-			name = EndPoint;
-			path = "New Group";
+			path = EndPoint;
 			sourceTree = "<group>";
 		};
 		49915A466688720E5192CDD8C5B256A3 /* ServerStorage */ = {
@@ -188,8 +187,7 @@
 				6A9D699C1641A475990FE38D8FDF79B6 /* ServerDatabase */,
 				49915A466688720E5192CDD8C5B256A3 /* ServerStorage */,
 			);
-			name = Networking;
-			path = "New Group";
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		E58BF8A5359B2B189A74A5D89AE41487 /* Error */ = {

@@ -10,7 +10,7 @@ import XCTest
 @testable import BeBrav
 class BeBravUnitTests: XCTestCase {
 
-    struct Users : Decodable {
+    struct Users : Codable {
         let users: [String: String]
     }
     var resData: [String: String] = [:]
