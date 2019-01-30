@@ -14,20 +14,13 @@ class ArtAddViewController: UIViewController {
     private let navigationBar: UINavigationBar = {
         let naviBar = UINavigationBar()
         naviBar.translatesAutoresizingMaskIntoConstraints = false
+        naviBar.prefersLargeTitles = true
         return naviBar
     }()
     
     private let naviItem: UINavigationItem = {
         let item = UINavigationItem(title: "작품 등록")
         return item
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "작품 등록하기"
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        return label
     }()
     
     private let artImageView: UIImageView = {
@@ -53,7 +46,11 @@ class ArtAddViewController: UIViewController {
     
     private lazy var rightBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(rightBarButtonDidTap))
-        button.title = "등록"
+        return button
+    }()
+    
+    private lazy var leftBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(leftBarButtonDidTap))
         return button
     }()
     
@@ -91,26 +88,28 @@ class ArtAddViewController: UIViewController {
         //TODO: - register image...
     }
     
+    @objc func leftBarButtonDidTap() {
+        print("leftBarButtonDidTap")
+        //TODO: - dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - Set Layout
     private func setUpViews() {
         navigationBar.pushItem(naviItem, animated: true)
         naviItem.rightBarButtonItem = rightBarButton
+        naviItem.leftBarButtonItem = leftBarButton
         
         view.addSubview(navigationBar)
         view.addSubview(artImageView)
-        view.addSubview(titleLabel)
         view.addSubview(artNameTextField)
         
         navigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        navigationBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        
-        titleLabel.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 3).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        navigationBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         
         artImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        artImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+        artImageView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 20).isActive = true
         artImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7).isActive = true
         artImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3).isActive = true
         
