@@ -8,23 +8,18 @@
 
 import Foundation
 
-enum JsonCodingType<Value> {
-    case encoding(Value)
-    case decoding(Value.Type)
-}
-
-enum JsonCodingResult<Value, Data> {
-    case encodingSuccess(Value)
-    case decodingSuccess(Data)
-    case failure(Error)
-}
-
 struct AuthRequestType: Codable {
     struct SignUpAndSignIn: Codable {
         let email: String
         let password: String
         let returnSecureToken: Bool
     }
+}
+
+enum MimeType: String {
+    case jpeg = "image/jpeg"
+    case png = "image/png"
+    case json = "application/json"
 }
 
 struct AuthResponseType: Codable {
@@ -35,3 +30,9 @@ struct AuthResponseType: Codable {
     let expiresIn: String
     let localId: String
 }
+
+enum Result<Value> {
+    case success(Value)
+    case failure(Error)
+}
+

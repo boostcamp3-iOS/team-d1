@@ -8,16 +8,18 @@
 
 import UIKit
 
-struct Users : Codable {
+struct Users : Decodable {
     let users: [String: String]
 }
 
 class ExampleViewController: UIViewController {
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-       /* ServerDataBase(session: URLSession.shared).child("root").fetchData(by: Users.self) { (result, res) in
+        
+        var datastorage = ServerStorage(session: URLSession.shared)
+        datastorage.addPath("artworks")
+        datastorage.uploadImage(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, fileName: "catImage2") { (result) in
             switch result {
             case .failure:
                 return
@@ -25,7 +27,10 @@ class ExampleViewController: UIViewController {
                 print(result)
             }
         }
-        ServerDataBase(session: URLSession.shared).child("root").setData(data: Users(users: ["bum": "himan"])) { (result) in
+        
+        var datastorage2 = ServerStorage(session: URLSession.shared)
+        datastorage2.addPath("artworks")
+        datastorage2.fetchDownloadUrl(fileName: "catImage2"){ (result) in
             switch result {
             case .failure:
                 return
@@ -33,16 +38,8 @@ class ExampleViewController: UIViewController {
                 print(result)
             }
         }
-        */
-        /*ServerAuth(session: URLSession.shared).signUpUser(email: "ki9151@naver.com", password: "123456") { (result) in
-            switch result {
-            case .failure:
-                return
-            case .success(let res):
-                guard let response = res as? HTTPURLResponse else {return}
-                print(response.allHeaderFields)
-            }
-        }*/
+        
+
         ServerAuth(session: URLSession.shared).signInUser(email: "ki9151@naver.com", password: "123456") { (result) in
             switch result {
             case .failure:
@@ -53,44 +50,19 @@ class ExampleViewController: UIViewController {
                 print("success")
             }
         }
-       /* ServerDataBase(session: URLSession.shared).child("root").fetchData(by: Users.self) { (result, res) in
-            switch result {
-            case .failure:
-                return
-            case .success:
-                print(result)
-            }
-        }
-        ServerDataBase(session: URLSession.shared).child("root").deleteData() { (result) in
-            switch result {
-            case .failure:
-                return
-            case .success:
-                print(result)
-            }
-        }
         
-        ServerStorage(session: URLSession.shared).child("artworks").uploadImage(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, fileName: "catImage") { (result) in
-            switch result {
-            case .failure:
-                return
-            case .success:
-                print(result)
-            }
-        }
-        
-        ServerStorage(session: URLSession.shared).child("artworks").fetchDownloadUrl(fileName: "catImage") { (result) in
+        var database = ServerDataBase(session: URLSession.shared)
+        database.addPath("root")
+        database.fetchData(by: Users.self) { (result, res) in
             switch result {
             case .failure(let error):
                 print(error)
                 return
-            case .success:
-                print(result)
+            case .success(let data):
+                print(data.users)
             }
-        }*/
-       //
-        
-        print(Auth.signUp.urlComponents.url)
+        }
     }
+   
 }
 
