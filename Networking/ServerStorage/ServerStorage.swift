@@ -10,48 +10,26 @@ import Foundation
 
 import UIKit
 
-class ServerStorage: APIService {
+struct ServerStorage: APIService, PathMaker, RequestMakable {
+    
+    var pathString: String = ""
     
     let session: URLSessionProtocol
-    
-    private var currentURL = EndPoint.storageBaseURL
     
     init(session: URLSessionProtocol) {
         self.session = session
     }
-    func child(_ name: String) -> ServerStorage {
-        assert(!name.contains("/"), "no '/' in the String")
-        currentURL.append("/\(name)")
-        return self
-    }
-    //리퀘스트를 만든다.
-    private func makeRequest(urlString: String, method: HTTPMethod = .get, fileName: String) -> URLRequest? {
-        let urlWithFileName = "\(urlString)%2F\(fileName)"
-        guard let url = URL(string: urlWithFileName) else { return nil }
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return nil }
-        components.queryItems = [URLQueryItem(name: "alt", value: "media")]
-        guard let fixedUrl = components.url else { return nil }
-        switch method {
-        case .get:
-            let request = URLRequest(url: fixedUrl)
-            return request
-        case .post:
-            var request = URLRequest(url: fixedUrl)
-            var headers = request.allHTTPHeaderFields ?? [:]
-            headers["Content-Type"] = "image/jpeg"
-            headers["mode"] = "cors"
-            headers["cache"] = ".default"
-            request.allHTTPHeaderFields = headers
-            request.httpMethod = method.rawValue
-            return request
-        default:
-            return nil
-        }
-    }
-    //GET 으로 스토리지에 있는 데이터의 URL 토큰을 얻어온다
+
     private func fetchData(fileName: String, _ completion: @escaping (Result<URLResponse?>)->()) {
-        guard let request = makeRequest(urlString: currentURL, method: .get, fileName: fileName) else { return }
-        currentURL = EndPoint.storageBaseURL
+        guard var url = FirebaseStorage.getUrl.urlComponents?.url else {
+            completion(.failure(APIError.urlFailure))
+            return
+        }
+        url.appendPathComponent("\(pathString)%2F\(fileName)")
+        guard let request = makeRequest(string: url.absoluteString.removingPercentEncoding ?? "") else {
+            completion(.failure(APIError.requestFailed))
+            return
+        }
         let task = session.dataTask(with: request) { (data, response, error) in
             switch self.checkResponse(error: error, response: response) {
             case .failure(let error):
@@ -64,24 +42,11 @@ class ServerStorage: APIService {
         task.resume()
     }
     
-    //GET 으로 스토리지에 있는 데이터의 URL을 얻어온다
-    /* 예시코드입니다. -> artworks라는 폴더 하위의 catmage라는 이미지의 URL 요청
-     Storage.storage.child("artworks").fetchDownloadUrl(fileName: "catmage") { (result) in
-     switch result {
-     case .failure(let error):
-     print(error.localizedDescription)
-     return
-     case .success(let url):
-     print(url)
-     }
-     }
-     */
     func fetchDownloadUrl(fileName: String, _ completion: @escaping (Result<URL>)->()) {
         fetchData(fileName: fileName) { (result) in
             switch result {
             case .failure(let error):
-                print(error.localizedDescription)
-                return
+                completion(.failure(error))
             case .success(let response):
                 guard let responseData = response as? HTTPURLResponse else {
                     completion(.failure(APIError.responseUnsuccessful))
@@ -104,37 +69,25 @@ class ServerStorage: APIService {
             }
         }
     }
-    //POST 로 스토리지에 데이터를 업로드한다
-    /* 예시코드 입니다. -> artworks 하위에 catmage 이미지를 0.1 스케일로 업로드한다
-     Storage.storage.child("artworks").uploadImage(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, fileName: "catmage") { (result) in
-     
-     switch result {
-     case .failure(let error):
-     print(error.localizedDescription)
-     return
-     case .success(let response):
-     print(response)
-     }
-     }
-     */
+
     func uploadImage(image: UIImage, scale: CGFloat, fileName: String, _ completion: @escaping (Result<URLResponse?>)->()) {
-        if var request = makeRequest(urlString: currentURL, method: .post, fileName: fileName) {
-            currentURL = EndPoint.storageBaseURL
-            request.httpBody = image.jpegData(compressionQuality: scale)
-            let task = session.dataTask(with: request) { [weak self] (data, response, error) in
-                guard let self = self else { return }
-                switch self.checkResponse(error: error, response: response) {
-                case .failure(let error):
-                    completion(.failure(error))
-                    return
-                case .success(let response):
-                    completion(.success(response))
-                }
-            }
-            task.resume()
-        } else {
-            assertionFailure("request failed")
+        guard var url = FirebaseStorage.getUrl.urlComponents?.url else {
+            completion(.failure(APIError.urlFailure))
             return
         }
+        url.appendPathComponent("\(pathString)%2F\(fileName)")
+        guard let request = makeRequest(string: url.absoluteString.removingPercentEncoding ?? "", method: .post, headers:  ["Content-Type": MimeType.jpeg.rawValue, "mode": "cors"], body: image.jpegData(compressionQuality: scale)) else {
+            completion(.failure(APIError.requestFailed))
+            return
+        }
+        let task = session.dataTask(with: request) { (data, response, error) in
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let response):
+                completion(.success(response))
+            }
+        }
+        task.resume()
     }
 }

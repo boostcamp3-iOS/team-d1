@@ -13,102 +13,73 @@ protocol APIService {
     var session: URLSessionProtocol { get }
     
     func checkResponse(error: Error?, response: URLResponse?) -> Result<URLResponse>
-    
     func fetch<T: Codable>(with request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T>, URLResponse?) -> Void)
-    
-    func checkJsonDataValidation<T: Codable>(codingType: JsonCodingType<T>, binaryData: Data?, response: URLResponse?, _ completion: @escaping (JsonCodingResult<Data, T>, URLResponse?) -> Void)
-    
+    func extractEncodedJsonData<T: Encodable>(data: T) -> Data?
+    func extractDecodedJsonData<T: Decodable>(decodeType: T.Type, binaryData: Data?) -> T?
 }
 
 extension APIService {
     
-    func fetch<T: Codable>(with request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T>, URLResponse?) -> Void) {
+    func fetch<T: Decodable>(with request: URLRequest, decodeType: T.Type, completion: @escaping (Result<T>, URLResponse?) -> Void) {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         let task = session.dataTask(with: request) { (data, response, error) in
             switch self.checkResponse(error: error, response: response) {
             case .failure(let error):
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
                 completion(.failure(error), nil)
                 return
             case .success(let response):
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
-                self.checkJsonDataValidation(codingType: .decoding(decodeType), binaryData: data, response: response) { (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        completion(.failure(error), nil)
-                        return
-                    case .decodingSuccess(let data):
-                        completion(.success(data), response)
-                        return
-                    case .encodingSuccess(_):
-                        return
-                    }
+                guard response.isMimeType(type: .json) else {
+                    completion(.failure(APIError.jsonConversionFailure), nil)
+                    return
+                }
+                guard let extractedData = self.extractDecodedJsonData(decodeType: decodeType, binaryData: data) else {
+                    completion(.failure(APIError.jsonConversionFailure), nil)
+                    return
+                }
+                completion(.success(extractedData), nil)
                 }
             }
-        }
         task.resume()
     }
     
     func checkResponse(error: Error?, response: URLResponse?) -> Result<URLResponse> {
         if let error = error {
-            DispatchQueue.main.async {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }
             return .failure(error)
         }
-        
-        guard let localResponse = response as? HTTPURLResponse,
-            (200...299).contains(localResponse.statusCode) else {
-                DispatchQueue.main.async {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                }
-                return .failure(APIError.responseUnsuccessful)
+        guard let response = response  else {
+            return .failure(APIError.responseUnsuccessful)
         }
-        return .success(localResponse)
+        guard response.isSuccess else {
+            return .failure(APIError.responseUnsuccessful)
+        }
+        return .success(response)
     }
-
-    func checkJsonDataValidation<T: Codable>(codingType: JsonCodingType<T>, binaryData: Data? = nil, response: URLResponse? = nil, _ completion: @escaping (JsonCodingResult<Data, T>, URLResponse?) -> Void) {
-        switch codingType {
-        case .decoding(let dataType):
-            guard let response = response else { return }
-            if let mimeType = response.mimeType, mimeType == "application/json", let data = binaryData {
-                do {
-                    let decodeData = try JSONDecoder().decode(dataType, from: data)
-                    completion(.decodingSuccess(decodeData), response)
-                } catch(_ ) {
-                    completion(.failure(APIError.jsonParsingFailure), nil)
-                }
-            }
-        case .encoding(let data):
-            do {
-                let encodedData = try JSONEncoder().encode(data)
-                completion(.encodingSuccess(encodedData), response)
-            } catch(_ ) {
-                completion(.failure(APIError.jsonParsingFailure), nil)
-            }
-            
+    
+    func extractDecodedJsonData<T: Decodable>(decodeType: T.Type, binaryData: Data?) -> T? {
+        guard let data = binaryData else { return nil }
+        do {
+            let decodeData = try JSONDecoder().decode(decodeType, from: data)
+            return decodeData
+        } catch(_ ) {
+            return nil
+        }
+    }
+    
+    func extractEncodedJsonData<T: Encodable>(data: T) -> Data? {
+        do {
+            let encodeData = try JSONEncoder().encode(data)
+            return encodeData
+        } catch(_) {
+            return nil
         }
     }
 }
 
-
-
-/*
- if let mimeType = response.mimeType, mimeType == "application/json", let data = data {
- do {
- let apiResponse = try JSONDecoder().decode(T.self, from: data)
- completion(.success(apiResponse), response)
- } catch(_ ) {
- completion(.failure(APIError.jsonParsingFailure), nil)
- }
- 
- }else {
- completion(.failure(APIError.invalidData), response)
- DispatchQueue.main.async {
- UIApplication.shared.isNetworkActivityIndicatorVisible = false
- }
- return
- }*/

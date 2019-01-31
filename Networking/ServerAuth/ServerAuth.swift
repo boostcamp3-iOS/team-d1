@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ServerAuth: APIService {
+class ServerAuth: APIService, RequestMakable {
     
     let session: URLSessionProtocol
     
@@ -16,73 +16,38 @@ class ServerAuth: APIService {
         self.session = session
     }
     
-    private func makeRequest(url: URL?, method: HTTPMethod = .get) -> URLRequest? {
-        guard let url = url else {
-            assert(true, "url failed")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        var headers = request.allHTTPHeaderFields ?? [:]
-        headers["Content-Type"] = "application/json"
-        request.allHTTPHeaderFields = headers
-        switch method {
-        case .get:
-            return request
-        case .post:
-            request.httpMethod = method.rawValue
-            return request
-        case .patch:
-            request.httpMethod = method.rawValue
-            return request
-        case .delete:
-            request.httpMethod = method.rawValue
-            return request
-        default:
-            return nil
-        }
-    }
     /*
      curl 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAYybIIekNduWeVeHIQhcgW9M4TmVuwGn0' -H 'Content-Type: application/json' --data-binary ‘{“email”:”kl9151@naver.com","password”:”123456”,”returnSecureToken”:true}'
      */
     func signUpUser(email: String, password: String, _ completion: @escaping (Result<URLResponse>) -> ()) {
         let userData = AuthRequestType.SignUpAndSignIn(email: email, password: password, returnSecureToken: true)
-        if var request = makeRequest(url: Auth.signUp.urlComponents.url, method: .post) {
-            checkJsonDataValidation(codingType: .encoding(userData)) { (result, response) in
-                switch result {
-                case .failure(_):
-                    assertionFailure("json failed")
-                case .encodingSuccess(let data):
-                    request.httpBody = data
-                case .decodingSuccess(_):
-                    return
-                }
-            }
-            let task = session.dataTask(with: request) { (data, response, error) in
-                switch self.checkResponse(error: error, response: response) {
-                case .failure(let error):
-                    completion(.failure(error))
-                    return
-                case .success(let response):
-                    self.checkJsonDataValidation(codingType: .decoding(AuthResponseType.self), binaryData: data, response: response) { (result, _) in
-                        
-                        switch result {
-                        case .failure(_):
-                            assertionFailure("json failed")
-                        case .encodingSuccess(_):
-                            return
-                        case .decodingSuccess(let data):
-                            UserDefaults.standard.set(data.email, forKey: "userId")
-                            UserDefaults.standard.set(data.localId, forKey: "uid")
-                            completion(.success(response))
-                        }
-                    }
-                }
-            }
-            task.resume()
-        } else {
-            assertionFailure("request failed")
+        guard let url = FirebaseAuth.signUp.urlComponents?.url else {
+            completion(.failure(APIError.urlFailure))
             return
         }
+        guard let data = extractEncodedJsonData(data: userData) else {
+            completion(.failure(APIError.jsonParsingFailure))
+            return
+        }
+        guard let request = makeRequest(string: url.absoluteString, method: .post, headers: ["Content-Type": MimeType.json.rawValue], body: data) else {
+            completion(.failure(APIError.requestFailed))
+            return
+        }
+        let task = session.dataTask(with: request) { (data, response, error) in
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let response):
+                guard let data = self.extractDecodedJsonData(decodeType: AuthResponseType.self, binaryData: data) else {
+                    completion(.failure(APIError.jsonParsingFailure))
+                    return
+                }
+                UserDefaults.standard.set(data.email, forKey: "userId")
+                UserDefaults.standard.set(data.localId, forKey: "uid")
+                completion(.success(response))
+            }
+        }
+        task.resume()
     }
     
     /*
@@ -92,41 +57,32 @@ class ServerAuth: APIService {
      */
     func signInUser(email: String, password: String, _ completion: @escaping (Result<URLResponse>) -> ()) {
         let userData = AuthRequestType.SignUpAndSignIn(email: email, password: password, returnSecureToken: true)
-        if var request = makeRequest(url: Auth.signIn.urlComponents.url, method: .post) {
-            checkJsonDataValidation(codingType: .encoding(userData)) { (result, response) in
-                switch result {
-                case .failure(_):
-                    assertionFailure("json failed")
-                case .encodingSuccess(let data):
-                    request.httpBody = data
-                case .decodingSuccess(_):
-                    return
-                }
-            }
-            let task = session.dataTask(with: request) { (data, response, error) in
-                switch self.checkResponse(error: error, response: response) {
-                case .failure(let error):
-                    completion(.failure(error))
-                    return
-                case .success(let response):
-                    self.checkJsonDataValidation(codingType: .decoding(AuthResponseType.self), binaryData: data, response: response) { (result, _) in
-                        switch result {
-                        case .failure(_):
-                            assertionFailure("json failed")
-                        case .encodingSuccess(_):
-                            return
-                        case .decodingSuccess(let data):
-                            UserDefaults.standard.set(data.email, forKey: "userId")
-                            UserDefaults.standard.set(data.localId, forKey: "uid")
-                            completion(.success(response))
-                        }
-                    }
-                }
-            }
-            task.resume()
-        } else {
-            assertionFailure("request failed")
+        guard let url = FirebaseAuth.signIn.urlComponents?.url else {
+            completion(.failure(APIError.urlFailure))
             return
         }
+        guard let data = extractEncodedJsonData(data: userData) else {
+            completion(.failure(APIError.jsonParsingFailure))
+            return
+        }
+        guard let request = makeRequest(string: url.absoluteString, method: .post, headers: ["Content-Type": MimeType.json.rawValue], body: data) else {
+            completion(.failure(APIError.requestFailed))
+            return
+        }
+        let task = session.dataTask(with: request) { (data, response, error) in
+            switch self.checkResponse(error: error, response: response) {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let response):
+                guard let data = self.extractDecodedJsonData(decodeType: AuthResponseType.self, binaryData: data) else {
+                    completion(.failure(APIError.jsonParsingFailure))
+                    return
+                }
+                UserDefaults.standard.set(data.email, forKey: "userId")
+                UserDefaults.standard.set(data.localId, forKey: "uid")
+                completion(.success(response))
+            }
+        }
+        task.resume()
     }
 }
