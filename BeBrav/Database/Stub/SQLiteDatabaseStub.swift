@@ -9,12 +9,12 @@
 import Foundation
 
 class SQLiteDatabaseStub: SQLiteDatabaseProtocol {
-    
+
     func createTable(name: String, column: [String]) -> Bool {
         return true
     }
     
-    func insert(table: String, rows: [String : String]) throws -> Bool {
+    func insert(table: String, column: [String], rows: [Int : String]) throws -> Bool {
         return true
     }
     

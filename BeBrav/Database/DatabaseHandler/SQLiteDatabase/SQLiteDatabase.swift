@@ -16,9 +16,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     private var errorMessage: String {
         if let error = sqlite3_errmsg(database) {
             return String(cString: error)
-        } else {
-            return "No error message at SQLite Database"
         }
+        return "No error message at SQLite Database"
     }
     
     // MARK:- initialize
@@ -34,7 +33,10 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     static func Open(fileManager: FileManagerProtocol) throws -> SQLiteDatabase {
         var database: OpaquePointer?
         
-        let fileURL = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let fileURL = try? fileManager.url(for: .documentDirectory,
+                                           in: .userDomainMask,
+                                           appropriateFor: nil,
+                                           create: false)
             .appendingPathComponent("BeBravDatabase.sqlite")
         
         if sqlite3_open(fileURL?.path, &database) != SQLITE_OK {
@@ -43,8 +45,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             }
             
             let error = String(cString: sqlite3_errmsg(database))
-            assertionFailure(error)
-            throw SQLiteError.OpenDatabase(message: "Failure Open SQLite Database")
+            assertionFailure(error + " from \(#function) in \(#line)")
+            throw SQLiteError.openDatabase(message: "Failure Open SQLite Database from \(#function) in \(#line)")
         }
         
         return SQLiteDatabase(database: database)
@@ -54,7 +56,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     private func prepare(query: String) throws -> OpaquePointer? {
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK else {
-            throw SQLiteError.Prepare(message: errorMessage)
+            throw SQLiteError.prepare(message: errorMessage + " from \(#function) in \(#line)")
         }
         
         return statement
@@ -62,8 +64,14 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     
     // MARK:- Create table at SQLite Database
     public func createTable(name: String, column: [String]) -> Bool {
-        let column = column.reduce("") { $0 + ", \(idFieldName(name: $1)) \(STRING)"}
-        let query = "\(CREATE) \(TABLE) \(IF) \(NOT) \(EXISTS) \(name) (primaryKey \(INT) PRIMARY KEY AUTOINCREMENT\(column.count > 0 ? column : ""));"
+        let column = column.reduce("") { $0 + ", \(idFieldName(name: $1)) TEXT"}
+        let columnString = column.count > 0 ? column : ""
+        let query = """
+        CREATE TABLE IF NOT EXISTS \(name)(
+        primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
+        );
+        """
+        
         let statement: OpaquePointer?
         
         do {
@@ -78,7 +86,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            assertionFailure("Failure create table : \(errorMessage)")
+            assertionFailure("Failure create table : \(errorMessage) from \(#function) in \(#line)")
             return false
         }
         
@@ -88,15 +96,16 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Insert rows at table in SQLite Database
-    public func insert(table: String, rows: [String: String]) throws -> Bool {
+    public func insert(table: String, column: [String], rows: [Int: String])
+        throws -> Bool
+    {
         var field = ""
-        var valueCount = ""
-        let column = rows.enumerated().map { (index, column) -> String in
-            field += "\(index != 0 ? ", " : "")\(column.key)"
-            valueCount += "\(index != 0 ? ", ?" : "?")"
-            return column.value
+        var fieldCount = ""
+        column.enumerated().forEach{ (i, v) in
+            field += "\(i != 0 ? ", " : "")\(v)"
+            fieldCount += "\(i != 0 ? ", ?" : "?")"
         }
-        let query = "\(INSERT) \(INTO) \(table) (\(field)) \(VALUES) (\(valueCount));"
+        let query = "INSERT INTO \(table) (\(field)) VALUES (\(fieldCount));"
         
         let statement = try prepare(query: query)
         
@@ -104,16 +113,20 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             sqlite3_finalize(statement)
         }
         
-        for (i, v) in column.enumerated() {
+        for i in column.indices {
             let index = Int32(i + 1)
-            let text = v.trimmingCharacters(in: .whitespacesAndNewlines)
-            if sqlite3_bind_text(statement, index, text, -1, nil) != SQLITE_OK {
-                throw SQLiteError.Bind(message: errorMessage)
+            let text: NSString
+                = rows[i]?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    as NSString? ?? ""
+            if sqlite3_bind_text(statement, index, text.utf8String, -1, nil)
+                != SQLITE_OK
+            {
+                throw SQLiteError.bind(message: errorMessage + " from \(#function) in \(#line)")
             }
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.Step(message: errorMessage)
+            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
         }
         
         print("Successfully inserted value at \(table)")
@@ -122,15 +135,18 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Fetch column at table in SQLite Database
-    public func fetch(table: String, column: String? = nil, idField: String = "", idRow: String = "") throws -> [[String: String]] {
+    public func fetch(table: String, column: String? = nil,
+                      idField: String = "", idRow: String = "")
+        throws -> [[String: String]]
+    {
         let id = idFieldName(name: idField)
         let column = column != nil ? idFieldName(name: id) : "*"
         
-        var query = "\(SELECT) \(column) \(FROM) \(table)"
+        var query = "SELECT \(column) FROM \(table)"
         var values: [[String: String]] = []
         
         if !id.isEmpty && !idRow.isEmpty {
-            query.append(" \(WHERE) \(id) = \(idRow)")
+            query.append(" WHERE \(id) = \(idRow)")
         }
         
         query += ";"
@@ -158,7 +174,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     
     // MARK:- Update row at table in SQLite Database
     public func update(table: String, column: String, row: String, idField: String, idRow: String) throws {
-        let query = "\(UPDATE) \(table) \(SET) \(column) = '\(row)' \(WHERE) \(idField) = '\(idRow)';"
+        let query = "UPDATE \(table) SET \(column) = '\(row)' WHERE \(idField) = '\(idRow)';"
         
         let statement = try prepare(query: query)
         
@@ -167,7 +183,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.Step(message: errorMessage)
+            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
         }
         
         print("Successfully updated value at \(table) with \(idField)/\(column):\(row)")
@@ -175,7 +191,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     
     // MARK:- Delete row at table in SQLite Database
     public func delete(table: String, idField: String, idRow: String) throws {
-        let query = "\(DELETE) \(FROM) \(table) \(WHERE) \(idField) = \(idRow);"
+        let query = "DELETE FROM \(table) WHERE \(idField) = '\(idRow)';"
         
         let statement = try prepare(query: query)
         
@@ -184,7 +200,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.Step(message: errorMessage)
+            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
         }
         
         print("Successfully deleted field at \(table) with \(idField)")
@@ -202,29 +218,37 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
 
 // MARK:- SQLite Error
 fileprivate enum SQLiteError: Error {
-    case OpenDatabase(message: String)
-    case Prepare(message: String)
-    case Step(message: String)
-    case Bind(message: String)
+    case openDatabase(message: String)
+    case prepare(message: String)
+    case step(message: String)
+    case bind(message: String)
 }
 
-// MARK:- Query
-fileprivate let CREATE = "CREATE"
-fileprivate let SELECT = "SELECT"
-fileprivate let INSERT = "INSERT"
-fileprivate let UPDATE = "UPDATE"
-fileprivate let DELETE = "DELETE"
-
-fileprivate let FROM = "FROM"
-fileprivate let INTO = "INTO"
-fileprivate let SET = "SET"
-fileprivate let WHERE = "WHERE"
-fileprivate let IF = "IF"
-fileprivate let NOT = "NOT"
-fileprivate let EXISTS = "EXISTS"
-
-fileprivate let TABLE = "TABLE"
-fileprivate let VALUES = "VALUES"
-
-fileprivate let INT = "INTEGER"
-fileprivate let STRING = "TEXT"
+extension SQLiteError: CustomNSError {
+    static var errorDomain: String = "SQLiteDatabase"
+    var errorCode: Int {
+        switch self {
+        case .openDatabase(_):
+            return 200
+        case .prepare(_):
+            return 201
+        case .step(_):
+            return 202
+        case .bind(_):
+            return 203
+        }
+    }
+    
+    var userInfo: [String : Any] {
+        switch self {
+        case let .openDatabase(code):
+            return ["File": #file, "Type":"openDatabase", "Message":code]
+        case let .prepare(code):
+            return ["File": #file, "Type":"prepare", "Message":code]
+        case let .step(code):
+            return ["File": #file, "Type":"step", "Message":code]
+        case let .bind(code):
+            return ["File": #file, "Type":"bind", "Message":code]
+        }
+    }
+}
