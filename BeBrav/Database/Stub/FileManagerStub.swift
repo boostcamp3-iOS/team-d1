@@ -10,11 +10,18 @@ import UIKit
 
 class FileManagerStub: FileManagerProtocol {
     
-    func url(for directory: FileManager.SearchPathDirectory, in domain: FileManager.SearchPathDomainMask, appropriateFor url: URL?, create shouldCreate: Bool) throws -> URL {
+    func url(for directory: FileManager.SearchPathDirectory,
+             in domain: FileManager.SearchPathDomainMask,
+             appropriateFor url: URL?, create shouldCreate: Bool)
+        throws -> URL
+    {
         return URL(fileURLWithPath: "")
     }
     
-    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL] {
+    func urls(for directory: FileManager.SearchPathDirectory,
+              in domainMask: FileManager.SearchPathDomainMask)
+        -> [URL]
+    {
         return []
     }
     
@@ -22,11 +29,17 @@ class FileManagerStub: FileManagerProtocol {
         return true
     }
     
-    func createDirectory(atPath path: String, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey : Any]?) throws {
+    func createDirectory(atPath path: String,
+                         withIntermediateDirectories createIntermediates: Bool,
+                         attributes: [FileAttributeKey : Any]?) throws
+    {
         return
     }
     
-    func createFile(atPath path: String, contents data: Data?, attributes attr: [FileAttributeKey : Any]?) -> Bool {
+    func createFile(atPath path: String, contents data: Data?,
+                    attributes attr: [FileAttributeKey : Any]?)
+        -> Bool
+    {
         return true
     }
     

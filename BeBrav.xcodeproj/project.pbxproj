@@ -18,8 +18,8 @@
 		78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */; };
 		7B7ECBA7781A4E4AF512FDB2F0F8CB08 /* MostViewedArtworkFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15926B27B12B62F5575DC043DE2E5020 /* MostViewedArtworkFlowLayout.swift */; };
 		A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */; };
+		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AE167E670A2C2B3170024AADCBF71FFA /* PhotoListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9334EA69920597B4D1E04DC04B86BD /* PhotoListHeaderCollectionReusableView.swift */; };
-		AFAC878D246D486AE5744D48953A6F4E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB8596F0D01A62C4E6ABBB8FCBA1EA8 /* DiskCacheProtocol.swift */; };
 		B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */; };
 		BD3A7366D38A8B3BFC54341014F29032 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECE69A33846D764590CA38B15250E1C /* PhotoListCollectionViewCell.swift */; };
 		C6A810DE2CEB3673D8F1910EC7DF982D /* SQLiteDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */; };
@@ -37,11 +37,11 @@
 		1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerProtocol.swift; sourceTree = "<group>"; };
 		1395FC5342A6AB6949BC371772F3B62F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		15926B27B12B62F5575DC043DE2E5020 /* MostViewedArtworkFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkFlowLayout.swift; sourceTree = "<group>"; };
-		1CB8596F0D01A62C4E6ABBB8FCBA1EA8 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoResizingCollecionViewModel.swift; sourceTree = "<group>"; };
 		2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseProtocol.swift; sourceTree = "<group>"; };
 		28B58C7EB2EC07DC2B10105C39D9C858 /* MainAutoResizingCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewController.swift; sourceTree = "<group>"; };
 		28F0569C5876AA72741F6EADF2CA0764 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkDelegate.swift; sourceTree = "<group>"; };
 		4D9334EA69920597B4D1E04DC04B86BD /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,8 +73,8 @@
 		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
-				CB3E88A1157AD416CAE0743AA1532141 /* ImageCache */,
 				A263903DDDEF88E566FBA33CE7CF9EBB /* Database */,
+				7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */,
 				98D44641D66E6AF8B1F7BE4806AB766A /* Layouts */,
 				FF261075A33C23DEDF441571EEB2EC5D /* Models */,
 				9442277CEB2F952ACFD8AB745AC3A3A6 /* ViewController */,
@@ -107,10 +107,10 @@
 			path = ArtistViewController;
 			sourceTree = "<group>";
 		};
-		3612926B25D0D3793412563D33403B9E /* DiskCacheProtocol */ = {
+		E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */ = {
 			isa = PBXGroup;
 			children = (
-				1CB8596F0D01A62C4E6ABBB8FCBA1EA8 /* DiskCacheProtocol.swift */,
+				2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */,
 			);
 			path = DiskCacheProtocol;
 			sourceTree = "<group>";
@@ -194,11 +194,11 @@
 			path = Stub;
 			sourceTree = "<group>";
 		};
-		CB3E88A1157AD416CAE0743AA1532141 /* ImageCache */ = {
+		7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */ = {
 			isa = PBXGroup;
 			children = (
-				3612926B25D0D3793412563D33403B9E /* DiskCacheProtocol */,
-				FA342FE02E8116DEA4170710823BBE0A /* MemeoryCacheProtocol */,
+				E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */,
+				3651472A319D00E51CAB364821238C26 /* MemeoryCacheProtocol */,
 			);
 			path = ImageCache;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			path = PhotoViewController;
 			sourceTree = "<group>";
 		};
-		FA342FE02E8116DEA4170710823BBE0A /* MemeoryCacheProtocol */ = {
+		3651472A319D00E51CAB364821238C26 /* MemeoryCacheProtocol */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -312,7 +312,7 @@
 				FE1D5BF6EE0D760F7F8F41D16DD7840E /* ArtistViewController.swift in Sources */,
 				26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */,
 				A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */,
-				AFAC878D246D486AE5744D48953A6F4E /* DiskCacheProtocol.swift in Sources */,
+				A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */,
 				B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */,
 				78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */,
 				EA78EFD9160665DA85CAF97258DAC0C8 /* MainAutoResizingCollectionViewCell.swift in Sources */,

@@ -14,15 +14,21 @@ class SQLiteDatabaseStub: SQLiteDatabaseProtocol {
         return true
     }
     
-    func insert(table: String, column: [String], rows: [Int : String]) throws -> Bool {
+    func insert(table: String, column: [String], rows: [Int : String])
+        throws -> Bool
+    {
         return true
     }
     
-    func fetch(table: String, column: String? = nil, idField: String, idRow: String) throws -> [[String : String]] {
+    func fetch(table: String, column: String? = nil, idField: String, idRow: String)
+        throws -> [[String : String]]
+    {
         return []
     }
     
-    func update(table: String, column: String, row: String, idField: String, idRow: String) throws {
+    func update(table: String, column: String, row: String,
+                idField: String, idRow: String) throws
+    {
         return
     }
     

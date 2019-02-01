@@ -28,7 +28,8 @@ extension DiskCacheProtocol {
         guard let documentDirectory = fileManager.urls(for: .documentDirectory,
                                                        in: .userDomainMask).first else
         {
-            throw FileManagerError.createFolder(message: "Failure access document directory from \(#function) in \(#line)")
+            throw FileManagerError.createFolder(message:
+                "Failure access document directory from \(#function) in \(#line)")
         }
         
         let folderURL = documentDirectory.appendingPathComponent(name)
@@ -56,14 +57,18 @@ extension DiskCacheProtocol {
         
         if fileManager.fileExists(atPath: fileDirectory.path) {
             guard try deleteFile(name: name) == name else {
-                throw FileManagerError.delete(message: "Failure delete file for save new image at \(fileDirectory.path) from \(#function) in \(#line)")
+                throw FileManagerError.delete(message:
+                    "Failure delete file for save new image at \(fileDirectory.path) from \(#function) in \(#line)"
+                )
             }
             return try saveImage(image: image, name: name)
         } else if !fileManager.createFile(atPath: fileDirectory.path,
                                           contents: jpgImage(1.0),
                                           attributes: nil)
         {
-            throw FileManagerError.save(message: "Failure create image file at \(fileDirectory.path) from \(#function) in \(#line)")
+            throw FileManagerError.save(message:
+                "Failure create image file at \(fileDirectory.path) from \(#function) in \(#line)"
+            )
         }
         
         return fileName
@@ -76,7 +81,9 @@ extension DiskCacheProtocol {
         let fileDirectory = folder.appendingPathComponent(name)
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
-            throw FileManagerError.delete(message: "Couldn't exists file for delete \(name) image from \(#function) in \(#line)")
+            throw FileManagerError.delete(message:
+                "Couldn't exists file for delete \(name) image from \(#function) in \(#line)"
+            )
         }
         
         do {
@@ -94,11 +101,15 @@ extension DiskCacheProtocol {
         let fileDirectory = folder.appendingPathComponent(name)
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
-            throw FileManagerError.delete(message: "Couldn't read file for fetch \(name) image from \(#function) in \(#line)")
+            throw FileManagerError.delete(message:
+                "Couldn't read file for fetch \(name) image from \(#function) in \(#line)"
+            )
         }
         
         guard let image = UIImage(contentsOfFile: fileDirectory.path) else {
-            throw FileManagerError.fetch(message: "Couldn't fetch \(name) image from \(#function) in \(#line)")
+            throw FileManagerError.fetch(message:
+                "Couldn't fetch \(name) image from \(#function) in \(#line)"
+            )
         }
         
         return image

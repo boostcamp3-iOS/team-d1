@@ -46,7 +46,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             
             let error = String(cString: sqlite3_errmsg(database))
             assertionFailure(error + " from \(#function) in \(#line)")
-            throw SQLiteError.openDatabase(message: "Failure Open SQLite Database from \(#function) in \(#line)")
+            throw SQLiteError.openDatabase(message:
+                "Failure Open SQLite Database from \(#function) in \(#line)"
+            )
         }
         
         return SQLiteDatabase(database: database)
@@ -55,7 +57,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     // MARK:- Prepare SQL Query statement
     private func prepare(query: String) throws -> OpaquePointer? {
         var statement: OpaquePointer?
-        guard sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK else {
+        guard sqlite3_prepare_v2(database, query, -1, &statement, nil)
+            == SQLITE_OK else
+        {
             throw SQLiteError.prepare(message: errorMessage + " from \(#function) in \(#line)")
         }
         
@@ -68,7 +72,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         let columnString = column.count > 0 ? column : ""
         let query = """
         CREATE TABLE IF NOT EXISTS \(name)(
-        primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
+            primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
         );
         """
         
@@ -86,7 +90,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            assertionFailure("Failure create table : \(errorMessage) from \(#function) in \(#line)")
+            assertionFailure(
+                "Failure create table : \(errorMessage) from \(#function) in \(#line)"
+            )
             return false
         }
         
@@ -121,12 +127,16 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             if sqlite3_bind_text(statement, index, text.utf8String, -1, nil)
                 != SQLITE_OK
             {
-                throw SQLiteError.bind(message: errorMessage + " from \(#function) in \(#line)")
+                throw SQLiteError.bind(message:
+                    errorMessage + " from \(#function) in \(#line)"
+                )
             }
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
+            throw SQLiteError.step(message:
+                errorMessage + " from \(#function) in \(#line)"
+            )
         }
         
         print("Successfully inserted value at \(table)")
@@ -149,7 +159,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             query.append(" WHERE \(id) = \(idRow)")
         }
         
-        query += ";"
+        query.append(";")
         
         let statement = try prepare(query: query)
         
@@ -173,7 +183,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Update row at table in SQLite Database
-    public func update(table: String, column: String, row: String, idField: String, idRow: String) throws {
+    public func update(table: String, column: String, row: String,
+                       idField: String, idRow: String) throws
+    {
         let query = "UPDATE \(table) SET \(column) = '\(row)' WHERE \(idField) = '\(idRow)';"
         
         let statement = try prepare(query: query)
@@ -200,7 +212,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
+            throw SQLiteError.step(message:
+                errorMessage + " from \(#function) in \(#line)"
+            )
         }
         
         print("Successfully deleted field at \(table) with \(idField)")
@@ -214,6 +228,13 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     private func idDataName(name: String) -> String {
         return name != "primaryId" ? name : "primaryKey"
     }
+}
+
+fileprivate enum Type {
+    case insert
+    case fetch
+    case update
+    case delete
 }
 
 // MARK:- SQLite Error
