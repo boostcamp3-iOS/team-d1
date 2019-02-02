@@ -16,8 +16,8 @@ struct NetworkSeparator: NetworkSeperatable {
     let dispatcher: Dispatchable
     let requestMaker: RequestMakable
     
-    init(worker: Dispatchable, requestMaker: RequestMakable) {
-        self.dispatcher = worker
+    init(dispatcher: Dispatchable, requestMaker: RequestMakable) {
+        self.dispatcher = dispatcher
         self.requestMaker = requestMaker
     }
     

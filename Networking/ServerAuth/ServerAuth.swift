@@ -21,6 +21,7 @@
 import Foundation
 
 struct ServerAuth: FirebaseService {
+    
     let parser: ResponseParser
     let seperator: NetworkSeperatable
 

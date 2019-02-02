@@ -13,6 +13,7 @@
 		193183B44F7BF93BABED85C19808D00F /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22419B86CABB56E0D1EA11DC29ABBF5 /* Dispatchable.swift */; };
 		1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */; };
 		1FF585F0DA726CE41765B5651F59C5AD /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA08F543787DD077B77246BBAB8D56 /* HTTPMethod.swift */; };
+		26B556129939A8E80D5949BC9F7EB8D2 /* NetworkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E062B3B314D8F92FB59148A1C473DBA /* NetworkFactory.swift */; };
 		3AC76BD1B831E41FE17E835D37C966FA /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88CC50462283DA04A71591F842125B1 /* ServerStorage.swift */; };
 		445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */; };
 		5FDAA1790C83B8B32FC46DF8456AD4C0 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */; };
@@ -22,8 +23,8 @@
 		93EA24BFD13FD0BDCC87CEE5FE57634D /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5D6EC549D2BD013DE8B86A9AE846F4 /* NetworkSeparator.swift */; };
 		A1D9FC159C7C4D21BF48DF513EE8159A /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654D78A5904B780504A9B5B97DECBEDE /* RequestMakable.swift */; };
 		C3A6AA12CC20B23F7EBB1D66E4AFF125 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94260D256F2DFF1FA0A92FAE548880B /* ServerAuth.swift */; };
+		C555EECF43C0FF0F08C7062638A37D8E /* NetworkDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E483191689A983A91EBF9897724AA583 /* NetworkDependencyContainer.swift */; };
 		C6B6B6ADD0313C5C070F3237101ED7C6 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4687F8BE8A371BED4DAC3812E5D779 /* URLSessionTaskProtocol.swift */; };
-		C92DE6972205E44F00B183FE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92DE6962205E44F00B183FE /* Error.swift */; };
 		CBB944BB76BBBFCCAA3E70C60F5273EE /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87126F506BAC443AEDE8C8134B7997A8 /* Dispatcher.swift */; };
 		D5E0E92666F7A8F144234B74051B8C24 /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAF6DDC2D0B551908254305AB112 /* RequestMaker.swift */; };
 		D9AD3A8FFAA069AEC6C87F2B24E16C48 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF40FA6299448F3CF2E98E99DED75F2 /* JsonParser.swift */; };
@@ -31,7 +32,7 @@
 		E79679B99BDF39B52B9FC8D1A852E3E0 /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA652AF01FE4D0CDD0CC28515DD9107 /* ServerDatabase.swift */; };
 		ECEB41672F04A060864978000F897BBD /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B1F73C1A143A8E19F2B7D3A4FC5A85 /* ResponseParser.swift */; };
 		EE3FC266079737BC699DC02C7758C9BF /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445E6FF1BF3B7317F568015266E29630 /* NetworkModel.swift */; };
-		EFC397362B6F678BE5DBAA5B5E9B1B70 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		EFC397362B6F678BE5DBAA5B5E9B1B70 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */; };
 		F4A20BE4EE62965C72D3FBD0E0839EB2 /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F537CD16BEA8A0F2445AF3C630D854 /* NetworkSeperatable.swift */; };
 		FB32CF937E0EA31F4C44198A455938B1 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFBC89F244EF920CCACC3B3CBBC9018 /* FirebaseService.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A6F0313B37DDE4FAFD493264961BA7D /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		0E062B3B314D8F92FB59148A1C473DBA /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
 		28F537CD16BEA8A0F2445AF3C630D854 /* NetworkSeperatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeperatable.swift; sourceTree = "<group>"; };
 		2CB209DD3204102B650D21793AFFFC88 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 		8C5D6EC549D2BD013DE8B86A9AE846F4 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CBA08F543787DD077B77246BBAB8D56 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		A94260D256F2DFF1FA0A92FAE548880B /* ServerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAuth.swift; sourceTree = "<group>"; };
 		AF4687F8BE8A371BED4DAC3812E5D779 /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
 		B22419B86CABB56E0D1EA11DC29ABBF5 /* Dispatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
@@ -70,11 +73,11 @@
 		BDF40FA6299448F3CF2E98E99DED75F2 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		C64591D27BDF3FF8DDA2D440705892AE /* MockDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataTask.swift; sourceTree = "<group>"; };
 		C88CC50462283DA04A71591F842125B1 /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
-		C92DE6962205E44F00B183FE /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		D2066CF1F1F20F363BF4B7C00618BE98 /* URLResponse+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+.swift"; sourceTree = "<group>"; };
 		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D91C7849BCDDBE088CD140F2BFBB7805 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeBravUnitTests.swift; sourceTree = "<group>"; };
+		E483191689A983A91EBF9897724AA583 /* NetworkDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDependencyContainer.swift; sourceTree = "<group>"; };
 		EFFBC89F244EF920CCACC3B3CBBC9018 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -225,6 +228,15 @@
 			path = APIService;
 			sourceTree = "<group>";
 		};
+		80E655FEA28D86A161505362D68D5885 /* NetworkFactories */ = {
+			isa = PBXGroup;
+			children = (
+				E483191689A983A91EBF9897724AA583 /* NetworkDependencyContainer.swift */,
+				0E062B3B314D8F92FB59148A1C473DBA /* NetworkFactory.swift */,
+			);
+			path = NetworkFactories;
+			sourceTree = "<group>";
+		};
 		CDF544D943249E38CD05CEF55CD79DD9 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +244,7 @@
 				3BA11B6213846F8BB313807AA1099975 /* EndPoint */,
 				E58BF8A5359B2B189A74A5D89AE41487 /* Error */,
 				F49B57BD87D8173BAD41200031B07642 /* Extensions */,
+				80E655FEA28D86A161505362D68D5885 /* NetworkFactories */,
 				4FB49271056E4486A3040856A77CEFEB /* NetworkModels */,
 				962617AE65585D1417BF7A1E38E47F35 /* ResponseParser */,
 				385A98B322A4B2B0C2A99764C08FB6C1 /* ServerAuth */,
@@ -245,7 +258,7 @@
 		E58BF8A5359B2B189A74A5D89AE41487 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				C92DE6962205E44F00B183FE /* Error.swift */,
+				A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -361,7 +374,7 @@
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
 				193183B44F7BF93BABED85C19808D00F /* Dispatchable.swift in Sources */,
 				CBB944BB76BBBFCCAA3E70C60F5273EE /* Dispatcher.swift in Sources */,
-				EFC397362B6F678BE5DBAA5B5E9B1B70 /* (null) in Sources */,
+				EFC397362B6F678BE5DBAA5B5E9B1B70 /* Error.swift in Sources */,
 				445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */,
 				1761759E0A784D4019F0F0ADA7165DBE /* FirebaseEndPoint.swift in Sources */,
 				FB32CF937E0EA31F4C44198A455938B1 /* FirebaseService.swift in Sources */,
@@ -369,6 +382,8 @@
 				D9AD3A8FFAA069AEC6C87F2B24E16C48 /* JsonParser.swift in Sources */,
 				DBED72BC5EFBFE8CE7CD4322CF9366BC /* MockDataTask.swift in Sources */,
 				12A3D809A90D22E4565A0AAFEC706B53 /* MockSession.swift in Sources */,
+				C555EECF43C0FF0F08C7062638A37D8E /* NetworkDependencyContainer.swift in Sources */,
+				26B556129939A8E80D5949BC9F7EB8D2 /* NetworkFactory.swift in Sources */,
 				EE3FC266079737BC699DC02C7758C9BF /* NetworkModel.swift in Sources */,
 				93EA24BFD13FD0BDCC87CEE5FE57634D /* NetworkSeparator.swift in Sources */,
 				F4A20BE4EE62965C72D3FBD0E0839EB2 /* NetworkSeperatable.swift in Sources */,
@@ -381,7 +396,6 @@
 				60D1D55217130439BD31D130051FCC38 /* URL+.swift in Sources */,
 				77661E629E877953849B26F0C6AEFF47 /* URLResponse+.swift in Sources */,
 				611E0707E7872CD4F079AF91237CBBCC /* URLSessionProtocol.swift in Sources */,
-				C92DE6972205E44F00B183FE /* Error.swift in Sources */,
 				C6B6B6ADD0313C5C070F3237101ED7C6 /* URLSessionTaskProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

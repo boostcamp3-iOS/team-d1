@@ -17,8 +17,9 @@ struct RequestMaker: RequestMakable {
         guard let url = url else {
             return nil
         }
-        var request = URLRequest(url: url)
         
+        var request = URLRequest(url: url)
+        print(request.url)
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
         }

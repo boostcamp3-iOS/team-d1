@@ -31,21 +31,11 @@ enum FirebaseDatabase: String {
 }
 
 enum FirebaseAuth: String {
-    case signIn
-    case signUp
-    
-    var path: String {
-        switch self {
-        case .signUp:
-            return "/identitytoolkit/v3/relyingparty/"
-        case .signIn:
-            return "/identitytoolkit/v3/relyingparty/"
-        }
-    }
+    case auth
     
     var urlComponents: URLComponents? {
         if var components = URLComponents(string: FirebaseEndPoint.shared.authBaseURL) {
-            components.path = path
+            components.path = "/identitytoolkit/v3/relyingparty"
             components.queryItems = [URLQueryItem(name: "key", value: FirebaseEndPoint.shared.appKey)]
             return components
         } else {
@@ -55,21 +45,11 @@ enum FirebaseAuth: String {
 }
 
 enum FirebaseStorage: String {
-    case upload
-    case getUrl
-    
-    var path: String {
-        switch self {
-        case .upload:
-            return "/v0/b/bravyprototype.appspot.com/o"
-        case .getUrl:
-            return "/v0/b/bravyprototype.appspot.com/o"
-        }
-    }
-    
+    case storage
+
     var urlComponents: URLComponents? {
         if var components = URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) {
-            components.path = path
+            components.path = "/v0/b/bravyprototype.appspot.com/o"
             components.queryItems = [URLQueryItem(name: "alt", value: "media")]
             return components
         } else {

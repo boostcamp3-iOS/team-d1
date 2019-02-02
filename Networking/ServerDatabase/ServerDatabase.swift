@@ -30,6 +30,7 @@ struct ServerDatabase: FirebaseService {
         self.parser = parser
     }
     
+    
     /// GET 메서드를 통해서 파이어베이스 실시간 DB에 접근하여 데이터를 가져옵니다.
     ///
     /// - Parameters:
@@ -42,7 +43,7 @@ struct ServerDatabase: FirebaseService {
                              type: T.Type,
                              queries: [URLQueryItem]? = nil,
                              completion: @escaping (Result<T>, URLResponse?) -> Void) {
-        seperator.read(path: path) { (result, response) in
+        seperator.read(path: "\(path).json") { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error), nil)

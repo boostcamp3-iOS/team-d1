@@ -21,7 +21,7 @@ class ExampleViewController: UIViewController {
         let requestMaker = RequestMaker()
         
         let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: URLSession.shared)
-        let databaseSeperator = NetworkSeparator(worker: databaseDispatcher, requestMaker: requestMaker)
+        let databaseSeperator = NetworkSeparator(dispatcher: databaseDispatcher, requestMaker: requestMaker)
         let serverDatabase = ServerDatabase(seperator: databaseSeperator, parser: parser)
         serverDatabase.read(path: "root/users.json", type: Users.self) { (result, response) in
             switch result {
@@ -36,8 +36,8 @@ class ExampleViewController: UIViewController {
          
          
          */
-        let StorageDispatcher = Dispatcher(baseUrl: FirebaseStorage.upload.urlComponents?.url, session: URLSession.shared)
-        let storageSeperator = NetworkSeparator(worker: StorageDispatcher, requestMaker: requestMaker)
+        let StorageDispatcher = Dispatcher(baseUrl: FirebaseStorage.storage.urlComponents?.url , session: URLSession.shared)
+        let storageSeperator = NetworkSeparator(dispatcher: StorageDispatcher, requestMaker: requestMaker)
         let serverStorage = ServerStorage(seperator: storageSeperator, parser: parser)
         serverStorage.post(image: #imageLiteral(resourceName: "IMG_4B21E85D1553-1"), scale: 0.1, path: "artworks", fileName: "testData") { (result) in
             switch result {
@@ -51,10 +51,24 @@ class ExampleViewController: UIViewController {
 /*
          
          */
-        let authDispatcher = Dispatcher(baseUrl: FirebaseAuth.signIn.urlComponents?.url, session: URLSession.shared)
-        let authSeperator = NetworkSeparator(worker: authDispatcher, requestMaker: requestMaker)
+        let authDispatcher = Dispatcher(baseUrl: FirebaseAuth.auth.urlComponents?.url, session: URLSession.shared)
+        let authSeperator = NetworkSeparator(dispatcher: authDispatcher, requestMaker: requestMaker)
         let serverAuth = ServerAuth(seperator: authSeperator, parser: parser)
         serverAuth.auth(email: "km9151@naver.com", password: "123456", behavior: .signIn) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print(data)
+            }
+        }
+        
+        
+        //factory 를 사용해서 쉽게 초기화 할 수 있습니다.
+        let dependencyContainer = NetworkDependencyContainer()
+        let serverDB = dependencyContainer.buildServerDatabase()
+        serverDB.read(path: "root", type: Users.self) { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
