@@ -17,6 +17,43 @@ class FirebaseEndPoint {
     let appKey = "AIzaSyAYybIIekNduWeVeHIQhcgW9M4TmVuwGn0"
 }
 
+enum FirebaseDatabase: String {
+    case reference
+    
+    var urlComponents: URLComponents? {
+        if let components = URLComponents(string: FirebaseEndPoint.shared.dataBaseBaseURL) {
+            return components
+        } else {
+            return nil
+        }
+
+    }
+}
+
+enum FirebaseAuth: String {
+    case signIn
+    case signUp
+    
+    var path: String {
+        switch self {
+        case .signUp:
+            return "/identitytoolkit/v3/relyingparty/"
+        case .signIn:
+            return "/identitytoolkit/v3/relyingparty/"
+        }
+    }
+    
+    var urlComponents: URLComponents? {
+        if var components = URLComponents(string: FirebaseEndPoint.shared.authBaseURL) {
+            components.path = path
+            components.queryItems = [URLQueryItem(name: "key", value: FirebaseEndPoint.shared.appKey)]
+            return components
+        } else {
+            return nil
+        }
+    }
+}
+
 enum FirebaseStorage: String {
     case upload
     case getUrl
@@ -34,30 +71,6 @@ enum FirebaseStorage: String {
         if var components = URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) {
             components.path = path
             components.queryItems = [URLQueryItem(name: "alt", value: "media")]
-            return components
-        } else {
-            return nil
-        }
-    }
-}
-
-enum FirebaseAuth: String {
-    case signUp
-    case signIn
-    
-    var path: String {
-        switch self {
-        case .signUp:
-            return "/identitytoolkit/v3/relyingparty/signupNewUser"
-        case .signIn:
-            return "/identitytoolkit/v3/relyingparty/verifyPassword"
-        }
-    }
-    
-    var urlComponents: URLComponents? {
-        if var components = URLComponents(string: FirebaseEndPoint.shared.authBaseURL) {
-            components.path = path
-            components.queryItems = [URLQueryItem(name: "key", value: FirebaseEndPoint.shared.appKey)]
             return components
         } else {
             return nil

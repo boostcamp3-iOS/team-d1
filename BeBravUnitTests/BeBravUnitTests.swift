@@ -36,13 +36,20 @@ class BeBravUnitTests: XCTestCase {
     
     func testFetchData() {
         let session = MockSession()
-        let client = ServerDataBase(session: session)
-        client.fetchData(by: Users.self) { (result, res) in
+        let parser = JsonParser()
+        let requestMaker = RequestMaker()
+        
+        let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: session)
+        let databaseSeperator = NetworkSeparator(worker: databaseDispatcher, requestMaker: requestMaker)
+        
+        let client = ServerDatabase(seperator: databaseSeperator, parser: parser)
+        client.read(path: "root/users.json", type: Users.self) { (result, response) in
             switch result {
-            case .failure:
+            case .failure(let error):
+                print(error)
                 return
             case .success(let data):
-                self.resData = data.users
+                print(data)
             }
         }
         let pred = NSPredicate(format: "resData != nil")

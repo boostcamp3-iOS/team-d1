@@ -17,7 +17,6 @@ extension URLResponse {
     
     func isMimeType(type: MimeType) -> Bool {
         guard let mimeType = self.mimeType, mimeType == type.rawValue else {
-            
             return false
         }
         return true

@@ -14,6 +14,10 @@ struct AuthRequestType: Codable {
         let password: String
         let returnSecureToken: Bool
     }
+    enum behavior {
+        case signIn
+        case signUp
+    }
 }
 
 enum MimeType: String {

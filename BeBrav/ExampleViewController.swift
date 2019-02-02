@@ -16,53 +16,53 @@ class ExampleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        var datastorage = ServerStorage(session: URLSession.shared)
-        datastorage.addPath("artworks")
-        datastorage.uploadImage(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, fileName: "catImage2") { (result) in
-            switch result {
-            case .failure:
-                return
-            case .success:
-                print(result)
-            }
-        }
-        
-        var datastorage2 = ServerStorage(session: URLSession.shared)
-        datastorage2.addPath("artworks")
-        datastorage2.fetchDownloadUrl(fileName: "catImage2"){ (result) in
-            switch result {
-            case .failure:
-                return
-            case .success:
-                print(result)
-            }
-        }
-        
 
-        ServerAuth(session: URLSession.shared).signInUser(email: "ki9151@naver.com", password: "123456") { (result) in
-            switch result {
-            case .failure:
-                return
-            case .success(let res):
-                guard let response = res as? HTTPURLResponse else {return}
-                print(response.allHeaderFields)
-                print("success")
-            }
-        }
+        let parser = JsonParser()
+        let requestMaker = RequestMaker()
         
-        var database = ServerDataBase(session: URLSession.shared)
-        database.addPath("root")
-        database.fetchData(by: Users.self) { (result, res) in
+        let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: URLSession.shared)
+        let databaseSeperator = NetworkSeparator(worker: databaseDispatcher, requestMaker: requestMaker)
+        let serverDatabase = ServerDatabase(seperator: databaseSeperator, parser: parser)
+        serverDatabase.read(path: "root/users.json", type: Users.self) { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
                 return
             case .success(let data):
-                print(data.users)
+                print(data)
+            }
+        }
+/*
+         
+         
+         */
+        let StorageDispatcher = Dispatcher(baseUrl: FirebaseStorage.upload.urlComponents?.url, session: URLSession.shared)
+        let storageSeperator = NetworkSeparator(worker: StorageDispatcher, requestMaker: requestMaker)
+        let serverStorage = ServerStorage(seperator: storageSeperator, parser: parser)
+        serverStorage.post(image: #imageLiteral(resourceName: "IMG_4B21E85D1553-1"), scale: 0.1, path: "artworks", fileName: "testData") { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print(data)
+            }
+        }
+/*
+         
+         */
+        let authDispatcher = Dispatcher(baseUrl: FirebaseAuth.signIn.urlComponents?.url, session: URLSession.shared)
+        let authSeperator = NetworkSeparator(worker: authDispatcher, requestMaker: requestMaker)
+        let serverAuth = ServerAuth(seperator: authSeperator, parser: parser)
+        serverAuth.auth(email: "km9151@naver.com", password: "123456", behavior: .signIn) { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print(data)
             }
         }
     }
-   
 }
 
