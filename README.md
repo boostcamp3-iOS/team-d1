@@ -96,9 +96,15 @@ https://github.com/raywenderlich/swift-style-guide
   - 기본적인 UI를 구현한다
   - 데일리 스크럼을 문서화한다
   
+# 로컬 데이터베이스 테이블
 <div align="middle">
   <img width="399" alt="screen shot 2019-02-01 at 10 24 51 am" src="https://user-images.githubusercontent.com/34180216/52178271-a76bef80-280f-11e9-8dbf-e0e010db38c1.png">
  </div>
+ 
+ 
+ 
+ 
+ # 네트워크 JSON 구조의 데이터베이스
  <div align="middle">
 <img width="752" alt="2019-02-03 11 54 46" src="https://user-images.githubusercontent.com/34180216/52178272-ad61d080-280f-11e9-889f-56af0eb5a1b5.png">
   </div>
