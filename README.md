@@ -108,8 +108,11 @@ https://github.com/raywenderlich/swift-style-guide
  <div align="middle">
 <img width="752" alt="2019-02-03 11 54 46" src="https://user-images.githubusercontent.com/34180216/52178272-ad61d080-280f-11e9-889f-56af0eb5a1b5.png">
   </div>
-
- <img width="752" alt="1 30" src="https://user-images.githubusercontent.com/34180216/52178326-5f010180-2810-11e9-9ca1-c8e2fac04f86.png">
-<img width="752" alt="1 31" src="https://user-images.githubusercontent.com/34180216/52178327-5f999800-2810-11e9-9f6f-038bb7ebbb5c.png">
-<img width="752" alt="2 1" src="https://user-images.githubusercontent.com/34180216/52178328-60cac500-2810-11e9-9bfb-bd758ef6accb.png">
+  
+ # 문서화한 데일리 스크럼
+ <div align="middle">
+ <img width="250" alt="1 30" src="https://user-images.githubusercontent.com/34180216/52178326-5f010180-2810-11e9-9ca1-c8e2fac04f86.png">
+<img width="250" alt="1 31" src="https://user-images.githubusercontent.com/34180216/52178327-5f999800-2810-11e9-9f6f-038bb7ebbb5c.png">
+<img width="250" alt="2 1" src="https://user-images.githubusercontent.com/34180216/52178328-60cac500-2810-11e9-9bfb-bd758ef6accb.png">
+ </div>
 
