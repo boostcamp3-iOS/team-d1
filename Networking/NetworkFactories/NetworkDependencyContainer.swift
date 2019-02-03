@@ -39,6 +39,7 @@ extension NetworkDependencyContainer: NetworkFactory {
         return serverStorage
     }
 }
+
 extension NetworkDependencyContainer: NetworkSeperatorFactory {
     func buildNetworStoragekSeperator() -> NetworkSeparator {
         let dispatcher = buildStorageDispatcher()

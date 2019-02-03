@@ -21,10 +21,14 @@ struct NetworkSeparator: NetworkSeperatable {
         self.requestMaker = requestMaker
     }
     
-    func read(path: String, completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+    func read(path: String,
+              completion: @escaping (Result<Data>, URLResponse?) -> Void) {
         var url = dispatcher.baseUrl
         url?.appendPathComponent(path)
-        guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(), method: .get, headers: [:], body: nil) else {
+        guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
+                                                     method: .get,
+                                                     headers: [:],
+                                                     body: nil) else {
             completion(.failure(APIError.requestFailed), nil)
             return
         }
@@ -39,7 +43,9 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     // POST, PUT, PATCH 만 유효함
-    func write(path: String, data: Data, method: HTTPMethod,
+    func write(path: String,
+               data: Data,
+               method: HTTPMethod,
                headers: [String: String],
                completion: @escaping (Result<Data>, URLResponse?) -> Void) {
         var url = dispatcher.baseUrl

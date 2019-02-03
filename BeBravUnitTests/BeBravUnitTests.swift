@@ -34,13 +34,13 @@ class BeBravUnitTests: XCTestCase {
         }
     }
     
-    func testFetchData() {
+    func testGetData() {
         let session = MockSession()
         let parser = JsonParser()
         let requestMaker = RequestMaker()
         
         let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: session)
-        let databaseSeperator = NetworkSeparator(worker: databaseDispatcher, requestMaker: requestMaker)
+        let databaseSeperator = NetworkSeparator(dispatcher: databaseDispatcher, requestMaker: requestMaker)
         
         let client = ServerDatabase(seperator: databaseSeperator, parser: parser)
         client.read(path: "root/users.json", type: Users.self) { (result, response) in

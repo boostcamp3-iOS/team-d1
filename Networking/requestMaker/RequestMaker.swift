@@ -13,7 +13,10 @@ import Foundation
 
 struct RequestMaker: RequestMakable {
     
-    func makeRequest(url: URL?, method: HTTPMethod = .get, headers: [String: String] = [:], body: Data? = nil) -> URLRequest? {
+    func makeRequest(url: URL?,
+                     method: HTTPMethod = .get,
+                     headers: [String: String] = [:],
+                     body: Data? = nil) -> URLRequest? {
         guard let url = url else {
             return nil
         }
@@ -25,7 +28,6 @@ struct RequestMaker: RequestMakable {
         }
         
         request.httpBody = body
-        
         switch method {
         case .get:
             return request

@@ -50,11 +50,16 @@ struct ServerStorage: FirebaseService {
             case .failure(let error):
                 completion(.failure(error))
             case .success:
-                guard let extractedData = self.parser.parseResponse(response: response, mimeType: MimeType.jpeg) as? HTTPURLResponse else {
+                guard let extractedData =
+                    self.parser.parseResponse(response: response,
+                                              mimeType: MimeType.jpeg)
+                        as? HTTPURLResponse else {
                     completion(.failure(APIError.responseUnsuccessful))
                     return
                 }
-                guard let token = extractedData.allHeaderFields["x-goog-meta-firebasestoragedownloadtokens"] as? String else {
+                guard let token =
+                    extractedData.allHeaderFields["x-goog-meta-firebasestoragedownloadtokens"]
+                        as? String else {
                     completion(.failure(APIError.invalidData))
                     return
                 }
@@ -79,12 +84,17 @@ struct ServerStorage: FirebaseService {
     ///   - completion: 메서드가 리턴된 이후에 호출되는 클로저입니다.
     /// - Returns: Result enum 타입으로 성공시 토큰이 포함된 주소값을 감싸서 연관 값으로 전달합니다.
     ///            실패시 Error를 전달합니다.
-    func post(image: UIImage, scale: CGFloat, path: String, fileName: String, _ completion: @escaping (Result<URLResponse?>)->()) {
+    func post(image: UIImage, scale: CGFloat, path: String, fileName: String,
+              completion: @escaping (Result<URLResponse?>)->()) {
         guard let scaledImage = image.jpegData(compressionQuality: scale) else {
             completion(.failure(APIError.invalidData))
             return
         }
-        seperator.write(path: "\(path)%2F\(fileName)", data: scaledImage, method: .post, headers: ["Content-Type": MimeType.jpeg.rawValue]) { (result, response) in
+        seperator.write(path: "\(path)%2F\(fileName)",
+                        data: scaledImage,
+                        method: .post,
+                        headers: ["Content-Type": MimeType.jpeg.rawValue])
+        { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))

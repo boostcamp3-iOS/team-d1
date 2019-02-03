@@ -33,46 +33,76 @@ struct ServerAuth: FirebaseService {
     /// POST 메서드를 통해서 파이어베이스 Authentication에 접근합니다.
     ///
     /// - Parameters:
-    ///   - email: 유저가 가입 / 로그인 할 이메일 주소입니다.
-    ///   - password: 유저가 가입 / 로그인 할 비밀번호 입니다.
-    ///   - behavior: 가입 / 로그인을 분기하는 enum 타입 인자를 전달합니다.
+    ///   - email: 유저가 가입할 이메일 주소입니다.
+    ///   - password: 유저가 가입할 비밀번호 입니다.
     ///   - completion: 메서드가 리턴된 이후에 호출되는 클로저입니다.
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다.
-    ///            로그인의 경우 성공시에 유저의 UID 정보를 UserDefault에 저장합니다.
-    func auth(email: String, password: String, behavior: AuthRequestType.behavior, _ completion: @escaping (Result<URLResponse?>) -> ()) {
-        let userData = AuthRequestType.SignUpAndSignIn(email: email, password: password, returnSecureToken: true)
-        guard let data = parser.extractEncodedJsonData(data: userData) else {
+    func signUp(email: String,
+                password: String,
+                completion: @escaping (Result<URLResponse?>) -> ()) {
+        let userData = AuthRequestType.SignUpAndSignIn(email: email,
+                                                       password: password,
+                                                       returnSecureToken: true)
+        guard let extractedData = parser.extractEncodedJsonData(data: userData)
+            else {
             completion(.failure(APIError.jsonParsingFailure))
             return
-        }
-        switch behavior {
-        case .signUp:
-            seperator.write(path: "signupNewUser", data: data, method: .post, headers: ["Content-Type": MimeType.json.rawValue]) { (result, response) in
-                switch result {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success:
-                    completion(.success(response))
-                }
             }
-        case .signIn:
-            seperator.write(path: "verifyPassword", data: data, method: .post, headers: ["Content-Type": MimeType.json.rawValue]) { (result, response) in
-                switch result {
-                case .failure(let error):
+        seperator.write(path: "signupNewUser",
+                        data: extractedData,
+                        method: .post,
+                        headers: ["Content-Type": MimeType.json.rawValue])
+        { (result, response) in
+            switch result {
+            case .failure(let error):
                 completion(.failure(error))
-                case .success(let data):
-                    guard let extractedData =
-                        self.parser.extractDecodedJsonData(decodeType: AuthResponseType.self,
-                                                           binaryData: data)
-                        else {
-                            completion(.failure(APIError.jsonParsingFailure))
-                            return
-                        }
-                    UserDefaults.standard.set(extractedData.email, forKey: "userId")
-                    UserDefaults.standard.set(extractedData.localId, forKey: "uid")
-                    completion(.success(response))
+            case .success:
+                completion(.success(response))
+            }
+        }
+    }
+    
+    
+    /// POST 메서드를 통해서 파이어베이스 Authentication에 접근합니다.
+    ///
+    /// - Parameters:
+    ///   - email: 유저가 로그인 할 이메일 주소입니다.
+    ///   - password: 유저가 로그인 할 비밀번호 입니다.
+    ///   - completion: 메서드가 리턴된 이후에 호출되는 클로저입니다.
+    /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다.
+    ///            로그인의 경우 성공시에 유저의 UID 정보를 UserDefault에 저장합니다
+    func signIn(email: String,
+                password: String,
+                completion: @escaping (Result<URLResponse?>) -> ()) {
+        let userData = AuthRequestType.SignUpAndSignIn(email: email,
+                                                       password: password,
+                                                       returnSecureToken: true)
+        guard let extractedData = parser.extractEncodedJsonData(data: userData)
+            else {
+                completion(.failure(APIError.jsonParsingFailure))
+                return
+            }
+        seperator.write(path: "verifyPassword",
+                        data: extractedData,
+                        method: .post,
+                        headers: ["Content-Type": MimeType.json.rawValue])
+        { (result, response) in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let data):
+                guard let extractedData =
+                    self.parser.extractDecodedJsonData(decodeType: AuthResponseType.self,
+                                                       binaryData: data)
+                    else {
+                        completion(.failure(APIError.jsonParsingFailure))
+                        return
                 }
+                UserDefaults.standard.set(extractedData.email, forKey: "userId")
+                UserDefaults.standard.set(extractedData.localId, forKey: "uid")
+                completion(.success(response))
             }
         }
     }
 }
+

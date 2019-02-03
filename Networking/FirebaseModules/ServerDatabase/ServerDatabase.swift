@@ -82,7 +82,10 @@ struct ServerDatabase: FirebaseService {
                 completion(.failure(APIError.jsonParsingFailure))
                 return
         }
-        seperator.write(path: path, data: extractedData, method: method, headers: [:]) { (result, response) in
+        seperator.write(path: path,
+                        data: extractedData,
+                        method: method,
+                        headers: [:]) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))

@@ -23,13 +23,13 @@ class ExampleViewController: UIViewController {
         let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: URLSession.shared)
         let databaseSeperator = NetworkSeparator(dispatcher: databaseDispatcher, requestMaker: requestMaker)
         let serverDatabase = ServerDatabase(seperator: databaseSeperator, parser: parser)
-        serverDatabase.read(path: "root/users.json", type: Users.self) { (result, response) in
+        serverDatabase.read(path: "root", type: Users.self) { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
                 return
             case .success(let data):
-                print(data)
+                print(data.users)
             }
         }
 /*
@@ -54,7 +54,7 @@ class ExampleViewController: UIViewController {
         let authDispatcher = Dispatcher(baseUrl: FirebaseAuth.auth.urlComponents?.url, session: URLSession.shared)
         let authSeperator = NetworkSeparator(dispatcher: authDispatcher, requestMaker: requestMaker)
         let serverAuth = ServerAuth(seperator: authSeperator, parser: parser)
-        serverAuth.auth(email: "km9151@naver.com", password: "123456", behavior: .signIn) { (result) in
+        serverAuth.signIn(email: "km9151@naver.com", password: "123456") { (result) in
             switch result {
             case .failure(let error):
                 print(error)

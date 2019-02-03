@@ -48,7 +48,8 @@ enum FirebaseStorage: String {
     case storage
 
     var urlComponents: URLComponents? {
-        if var components = URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) {
+        if var components =
+            URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) {
             components.path = "/v0/b/bravyprototype.appspot.com/o"
             components.queryItems = [URLQueryItem(name: "alt", value: "media")]
             return components
