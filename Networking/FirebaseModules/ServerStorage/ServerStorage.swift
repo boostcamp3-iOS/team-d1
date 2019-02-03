@@ -23,7 +23,7 @@
 
 import UIKit
 
-struct ServerStorage: FirebaseService {
+struct ServerStorage: FirebaseStorageService {
     
     let parser: ResponseParser
     let seperator: NetworkSeperatable
@@ -85,9 +85,9 @@ struct ServerStorage: FirebaseService {
     /// - Returns: Result enum 타입으로 성공시 토큰이 포함된 주소값을 감싸서 연관 값으로 전달합니다.
     ///            실패시 Error를 전달합니다.
     func post(image: UIImage, scale: CGFloat, path: String, fileName: String,
-              completion: @escaping (Result<URLResponse?>)->()) {
+              completion: @escaping (Result<Data>, URLResponse?)->()) {
         guard let scaledImage = image.jpegData(compressionQuality: scale) else {
-            completion(.failure(APIError.invalidData))
+            completion(.failure(APIError.invalidData), nil)
             return
         }
         seperator.write(path: "\(path)%2F\(fileName)",
@@ -97,9 +97,9 @@ struct ServerStorage: FirebaseService {
         { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error))
-            case .success:
-                completion(.success(response))
+                completion(.failure(error), nil)
+            case .success(let data):
+                completion(.success(data), response)
             }
         }
     }

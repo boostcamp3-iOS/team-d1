@@ -36,9 +36,11 @@ struct JsonParser: ResponseParser {
     
     func extractEncodedJsonData<T: Encodable>(data: T) -> Data? {
         do {
+            print(data)
             let encodeData = try JSONEncoder().encode(data)
             return encodeData
-        } catch(_) {
+        } catch(let error) {
+            print(error.localizedDescription)
             return nil
         }
     }

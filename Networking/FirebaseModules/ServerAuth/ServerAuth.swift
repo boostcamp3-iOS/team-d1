@@ -6,7 +6,7 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
-/// ServerAuth는 initializer로 ResponseParser, NetworkSeparator를 받아서
+/// ServerAuthManager는 initializer로 ResponseParser, NetworkSeparator를 받아서
 /// 파이어베이스와 Authentication 관련 통신을 하는 구조체입니다. POST HTTPMethod를
 /// 이용하여 로그인 / 회원가입을 담당합니다.
 ///
@@ -20,7 +20,7 @@
 
 import Foundation
 
-struct ServerAuth: FirebaseService {
+struct ServerAuth: FirebaseAuthService {
     
     let parser: ResponseParser
     let seperator: NetworkSeperatable
@@ -56,7 +56,16 @@ struct ServerAuth: FirebaseService {
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-            case .success:
+            case .success(let data):
+                guard let extractedData =
+                    self.parser.extractDecodedJsonData(decodeType: FirebaseAuthResponseType.self,
+                                                   binaryData: data)
+                else {
+                    completion(.failure(APIError.jsonParsingFailure))
+                    return
+                }
+                UserDefaults.standard.set(extractedData.email, forKey: "userId")
+                UserDefaults.standard.set(extractedData.localId, forKey: "uid")
                 completion(.success(response))
             }
         }
@@ -92,7 +101,7 @@ struct ServerAuth: FirebaseService {
                 completion(.failure(error))
             case .success(let data):
                 guard let extractedData =
-                    self.parser.extractDecodedJsonData(decodeType: AuthResponseType.self,
+                    self.parser.extractDecodedJsonData(decodeType: FirebaseAuthResponseType.self,
                                                        binaryData: data)
                     else {
                         completion(.failure(APIError.jsonParsingFailure))
