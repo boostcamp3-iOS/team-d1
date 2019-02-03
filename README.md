@@ -89,4 +89,10 @@ https://github.com/raywenderlich/swift-style-guide
 
 
 # 2주차
+
+  - 네트워크 레이어를 구성한다
+  - 내부 로컬 데이터베이스 구성한다(sqlite)
+  - 작품 데이터 구분 알고리즘 구현한다
+  - 기본적인 UI를 구현한다
+  - 데일리 스크럼을 문서화한다
  
