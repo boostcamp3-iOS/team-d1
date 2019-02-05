@@ -43,7 +43,7 @@ struct ServerDatabase: FirebaseDatabaseService {
                              type: T.Type,
                              queries: [URLQueryItem]? = nil,
                              completion: @escaping (Result<T>, URLResponse?) -> Void) {
-        seperator.read(path: "\(path).json") { (result, response) in
+        seperator.read(path: "\(path).json", queries: queries) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error), nil)

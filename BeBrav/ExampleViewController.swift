@@ -24,7 +24,7 @@ class ExampleViewController: UIViewController {
         let parser = JsonParser()
         let requestMaker = RequestMaker()
         
-        let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: URLSession.shared)
+        let databaseDispatcher = Dispatcher(components: FirebaseDatabase.reference.urlComponents, session: URLSession.shared)
         let databaseSeperator = NetworkSeparator(dispatcher: databaseDispatcher, requestMaker: requestMaker)
         let serverDatabase = ServerDatabase(seperator: databaseSeperator, parser: parser)
         //let userData = UserData(uid: uid, nickName: "12", email: email, userProfileUrl: "123", artworks: "hhhh")
@@ -41,7 +41,7 @@ class ExampleViewController: UIViewController {
          
          
          */
-        let StorageDispatcher = Dispatcher(baseUrl: FirebaseStorage.storage.urlComponents?.url , session: URLSession.shared)
+        let StorageDispatcher = Dispatcher(components: FirebaseStorage.storage.urlComponents , session: URLSession.shared)
         let storageSeperator = NetworkSeparator(dispatcher: StorageDispatcher, requestMaker: requestMaker)
         let serverStorage = ServerStorage(seperator: storageSeperator, parser: parser)
      /*   serverStorage.post(image: #imageLiteral(resourceName: "IMG_4B21E85D1553-1"), scale: 0.1, path: "artworks", fileName: "testData") { (result, res)  in
@@ -57,7 +57,7 @@ class ExampleViewController: UIViewController {
          
          */
         
-        let authDispatcher = Dispatcher(baseUrl: FirebaseAuth.auth.urlComponents?.url, session: URLSession.shared)
+        let authDispatcher = Dispatcher(components: FirebaseAuth.auth.urlComponents, session: URLSession.shared)
         let authSeperator = NetworkSeparator(dispatcher: authDispatcher, requestMaker: requestMaker)
         let serverAuth = ServerAuth(seperator: authSeperator, parser: parser)
         /*serverAuth.signIn(email: "km9151@naver.com", password: "123456") { (result) in
@@ -133,8 +133,8 @@ class ExampleViewController: UIViewController {
                 }
             }
         }
-        */
-        
+ */
+        /*
         
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
@@ -158,8 +158,8 @@ class ExampleViewController: UIViewController {
                 }
             }
         }
-        
-        
+        */
+    
         
         
         

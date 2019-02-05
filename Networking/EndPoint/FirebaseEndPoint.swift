@@ -21,7 +21,7 @@ enum FirebaseDatabase: String {
     case reference
     
     var urlComponents: URLComponents? {
-        if let components = URLComponents(string: FirebaseEndPoint.shared.dataBaseBaseURL) {
+        if var components = URLComponents(string: FirebaseEndPoint.shared.dataBaseBaseURL) {
             return components
         } else {
             return nil

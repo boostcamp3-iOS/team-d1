@@ -136,7 +136,17 @@ struct ServerManager {
                             case .failure(let error):
                                 completion(.failure(error))
                             case .success:
-                                completion(.success(response))
+                                self.databaseManager.write(path: "root/artworks/\(artworkUid)",
+                                    data: artwork,
+                                    method: .put) { (result, response) in
+                                        switch result {
+                                        case .failure(let error):
+                                            completion(.failure(error))
+                                        case .success:
+                                            completion(.success(response))
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -144,5 +154,4 @@ struct ServerManager {
             }
         }
     }
-}
 

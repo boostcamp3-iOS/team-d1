@@ -13,7 +13,7 @@ import UIKit
 
 protocol Dispatchable {
     
-    var baseUrl: URL?{ get }
+    var components: URLComponents?{ get }
     
     var session: URLSessionProtocol { get }
     

@@ -17,15 +17,16 @@ struct RequestMaker: RequestMakable {
                      method: HTTPMethod = .get,
                      headers: [String: String] = [:],
                      body: Data? = nil) -> URLRequest? {
+        
         guard let url = url else {
             return nil
         }
         
         var request = URLRequest(url: url)
+        print(request.url)
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
         }
-        
         request.httpBody = body
         
         switch method {
