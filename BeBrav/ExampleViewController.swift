@@ -17,7 +17,7 @@ struct Users : Decodable {
 }*/
 
 class ExampleViewController: UIViewController {
-    
+    let imageAssets = [#imageLiteral(resourceName: "fallow-deer-3729821_1920"),#imageLiteral(resourceName: "angel-2403401_1920"),#imageLiteral(resourceName: "helicopter-2966569_1920"),#imageLiteral(resourceName: "art-1478831_1920"),#imageLiteral(resourceName: "lion-3372720_1920"),#imageLiteral(resourceName: "north"),#imageLiteral(resourceName: "photographer"),#imageLiteral(resourceName: "meteora-3717220_1920"),#imageLiteral(resourceName: "cat2"),#imageLiteral(resourceName: "evolution-3801547_1920"),#imageLiteral(resourceName: "hamburg"),#imageLiteral(resourceName: "rail-3678287_1920"),#imageLiteral(resourceName: "cat1"),#imageLiteral(resourceName: "sandburg-1639994_1920"),#imageLiteral(resourceName: "christmas-motif-3834860_1920"),#imageLiteral(resourceName: "harley-davidson-3794909_1920"),#imageLiteral(resourceName: "IMG_4B21E85D1553-2"),#imageLiteral(resourceName: "painting-1974614_1920"),#imageLiteral(resourceName: "landscape-3779159_1920"),#imageLiteral(resourceName: "smoke-69124_1280"),#imageLiteral(resourceName: "open-fire-3879031_1920"),#imageLiteral(resourceName: "rays"),#imageLiteral(resourceName: "mosaic-200864_1920")]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -106,25 +106,63 @@ class ExampleViewController: UIViewController {
                                     databaseManager: serverDB,
                                     storageManager: serverST,
                                     uid: "123")
-        manager.signIn(email: "t3@naver.com", password: "123456") { (result) in
-            switch result {
-                case .failure(let error):
-                    print(error)
-                    return
-                case .success(let data):
-                    print(data)
-            }
-        }
-        
-        manager.uploadArtwork(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, path: "artworks", fileName: "upTest3") { (result) in
+        /* 초기 설정시 동기화를 위해서 사용 */
+ /*
+        manager.signUp(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
             case .failure(let error):
                 print(error)
                 return
             case .success(let data):
-                print(data)
+                manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .success(let data):
+                        manager.uploadArtwork(image: #imageLiteral(resourceName: "cat1"), scale: 0.1, path: "artworks", fileName: "TestImage1") { (result) in
+                            switch result {
+                            case .failure(let error):
+                                print(error)
+                                return
+                            case .success(let data):
+                                print(data)
+                            }
+                        }
+                    }
+                }
             }
         }
+        */
+        
+        
+        manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print("success")
+                for i in 0...100 {
+                    let image = self.imageAssets[Int.random(in: 0..<23)]
+                    manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test\(i)") { (result) in
+                        switch result {
+                        case .failure(let error):
+                            print(error)
+                            return
+                        case .success(let data):
+                            print("success")
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        
+        
+        
+        
     }
 }
 

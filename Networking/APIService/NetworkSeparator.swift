@@ -62,7 +62,6 @@ struct NetworkSeparator: NetworkSeperatable {
             case .failure(let error):
                 completion(.failure(error), nil)
             case .success(let data):
-                print(String(bytes: data, encoding: String.Encoding.utf8))
                 completion(.success(data), response)
             }
         }

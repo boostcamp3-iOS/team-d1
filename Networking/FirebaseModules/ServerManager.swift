@@ -38,6 +38,7 @@ struct ServerManager {
                         completion(.failure(APIError.invalidData))
                         return
                 }
+                print("signUp UID \(uid)")
                 let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
                 let user = [uid: userData]
                 self.databaseManager.write(path: "root/users", data: user, method: .patch){ (result, response) in
@@ -60,6 +61,12 @@ struct ServerManager {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let response):
+                guard let email = UserDefaults.standard.string(forKey: "userId"),
+                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                        completion(.failure(APIError.invalidData))
+                        return
+                }
+                print("signIp UID \(uid)")
                 completion(.success(response))
             }
         }
@@ -70,45 +77,72 @@ struct ServerManager {
                        path: String,
                        fileName: String,
                        completion: @escaping (Result<URLResponse?>)->()) {
+        var artworkUid = ""
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            completion(.failure(APIError.invalidData))
+            return
+        }
+        print("upload UID \(uid)")
+        let protoArtwork = Artwork(artworkUid: artworkUid,
+                                        artworkUrl: "",
+                                        title: "",
+                                        timestamp: [:],
+                                        views: 0)
         
-       /* func get(path: String,
-                 fileName: String,
-                 completion: @escaping (Result<String>) -> Void)*/
-        
-        storageManager.post(image: image,
-                            scale: scale,
-                            path: path,
-                            fileName: fileName) { (result, response) in
+        self.databaseManager.write(path: "root/users/\(uid)/artworks",
+                                   data: protoArtwork,
+                                   method: .post) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let data):
-                guard let extractedData =
-                    self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseStorageResponseDataType.self, binaryData: data) else {
-                    completion(.failure(APIError.jsonParsingFailure))
-                        return
-                }
-                guard let urlString = response?.url?.absoluteString else {
-                    completion(.failure(APIError.invalidData))
+                guard let uidData =
+                    self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseUidData.self,
+                                                                      binaryData: data)
+                    else {
+                        completion(.failure(APIError.jsonParsingFailure))
                     return
                 }
-                guard let uid = UserDefaults.standard.string(forKey: "uid") else {
-                    completion(.failure(APIError.invalidData))
-                    return
-                }
-                let downloadUrl = "\(urlString)&token=\(extractedData.downloadTokens)"
-                let artwork = Artwork.init(artworkUid: "", artworkUrl: downloadUrl, title: "firstPiece", timestamp: [".sv": "timestamp"], views: Int.random(in: 0...10000))
-                let artworkData = [uid: artwork]
-                self.databaseManager.write(path: "root/users/\(uid)/artworks", data: artwork, method: .post) { (result, response) in
+                artworkUid = uidData.name
+                self.storageManager.post(image: image,
+                                    scale: scale,
+                                    path: path,
+                                    fileName: artworkUid) { (result, response) in
                     switch result {
                     case .failure(let error):
                         completion(.failure(error))
-                    case .success:
-                        completion(.success(response))
+                    case .success(let data):
+                        guard let extractedData =
+                            self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseStorageResponseDataType.self,
+                                                                              binaryData: data)
+                            else {
+                                completion(.failure(APIError.jsonParsingFailure))
+                                return
+                        }
+                        guard let urlString = response?.url?.absoluteString else {
+                            completion(.failure(APIError.invalidData))
+                            return
+                        }
+                        let downloadUrl = "\(urlString)&token=\(extractedData.downloadTokens)"
+                        let artwork = Artwork(artworkUid: artworkUid,
+                                              artworkUrl: downloadUrl,
+                                              title: fileName,
+                                              timestamp: [".sv": "timestamp"],
+                                              views: Int.random(in: 0...10000))
+                        self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
+                                                   data: artwork,
+                                                   method: .put) { (result, response) in
+                            switch result {
+                            case .failure(let error):
+                                completion(.failure(error))
+                            case .success:
+                                completion(.success(response))
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
     }
 }
 

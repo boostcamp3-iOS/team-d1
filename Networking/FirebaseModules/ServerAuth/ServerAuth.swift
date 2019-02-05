@@ -64,6 +64,8 @@ struct ServerAuth: FirebaseAuthService {
                     completion(.failure(APIError.jsonParsingFailure))
                     return
                 }
+                UserDefaults.standard.removeObject(forKey: "userId")
+                UserDefaults.standard.removeObject(forKey: "uid")
                 UserDefaults.standard.set(extractedData.email, forKey: "userId")
                 UserDefaults.standard.set(extractedData.localId, forKey: "uid")
                 completion(.success(response))
@@ -107,6 +109,8 @@ struct ServerAuth: FirebaseAuthService {
                         completion(.failure(APIError.jsonParsingFailure))
                         return
                 }
+                UserDefaults.standard.removeObject(forKey: "userId")
+                UserDefaults.standard.removeObject(forKey: "uid")
                 UserDefaults.standard.set(extractedData.email, forKey: "userId")
                 UserDefaults.standard.set(extractedData.localId, forKey: "uid")
                 completion(.success(response))
