@@ -12,13 +12,14 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
-    var footerView: ArtworkAddFooterReusableView?
-    var isLoading = false
-    var artworkBucket: [ArtworkTest] = []
-    let container = NetworkDependencyContainer()
-    lazy var serverDB = container.buildServerDatabase()
-    var recentTimestamp: Double!
-    var currentKey: String!
+    private var footerView: ArtworkAddFooterReusableView?
+    private var isLoading = false
+    private var artworkBucket: [ArtworkTest] = []
+    private lazy var serverDB = container.buildServerDatabase()
+    private var recentTimestamp: Double!
+    private var currentKey: String!
+    
+    private let container = NetworkDependencyContainer()
     private let identifierFooter = "footer"
     private let spacing: CGFloat = 0
     private let insets: CGFloat = 2
@@ -29,10 +30,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         setCollectionView()
         fetchPage()
-        //var offset = OffsetPointer(numberOfItems: 18, numberOfColumns: 3, freezeIndex: 1, position: <#Position#>)
-        
-        
-        // print(generateOffSets(numberOfColumns: 3, numberOfItems: 18, indexOfMostViewedItem: 0))
     }
     
     func setCollectionView() {
@@ -71,29 +68,33 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return .init()
         }
         guard let url = URL(string: artworkBucket[indexPath.row].artworkUrl) else {
-            fatalError()
+            assertionFailure("failed to make cell")
+            return .init()
         }
-      //print(url)
+        
         NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
-            if let error = error {
-             fatalError()
+            if error != nil {
+                assertionFailure("failed to make cell")
+                return
             }
             DispatchQueue.main.async {
                  cell.artworkImageView.image = image
             }
-           
         }
         return cell
     }
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-     let insetsNumber = columns + 1
-     let width = (collectionView.frame.width - (insetsNumber * spacing) - (insetsNumber * insets)) / columns
-     return CGSize(width: width, height: width)
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+         let insetsNumber = columns + 1
+         let width = (collectionView.frame.width - (insetsNumber * spacing) - (insetsNumber * insets)) / columns
+         return CGSize(width: width, height: width)
      }
-     
+    
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
      return UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
      }
@@ -131,7 +132,7 @@ extension PaginatingCollectionViewController {
                 }
             }
         } else {
-           
+           //xcode버그 있어서 그래로 넣으면 가끔 빌드가 안됩니다.
             let string = "\"timestamp\""
                 let queries = [URLQueryItem(name: "orderBy", value: string),
                                URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
@@ -164,18 +165,11 @@ extension PaginatingCollectionViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        
             return .init(width: view.frame.width, height: 60)
-        
-        
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        print("called")
-        
         switch kind {
-        
         case UICollectionView.elementKindSectionFooter:
-
                 guard let footerView =
                     collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                     withReuseIdentifier: identifierFooter,
@@ -184,7 +178,6 @@ extension PaginatingCollectionViewController {
                 }
                 self.footerView = footerView
                 return footerView
-            
         default:
         return UICollectionReusableView.init()
         }
@@ -208,18 +201,15 @@ extension PaginatingCollectionViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         let totalScroll: CGFloat  = scrollView.contentSize.height - scrollView.bounds.size.height;
-            
-            /* This is the current offset. */
         let offset: CGFloat = scrollView.contentOffset.y;
-            
-            /* This is the percentage of the current offset / bottom offset. */
-        let percentage: CGFloat = offset / totalScroll;
+        let ratio: CGFloat = offset / totalScroll;
         guard let footer = footerView else { return }
-            /* When percentage = 0, the alpha should be 1 so we should flip the percentage. */
-            footer.addArtworkButton.alpha = (1 - percentage * 5);
+            footer.addArtworkButton.alpha = (1 - ratio * 5);
         footer.layoutIfNeeded()
         }
 }
+
+// 테스트용 모델
 struct ArtworkTest: Decodable {
     let artworkUid: String
     let artworkUrl: String
@@ -227,9 +217,6 @@ struct ArtworkTest: Decodable {
     let title: String
     let views: Int
 }
-
-
-
 
 struct Artworks: Decodable {
     let artworks: [String: ArtworkTest]

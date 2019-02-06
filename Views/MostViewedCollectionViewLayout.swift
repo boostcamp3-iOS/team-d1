@@ -17,7 +17,6 @@ import UIKit
 
 class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     
-    //weak var delegate: MostViewedArtworkDelegate!
     private var numberOfColumns = 3
     private var cellPadding: CGFloat = 2
     private var cache = [UICollectionViewLayoutAttributes]()
@@ -40,6 +39,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         guard cache.isEmpty == true, let collectionView = collectionView else {
             return
         }
+        //이 부분을 담당하는 다른 알고리즘이 있습니다.
         let leftTest = [0,3,6,9,12]
         let random = leftTest[Int.random(in: 0...4)]
         var offsetPointer = OffsetPointer(numberOfColums: 3, position: .left)

@@ -10,14 +10,14 @@ import UIKit
 
 struct OffsetPointer {
     
-    var referenceColumn: [Int]
-    var xOffsetBucket: [[Int]] = []
-    var yOffsetBucket: [[Int]] = []
-    var isNextRowFreezed = false
-    var xOffsetPointer = 0
-    var yOffsetPointer = 0
-    let position: Position
-    let block = -1
+    private var referenceColumn: [Int]
+    private var xOffsetBucket: [[Int]] = []
+    private var yOffsetBucket: [[Int]] = []
+    private var isNextRowFreezed = false
+    private var xOffsetPointer = 0
+    private var yOffsetPointer = 0
+    private let position: Position
+    private let block = -1
     
     init(numberOfColums: Int, position: Position) {
         

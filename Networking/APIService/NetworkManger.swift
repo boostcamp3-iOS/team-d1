@@ -6,8 +6,10 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
-import UIKit
 
+//이미지 테스트를 위해서 가져온 클래스 입니다.
+//TODO: 추후에 프로토콜 적용하여 구성
+import UIKit
 
 class NetworkManager {
     
@@ -22,8 +24,7 @@ class NetworkManager {
         self.session.configuration.timeoutIntervalForRequest = 10.0
         self.session.configuration.timeoutIntervalForResource = 15.0
     }
-    /* NetworkManger 클래스를 싱글턴으로 이용할 수 있도록 타입 프로퍼티로 선언한 뒤 인스턴스를 할당해 주었습니다. 또한 이니셜라이저를 private 접근 지정자로 설정하여 클래스 외부에서는 인스턴스화 할 수 없도록 처리했습니다.
-     */
+
     static let shared = NetworkManager()
     private let cache: NSCache = NSCache<NSString, UIImage>()
     

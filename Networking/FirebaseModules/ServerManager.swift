@@ -13,7 +13,7 @@ struct ServerManager {
     let authManager: FirebaseAuthService
     let databaseManager: FirebaseDatabaseService
     let storageManager: FirebaseStorageService
-    let uid: String
+    let uid: String //TODO: uid를 넣어서 사용할 수 있도록 구현
     
     init(authManager: FirebaseAuthService,
          databaseManager: FirebaseDatabaseService,
@@ -38,7 +38,6 @@ struct ServerManager {
                         completion(.failure(APIError.invalidData))
                         return
                 }
-                print("signUp UID \(uid)")
                 let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
                 let user = [uid: userData]
                 self.databaseManager.write(path: "root/users", data: user, method: .patch){ (result, response) in
@@ -66,7 +65,6 @@ struct ServerManager {
                         completion(.failure(APIError.invalidData))
                         return
                 }
-                print("signIp UID \(uid)")
                 completion(.success(response))
             }
         }
@@ -82,7 +80,6 @@ struct ServerManager {
             completion(.failure(APIError.invalidData))
             return
         }
-        print("upload UID \(uid)")
         let protoArtwork = Artwork(artworkUid: artworkUid,
                                         artworkUrl: "",
                                         title: "",
