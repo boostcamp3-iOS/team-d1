@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//TODO: early exit 추후 적용
 class FirebaseEndPoint {
     private init(){}
     static let shared = FirebaseEndPoint()
@@ -26,7 +26,6 @@ enum FirebaseDatabase: String {
         } else {
             return nil
         }
-
     }
 }
 
