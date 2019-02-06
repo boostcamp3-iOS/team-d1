@@ -67,12 +67,12 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Create table at SQLite Database
-    public func createTable(name: String, column: [String]) -> Bool {
-        let column = column.reduce("") { $0 + ", \(idFieldName(name: $1)) TEXT"}
+    public func createTable(name: String, columns: [String]) -> Bool {
+        let column = columns.reduce("") { $0 + ", \(idFieldName(name: $1)) TEXT"}
         let columnString = column.count > 0 ? column : ""
         let query = """
         CREATE TABLE IF NOT EXISTS \(name)(
-            primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
+        primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
         );
         """
         
@@ -102,12 +102,12 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Insert rows at table in SQLite Database
-    public func insert(table: String, column: [String], rows: [Int: String])
+    public func insert(table: String, columns: [String], rows: [Int: String])
         throws -> Bool
     {
         var field = ""
         var fieldCount = ""
-        column.enumerated().forEach{ (i, v) in
+        columns.enumerated().forEach{ (i, v) in
             field += "\(i != 0 ? ", " : "")\(v)"
             fieldCount += "\(i != 0 ? ", ?" : "?")"
         }
@@ -119,7 +119,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             sqlite3_finalize(statement)
         }
         
-        for i in column.indices {
+        for i in columns.indices {
             let index = Int32(i + 1)
             let text: NSString
                 = rows[i]?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -146,7 +146,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     
     // MARK:- Fetch column at table in SQLite Database
     public func fetch(table: String, column: String? = nil,
-                      idField: String = "", idRow: String = "")
+                      idField: String = "", idRow: String = "", condition: Condition?)
         throws -> [[String: String]]
     {
         let id = idFieldName(name: idField)
@@ -156,7 +156,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         var values: [[String: String]] = []
         
         if !id.isEmpty && !idRow.isEmpty {
-            query.append(" WHERE \(id) = \(idRow)")
+            let condition = condition?.rawValue ?? "="
+            query.append(" WHERE \(id) \(condition) \(idRow)")
         }
         
         query.append(";")
@@ -235,6 +236,12 @@ fileprivate enum Type {
     case fetch
     case update
     case delete
+}
+
+public enum Condition: String {
+    case greater = ">"
+    case less = "<"
+    case equal = "="
 }
 
 // MARK:- SQLite Error

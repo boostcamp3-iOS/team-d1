@@ -9,12 +9,12 @@
 import Foundation
 
 protocol SQLiteDatabaseProtocol {
-    func createTable(name: String, column: [String]) -> Bool
+    func createTable(name: String, columns: [String]) -> Bool
     
-    func insert(table: String, column: [String], rows: [Int: String])
+    func insert(table: String, columns: [String], rows: [Int: String])
         throws -> Bool
     
-    func fetch(table: String, column: String?,idField: String, idRow: String)
+    func fetch(table: String, column: String?, idField: String, idRow: String, condition: Condition?)
         throws -> [[String: String]]
     
     func update(table: String, column: String, row: String,
