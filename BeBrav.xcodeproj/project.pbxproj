@@ -22,6 +22,7 @@
 		671DD616ED33028D0057BA2412CDC168 /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEFD8D1FE4E56525830BB8227DC6D83 /* ServerStorage.swift */; };
 		77661E629E877953849B26F0C6AEFF47 /* URLResponse+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2066CF1F1F20F363BF4B7C00618BE98 /* URLResponse+.swift */; };
 		7C8136055A88A34843E3B6908195FFA4 /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66408842EA6397A1AD6007797C087F4D /* ServerDatabase.swift */; };
+		88AC0E47220ABFD50009E153 /* ImageSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AC0E46220ABFD50009E153 /* ImageSort.swift */; };
 		93EA24BFD13FD0BDCC87CEE5FE57634D /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5D6EC549D2BD013DE8B86A9AE846F4 /* NetworkSeparator.swift */; };
 		A1D9FC159C7C4D21BF48DF513EE8159A /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654D78A5904B780504A9B5B97DECBEDE /* RequestMakable.swift */; };
 		B3E804D49883A8489854115DA9F90B21 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 998C19B338FBB4958D94697BBE90DD4C /* URLSessionProtocol.swift */; };
@@ -63,6 +64,7 @@
 		77B1F73C1A143A8E19F2B7D3A4FC5A85 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
 		84EDAAF6DDC2D0B551908254305AB112 /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		87126F506BAC443AEDE8C8134B7997A8 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
+		88AC0E46220ABFD50009E153 /* ImageSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSort.swift; sourceTree = "<group>"; };
 		8C5D6EC549D2BD013DE8B86A9AE846F4 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		998C19B338FBB4958D94697BBE90DD4C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
 				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
+				88AC0E46220ABFD50009E153 /* ImageSort.swift */,
 			);
 			path = BeBrav;
 			sourceTree = "<group>";
@@ -136,12 +139,15 @@
 			path = BeBravUnitTests;
 			sourceTree = "<group>";
 		};
-		F2739ADAF5D2B40444D3E7D8B34A3F51 /* ServerAuth */ = {
+		317CAFABE906B92BAF66FE8359949AD4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E1A6A11AD20B51D7520BEF301D6021CB /* ServerAuth.swift */,
+				6899391F1ED48BCBA6B8FD961F821DCA /* MockDataTask.swift */,
+				536D34D0A463044B31F6D927B668AB33 /* MockSession.swift */,
+				998C19B338FBB4958D94697BBE90DD4C /* URLSessionProtocol.swift */,
+				DDDC7E8C9F80EBC74174FE4E71DE1ACF /* URLSessionTaskProtocol.swift */,
 			);
-			path = ServerAuth;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		3BA11B6213846F8BB313807AA1099975 /* EndPoint */ = {
@@ -153,14 +159,6 @@
 			path = EndPoint;
 			sourceTree = "<group>";
 		};
-		623D1C02FA01F2265985FC0C20FA9947 /* ServerStorage */ = {
-			isa = PBXGroup;
-			children = (
-				DBEFD8D1FE4E56525830BB8227DC6D83 /* ServerStorage.swift */,
-			);
-			path = ServerStorage;
-			sourceTree = "<group>";
-		};
 		4FB49271056E4486A3040856A77CEFEB /* NetworkModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,12 +167,31 @@
 			path = NetworkModels;
 			sourceTree = "<group>";
 		};
+		623D1C02FA01F2265985FC0C20FA9947 /* ServerStorage */ = {
+			isa = PBXGroup;
+			children = (
+				DBEFD8D1FE4E56525830BB8227DC6D83 /* ServerStorage.swift */,
+			);
+			path = ServerStorage;
+			sourceTree = "<group>";
+		};
 		6BBE624A6A80D9B127E815785CF23566 /* ServerDatabase */ = {
 			isa = PBXGroup;
 			children = (
 				66408842EA6397A1AD6007797C087F4D /* ServerDatabase.swift */,
 			);
 			path = ServerDatabase;
+			sourceTree = "<group>";
+		};
+		7B5751096601899D2F92D8720D4B5CD3 /* FirebaseModules */ = {
+			isa = PBXGroup;
+			children = (
+				F2739ADAF5D2B40444D3E7D8B34A3F51 /* ServerAuth */,
+				6BBE624A6A80D9B127E815785CF23566 /* ServerDatabase */,
+				623D1C02FA01F2265985FC0C20FA9947 /* ServerStorage */,
+				4AC34D33751302A3746DE33B69BFA7C3 /* FirebaseService.swift */,
+			);
+			path = FirebaseModules;
 			sourceTree = "<group>";
 		};
 		80E655FEA28D86A161505362D68D5885 /* NetworkFactories */ = {
@@ -203,17 +220,6 @@
 			path = ResponseParser;
 			sourceTree = "<group>";
 		};
-		317CAFABE906B92BAF66FE8359949AD4 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				6899391F1ED48BCBA6B8FD961F821DCA /* MockDataTask.swift */,
-				536D34D0A463044B31F6D927B668AB33 /* MockSession.swift */,
-				998C19B338FBB4958D94697BBE90DD4C /* URLSessionProtocol.swift */,
-				DDDC7E8C9F80EBC74174FE4E71DE1ACF /* URLSessionTaskProtocol.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
 			isa = PBXGroup;
 			children = (
@@ -233,17 +239,6 @@
 				28F537CD16BEA8A0F2445AF3C630D854 /* NetworkSeperatable.swift */,
 			);
 			path = APIService;
-			sourceTree = "<group>";
-		};
-		7B5751096601899D2F92D8720D4B5CD3 /* FirebaseModules */ = {
-			isa = PBXGroup;
-			children = (
-				F2739ADAF5D2B40444D3E7D8B34A3F51 /* ServerAuth */,
-				6BBE624A6A80D9B127E815785CF23566 /* ServerDatabase */,
-				623D1C02FA01F2265985FC0C20FA9947 /* ServerStorage */,
-				4AC34D33751302A3746DE33B69BFA7C3 /* FirebaseService.swift */,
-			);
-			path = FirebaseModules;
 			sourceTree = "<group>";
 		};
 		CDF544D943249E38CD05CEF55CD79DD9 /* Networking */ = {
@@ -269,6 +264,14 @@
 				A9335B821F9481D430A4CA08BAFAAC79 /* Error.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		F2739ADAF5D2B40444D3E7D8B34A3F51 /* ServerAuth */ = {
+			isa = PBXGroup;
+			children = (
+				E1A6A11AD20B51D7520BEF301D6021CB /* ServerAuth.swift */,
+			);
+			path = ServerAuth;
 			sourceTree = "<group>";
 		};
 		F49B57BD87D8173BAD41200031B07642 /* Extensions */ = {
@@ -391,6 +394,7 @@
 				470F3DFED7046210196C2397BC4795A4 /* MockDataTask.swift in Sources */,
 				170E900761989D47E5BB3B725C200221 /* MockSession.swift in Sources */,
 				C555EECF43C0FF0F08C7062638A37D8E /* NetworkDependencyContainer.swift in Sources */,
+				88AC0E47220ABFD50009E153 /* ImageSort.swift in Sources */,
 				26B556129939A8E80D5949BC9F7EB8D2 /* NetworkFactory.swift in Sources */,
 				EE3FC266079737BC699DC02C7758C9BF /* NetworkModel.swift in Sources */,
 				93EA24BFD13FD0BDCC87CEE5FE57634D /* NetworkSeparator.swift in Sources */,
