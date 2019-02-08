@@ -12,7 +12,9 @@
 		055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */; };
 		05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */; };
 		069818446D85D5562268D9ADD51CD0F7 /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */; };
+		0D44DAED0AB06F9C73ED7CC7BC2BD3F6 /* MemoryCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */; };
 		0F84CF224AE2C00E11B9C702535D19F6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */; };
+		1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */; };
 		16F933495301CA4C742E35FB84B783E9 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */; };
 		1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */; };
 		26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D19FF454B0882F38C1C746C9DC9EFD8 /* Artwork.swift */; };
@@ -23,6 +25,7 @@
 		5FDAA1790C83B8B32FC46DF8456AD4C0 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */; };
 		6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */; };
 		61054ABA347AD577B1CDB45D85F04BE5 /* MainAutoResizingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD35884C27E31E20D35E71DBE18AD33 /* MainAutoResizingCollectionViewController.swift */; };
+		614957350BED2152A9402A31A03F7341 /* Imageloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711520801981A1FD8A023020C86485A6 /* Imageloader.swift */; };
 		629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64957DB209F471C5FBA74824EE5FA038 /* Dispatcher.swift */; };
 		63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */; };
 		78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */; };
@@ -37,7 +40,6 @@
 		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
 		B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */; };
-		BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */; };
 		BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */; };
 		C6A810DE2CEB3673D8F1910EC7DF982D /* SQLiteDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */; };
 		C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */; };
@@ -66,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtAddViewController.swift; path = BeBrav/ViewControllers/ArtAddViewController/ArtAddViewController.swift; sourceTree = SOURCE_ROOT; };
 		0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkDelegate.swift; sourceTree = "<group>"; };
 		4FD35884C27E31E20D35E71DBE18AD33 /* MainAutoResizingCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewController.swift; sourceTree = "<group>"; };
+		559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
 		55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAuth.swift; sourceTree = "<group>"; };
 		63799CA19F8EA6CCDE340FAFEECD7D85 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 		647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataTask.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
+		711520801981A1FD8A023020C86485A6 /* Imageloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imageloader.swift; sourceTree = "<group>"; };
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
@@ -100,7 +105,6 @@
 		A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		AACEF7FEA9E405E751D3D56D76B39136 /* RequestMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
-		ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtAddViewController.swift; path = BeBrav/ViewControllers/ArtAddViewController/ArtAddViewController.swift; sourceTree = SOURCE_ROOT; };
 		BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
 		C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
@@ -133,10 +137,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */ = {
+		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
 			isa = PBXGroup;
 			children = (
-				ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */,
+				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
 			);
 			path = ArtAddViewController;
 			sourceTree = "<group>";
@@ -235,7 +239,7 @@
 		673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */,
+				0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */,
 				A775A85D082E6750303108B5526BDE3D /* ArtistViewController */,
 				6895BEC6042EB2B9A18B3199C3603662 /* MainViewController */,
 				F06F741F5A0C818F37E5B23BF03A7272 /* PhotoViewController */,
@@ -281,6 +285,8 @@
 			isa = PBXGroup;
 			children = (
 				E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */,
+				9711F691C4071C92B22926E54693432C /* MemoryCacheProtocol */,
+				711520801981A1FD8A023020C86485A6 /* Imageloader.swift */,
 			);
 			path = ImageCache;
 			sourceTree = "<group>";
@@ -302,6 +308,14 @@
 				C1C31A18D81E835184BEE797A8FC9627 /* Stub */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		9711F691C4071C92B22926E54693432C /* MemoryCacheProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */,
+			);
+			path = MemoryCacheProtocol;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -543,7 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
-				BB0A2C1F1A026DE2BBD67B608BB5146E /* ArtAddViewController.swift in Sources */,
+				1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */,
 				422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */,
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,
 				26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */,
@@ -558,9 +572,11 @@
 				055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */,
 				9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */,
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
+				614957350BED2152A9402A31A03F7341 /* Imageloader.swift in Sources */,
 				BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */,
 				EA78EFD9160665DA85CAF97258DAC0C8 /* MainAutoResizingCollectionViewCell.swift in Sources */,
 				61054ABA347AD577B1CDB45D85F04BE5 /* MainAutoResizingCollectionViewController.swift in Sources */,
+				0D44DAED0AB06F9C73ED7CC7BC2BD3F6 /* MemoryCacheProtocol.swift in Sources */,
 				C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */,
 				CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */,
 				F21FE802E189D867C530B644ECC7CE02 /* MostViewedArtworkDelegate.swift in Sources */,

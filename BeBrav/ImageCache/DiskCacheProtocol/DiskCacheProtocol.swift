@@ -10,6 +10,7 @@ import UIKit
 
 protocol DiskCacheProtocol {
     var fileManager: FileManagerProtocol { get }
+    var folderName: String { get }
     
     func saveImage(image: UIImage, name: String) throws -> String
     func deleteFile(name: String) throws -> String
@@ -17,12 +18,6 @@ protocol DiskCacheProtocol {
 }
 
 extension DiskCacheProtocol {
-    
-    // MARK:- Properties
-    private var folderName: String {
-        return "ArtworkImage"
-    }
-    
     // MARK:- PostImage folder URL in App
     private func folderURL(name: String) throws -> URL {
         guard let documentDirectory = fileManager.urls(for: .documentDirectory,

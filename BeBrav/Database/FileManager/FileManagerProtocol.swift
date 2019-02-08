@@ -30,3 +30,7 @@ protocol FileManagerProtocol {
     
     func removeItem(atPath path: String) throws
 }
+
+extension FileManager: FileManagerProtocol {
+    
+}
