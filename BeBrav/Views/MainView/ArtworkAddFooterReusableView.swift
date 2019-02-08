@@ -21,6 +21,13 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
         return button
     }()
 
+    let indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.style = .gray
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         UISetUp()
@@ -34,10 +41,16 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     private func UISetUp() {
         self.backgroundColor = .clear
         addSubview(addArtworkButton)
+        addSubview(indicator)
         
         addArtworkButton.widthAnchor.constraint(equalToConstant: 140).isActive = true
         addArtworkButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         addArtworkButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         addArtworkButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        
+        indicator.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        indicator.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        indicator.topAnchor.constraint(equalTo: addArtworkButton.bottomAnchor, constant: 8).isActive = true
+        indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
 }

@@ -60,6 +60,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     ///FooterView로 추가한 버튼을 관리하는 ReusableView 입니다.
     private var footerView: ArtworkAddFooterReusableView?
+    ///
+    private var latestContentsOffset: CGFloat = 0
+    
     
     ///네트워킹을 전체적으로 관리하는 인스탠스를 생성하기 위한 컨테이너 입니다.
     private let container = NetworkDependencyContainer()
@@ -109,6 +112,11 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     @objc func filterButtonDidTap() {
         //TODO: filtering 기능 추가
+    }
+    
+    @objc func addArtworkButtonDidTap() {
+        //TODO: addArtwork 기능 추가
+        print("addButton tapped")
     }
     
     // MARK: UICollectionViewDataSource
@@ -247,6 +255,10 @@ extension PaginatingCollectionViewController {
                             }
                         }
                         self.isLoading = false
+                        DispatchQueue.main.async {
+                            self.footerView?.indicator.stopAnimating()
+                        }
+                        
                     }
                 }
             }
@@ -269,6 +281,9 @@ extension PaginatingCollectionViewController {
                                                                     for: indexPath) as? ArtworkAddFooterReusableView else {
                     return UICollectionReusableView.init()
                 }
+                footerView.addArtworkButton.addTarget(self,
+                                                      action: #selector(addArtworkButtonDidTap),
+                                                      for: .touchUpInside)
                 self.footerView = footerView
                 return footerView
         default:
@@ -283,21 +298,31 @@ extension PaginatingCollectionViewController {
         
         if maxOffset - currentOffset <= 40{
             if !isLoading {
+                footerView?.indicator.startAnimating()
                 fetchPage()
             }
         }
     }
     
-    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        latestContentsOffset = scrollView.contentOffset.y;
+    }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-        let totalScroll: CGFloat  = max(scrollView.contentSize.height - scrollView.bounds.size.height,0);
-        let offset: CGFloat = scrollView.contentOffset.y;
-        let ratio: CGFloat = offset / totalScroll;
-        guard let footer = footerView else { return }
-            footer.addArtworkButton.alpha = max((1 - ratio * 5),0);
+        if scrollView.contentOffset.y > 0 {
+            if self.latestContentsOffset > scrollView.contentOffset.y {
+                UIView.animate(withDuration: 1) {
+                self.footerView?.addArtworkButton.alpha = 1
+                }
+            }
+            else if (self.latestContentsOffset < scrollView.contentOffset.y) {
+                UIView.animate(withDuration: 1) {
+                    self.footerView?.addArtworkButton.alpha = 0
+                }
+            }
         }
+    }
+        
 }
 
 
