@@ -15,19 +15,15 @@ struct AuthorModel {
     public let name: String
     public let introduction: String
     
-    public var post: [Artwork] = []
-    
-    // MARK:- Change Properties Method
-    mutating func addPost(post: Artwork) {
-        self.post.append(post)
-    }
-    
     // MARK:- Initialize
-    init(id: String, name: String, introduction: String, post: [Artwork] = []) {
+    init(id: String,
+         name: String,
+         introduction: String
+        )
+    {
         self.authorId = id
         self.name = name
         self.introduction = introduction
-        self.post = post
     }
 }
 
@@ -39,16 +35,25 @@ extension AuthorModel: DataModelProtocol {
         return authorId
     }
     public var isEmpty: Bool {
-        return id.isEmpty || name.isEmpty
+        return id.isEmpty
+            || name.isEmpty
     }
     public var variableList: [String: String] {
-        return ["name": name, "introduction": introduction]
+        return ["name": name,
+                "introduction": introduction
+        ]
     }
     public var columns: [String] {
-        return ["id", "name", "introduction"]
+        return ["id",
+                "name",
+                "introduction"
+        ]
     }
-    public var rows: [Int : String] {
-        return [0: authorId, 1: name, 2: introduction]
+    public var rows: [Int: String] {
+        return [0: authorId,
+                1: name,
+                2: introduction
+        ]
     }
     
     // MARK;- Initialize

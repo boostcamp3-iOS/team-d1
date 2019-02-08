@@ -30,7 +30,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Open SQLite Wrapper
-    static func Open(fileManager: FileManagerProtocol) throws -> SQLiteDatabase {
+    static func Open(fileManager: FileManagerProtocol) throws -> SQLiteDatabase
+    {
         var database: OpaquePointer?
         
         let fileURL = try? fileManager.url(for: .documentDirectory,
@@ -60,7 +61,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         guard sqlite3_prepare_v2(database, query, -1, &statement, nil)
             == SQLITE_OK else
         {
-            throw SQLiteError.prepare(message: errorMessage + " from \(#function) in \(#line)")
+            throw SQLiteError.prepare(message:
+                errorMessage + " from \(#function) in \(#line)"
+            )
         }
         
         return statement

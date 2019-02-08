@@ -19,7 +19,14 @@ struct ArtworkModel {
     public let imageURL: String
     
     // MARK:- Initialize
-    init(id: String, authorId: String, title: String, date: Double, imageURL: String, views: Int = 0) {
+    init(id: String,
+         authorId: String,
+         title: String,
+         date: Double,
+         imageURL: String,
+         views: Int = 0
+        )
+    {
         self.artworkId = id
         self.authorId = authorId
         self.title = title
@@ -47,10 +54,21 @@ extension ArtworkModel: DataModelProtocol {
         return ["views": "\(views)"]
     }
     var columns: [String] {
-        return ["id", "authorId", "title", "date", "views", "imageURL"]
+        return ["id",
+                "authorId",
+                "title",
+                "date",
+                "views",
+                "imageURL"
+        ]
     }
     var rows: [Int : String] {
-        return [0: artworkId, 1: authorId, 2: title, 3: "\(date)", 4: "\(views)", 5: imageURL]
+        return [0: artworkId,
+                1: authorId,
+                2: title,
+                3: "\(date)",
+                4: "\(views)",
+                5: imageURL]
     }
     
     // MARK:- Initialize

@@ -41,8 +41,9 @@ class DatabaseHandler {
         let tableName = type.tableName
         
         guard let database = database else {
-            throw DatabaseError.openDatabase(
-                message: "No Database at DatabaseHandler")
+            throw DatabaseError.openDatabase(message:
+                "No Database at DatabaseHandler"
+            )
         }
         
         return database.createTable(name: tableName, columns: model.columns)
@@ -54,12 +55,14 @@ class DatabaseHandler {
         let table = type.tableName
         
         guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(
-                message: "Failure access to \(table) Table")
+            throw DatabaseError.accessTable(message:
+                "Failure access to \(table) Table"
+            )
         }
         
         let list = try database?.fetch(table: table, column: idField,
-                                       idField: idField, idRow: "\(data.id)", condition: nil)
+                                       idField: idField, idRow: "\(data.id)",
+                                       condition: nil)
         
         return list != []
     }
@@ -106,23 +109,28 @@ class DatabaseHandler {
     
     // MARK:- Fetch Data from SQLite Database
     private func fetchData(type: DataType,
-                           idField: String, idRow: String, condition: Condition = .equal) throws
-        -> [DataModelProtocol]
+                           idField: String, idRow: String,
+                           condition: Condition = .equal)
+        throws -> [DataModelProtocol]
     {
         let table = type.tableName
         
         guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(
-                message: "Failure access to \(idRow) at \(type)")
+            throw DatabaseError.accessTable(message:
+                "Failure access to \(idRow) at \(type)"
+            )
         }
         
         guard let dataArray = try self.database?.fetch(table: table,
                                                        column: nil,
                                                        idField: idField,
                                                        idRow: idRow,
-                                                       condition: condition) else
+                                                       condition: condition)
+            else
         {
-            throw DatabaseError.fetch(message: "Failure fetch \(idRow) as \(table)")
+            throw DatabaseError.fetch(message:
+                "Failure fetch \(idRow) as \(table)"
+            )
         }
         
         return dataToModel(type: type, data: dataArray).filter { !$0.isEmpty }
@@ -189,7 +197,9 @@ class DatabaseHandler {
                                                 columns: data.columns,
                                                 rows: data.rows) ?? false else
                 {
-                    completion(false, DatabaseError.save(message: "Failure save \(data)"))
+                    completion(false, DatabaseError.save(message:
+                        "Failure save \(data)")
+                    )
                     return
                 }
                 
@@ -212,8 +222,9 @@ class DatabaseHandler {
             
             do {
                 guard try self.accessEnabled(data: data) else {
-                    completion(false, DatabaseError.accessData(
-                        message: "Failure access to \(data)"))
+                    completion(false, DatabaseError.accessData(message:
+                        "Failure access to \(data)")
+                    )
                     return
                 }
                 
@@ -263,8 +274,9 @@ class DatabaseHandler {
                                                             idRow: idRow) as? [ArtworkModel]
                     else
                 {
-                    completion(nil, DatabaseError.fetch(
-                        message: "Failure Trensfer DataModelArray to ArtworkModel"))
+                    completion(nil, DatabaseError.fetch(message:
+                        "Failure Trensfer DataModelArray to ArtworkModel")
+                    )
                     return
                 }
                 

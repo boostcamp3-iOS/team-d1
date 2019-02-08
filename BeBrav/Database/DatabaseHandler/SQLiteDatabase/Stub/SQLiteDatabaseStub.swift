@@ -20,7 +20,9 @@ class SQLiteDatabaseStub: SQLiteDatabaseProtocol {
         return true
     }
     
-    func fetch(table: String, column: String? = nil, idField: String, idRow: String, condition: Condition? = nil)
+    func fetch(table: String, column: String? = nil,
+               idField: String, idRow: String, condition: Condition? = nil
+        )
         throws -> [[String : String]]
     {
         return []
