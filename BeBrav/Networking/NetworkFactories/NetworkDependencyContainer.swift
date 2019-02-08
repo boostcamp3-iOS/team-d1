@@ -69,17 +69,17 @@ extension NetworkDependencyContainer: NetworkSeperatorFactory {
 extension NetworkDependencyContainer: DispatcherFactory {
     
     func buildDatabaseDispatcher() -> Dispatcher {
-        return Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url,
+        return Dispatcher(components: FirebaseDatabase.reference.urlComponents,
                           session: URLSession.shared)
     }
     
     func buildAuthDispatcher() -> Dispatcher {
-            return Dispatcher(baseUrl: FirebaseAuth.auth.urlComponents?.url,
+            return Dispatcher(components: FirebaseAuth.auth.urlComponents,
                               session: URLSession.shared)
     }
     
     func buildStorageDispatcher() -> Dispatcher {
-            return Dispatcher(baseUrl: FirebaseStorage.storage.urlComponents?.url,
+            return Dispatcher(components: FirebaseStorage.storage.urlComponents,
                               session: URLSession.shared)
     }
 }

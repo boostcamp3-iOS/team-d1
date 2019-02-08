@@ -1,14 +1,14 @@
 //
-//  MainAutoResizingCollectionViewCell.swift
+//  PaginatingCell.swift
 //  BeBrav
 //
-//  Created by bumslap on 28/01/2019.
+//  Created by bumslap on 05/02/2019.
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
 import UIKit
 
-class MainAutoResizingCollectionViewCell: UICollectionViewCell {
+class PaginatingCell: UICollectionViewCell {
     
     // MARK: UI
     let artworkImageView: UIImageView = {
@@ -36,5 +36,11 @@ class MainAutoResizingCollectionViewCell: UICollectionViewCell {
         artworkImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         artworkImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
     }
-   
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        artworkImageView.image = nil
+        
+    }
+    
 }
