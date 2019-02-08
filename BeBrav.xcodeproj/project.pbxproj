@@ -12,7 +12,6 @@
 		055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */; };
 		05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */; };
 		069818446D85D5562268D9ADD51CD0F7 /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */; };
-		0D44DAED0AB06F9C73ED7CC7BC2BD3F6 /* MemoryCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */; };
 		0F84CF224AE2C00E11B9C702535D19F6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */; };
 		1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */; };
 		16F933495301CA4C742E35FB84B783E9 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */; };
@@ -25,19 +24,20 @@
 		5FDAA1790C83B8B32FC46DF8456AD4C0 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */; };
 		6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */; };
 		61054ABA347AD577B1CDB45D85F04BE5 /* MainAutoResizingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD35884C27E31E20D35E71DBE18AD33 /* MainAutoResizingCollectionViewController.swift */; };
-		614957350BED2152A9402A31A03F7341 /* Imageloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711520801981A1FD8A023020C86485A6 /* Imageloader.swift */; };
 		629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64957DB209F471C5FBA74824EE5FA038 /* Dispatcher.swift */; };
 		63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */; };
+		688174793DE4B21A48D04893A6A3B34C /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14150B1AD007F27ADEC60F734E55D195 /* ImageLoader.swift */; };
 		78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */; };
 		7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */; };
 		7F9ABC3DEE881648D6E3100E2A463EE7 /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */; };
 		7FE7D462F19A9C039E2EE04CAA0A9EFF /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */; };
+		83164302F0934DAEDE9504AAC2C44DB3 /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE82F14C2F566838B47B9B024286C4D /* DiskCacheProtocol.swift */; };
+		8954782941C56FB83B1302AAD7706924 /* MemoryCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B6018195164C0C0A65E9257C81F21 /* MemoryCacheProtocol.swift */; };
 		8CE7E1588ABA6187F67007948F01786C /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACEF7FEA9E405E751D3D56D76B39136 /* RequestMakable.swift */; };
 		97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
 		A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */; };
-		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
 		B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */; };
 		BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */; };
@@ -73,18 +73,18 @@
 		0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		0FE82F14C2F566838B47B9B024286C4D /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerProtocol.swift; sourceTree = "<group>"; };
+		14150B1AD007F27ADEC60F734E55D195 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoResizingCollecionViewModel.swift; sourceTree = "<group>"; };
 		23EF2EC595B253068238A8C0BF112319 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
 		246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
 		2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseProtocol.swift; sourceTree = "<group>"; };
-		2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkDelegate.swift; sourceTree = "<group>"; };
 		4FD35884C27E31E20D35E71DBE18AD33 /* MainAutoResizingCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainAutoResizingCollectionViewController.swift; sourceTree = "<group>"; };
-		559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
 		55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAuth.swift; sourceTree = "<group>"; };
 		63799CA19F8EA6CCDE340FAFEECD7D85 /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 		647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataTask.swift; sourceTree = "<group>"; };
@@ -92,12 +92,12 @@
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
-		711520801981A1FD8A023020C86485A6 /* Imageloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imageloader.swift; sourceTree = "<group>"; };
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		929B6018195164C0C0A65E9257C81F21 /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
 		95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
 		9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
@@ -137,14 +137,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
-			isa = PBXGroup;
-			children = (
-				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
-			);
-			path = ArtAddViewController;
-			sourceTree = "<group>";
-		};
 		08248DCCAAFD3D9D7BF1FEC9774FEAB8 /* ResponseParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				A263903DDDEF88E566FBA33CE7CF9EBB /* Database */,
-				7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */,
+				A3CA7143CE7B3AC3168FC0D2E8275E77 /* ImageLoader */,
 				FF261075A33C23DEDF441571EEB2EC5D /* Models */,
 				E809E96650B6598968E3EB41BE22E29F /* Networking */,
 				673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */,
@@ -168,6 +160,14 @@
 				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
 			);
 			path = BeBrav;
+			sourceTree = "<group>";
+		};
+		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
+			);
+			path = ArtAddViewController;
 			sourceTree = "<group>";
 		};
 		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
@@ -281,14 +281,14 @@
 			path = NetworkFactories;
 			sourceTree = "<group>";
 		};
-		7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */ = {
+		A3CA7143CE7B3AC3168FC0D2E8275E77 /* ImageLoader */ = {
 			isa = PBXGroup;
 			children = (
-				E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */,
-				9711F691C4071C92B22926E54693432C /* MemoryCacheProtocol */,
-				711520801981A1FD8A023020C86485A6 /* Imageloader.swift */,
+				D8B52A59EC31A73CB69A7460DB2FDCEC /* DiskCacheProtocol */,
+				BC1A4AC49789B3A921A3F14A2101B466 /* MemoryCacheProtocol */,
+				14150B1AD007F27ADEC60F734E55D195 /* ImageLoader.swift */,
 			);
-			path = ImageCache;
+			path = ImageLoader;
 			sourceTree = "<group>";
 		};
 		89D1A5D4FA330697F9004C9C92306BDC /* SQLiteDatabase */ = {
@@ -300,6 +300,14 @@
 			path = SQLiteDatabase;
 			sourceTree = "<group>";
 		};
+		BC1A4AC49789B3A921A3F14A2101B466 /* MemoryCacheProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				929B6018195164C0C0A65E9257C81F21 /* MemoryCacheProtocol.swift */,
+			);
+			path = MemoryCacheProtocol;
+			sourceTree = "<group>";
+		};
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,14 +316,6 @@
 				C1C31A18D81E835184BEE797A8FC9627 /* Stub */,
 			);
 			path = Database;
-			sourceTree = "<group>";
-		};
-		9711F691C4071C92B22926E54693432C /* MemoryCacheProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				559F60858EA91A03227909162F1BF8B4 /* MemoryCacheProtocol.swift */,
-			);
-			path = MemoryCacheProtocol;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -386,10 +386,10 @@
 			path = requestMaker;
 			sourceTree = "<group>";
 		};
-		E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */ = {
+		D8B52A59EC31A73CB69A7460DB2FDCEC /* DiskCacheProtocol */ = {
 			isa = PBXGroup;
 			children = (
-				2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */,
+				0FE82F14C2F566838B47B9B024286C4D /* DiskCacheProtocol.swift */,
 			);
 			path = DiskCacheProtocol;
 			sourceTree = "<group>";
@@ -562,7 +562,7 @@
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,
 				26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */,
 				A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */,
-				A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */,
+				83164302F0934DAEDE9504AAC2C44DB3 /* DiskCacheProtocol.swift in Sources */,
 				05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */,
 				629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */,
 				63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */,
@@ -572,11 +572,11 @@
 				055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */,
 				9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */,
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
-				614957350BED2152A9402A31A03F7341 /* Imageloader.swift in Sources */,
+				688174793DE4B21A48D04893A6A3B34C /* ImageLoader.swift in Sources */,
 				BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */,
 				EA78EFD9160665DA85CAF97258DAC0C8 /* MainAutoResizingCollectionViewCell.swift in Sources */,
 				61054ABA347AD577B1CDB45D85F04BE5 /* MainAutoResizingCollectionViewController.swift in Sources */,
-				0D44DAED0AB06F9C73ED7CC7BC2BD3F6 /* MemoryCacheProtocol.swift in Sources */,
+				8954782941C56FB83B1302AAD7706924 /* MemoryCacheProtocol.swift in Sources */,
 				C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */,
 				CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */,
 				F21FE802E189D867C530B644ECC7CE02 /* MostViewedArtworkDelegate.swift in Sources */,

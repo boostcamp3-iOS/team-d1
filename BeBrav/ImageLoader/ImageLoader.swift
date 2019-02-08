@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ImageCacheProtocol {
+class ImageLoader {
     let cache = NSCache<AnyObject, AnyObject>()
     let fileManager: FileManagerProtocol
     let folderName = "ArtworkImage"
@@ -22,10 +22,10 @@ class ImageCacheProtocol {
     }
 }
 
-extension ImageCacheProtocol: MemoryCacheProtocol {
+extension ImageLoader: MemoryCacheProtocol {
     
 }
 
-extension ImageCacheProtocol: DiskCacheProtocol {
+extension ImageLoader: DiskCacheProtocol {
 
 }
