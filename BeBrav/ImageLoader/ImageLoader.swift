@@ -6,13 +6,21 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class ImageLoader {
-    let cache = NSCache<AnyObject, AnyObject>()
-    let fileManager: FileManagerProtocol
-    let folderName = "ArtworkImage"
+class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
+
+    static let shared = ImageLoader()
     
+    public let fileManager: FileManagerProtocol
+    public let folderName = "ArtworkImage"
+    
+    public var cache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.countLimit = 10
+        return cache
+    }()
+
     init(fileManager: FileManagerProtocol) {
         self.fileManager = fileManager
     }
@@ -20,12 +28,9 @@ class ImageLoader {
     convenience init() {
         self.init(fileManager: FileManager.default)
     }
-}
-
-extension ImageLoader: MemoryCacheProtocol {
     
-}
-
-extension ImageLoader: DiskCacheProtocol {
-
+    func a() {
+//        try saveImage(image: <#T##UIImage#>, name: <#T##String#>)
+//        try fetchImage(name: <#T##String#>)
+    }
 }
