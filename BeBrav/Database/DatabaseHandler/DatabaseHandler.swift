@@ -26,7 +26,7 @@ class DatabaseHandler {
         let database: SQLiteDatabase?
         
         do {
-            database = try SQLiteDatabase.Open(fileManager: FileManager.default)
+            database = try SQLiteDatabase.Open(name: databaseName, fileManager: FileManager.default)
         } catch let error {
             database = nil
             assertionFailure(error.localizedDescription)
@@ -326,6 +326,8 @@ class DatabaseHandler {
         }
     }
 }
+
+fileprivate let databaseName = "BeBravDatabase"
 
 // MARK:- Database Error
 fileprivate enum DatabaseError: Error {

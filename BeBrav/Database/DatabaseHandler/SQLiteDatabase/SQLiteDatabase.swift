@@ -30,7 +30,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Open SQLite Wrapper
-    static func Open(fileManager: FileManagerProtocol) throws -> SQLiteDatabase
+    static func Open(name: String, fileManager: FileManagerProtocol) throws -> SQLiteDatabase
     {
         var database: OpaquePointer?
         
@@ -38,7 +38,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
                                            in: .userDomainMask,
                                            appropriateFor: nil,
                                            create: false)
-            .appendingPathComponent("BeBravDatabase.sqlite")
+            .appendingPathComponent("\(name).sqlite")
         
         if sqlite3_open(fileURL?.path, &database) != SQLITE_OK {
             defer {
