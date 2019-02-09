@@ -38,7 +38,9 @@ class PaginatingCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+
         super.prepareForReuse()
+        artworkImageView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.862745098, alpha: 1).withAlphaComponent(0.2)
         artworkImageView.image = nil
         
     }

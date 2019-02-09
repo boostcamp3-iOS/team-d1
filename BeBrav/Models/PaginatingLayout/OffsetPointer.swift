@@ -82,7 +82,6 @@
 ///이에따라서 block이 포함된 xOffset그리고 정상적으로 크기가 1씩 증가한 yOffset이 생성되고 이는 zip연산을 통하여 합쳐지는
 ///동시에 filter를 거쳐 block이 포함된 offset은 뛰어넘게되고 마지막으로 나온 x,yOffset이 튜플 형태로 그리고 zippedBucket
 ///에 담겨서 전부 return되게 됩니다.
-///계속 증가하는 형태가 될것입니다. 이를 조합해서 3개의 컬럼을 가진 레이아웃을 구성해보면 아래와 같습니다
 
 
 import UIKit
