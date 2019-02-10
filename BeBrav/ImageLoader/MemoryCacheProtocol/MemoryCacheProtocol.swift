@@ -11,11 +11,20 @@ import UIKit
 protocol MemoryCacheProtocol {
     var cache: NSCache<NSString, UIImage> { get }
     
-    func loadImage()
+    func fetchMemoryCacheImage(url: URL) -> UIImage?
+    func setMemoryCacheImage(key: String, image: UIImage)
 }
 
 extension MemoryCacheProtocol {
-    public func loadImage() {
-        return
+    public func fetchMemoryCacheImage(url: URL) -> UIImage? {
+        let key: NSString = ""
+        
+        return cache.object(forKey: key)
+    }
+    
+    public func setMemoryCacheImage(key: String, image: UIImage) {
+        let key: NSString = ""
+        
+        cache.setObject(image, forKey: key)
     }
 }

@@ -14,6 +14,7 @@ class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
     
     public let fileManager: FileManagerProtocol
     public let folderName = "ArtworkImage"
+    public var diskCacheList: Set<String> = []
     
     public var cache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
@@ -29,8 +30,39 @@ class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
         self.init(fileManager: FileManager.default)
     }
     
-    func a() {
-//        try saveImage(image: <#T##UIImage#>, name: <#T##String#>)
-//        try fetchImage(name: <#T##String#>)
+    
+    
+    func fetchCacheImage(url: URL) -> UIImage? {
+        let key = ""
+
+        if let image = fetchMemoryCacheImage(url: url) {
+            return image
+        }
+        
+        if let image = fetchDiskCacheImage(name: key) {
+            diskCacheList.insert(key)
+            
+            return image
+        }
+
+        return nil
+    }
+    
+    func saveCacheImage(url: URL, image: UIImage) {
+        let key = ""
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.setMemoryCacheImage(key: key, image: image)
+        }
+        
+        DispatchQueue.global(qos: .utility).async {
+            do  {
+               self.diskCacheList.insert(key)
+               try self.saveDiskCacheImage(image: image, name: key)
+            } catch let error {
+                self.diskCacheList.remove(key)
+                print(error.localizedDescription)
+            }
+        }
     }
 }

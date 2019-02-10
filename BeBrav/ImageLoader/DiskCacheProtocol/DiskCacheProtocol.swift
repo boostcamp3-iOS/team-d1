@@ -8,13 +8,15 @@
 
 import UIKit
 
-protocol DiskCacheProtocol {
+protocol DiskCacheProtocol: class {
     var fileManager: FileManagerProtocol { get }
     var folderName: String { get }
+    var diskCacheList: Set<String> { get set }
     
-    func saveImage(image: UIImage, name: String) throws -> String
-    func deleteFile(name: String) throws -> String
-    func fetchImage(name: String) throws -> UIImage
+    func fetchDiskCacheImage(name: String) -> UIImage?
+    func saveDiskCacheImage(image: UIImage, name: String) throws
+    func deleteDiskCacheImage(name: String) throws
+    func deleteAllDiskCacheImage(name: String) throws
 }
 
 extension DiskCacheProtocol {
@@ -43,37 +45,54 @@ extension DiskCacheProtocol {
     }
     
     // MARK:- Save image to PostImage folder
-    public func saveImage(image: UIImage, name: String) throws -> String {
+    public func saveDiskCacheImage(image: UIImage, name: String) throws {
+        guard !diskCacheList.contains(name) else {
+            return
+        }
+        
+        diskCacheList.insert(name)
+        
         let folder = try folderURL(name: folderName)
         let fileName = "\(name).jpg"
-        
         let fileDirectory = folder.appendingPathComponent(fileName)
         let jpgImage = UIImage.jpegData(image)
         
-        if fileManager.fileExists(atPath: fileDirectory.path) {
-            guard try deleteFile(name: name) == name else {
-                throw FileManagerError.delete(message:
-                    "Failure delete file for save new image at \(fileDirectory.path) from \(#function) in \(#line)"
-                )
-            }
-            return try saveImage(image: image, name: name)
-        } else if !fileManager.createFile(atPath: fileDirectory.path,
+        guard fileManager.createFile(atPath: fileDirectory.path,
                                           contents: jpgImage(1.0),
-                                          attributes: nil)
+                                          attributes: nil) else
         {
+            diskCacheList.remove(name)
             throw FileManagerError.save(message:
                 "Failure create image file at \(fileDirectory.path) from \(#function) in \(#line)"
             )
         }
-        
-        return fileName
     }
     
-    // MARK:- Delete image from PostImage folder
-    @discardableResult
-    public func deleteFile(name: String) throws -> String {
-        let folder = try folderURL(name: folderName)
+    // MARK:- Fetch image from PostImage folder
+    public func fetchDiskCacheImage(name: String) -> UIImage? {
+        guard let folder = try? folderURL(name: folderName) else {
+            return nil
+        }
         let fileDirectory = folder.appendingPathComponent(name)
+        
+        guard let image = UIImage(contentsOfFile: fileDirectory.path) else {
+            return nil
+        }
+        
+        diskCacheList.insert(name)
+
+        return image
+    }
+    
+    // MARK:- Delete image from Image folder
+    public func deleteDiskCacheImage(name: String) throws {
+        let folder = try folderURL(name: folderName)
+        let fileName = "\(name).jpg"
+        let fileDirectory = folder.appendingPathComponent(fileName)
+        
+        defer {
+            diskCacheList.remove(name)
+        }
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
             throw FileManagerError.delete(message:
@@ -86,28 +105,12 @@ extension DiskCacheProtocol {
         } catch let error {
             throw FileManagerError.delete(message: error.localizedDescription)
         }
-        
-        return name
     }
     
-    // MARK:- Fetch image from PostImage folder
-    public func fetchImage(name: String) throws -> UIImage {
-        let folder = try folderURL(name: folderName)
-        let fileDirectory = folder.appendingPathComponent(name)
-        
-        guard fileManager.fileExists(atPath: fileDirectory.path) else {
-            throw FileManagerError.delete(message:
-                "Couldn't read file for fetch \(name) image from \(#function) in \(#line)"
-            )
-        }
-        
-        guard let image = UIImage(contentsOfFile: fileDirectory.path) else {
-            throw FileManagerError.fetch(message:
-                "Couldn't fetch \(name) image from \(#function) in \(#line)"
-            )
-        }
-        
-        return image
+    // MARK:- Delete all image from folder Image
+    public func deleteAllDiskCacheImage(name: String) throws {
+        diskCacheList.removeAll()
+        return
     }
 }
 
