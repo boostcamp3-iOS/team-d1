@@ -322,9 +322,7 @@ extension PaginatingCollectionViewController {
             }
         }
     }
-        
 }
-
 
 extension PaginatingCollectionViewController: MostViewLayoutDelegate {
     func getCurrentMostViewedArtworkIndex() -> Int {

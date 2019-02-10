@@ -23,7 +23,6 @@ struct RequestMaker: RequestMakable {
         }
         
         var request = URLRequest(url: url)
-        print(request.url)
         for (key, value) in headers {
             request.setValue(value, forHTTPHeaderField: key)
         }

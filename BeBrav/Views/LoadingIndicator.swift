@@ -37,14 +37,14 @@ class LoadingIndicatorView: UIVisualEffectView {
     init() {
         super.init(effect: UIBlurEffect(style: .light))
         self.backgroundColor = .clear
-        UISetUp()
+        setLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func UISetUp() {
+    func setLayout() {
         
         contentView.addSubview(indicatorStackView)
         indicatorStackView.addArrangedSubview(indicator)
