@@ -84,7 +84,10 @@ struct ServerManager {
                                    url: "",
                                         title: "",
                                         timestamp: [:],
-                                        views: 0)
+                                        views: 0,
+                                        orientation: false,
+                                        color: false,
+                                        temperature: false)
         
         self.databaseManager.write(path: "root/users/\(uid)/artworks",
                                    data: protoArtwork,
@@ -125,7 +128,10 @@ struct ServerManager {
                                               url: downloadUrl,
                                               title: fileName,
                                               timestamp: [".sv": "timestamp"],
-                                              views: Int.random(in: 0...10000))
+                                              views: Int.random(in: 0...10000),
+                                              orientation: false,
+                                              color: false,
+                                              temperature: false)
                         self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
                                                    data: artwork,
                                                    method: .put) { (result, response) in

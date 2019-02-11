@@ -13,19 +13,29 @@ struct ArtworkEncodeType: Encodable {
     let artworkUrl: String
     let title: String
     let timestamp: [String: String]
-    let views: Int 
+    let views: Int
+    let orientation: Bool
+    let color: Bool
+    let temperature: Bool
     
     init(uid: String,
          url: String,
          title: String,
          timestamp: [String: String],
-         views: Int) {
+         views: Int,
+         orientation: Bool,
+         color: Bool,
+         temperature: Bool) {
         
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
         self.timestamp = [:]
         self.views = views
+        
+        self.orientation = orientation
+        self.color = color
+        self.temperature = temperature
     }
     
     init() {
@@ -34,6 +44,10 @@ struct ArtworkEncodeType: Encodable {
         self.title = ""
         self.timestamp = [:]
         self.views = 0
+        
+        self.orientation = false
+        self.color = false
+        self.temperature = false 
     }
 }
 

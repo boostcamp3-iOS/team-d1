@@ -135,8 +135,28 @@ class ExampleViewController: UIViewController {
             }
         }
  */
-        /*
         
+        //TODO - 지원:알고리즘 돌려서 업로드 해보기
+        manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print("success")
+                manager.uploadArtwork(image: #imageLiteral(resourceName: "IMG_4B21E85D1553-1"), scale: 0.1, path: "artworks", fileName: "test200", completion: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .success(let data):
+                        print("success")
+                    }
+                })
+            }
+        }
+        
+        /*
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
             case .failure(let error):
