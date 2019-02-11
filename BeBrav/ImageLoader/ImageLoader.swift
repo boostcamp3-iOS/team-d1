@@ -8,57 +8,51 @@
 
 import UIKit
 
-class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
+class ImageLoader {
 
+    // MARK:- Singleton
     static let shared = ImageLoader()
-    
-    public let fileManager: FileManagerProtocol
-    public let folderName = "ArtworkImage"
-    public var diskCacheList: Set<String> = []
-    
-    public var cache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
-        cache.countLimit = 10
-        return cache
-    }()
 
-    init(fileManager: FileManagerProtocol) {
-        self.fileManager = fileManager
+    // MARK:- Properties
+    public let diskCache: DiskCacheProtocol
+    public let memoryCache: MemoryCacheProtocol
+
+    // MARK:- Initialize
+    init(diskCache: DiskCacheProtocol, memoryCache: MemoryCacheProtocol) {
+        self.diskCache = diskCache
+        self.memoryCache = memoryCache
     }
     
     convenience init() {
-        self.init(fileManager: FileManager.default)
+        self.init(
+            diskCache: DiskCache(fileManager: FileManager.default),
+            memoryCache: MemoryCache()
+        )
     }
     
-    func fetchCacheImage(url: URL) -> UIImage? {
-        let key = ""
-
-        if let image = fetchMemoryCacheImage(url: url) {
+    // MARK:- Fetch cache image
+    private func fetchCacheImage(url: URL) -> UIImage? {
+        if let image = memoryCache.fetchImage(url: url) {
             return image
         }
         
-        if let image = fetchDiskCacheImage(url: url) {
-            diskCacheList.insert(key)
-            
+        if let image = diskCache.fetchImage(url: url) {
             return image
         }
 
         return nil
     }
     
-    func saveCacheImage(url: URL, image: UIImage) {
-        let key = ""
-        
+    // MARK:- Save cache image
+    private func saveCacheImage(url: URL, image: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async {
-            self.setMemoryCacheImage(image: image, url: url)
+            self.memoryCache.setImage(image: image, url: url)
         }
         
         DispatchQueue.global(qos: .utility).async {
             do  {
-               self.diskCacheList.insert(key)
-                try self.saveDiskCacheImage(image: image, url: url)
+                try self.diskCache.saveImage(image: image, url: url)
             } catch let error {
-                self.diskCacheList.remove(key)
                 print(error.localizedDescription)
             }
         }

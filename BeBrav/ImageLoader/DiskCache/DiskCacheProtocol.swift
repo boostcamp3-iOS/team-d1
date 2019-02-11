@@ -13,9 +13,9 @@ protocol DiskCacheProtocol: class {
     var folderName: String { get }
     var diskCacheList: Set<String> { get set }
     
-    func fetchDiskCacheImage(url: URL) -> UIImage?
-    func saveDiskCacheImage (image: UIImage, url: URL) throws
-    func deleteDiskCacheImage(url: URL) throws
+    func fetchImage(url: URL) -> UIImage?
+    func saveImage (image: UIImage, url: URL) throws
+    func deleteImage(url: URL) throws
 }
 
 extension DiskCacheProtocol {
@@ -51,13 +51,9 @@ extension DiskCacheProtocol {
     }
     
     // MARK:- Save image to PostImage folder
-    public func saveDiskCacheImage(image: UIImage, url: URL) throws {
+    public func saveImage(image: UIImage, url: URL) throws {
         let name = try fileName(url: url)
         
-        guard !diskCacheList.contains(name) else {
-            return
-        }
-
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         let jpgImage = UIImage.jpegData(image)
@@ -66,16 +62,16 @@ extension DiskCacheProtocol {
         
         guard fileManager.createFile(atPath: fileDirectory.path,
                                      contents: jpgImage(1.0),
-                                     attributes: nil
-            ) else
+                                     attributes: nil)
+            else
         {
             diskCacheList.remove(name)
-            throw DiskCacheError.save
+            throw DiskCacheError.saveImage
         }
     }
     
     // MARK:- Fetch image from PostImage folder
-    public func fetchDiskCacheImage(url: URL) -> UIImage? {
+    public func fetchImage(url: URL) -> UIImage? {
         guard let name = try? fileName(url: url),
             let folder = try? folderURL(name: folderName)
             else
@@ -89,12 +85,12 @@ extension DiskCacheProtocol {
         }
         
         diskCacheList.insert(name)
-
+        
         return image
     }
     
     // MARK:- Delete image from Image folder
-    public func deleteDiskCacheImage(url: URL) throws {
+    public func deleteImage(url: URL) throws {
         let name = try fileName(url: url)
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
@@ -104,7 +100,7 @@ extension DiskCacheProtocol {
         }
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
-            throw DiskCacheError.delete
+            throw DiskCacheError.deleteImage
         }
         
         try fileManager.removeItem(atPath: fileDirectory.path)
@@ -115,8 +111,8 @@ extension DiskCacheProtocol {
 fileprivate enum DiskCacheError: Error {
     case createFolder
     case fileName
-    case save
-    case delete
+    case saveImage
+    case deleteImage
 }
 
 extension DiskCacheError: CustomNSError {
@@ -127,9 +123,9 @@ extension DiskCacheError: CustomNSError {
             return 200
         case .fileName:
             return 201
-        case .save:
+        case .saveImage:
             return 202
-        case .delete:
+        case .deleteImage:
             return 203
         }
     }
@@ -140,9 +136,9 @@ extension DiskCacheError: CustomNSError {
             return ["Type":"createFolder", "Message":"Failure access document directory"]
         case .fileName:
             return ["Type":"fileName", "Message":"Failure to create file name from URL"]
-        case .save:
+        case .saveImage:
             return ["Type":"save", "Message":"Failure create image file"]
-        case .delete:
+        case .deleteImage:
             return ["Type":"delete", "Message":"Failure exists file for delete"]
         }
     }
