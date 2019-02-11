@@ -32,7 +32,6 @@ struct ArtworkEncodeType: Encodable {
         self.title = title
         self.timestamp = [:]
         self.views = views
-        
         self.orientation = orientation
         self.color = color
         self.temperature = temperature
@@ -44,7 +43,6 @@ struct ArtworkEncodeType: Encodable {
         self.title = ""
         self.timestamp = [:]
         self.views = 0
-        
         self.orientation = false
         self.color = false
         self.temperature = false 
@@ -57,6 +55,9 @@ struct ArtworkDecodeType: Decodable {
     let timestamp: Double
     let title: String
     let views: Int
+    let orientation: Bool
+    let color: Bool
+    let temperature: Bool
     
     init() {
         self.artworkUid = ""
@@ -64,6 +65,9 @@ struct ArtworkDecodeType: Decodable {
         self.title = ""
         self.timestamp = 0
         self.views = 0
+        self.orientation = false
+        self.color = false
+        self.temperature = false
     }
 }
 
