@@ -11,7 +11,13 @@
 //TODO: 추후에 프로토콜 적용하여 구성
 import UIKit
 
-class NetworkManager {
+class NetworkManager: DiskCacheProtocol {
+    var fileManager: FileManagerProtocol = FileManager.default as! FileManagerProtocol
+    
+    var folderName: String = "Sample"
+    
+    var diskCacheList: Set<String> = []
+    
     
     let session: URLSession
     
@@ -54,6 +60,7 @@ class NetworkManager {
             }
             movieImage = image
             if let image = movieImage {
+                try! self.saveDiskCacheImage(image: image, url: url)
                 self.cache.setObject(image, forKey: url.absoluteString as NSString)
             }
             OperationQueue.main.addOperation {
@@ -66,9 +73,14 @@ class NetworkManager {
     func getImageWithCaching(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         if let image = cache.object(forKey: url.absoluteString as NSString) {
             completion(image,nil)
-        } else {
-            downloadImage(url: url, completion: completion)
         }
+        
+        if let image = fetchDiskCacheImage(url: url) {
+            completion(image,nil)
+        }
+        
+        downloadImage(url: url, completion: completion)
+
     }
     
     
