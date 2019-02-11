@@ -60,15 +60,15 @@ extension DiskCacheProtocol {
     public func saveDiskCacheImage(image: UIImage, url: URL) throws {
         let name = try fileName(url: url)
         
-        guard !diskCacheList.contains(name) else {
-            throw DiskCacheError.fileName(message: "Failure to read file name")
-        }
+//        guard !diskCacheList.contains(name) else {
+//            throw DiskCacheError.fileName(message: "Failure to read file name")
+//        }
         
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         let jpgImage = UIImage.jpegData(image)
         
-        diskCacheList.insert(name)
+//        diskCacheList.insert(name)
         
         guard fileManager.createFile(atPath: fileDirectory.path,
                                      contents: jpgImage(1.0),
@@ -96,7 +96,7 @@ extension DiskCacheProtocol {
             return nil
         }
         
-        diskCacheList.insert(name)
+//        diskCacheList.insert(name)
         
         return image
     }
@@ -107,9 +107,9 @@ extension DiskCacheProtocol {
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         
-        defer {
-            diskCacheList.remove(name)
-        }
+//        defer {
+//            diskCacheList.remove(name)
+//        }
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
             throw DiskCacheError.delete(
