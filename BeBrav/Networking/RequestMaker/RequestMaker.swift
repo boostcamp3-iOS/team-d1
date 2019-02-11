@@ -27,7 +27,7 @@ struct RequestMaker: RequestMakable {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpBody = body
-        
+        print(request.url)
         switch method {
         case .get:
             return request

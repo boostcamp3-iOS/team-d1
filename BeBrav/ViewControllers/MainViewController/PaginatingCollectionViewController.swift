@@ -16,6 +16,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
     typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
     
     
+    let loadingIndicator: LoadingIndicatorView = {
+        let indicator = LoadingIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.noticeLabel.text = "loading images"
+        return indicator
+    }()
     ///MostViewedCollectionViewLayout의 prepare() 메서드가 호출되면 계산해야할 레이아웃은
     ///이전에 계산한 yOffset 아래에 위치해야 하기때문에 한번 데이터를 fetch하면 레이아웃을 이 프로퍼티
     ///를 통해서 업데이트 해주어야합니다.
@@ -85,9 +91,20 @@ class PaginatingCollectionViewController: UICollectionViewController {
             layout.numberOfItems = batchSize
         }
         setCollectionView()
+        setLoadingView()
         fetchPage()
     }
     
+    func setLoadingView() {
+        collectionView.addSubview(loadingIndicator)
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        loadingIndicator.deactivateIndicatorView()
+    }
     func setCollectionView() {
         guard let collectionView = self.collectionView else { return }
         collectionView.alwaysBounceVertical = true
@@ -112,11 +129,38 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     @objc func filterButtonDidTap() {
         //TODO: filtering 기능 추가
+        let alertController: UIAlertController = UIAlertController(title: "필터 방식 선택",message: "어떤 필터링을 적용할까요? ",preferredStyle: .actionSheet)
+        let reservationRateAction: UIAlertAction = UIAlertAction(title: "흑백 / 컬러", style: .default, handler: {(action: UIAlertAction) in
+        })
+        
+        let qurationAction: UIAlertAction = UIAlertAction(title: "가로 / 세로", style: .default, handler: {(action: UIAlertAction) in
+        })
+        
+        let outDateAction: UIAlertAction = UIAlertAction(title: "색 온도", style: .default, handler: {(action: UIAlertAction) in
+        })
+        
+        let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(reservationRateAction)
+        alertController.addAction(qurationAction)
+        alertController.addAction(outDateAction)
+        alertController.addAction(cancelAction)
+        
+        if UI_USER_INTERFACE_IDIOM() == .pad { //아이패드일 경우 액션시트를 대체해서 사용된다.
+            alertController.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+            alertController.popoverPresentationController?.permittedArrowDirections = .up
+            alertController.popoverPresentationController?.sourceView = self.view
+            alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     @objc func addArtworkButtonDidTap() {
         //TODO: addArtwork 기능 추가
-        print("addButton tapped")
+        let artAddViewController = ArtAddViewController()
+        navigationController?.pushViewController(artAddViewController, animated: false)
     }
     
     // MARK: UICollectionViewDataSource
@@ -150,6 +194,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else {
+            fatalError()
+        }
+        let photoViewController = PhotoViewController()
+        photoViewController.imageView.image = cell.artworkImageView.image
+        navigationController?.pushViewController(photoViewController, animated: false)
+        
+    }
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -178,7 +232,7 @@ extension PaginatingCollectionViewController {
     func fetchPage() {
         currentBatchArtworkBucket.removeAll()
         isLoading = true
-        
+        loadingIndicator.activateIndicatorView()
         if !isEndOfData {
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -212,6 +266,7 @@ extension PaginatingCollectionViewController {
                             self.currentKey = result.first?.artworkUid
                             self.recentTimestamp = result.first?.timestamp
                             DispatchQueue.main.async {
+                                self.loadingIndicator.deactivateIndicatorView()
                                 self.collectionView.reloadData()
                             }
                             self.isLoading = false
@@ -256,7 +311,8 @@ extension PaginatingCollectionViewController {
                         }
                         self.isLoading = false
                         DispatchQueue.main.async {
-                            self.footerView?.indicator.stopAnimating()
+                            self.loadingIndicator.deactivateIndicatorView()
+                            //self.footerView?.indicator.stopAnimating()
                         }
                         
                     }

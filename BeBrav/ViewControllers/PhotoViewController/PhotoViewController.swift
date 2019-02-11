@@ -18,7 +18,7 @@ class PhotoViewController: UIViewController {
         scrollView.minimumZoomScale = 0.7
         return scrollView
     }()
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         #warning("Replace Image after Add placeholder")
