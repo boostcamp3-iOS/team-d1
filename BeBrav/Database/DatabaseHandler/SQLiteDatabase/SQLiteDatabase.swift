@@ -48,10 +48,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             }
             
             let error = String(cString: sqlite3_errmsg(database))
-            assertionFailure(error + " from \(#function) in \(#line)")
-            throw SQLiteError.openDatabase(
-                message: "Failure Open SQLite Database from \(#function) in \(#line)"
-            )
+            assertionFailure(error)
+            throw SQLiteError.openDatabase(message: error)
         }
         
         return SQLiteDatabase(database: database)
@@ -63,9 +61,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         guard sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK
             else
         {
-            throw SQLiteError.prepare(
-                message: errorMessage + " from \(#function) in \(#line)"
-            )
+            throw SQLiteError.prepare(message: errorMessage)
         }
         
         return statement
@@ -96,7 +92,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
             assertionFailure(
-                "Failure create table : \(errorMessage) from \(#function) in \(#line)"
+                "Failure create table : \(errorMessage)"
             )
             return false
         }
@@ -132,16 +128,12 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             if sqlite3_bind_text(statement,index, text.utf8String, -1, nil)
                 != SQLITE_OK
             {
-                throw SQLiteError.bind(message:
-                    errorMessage + " from \(#function) in \(#line)"
-                )
+                throw SQLiteError.bind(message: errorMessage)
             }
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(
-                message: errorMessage + " from \(#function) in \(#line)"
-            )
+            throw SQLiteError.step(message: errorMessage)
         }
         
         print("Successfully inserted value at \(table)")
@@ -226,9 +218,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(
-                message: errorMessage + " from \(#function) in \(#line)"
-            )
+            throw SQLiteError.step(message: errorMessage)
         }
         
         print("Successfully deleted field at \(table) with \(idField)")
@@ -242,13 +232,6 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     private func idDataName(name: String) -> String {
         return name != "primaryId" ? name : "primaryKey"
     }
-}
-
-fileprivate enum Type {
-    case insert
-    case fetch
-    case update
-    case delete
 }
 
 public enum Condition: String {
@@ -269,27 +252,27 @@ extension SQLiteError: CustomNSError {
     static var errorDomain: String = "SQLiteDatabase"
     var errorCode: Int {
         switch self {
-        case .openDatabase(_):
+        case .openDatabase:
             return 200
-        case .prepare(_):
+        case .prepare:
             return 201
-        case .step(_):
+        case .step:
             return 202
-        case .bind(_):
+        case .bind:
             return 203
         }
     }
     
     var userInfo: [String: Any] {
         switch self {
-        case let .openDatabase(code):
-            return ["File": #file, "Type": "openDatabase", "Message":code]
-        case let .prepare(code):
-            return ["File": #file, "Type": "prepare", "Message":code]
-        case let .step(code):
-            return ["File": #file, "Type": "step", "Message":code]
-        case let .bind(code):
-            return ["File": #file, "Type": "bind", "Message":code]
+        case let .openDatabase(message):
+            return ["File": #file, "Type": "openDatabase", "Message":message]
+        case let .prepare(message):
+            return ["File": #file, "Type": "prepare", "Message":message]
+        case let .step(message):
+            return ["File": #file, "Type": "step", "Message":message]
+        case let .bind(message):
+            return ["File": #file, "Type": "bind", "Message":message]
         }
     }
 }

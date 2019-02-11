@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let databaseName = "BeBravDatabase"
+
 class DatabaseHandler {
     
     // MARK:- Singleton
@@ -39,28 +41,22 @@ class DatabaseHandler {
     }
     
     // MARK:- Check table is enable
-    private func accessTable(type: DataType) throws -> Bool {
-        let model = type.model
-        let tableName = model.tableName
+    private func accessTable(data: DataModelProtocol) throws -> Bool {
+        let tableName = data.tableName
         
         guard let database = database else {
-            throw DatabaseError.openDatabase(
-                message: "No Database at DatabaseHandler"
-            )
+            throw DatabaseError.openDatabase
         }
         
-        return database.createTable(name: tableName, columns: model.columns)
+        return database.createTable(name: tableName, columns: data.columns)
     }
     
     // MARK:- Check access is enabled
     private func accessEnabled(data: DataModelProtocol) throws -> Bool {
-        let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
         let table = data.tableName
         
-        guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(
-                message: "Failure access to \(table) Table from \(#function) in \(#line)"
-            )
+        guard try self.accessTable(data: data) else {
+            throw DatabaseError.accessTable
         }
         
         guard let list = try database?.fetch(
@@ -71,9 +67,7 @@ class DatabaseHandler {
             condition: nil
             ) else
         {
-                throw DatabaseError.fetch(
-                    message: "Failure access to \(table) Table from \(#function) in \(#line)"
-            )
+                throw DatabaseError.fetchData
         }
         
         return !list.isEmpty
@@ -83,18 +77,7 @@ class DatabaseHandler {
     private func dataToModel(type: DataType, data: [[String: String]])
         -> [DataModelProtocol]
     {
-        let modelArray: [DataModelProtocol] = data.map {
-            switch type {
-            case .AuthorData:
-                let model = AuthorModel(data: $0)
-                return model
-            case .ArtworkData:
-                let model = ArtworkModel(data: $0)
-                return model
-            }
-        }
-        
-        return modelArray
+        return data.map{ type.model(data: $0) }
     }
     
     // MARK:- Equal Model Filter
@@ -126,13 +109,12 @@ class DatabaseHandler {
                            condition: Condition = .equal)
         throws -> [DataModelProtocol]
     {
-//        let model = type.model
-        let table = type.model.tableName
+
+        let model = type.model
+        let table = model.tableName
         
-        guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(
-                message: "Failure access to \(idRow) at \(type) from \(#function) in \(#line)"
-            )
+        guard try self.accessTable(data: model) else {
+            throw DatabaseError.accessTable
         }
         
         guard let dataArray = try self.database?.fetch(
@@ -143,9 +125,7 @@ class DatabaseHandler {
             condition: condition
             ) else
         {
-            throw DatabaseError.fetch(
-                message: "Failure fetch \(idRow) as \(table) from \(#function) in \(#line)"
-            )
+            throw DatabaseError.fetchData
         }
         
         return dataToModel(type: type, data: dataArray).filter { !$0.isEmpty }
@@ -165,9 +145,7 @@ class DatabaseHandler {
             condition: nil
             ) else
         {
-            throw DatabaseError.fetch(
-                message: "Failure fetch \(id) as \(table) from \(#function) in \(#line)"
-            )
+            throw DatabaseError.fetchData
         }
         
         let modelList = self.dataToModel(
@@ -208,15 +186,11 @@ class DatabaseHandler {
                          completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .utility).async {
-            let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
             let table = data.tableName
             
             do {
-                guard try self.accessTable(type: type) else {
-                    completion(false, DatabaseError.accessTable(
-                        message: "Failure access to \(table) from \(#function) in \(#line)"
-                        )
-                    )
+                guard try self.accessTable(data: data) else {
+                    completion(false, DatabaseError.accessTable)
                     return
                 }
                 
@@ -231,10 +205,7 @@ class DatabaseHandler {
                     rows: data.rows
                     ) ?? false else
                 {
-                    completion(false, DatabaseError.save(
-                        message: "Failure save \(data) from \(#function) in \(#line)"
-                        )
-                    )
+                    completion(false, DatabaseError.saveData)
                     return
                 }
                 
@@ -254,10 +225,7 @@ class DatabaseHandler {
             
             do {
                 guard try self.accessEnabled(data: data) else {
-                    completion(false, DatabaseError.accessData(
-                        message: "Failure access to \(data) from \(#function) in \(#line)"
-                        )
-                    )
+                    completion(false, DatabaseError.accessData)
                     return
                 }
                 
@@ -310,9 +278,7 @@ class DatabaseHandler {
                     ) as? [ArtworkModel]
                     else
                 {
-                    completion(nil, DatabaseError.fetch(
-                        message: "Failure Trensfer DataModelArray to ArtworkModel from \(#function) in \(#line)")
-                    )
+                    completion(nil, DatabaseError.fetchData)
                     return
                 }
                 
@@ -355,19 +321,33 @@ class DatabaseHandler {
         var model: DataModelProtocol {
             return self == .AuthorData ? AuthorModel() : ArtworkModel()
         }
+        
+        func model(data: [String: String]) -> DataModelProtocol {
+            return (self == .AuthorData) ? AuthorModel(data: data) : ArtworkModel(data: data)
+        }
+        
+        func equal(lhs: DataModelProtocol, rhs: DataModelProtocol) -> Bool {
+            switch self {
+            case .AuthorData:
+                guard let lhs = lhs as? AuthorModel,
+                    let rhs = rhs as? AuthorModel else { return false }
+                return lhs == rhs
+            case .ArtworkData:
+                guard let lhs = lhs as? ArtworkModel,
+                    let rhs = rhs as? ArtworkModel else { return false }
+                return lhs == rhs
+            }
+        }
     }
 }
 
-fileprivate let databaseName = "BeBravDatabase"
-
 // MARK:- Database Error
 fileprivate enum DatabaseError: Error {
-    case openDatabase(message: String)
-    case accessTable(message: String)
-    case accessData(message: String)
-    case save(message: String)
-    case update(message: String)
-    case fetch(message: String)
+    case openDatabase
+    case accessTable
+    case accessData
+    case saveData
+    case fetchData
 }
 
 extension DatabaseError: CustomNSError {
@@ -380,29 +360,25 @@ extension DatabaseError: CustomNSError {
             return 301
         case .accessData:
             return 302
-        case .save:
+        case .saveData:
             return 303
-        case .update:
+        case .fetchData:
             return 304
-        case .fetch:
-            return 305
         }
     }
     
     var userInfo: [String : Any] {
         switch self {
-        case let .openDatabase(code):
-            return ["File": #file, "Type":"openDatabase", "Message":code]
-        case let .accessTable(code):
-            return ["File": #file, "Type":"accessTable", "Message":code]
-        case let .accessData(code):
-            return ["File": #file, "Type":"accessData", "Message":code]
-        case let .save(code):
-            return ["File": #file, "Type":"save", "Message":code]
-        case let .update(code):
-            return ["File": #file, "Type":"update", "Message":code]
-        case let .fetch(code):
-            return ["File": #file, "Type":"fetch", "Message":code]
+        case .openDatabase:
+            return ["File": #file, "Type":"openDatabase", "Message":"No Database at DatabaseHandler"]
+        case .accessTable:
+            return ["File": #file, "Type":"accessTable", "Message":"Failure access table"]
+        case .accessData:
+            return ["File": #file, "Type":"accessData", "Message":"Failure access data"]
+        case .saveData:
+            return ["File": #file, "Type":"save", "Message":"Failure save data"]
+        case .fetchData:
+            return ["File": #file, "Type":"fetch", "Message":"Failure fetch data"]
         }
     }
 }
