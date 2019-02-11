@@ -75,6 +75,12 @@ struct ServerManager {
                        path: String,
                        fileName: String,
                        completion: @escaping (Result<URLResponse?>)->()) {
+        
+        //이미지에 분류 알고리즘 적용
+        var imageSort = ImageSort(input: image)
+        
+        guard let r1 = imageSort.sort1(), let r2 = imageSort.sort2(), let r3 = imageSort.sort3() else { return }
+        
         var artworkUid = ""
         guard let uid = UserDefaults.standard.string(forKey: "uid") else {
             completion(.failure(APIError.invalidData))
@@ -84,7 +90,10 @@ struct ServerManager {
                                    url: "",
                                         title: "",
                                         timestamp: [:],
-                                        views: 0)
+                                        views: 0,
+                                        orientation: r1,
+                                        color: r2,
+                                        temperature: r3)
         
         self.databaseManager.write(path: "root/users/\(uid)/artworks",
                                    data: protoArtwork,
@@ -125,7 +134,10 @@ struct ServerManager {
                                               url: downloadUrl,
                                               title: fileName,
                                               timestamp: [".sv": "timestamp"],
-                                              views: Int.random(in: 0...10000))
+                                              views: Int.random(in: 0...10000),
+                                              orientation: r1,
+                                              color: r2,
+                                              temperature: r3)
                         self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
                                                    data: artwork,
                                                    method: .put) { (result, response) in
