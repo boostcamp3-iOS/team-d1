@@ -13,64 +13,73 @@ protocol DiskCacheProtocol: class {
     var folderName: String { get }
     var diskCacheList: Set<String> { get set }
     
-    func fetchDiskCacheImage(name: String) -> UIImage?
-    func saveDiskCacheImage(image: UIImage, name: String) throws
-    func deleteDiskCacheImage(name: String) throws
-    func deleteAllDiskCacheImage(name: String) throws
+    func fetchDiskCacheImage(url: URL) -> UIImage?
+    func saveDiskCacheImage (image: UIImage, url: URL) throws
+    func deleteDiskCacheImage(url: URL) throws
 }
 
 extension DiskCacheProtocol {
-    // MARK:- PostImage folder URL in App
+    // MARK:- Image folder URL in App
     private func folderURL(name: String) throws -> URL {
         guard let documentDirectory = fileManager.urls(for: .documentDirectory,
                                                        in: .userDomainMask).first else
         {
-            throw FileManagerError.createFolder(message:
-                "Failure access document directory from \(#function) in \(#line)")
+            throw DiskCacheError.createFolder
         }
         
         let folderURL = documentDirectory.appendingPathComponent(name)
         
         if !fileManager.fileExists(atPath: folderURL.path) {
-            do {
-                try fileManager.createDirectory(atPath: folderURL.path,
-                                                withIntermediateDirectories: true,
-                                                attributes: nil)
-            } catch let error {
-                throw FileManagerError.createFolder(message: error.localizedDescription)
-            }
+            try fileManager.createDirectory(
+                atPath: folderURL.path,
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
         }
         
         return folderURL
     }
     
+    // MARK:- fileName with https URL
+    private func fileName(url: URL) throws -> String {
+        guard let uid = url.path.components(separatedBy: "/").last else {
+            throw DiskCacheError.fileName
+        }
+        let fileName = uid.filter{ $0 != "-" }
+        
+        return "\(fileName).jpg"
+    }
+    
     // MARK:- Save image to PostImage folder
-    public func saveDiskCacheImage(image: UIImage, name: String) throws {
+    public func saveDiskCacheImage(image: UIImage, url: URL) throws {
+        let name = try fileName(url: url)
+        
         guard !diskCacheList.contains(name) else {
             return
         }
+
+        let folder = try folderURL(name: folderName)
+        let fileDirectory = folder.appendingPathComponent(name)
+        let jpgImage = UIImage.jpegData(image)
         
         diskCacheList.insert(name)
         
-        let folder = try folderURL(name: folderName)
-        let fileName = "\(name).jpg"
-        let fileDirectory = folder.appendingPathComponent(fileName)
-        let jpgImage = UIImage.jpegData(image)
-        
         guard fileManager.createFile(atPath: fileDirectory.path,
-                                          contents: jpgImage(1.0),
-                                          attributes: nil) else
+                                     contents: jpgImage(1.0),
+                                     attributes: nil
+            ) else
         {
             diskCacheList.remove(name)
-            throw FileManagerError.save(message:
-                "Failure create image file at \(fileDirectory.path) from \(#function) in \(#line)"
-            )
+            throw DiskCacheError.save
         }
     }
     
     // MARK:- Fetch image from PostImage folder
-    public func fetchDiskCacheImage(name: String) -> UIImage? {
-        guard let folder = try? folderURL(name: folderName) else {
+    public func fetchDiskCacheImage(url: URL) -> UIImage? {
+        guard let name = try? fileName(url: url),
+            let folder = try? folderURL(name: folderName)
+            else
+        {
             return nil
         }
         let fileDirectory = folder.appendingPathComponent(name)
@@ -85,68 +94,56 @@ extension DiskCacheProtocol {
     }
     
     // MARK:- Delete image from Image folder
-    public func deleteDiskCacheImage(name: String) throws {
+    public func deleteDiskCacheImage(url: URL) throws {
+        let name = try fileName(url: url)
         let folder = try folderURL(name: folderName)
-        let fileName = "\(name).jpg"
-        let fileDirectory = folder.appendingPathComponent(fileName)
+        let fileDirectory = folder.appendingPathComponent(name)
         
         defer {
             diskCacheList.remove(name)
         }
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
-            throw FileManagerError.delete(message:
-                "Couldn't exists file for delete \(name) image from \(#function) in \(#line)"
-            )
+            throw DiskCacheError.delete
         }
         
-        do {
-            try fileManager.removeItem(atPath: fileDirectory.path)
-        } catch let error {
-            throw FileManagerError.delete(message: error.localizedDescription)
-        }
-    }
-    
-    // MARK:- Delete all image from folder Image
-    public func deleteAllDiskCacheImage(name: String) throws {
-        diskCacheList.removeAll()
-        return
+        try fileManager.removeItem(atPath: fileDirectory.path)
     }
 }
 
 // MARK:- FileManager Error
-fileprivate enum FileManagerError: Error {
-    case createFolder(message: String)
-    case save(message: String)
-    case delete(message: String)
-    case fetch(message: String)
+fileprivate enum DiskCacheError: Error {
+    case createFolder
+    case fileName
+    case save
+    case delete
 }
 
-extension FileManagerError: CustomNSError {
+extension DiskCacheError: CustomNSError {
     static var errorDomain: String = "SQLiteDatabase"
     var errorCode: Int {
         switch self {
-        case .createFolder(_):
+        case .createFolder:
             return 200
-        case .save(_):
+        case .fileName:
             return 201
-        case .delete(_):
+        case .save:
             return 202
-        case .fetch(_):
+        case .delete:
             return 203
         }
     }
     
     var userInfo: [String : Any] {
         switch self {
-        case let .createFolder(code):
-            return ["File": #file, "Type":"createFolder", "Message":code]
-        case let .save(code):
-            return ["File": #file, "Type":"save", "Message":code]
-        case let .delete(code):
-            return ["File": #file, "Type":"delete", "Message":code]
-        case let .fetch(code):
-            return ["File": #file, "Type":"fetch", "Message":code]
+        case .createFolder:
+            return ["Type":"createFolder", "Message":"Failure access document directory"]
+        case .fileName:
+            return ["Type":"fileName", "Message":"Failure to create file name from URL"]
+        case .save:
+            return ["Type":"save", "Message":"Failure create image file"]
+        case .delete:
+            return ["Type":"delete", "Message":"Failure exists file for delete"]
         }
     }
 }

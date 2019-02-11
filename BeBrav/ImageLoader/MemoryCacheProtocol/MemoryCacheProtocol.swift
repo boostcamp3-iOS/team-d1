@@ -12,18 +12,18 @@ protocol MemoryCacheProtocol {
     var cache: NSCache<NSString, UIImage> { get }
     
     func fetchMemoryCacheImage(url: URL) -> UIImage?
-    func setMemoryCacheImage(key: String, image: UIImage)
+    func setMemoryCacheImage(image: UIImage, url: URL)
 }
 
 extension MemoryCacheProtocol {
     public func fetchMemoryCacheImage(url: URL) -> UIImage? {
-        let key: NSString = ""
+        let key: NSString = url.absoluteString as NSString
         
         return cache.object(forKey: key)
     }
     
-    public func setMemoryCacheImage(key: String, image: UIImage) {
-        let key: NSString = ""
+    public func setMemoryCacheImage(image: UIImage, url: URL) {
+        let key: NSString = url.absoluteString as NSString
         
         cache.setObject(image, forKey: key)
     }

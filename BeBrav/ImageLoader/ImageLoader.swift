@@ -30,8 +30,6 @@ class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
         self.init(fileManager: FileManager.default)
     }
     
-    
-    
     func fetchCacheImage(url: URL) -> UIImage? {
         let key = ""
 
@@ -39,7 +37,7 @@ class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
             return image
         }
         
-        if let image = fetchDiskCacheImage(name: key) {
+        if let image = fetchDiskCacheImage(url: url) {
             diskCacheList.insert(key)
             
             return image
@@ -52,13 +50,13 @@ class ImageLoader: DiskCacheProtocol, MemoryCacheProtocol {
         let key = ""
         
         DispatchQueue.global(qos: .userInitiated).async {
-            self.setMemoryCacheImage(key: key, image: image)
+            self.setMemoryCacheImage(image: image, url: url)
         }
         
         DispatchQueue.global(qos: .utility).async {
             do  {
                self.diskCacheList.insert(key)
-               try self.saveDiskCacheImage(image: image, name: key)
+                try self.saveDiskCacheImage(image: image, url: url)
             } catch let error {
                 self.diskCacheList.remove(key)
                 print(error.localizedDescription)
