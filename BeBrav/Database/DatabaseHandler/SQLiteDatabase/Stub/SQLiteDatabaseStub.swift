@@ -20,16 +20,21 @@ class SQLiteDatabaseStub: SQLiteDatabaseProtocol {
         return true
     }
     
-    func fetch(table: String, column: String? = nil,
-               idField: String, idRow: String, condition: Condition? = nil
-        )
+    func fetch(table: String,
+               column: String? = nil,
+               idField: String,
+               idRow: String,
+               condition: Condition? = nil)
         throws -> [[String : String]]
     {
         return []
     }
     
-    func update(table: String, column: String, row: String,
-                idField: String, idRow: String) throws
+    func update(table: String,
+                column: String,
+                row: String,
+                idField: String,
+                idRow: String) throws
     {
         return
     }

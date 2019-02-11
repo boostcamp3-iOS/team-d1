@@ -6,7 +6,7 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class DatabaseHandler {
     
@@ -26,7 +26,10 @@ class DatabaseHandler {
         let database: SQLiteDatabase?
         
         do {
-            database = try SQLiteDatabase.Open(name: databaseName, fileManager: FileManager.default)
+            database = try SQLiteDatabase.open(
+                name: databaseName,
+                fileManager: FileManager.default
+            )
         } catch let error {
             database = nil
             assertionFailure(error.localizedDescription)
@@ -38,11 +41,11 @@ class DatabaseHandler {
     // MARK:- Check table is enable
     private func accessTable(type: DataType) throws -> Bool {
         let model = type.model
-        let tableName = type.tableName
+        let tableName = model.tableName
         
         guard let database = database else {
-            throw DatabaseError.openDatabase(message:
-                "No Database at DatabaseHandler"
+            throw DatabaseError.openDatabase(
+                message: "No Database at DatabaseHandler"
             )
         }
         
@@ -52,19 +55,28 @@ class DatabaseHandler {
     // MARK:- Check access is enabled
     private func accessEnabled(data: DataModelProtocol) throws -> Bool {
         let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
-        let table = type.tableName
+        let table = data.tableName
         
         guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(message:
-                "Failure access to \(table) Table"
+            throw DatabaseError.accessTable(
+                message: "Failure access to \(table) Table from \(#function) in \(#line)"
             )
         }
         
-        let list = try database?.fetch(table: table, column: idField,
-                                       idField: idField, idRow: "\(data.id)",
-                                       condition: nil)
+        guard let list = try database?.fetch(
+            table: table,
+            column: idField,
+            idField: idField,
+            idRow: "\(data.id)",
+            condition: nil
+            ) else
+        {
+                throw DatabaseError.fetch(
+                    message: "Failure access to \(table) Table from \(#function) in \(#line)"
+            )
+        }
         
-        return list != []
+        return !list.isEmpty
     }
     
     // MARK:- Transfet data to model
@@ -109,27 +121,30 @@ class DatabaseHandler {
     
     // MARK:- Fetch Data from SQLite Database
     private func fetchData(type: DataType,
-                           idField: String, idRow: String,
+                           idField: String,
+                           idRow: String,
                            condition: Condition = .equal)
         throws -> [DataModelProtocol]
     {
-        let table = type.tableName
+//        let model = type.model
+        let table = type.model.tableName
         
         guard try self.accessTable(type: type) else {
-            throw DatabaseError.accessTable(message:
-                "Failure access to \(idRow) at \(type)"
+            throw DatabaseError.accessTable(
+                message: "Failure access to \(idRow) at \(type) from \(#function) in \(#line)"
             )
         }
         
-        guard let dataArray = try self.database?.fetch(table: table,
-                                                       column: nil,
-                                                       idField: idField,
-                                                       idRow: idRow,
-                                                       condition: condition)
-            else
+        guard let dataArray = try self.database?.fetch(
+            table: table,
+            column: nil,
+            idField: idField,
+            idRow: idRow,
+            condition: condition
+            ) else
         {
-            throw DatabaseError.fetch(message:
-                "Failure fetch \(idRow) as \(table)"
+            throw DatabaseError.fetch(
+                message: "Failure fetch \(idRow) as \(table) from \(#function) in \(#line)"
             )
         }
         
@@ -140,31 +155,46 @@ class DatabaseHandler {
     private func updateData(data: DataModelProtocol) throws -> Bool {
         let id = data.id
         let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
-        let table = type.tableName
+        let table = data.tableName
         
-        guard let dataArray = try self.database?.fetch(table: table,
-                                                       column: nil,
-                                                       idField: self.idField,
-                                                       idRow: id,
-                                                       condition: nil) else
+        guard let dataArray = try self.database?.fetch(
+            table: table,
+            column: nil,
+            idField: self.idField,
+            idRow: id,
+            condition: nil
+            ) else
         {
-            throw DatabaseError.fetch(message: "Failure fetch \(id) as \(table)")
+            throw DatabaseError.fetch(
+                message: "Failure fetch \(id) as \(table) from \(#function) in \(#line)"
+            )
         }
         
-        let modelArray = self.equalFilter(type: type,
-                                          model: data,
-                                          modelArray: self.dataToModel(type: type,
-                                                                       data: dataArray))
+        let modelList = self.dataToModel(
+            type: type,
+            data: dataArray
+        )
+        let modelArray = self.equalFilter(
+            type: type,
+            model: data,
+            modelArray: modelList
+        )
         
         if dataArray.count != modelArray.count || dataArray.count > 1 {
-            try self.database?.delete(table: table, idField: self.idField, idRow: id)
+            try self.database?.delete(
+                table: table,
+                idField: self.idField,
+                idRow: id
+            )
         } else if modelArray.count == 1 {
             try data.variableList.forEach {
-                try self.database?.update(table: table,
-                                          column: $0.key,
-                                          row: $0.value,
-                                          idField: self.idField,
-                                          idRow: id)
+                try self.database?.update(
+                    table: table,
+                    column: $0.key,
+                    row: $0.value,
+                    idField: self.idField,
+                    idRow: id
+                )
             }
             
             return true
@@ -179,12 +209,14 @@ class DatabaseHandler {
     {
         DispatchQueue.global(qos: .utility).async {
             let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
-            let table = type.tableName
+            let table = data.tableName
             
             do {
                 guard try self.accessTable(type: type) else {
                     completion(false, DatabaseError.accessTable(
-                        message: "Failure access to \(table)"))
+                        message: "Failure access to \(table) from \(#function) in \(#line)"
+                        )
+                    )
                     return
                 }
                 
@@ -193,21 +225,22 @@ class DatabaseHandler {
                     return
                 }
                 
-                guard try self.database?.insert(table: table,
-                                                columns: data.columns,
-                                                rows: data.rows) ?? false else
+                guard try self.database?.insert(
+                    table: table,
+                    columns: data.columns,
+                    rows: data.rows
+                    ) ?? false else
                 {
-                    completion(false, DatabaseError.save(message:
-                        "Failure save \(data)")
+                    completion(false, DatabaseError.save(
+                        message: "Failure save \(data) from \(#function) in \(#line)"
+                        )
                     )
                     return
                 }
                 
                 completion(true, nil)
-                return
             } catch let error {
                 completion(false, error)
-                return
             }
         }
     }
@@ -217,44 +250,45 @@ class DatabaseHandler {
                            completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
-            let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
-            let table = type.tableName
+            let table = data.tableName
             
             do {
                 guard try self.accessEnabled(data: data) else {
-                    completion(false, DatabaseError.accessData(message:
-                        "Failure access to \(data)")
+                    completion(false, DatabaseError.accessData(
+                        message: "Failure access to \(data) from \(#function) in \(#line)"
+                        )
                     )
                     return
                 }
                 
-                try self.database?.delete(table: table,
-                                          idField: self.idField,
-                                          idRow: String(data.id))
+                try self.database?.delete(
+                    table: table,
+                    idField: self.idField,
+                    idRow: String(data.id)
+                )
                 
                 completion(true, nil)
-                return
             } catch let error {
                 completion(false, error)
-                return
             }
         }
     }
     
     // MARK:- Read Data
-    public func readData(type: DataType, id: String,
+    public func readData(type: DataType,
+                         id: String,
                          completion: @escaping (DataModelProtocol?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                let modelArray = try self.fetchData(type: type,
-                                                    idField: self.idField,
-                                                    idRow: id)
+                let modelArray = try self.fetchData(
+                    type: type,
+                    idField: self.idField,
+                    idRow: id
+                )
                 completion(modelArray.first, nil)
-                return
             } catch let error {
                 completion(nil, error)
-                return
             }
         }
     }
@@ -269,28 +303,29 @@ class DatabaseHandler {
             let idRow = author.id
             
             do {
-                guard let artworkArray = try self.fetchData(type: type,
-                                                            idField: idField,
-                                                            idRow: idRow) as? [ArtworkModel]
+                guard let artworkArray = try self.fetchData(
+                    type: type,
+                    idField: idField,
+                    idRow: idRow
+                    ) as? [ArtworkModel]
                     else
                 {
-                    completion(nil, DatabaseError.fetch(message:
-                        "Failure Trensfer DataModelArray to ArtworkModel")
+                    completion(nil, DatabaseError.fetch(
+                        message: "Failure Trensfer DataModelArray to ArtworkModel from \(#function) in \(#line)")
                     )
                     return
                 }
                 
                 completion(artworkArray, nil)
-                return
             } catch let error {
                 completion(nil, error)
-                return
             }
         }
     }
     
     // MARK:- Read Artwork Array with date
-    public func readArtworkArray(keyDate: Double, condition: Condition = .equal,
+    public func readArtworkArray(keyDate: Double,
+                                 condition: Condition = .equal,
                                  completion: @escaping ([DataModelProtocol]?, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -299,15 +334,15 @@ class DatabaseHandler {
             let idRow = String(keyDate)
             
             do {
-                let modelArray = try self.fetchData(type: type,
-                                                    idField: idField,
-                                                    idRow: idRow,
-                                                    condition: condition)
+                let modelArray = try self.fetchData(
+                    type: type,
+                    idField: idField,
+                    idRow: idRow,
+                    condition: condition
+                )
                 completion(modelArray, nil)
-                return
             } catch let error {
                 completion(nil, error)
-                return
             }
         }
     }
@@ -319,10 +354,6 @@ class DatabaseHandler {
         
         var model: DataModelProtocol {
             return self == .AuthorData ? AuthorModel() : ArtworkModel()
-        }
-        
-        var tableName: String {
-            return self == .AuthorData ? "AuthorTable" : "ArtworkTable"
         }
     }
 }
@@ -343,17 +374,17 @@ extension DatabaseError: CustomNSError {
     static var errorDomain: String = "SQLiteDatabase"
     var errorCode: Int {
         switch self {
-        case .openDatabase(_):
+        case .openDatabase:
             return 300
-        case .accessTable(_):
+        case .accessTable:
             return 301
-        case .accessData(_):
+        case .accessData:
             return 302
-        case .save(_):
+        case .save:
             return 303
-        case .update(_):
+        case .update:
             return 304
-        case .fetch(_):
+        case .fetch:
             return 305
         }
     }

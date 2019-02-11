@@ -30,6 +30,8 @@ struct AuthorModel {
 // MARK:- ModelProtocol
 extension AuthorModel: DataModelProtocol {
     
+    
+    
     // MARK:- Properties
     public var id: String {
         return authorId
@@ -38,21 +40,27 @@ extension AuthorModel: DataModelProtocol {
         return id.isEmpty
             || name.isEmpty
     }
+    public var tableName: String {
+        return "AuthorTable"
+    }
     public var variableList: [String: String] {
-        return ["name": name,
-                "introduction": introduction
+        return [
+            "name": name,
+            "introduction": introduction
         ]
     }
     public var columns: [String] {
-        return ["id",
-                "name",
-                "introduction"
+        return [
+            "id",
+            "name",
+            "introduction"
         ]
     }
     public var rows: [Int: String] {
-        return [0: authorId,
-                1: name,
-                2: introduction
+        return [
+            0: authorId,
+            1: name,
+            2: introduction
         ]
     }
     

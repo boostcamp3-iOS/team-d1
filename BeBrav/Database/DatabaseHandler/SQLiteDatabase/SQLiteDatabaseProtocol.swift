@@ -14,12 +14,19 @@ protocol SQLiteDatabaseProtocol {
     func insert(table: String, columns: [String], rows: [Int: String])
         throws -> Bool
     
-    func fetch(table: String, column: String?,
-               idField: String, idRow: String, condition: Condition?)
-        throws -> [[String: String]]
+    func fetch(table: String,
+               column: String?,
+               idField: String,
+               idRow: String,
+               condition: Condition?
+        ) throws -> [[String: String]]
     
-    func update(table: String, column: String, row: String,
-                idField: String, idRow: String) throws
+    func update(table: String,
+                column: String,
+                row: String,
+                idField: String,
+                idRow: String
+        ) throws
     
     func delete(table: String, idField: String, idRow: String) throws
 }

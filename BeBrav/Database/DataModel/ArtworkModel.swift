@@ -50,25 +50,30 @@ extension ArtworkModel: DataModelProtocol {
             || date < 0.0
             || views < 0
     }
+    public var tableName: String {
+        return "ArtworkTable"
+    }
     public var variableList: [String: String] {
         return ["views": "\(views)"]
     }
     var columns: [String] {
-        return ["id",
-                "authorId",
-                "title",
-                "date",
-                "views",
-                "imageURL"
+        return [
+            "id",
+            "authorId",
+            "title",
+            "date",
+            "views",
+            "imageURL"
         ]
     }
     var rows: [Int : String] {
-        return [0: artworkId,
-                1: authorId,
-                2: title,
-                3: "\(date)",
-                4: "\(views)",
-                5: imageURL]
+        return [
+            0: artworkId,
+            1: authorId,
+            2: title,
+            3: "\(date)",
+            4: "\(views)",
+            5: imageURL]
     }
     
     // MARK:- Initialize

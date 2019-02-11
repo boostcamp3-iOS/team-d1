@@ -30,15 +30,17 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Open SQLite Wrapper
-    static func Open(name: String, fileManager: FileManagerProtocol) throws -> SQLiteDatabase
+    static func open(name: String, fileManager: FileManagerProtocol)
+        throws -> SQLiteDatabase
     {
         var database: OpaquePointer?
         
-        let fileURL = try? fileManager.url(for: .documentDirectory,
-                                           in: .userDomainMask,
-                                           appropriateFor: nil,
-                                           create: false)
-            .appendingPathComponent("\(name).sqlite")
+        let fileURL = try? fileManager.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+            ).appendingPathComponent("\(name).sqlite")
         
         if sqlite3_open(fileURL?.path, &database) != SQLITE_OK {
             defer {
@@ -47,8 +49,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             
             let error = String(cString: sqlite3_errmsg(database))
             assertionFailure(error + " from \(#function) in \(#line)")
-            throw SQLiteError.openDatabase(message:
-                "Failure Open SQLite Database from \(#function) in \(#line)"
+            throw SQLiteError.openDatabase(
+                message: "Failure Open SQLite Database from \(#function) in \(#line)"
             )
         }
         
@@ -58,11 +60,11 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     // MARK:- Prepare SQL Query statement
     private func prepare(query: String) throws -> OpaquePointer? {
         var statement: OpaquePointer?
-        guard sqlite3_prepare_v2(database, query, -1, &statement, nil)
-            == SQLITE_OK else
+        guard sqlite3_prepare_v2(database, query, -1, &statement, nil) == SQLITE_OK
+            else
         {
-            throw SQLiteError.prepare(message:
-                errorMessage + " from \(#function) in \(#line)"
+            throw SQLiteError.prepare(
+                message: errorMessage + " from \(#function) in \(#line)"
             )
         }
         
@@ -127,7 +129,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             let text: NSString
                 = rows[i]?.trimmingCharacters(in: .whitespacesAndNewlines)
                     as NSString? ?? ""
-            if sqlite3_bind_text(statement, index, text.utf8String, -1, nil)
+            if sqlite3_bind_text(statement,index, text.utf8String, -1, nil)
                 != SQLITE_OK
             {
                 throw SQLiteError.bind(message:
@@ -137,8 +139,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(message:
-                errorMessage + " from \(#function) in \(#line)"
+            throw SQLiteError.step(
+                message: errorMessage + " from \(#function) in \(#line)"
             )
         }
         
@@ -148,8 +150,11 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Fetch column at table in SQLite Database
-    public func fetch(table: String, column: String? = nil,
-                      idField: String = "", idRow: String = "", condition: Condition?)
+    public func fetch(table: String,
+                      column: String? = nil,
+                      idField: String = "",
+                      idRow: String = "",
+                      condition: Condition?)
         throws -> [[String: String]]
     {
         let id = idFieldName(name: idField)
@@ -187,8 +192,11 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Update row at table in SQLite Database
-    public func update(table: String, column: String, row: String,
-                       idField: String, idRow: String) throws
+    public func update(table: String,
+                       column: String,
+                       row: String,
+                       idField: String,
+                       idRow: String) throws
     {
         let query = "UPDATE \(table) SET \(column) = '\(row)' WHERE \(idField) = '\(idRow)';"
         
@@ -199,7 +207,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(message: errorMessage + " from \(#function) in \(#line)")
+            throw SQLiteError.step(
+                message: errorMessage + " from \(#function) in \(#line)"
+            )
         }
         
         print("Successfully updated value at \(table) with \(idField)/\(column):\(row)")
@@ -216,8 +226,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(message:
-                errorMessage + " from \(#function) in \(#line)"
+            throw SQLiteError.step(
+                message: errorMessage + " from \(#function) in \(#line)"
             )
         }
         
@@ -270,16 +280,16 @@ extension SQLiteError: CustomNSError {
         }
     }
     
-    var userInfo: [String : Any] {
+    var userInfo: [String: Any] {
         switch self {
         case let .openDatabase(code):
-            return ["File": #file, "Type":"openDatabase", "Message":code]
+            return ["File": #file, "Type": "openDatabase", "Message":code]
         case let .prepare(code):
-            return ["File": #file, "Type":"prepare", "Message":code]
+            return ["File": #file, "Type": "prepare", "Message":code]
         case let .step(code):
-            return ["File": #file, "Type":"step", "Message":code]
+            return ["File": #file, "Type": "step", "Message":code]
         case let .bind(code):
-            return ["File": #file, "Type":"bind", "Message":code]
+            return ["File": #file, "Type": "bind", "Message":code]
         }
     }
 }
