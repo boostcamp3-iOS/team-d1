@@ -23,6 +23,8 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     ///한 페이지에 해당하는 offset을 전부 저장합니다.
     var offsetBucket: [(CGFloat, CGFloat)] = []
     
+    
+    private var latestOrientation: Orientation = .portrait
     ///레이아웃의 기본설정을 맡는 프로퍼티입니다.
     private var numberOfColumns = 3
     private var cellPadding: CGFloat = 2
@@ -48,13 +50,29 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     /// 리턴된 offset을 offsetBucket에 넣어 저장합니다. 이후 루프를 돌면서 (pageNumber * numberOfItems)를 이용하여 요청된
     /// 페이지에 해당하는 부분의 UICollectionViewLayoutAttributes를 생성한 후 이를 cache에 저장합니다.
     override func prepare() {
+        
+        guard let collectionView = collectionView,
+            collectionView.numberOfItems(inSection: 0) != 0 else {
+                return
+        }
+        
+        var currentOrientation: Orientation = .portrait
+        
+        if collectionView.frame.width > collectionView.frame.height {
+            currentOrientation = .landScape
+        } else {
+            currentOrientation = .portrait
+        }
+        
+        if currentOrientation == latestOrientation {
+            
+        } else {
+            
+        }
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         let index = delegate.getCurrentMostViewedArtworkIndex()
         let rowHeight = numberOfItems / numberOfColumns + 1
-        guard let collectionView = collectionView,
-            collectionView.numberOfItems(inSection: 0) != 0 else {
-            return
-        }
+        
         
         var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         var offsetPointer = OffsetPointer(numberOfColums: numberOfColumns,
@@ -88,7 +106,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
-        
+
         for attributes in cache {
             if attributes.frame.intersects(rect) {
                 visibleLayoutAttributes.append(attributes)
@@ -100,5 +118,27 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
+    
+    func invalidateCache() {
+        cache.removeAll()
+        
+    }
+    
+    override func invalidateLayout() {
+        guard let collectionView = collectionView,
+            collectionView.numberOfItems(inSection: 0) != 0 else {
+                return
+        }
+        if collectionView.frame.width > collectionView.frame.height {
+            latestOrientation = .landScape
+        } else {
+            latestOrientation = .portrait
+        }
+        super.invalidateLayout()
+    }
 }
 
+enum Orientation {
+    case portrait
+    case landScape
+}

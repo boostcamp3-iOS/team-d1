@@ -13,8 +13,8 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     let addArtworkButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.backgroundColor = #colorLiteral(red: 0.002250103978, green: 0.3397829235, blue: 1, alpha: 1)
+        button.tintColor = .white
+        button.backgroundColor = UIColor(named: "keyColor")
         button.layer.cornerRadius = 10
         button.setTitle("작품 등록하기", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)

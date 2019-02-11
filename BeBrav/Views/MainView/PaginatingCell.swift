@@ -17,7 +17,7 @@ class PaginatingCell: UICollectionViewCell {
         imageView.image = nil
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = #colorLiteral(red: 0.968627451, green: 0.968627451, blue: 0.862745098, alpha: 1).withAlphaComponent(0.2) //TODO: 에셋으로 관리
+        imageView.backgroundColor = UIColor(named: "layoutBackgroundColor") //TODO: 에셋으로 관리
         return imageView
     }()
     
