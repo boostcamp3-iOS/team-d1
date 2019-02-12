@@ -43,6 +43,12 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         }
     }
     
+    private var contentHeight: CGFloat = 0
+    
+    override var collectionViewContentSize: CGSize {
+        return CGSize(width: contentWidth, height: contentHeight)
+    }
+    
     /// UICollectionViewFlowLayout의 prepare() 메서드를 override하였습니다. 이 메서드는 bounds가 변경되면 불리게 됩니다.
     /// 내부 동작방식:
     /// 먼저 column의 갯수로 contentWidth 로 나누어 각 셀당 얼마의 width를 가져야 할 지 계산합니다. 이후 delegate를 통해서
@@ -78,6 +84,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         var offsetPointer = OffsetPointer(numberOfColums: numberOfColumns,
                                           yOffset: pageNumber * rowHeight)
         let offsets = offsetPointer.getOffsets(count: numberOfItems + 3, freezeAt: index)
+        print("offset count\(offsets.count)")
             for offset in offsets {
                 offsetBucket.append(offset)
             }
@@ -99,8 +106,10 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
                 let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = insetFrame
+                print("attr\(attributes.frame)")
                 cache.append(attributes)
             }
+        contentHeight = cache.last?.frame.maxY ?? 0.0
         }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {

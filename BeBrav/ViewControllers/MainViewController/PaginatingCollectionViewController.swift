@@ -16,6 +16,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
     typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
     
     
+    lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(artworkCellDidTap))
+        recognizer.minimumPressDuration = 1
+        recognizer.delaysTouchesBegan = true
+        return recognizer
+    }()
+    
     let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +119,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
-        
+        collectionView.addGestureRecognizer(longPressGestureRecognizer)
         //TODO: filtering에 맞는 이미지로 수정
         let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
         barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -162,6 +169,21 @@ class PaginatingCollectionViewController: UICollectionViewController {
         let artAddViewController = ArtAddViewController()
         navigationController?.pushViewController(artAddViewController, animated: false)
     }
+    
+    @objc func artworkCellDidTap() {
+        
+        if longPressGestureRecognizer.state != .ended {
+            return
+        }
+        let location = longPressGestureRecognizer.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: location) else {
+            return
+            
+        }
+        let pressedCell = collectionView.cellForItem(at: indexPath)
+        pressedCell?.isSelected = true
+    }
+    
     
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -290,6 +312,7 @@ extension PaginatingCollectionViewController {
                         print(error)
                     case .success(let data):
                         let result = data.values.sorted()
+                        print("result is\(result.count)")
                         if result.count < self.batchSize {
                             self.isEndOfData = true
                         }
@@ -349,12 +372,14 @@ extension PaginatingCollectionViewController {
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView,
                                            willDecelerate decelerate: Bool) {
-        let currentOffset = scrollView.contentOffset.y
-        let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        if maxOffset - currentOffset <= 40{
-            if !isLoading {
-                footerView?.indicator.startAnimating()
+        if !isEndOfData {
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top
+            
+            let contentLarger = (scrollView.contentSize.height > scrollView.frame.size.height - topPadding!)
+            let viewableHeight = contentLarger ? (scrollView.frame.size.height - topPadding!) : scrollView.contentSize.height
+            let atBottom = (scrollView.contentOffset.y >= scrollView.contentSize.height - viewableHeight - 40)
+            if atBottom && !isLoading {
                 fetchPage()
             }
         }

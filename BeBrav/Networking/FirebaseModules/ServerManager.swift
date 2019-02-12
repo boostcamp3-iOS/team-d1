@@ -89,7 +89,7 @@ struct ServerManager {
         let protoArtwork = ArtworkEncodeType(uid: artworkUid,
                                    url: "",
                                         title: "",
-                                        timestamp: [:],
+                                        timestamp: [".sv": "timestamp"],
                                         views: 0,
                                         orientation: r1,
                                         color: r2,

@@ -50,6 +50,7 @@
 		BF293ABDA0A02218C8A622E6C9339079 /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B101B2C2ACD2B7795BFACE4FA1411F7D /* RequestMakable.swift */; };
 		C6A810DE2CEB3673D8F1910EC7DF982D /* SQLiteDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */; };
 		C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */; };
+		C9B1034F2211D76200900A41 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B1034E2211D76200900A41 /* UIImage+.swift */; };
 		CA4966938FE397217278B2F57E30AF75 /* NetworkDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CDC56DD0583A2D4A0C1E7FEAC492A /* NetworkDependencyContainer.swift */; };
 		CC3662985B7CEEEE359E38BC36C0DA4C /* SQLiteDatabaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */; };
 		CC40F573CDA90F09A092EB33C4C30B88 /* LayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CBB887A7B21BB4DED8BE715563060E /* LayoutModel.swift */; };
@@ -119,6 +120,7 @@
 		B3CBB887A7B21BB4DED8BE715563060E /* LayoutModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutModel.swift; sourceTree = "<group>"; };
 		BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
 		C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		C9B1034E2211D76200900A41 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
 		D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
 		D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */,
 				DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */,
+				C9B1034E2211D76200900A41 /* UIImage+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				CA4966938FE397217278B2F57E30AF75 /* NetworkDependencyContainer.swift in Sources */,
 				42A0535864150D885710EA553D8E0A2D /* NetworkFactory.swift in Sources */,
 				07E23E11E66EF536E18BF7BBDAECE192 /* NetworkManger.swift in Sources */,
+				C9B1034F2211D76200900A41 /* UIImage+.swift in Sources */,
 				D82B19EA31F2FC74D8AF3E4F3B145C1D /* NetworkModel.swift in Sources */,
 				F768BDF216682A14A45F2C5DB9D10F93 /* NetworkSeparator.swift in Sources */,
 				E2359D6E25A2B79182D53947E517B7DB /* NetworkSeperatable.swift in Sources */,

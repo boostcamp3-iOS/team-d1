@@ -30,7 +30,7 @@ struct ArtworkEncodeType: Encodable {
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
-        self.timestamp = [:]
+        self.timestamp = timestamp
         self.views = views
         self.orientation = orientation
         self.color = color

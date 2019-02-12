@@ -85,7 +85,7 @@ struct ServerDatabase: FirebaseDatabaseService {
         seperator.write(path: "\(path).json",
                         data: extractedData,
                         method: method,
-                        headers: [:]) { (result, response) in
+                        headers: ["Content-Type": MimeType.json.rawValue]) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error), nil)

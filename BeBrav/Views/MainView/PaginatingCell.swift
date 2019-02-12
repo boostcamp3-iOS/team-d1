@@ -20,7 +20,20 @@ class PaginatingCell: UICollectionViewCell {
         imageView.backgroundColor = UIColor(named: "layoutBackgroundColor") //TODO: 에셋으로 관리
         return imageView
     }()
-    
+    override var isSelected: Bool{
+        didSet{
+            if self.isSelected
+            {
+                self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                self.contentView.backgroundColor = UIColor.red
+            }
+            else
+            {
+                self.transform = CGAffineTransform.identity
+                self.contentView.backgroundColor = UIColor.gray
+            }
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
