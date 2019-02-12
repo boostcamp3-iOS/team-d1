@@ -21,8 +21,6 @@ class PhotoViewController: UIViewController {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        #warning("Replace Image after Add placeholder")
-        imageView.image = UIImage(named: "north") // TODO: 테스트를 위한 기본 이미지로 placeholder 추가 후 변경
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -42,6 +40,9 @@ class PhotoViewController: UIViewController {
         label.text = "작품 제목"
         return label
     }()
+    
+    // MARK:- Properties
+    public var artwork: ArtworkDecodeType?
     
     // MARK:- Initialize
     override func viewDidLoad() {
@@ -73,22 +74,23 @@ class PhotoViewController: UIViewController {
     // MARK:- Artist Label Did Tap
     #warning("Add ViewController and Push for Artist Detail")
     @objc func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
-        dismiss(animated: true) {
-            //TODO: 화면 닫은 후에 메인화면의 navigationController에서 작가상세화면으로 push 하도록 코드 추가
-        }
+        let artistViewController = ArtistViewController()
+        
+        navigationController?.pushViewController(artistViewController, animated: true)
+        
     }
     
     // MARK:- ImageView Did Pinched
     @objc func imageViewDidPinched(_ sender: UIPinchGestureRecognizer) {
-        if sender.state == .ended {
-            if sender.scale < 0.8 {
-                dismiss(animated: true, completion: nil)
-            } else {
-                scrollView.zoomScale = 1.0
-            }
-        } else {
-            scrollView.zoomScale = sender.scale
-        }
+//        if sender.state == .ended {
+//            if sender.scale < 0.8 {
+//                navigationController?.popViewController(artistViewController, animated: true)
+//            } else {
+//                scrollView.zoomScale = 1.0
+//            }
+//        } else {
+//            scrollView.zoomScale = sender.scale
+//        }
     }
     
     // MARK:- Set Layout
