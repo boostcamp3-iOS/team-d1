@@ -8,25 +8,27 @@
 
 import UIKit
 
-class PhotoViewController: UIViewController {
+class ArtworkViewController: UIViewController {
     
     // MARK:- Outlet
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.maximumZoomScale = 1.5
-        scrollView.minimumZoomScale = 0.7
+        scrollView.maximumZoomScale = 2.0
+        scrollView.minimumZoomScale = 1.0
+        scrollView.zoomScale = 1
         return scrollView
     }()
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 25)
         label.text = "작가 이름"
@@ -35,6 +37,7 @@ class PhotoViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 19)
         label.text = "작품 제목"
@@ -48,16 +51,31 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let artwork = artwork,
+            let url = URL(string: artwork.artworkUrl)
+            else
+        {
+            return
+        }
+
+        NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+            if error != nil {
+                assertionFailure("failed to make cell")
+                return
+            }
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+        }
+        
         setLayout()
         setGestureRecognizer()
+        
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let centerOffsetX = (scrollView.contentSize.width - scrollView.frame.size.width) / 2
-        let centerOffsetY = (scrollView.contentSize.height - scrollView.frame.size.height) / 2
-        let centerPoint = CGPoint(x: centerOffsetX, y: centerOffsetY)
-        scrollView.setContentOffset(centerPoint, animated: false)
+
     }
     
     // MARK:- Set Gesture Recognizer
@@ -65,10 +83,6 @@ class PhotoViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
         artistLabel.isUserInteractionEnabled = true
         artistLabel.addGestureRecognizer(tapGestureRecognizer)
-        
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(imageViewDidPinched(_:)))
-        imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(pinchGestureRecognizer)
     }
     
     // MARK:- Artist Label Did Tap
@@ -79,20 +93,7 @@ class PhotoViewController: UIViewController {
         navigationController?.pushViewController(artistViewController, animated: true)
         
     }
-    
-    // MARK:- ImageView Did Pinched
-    @objc func imageViewDidPinched(_ sender: UIPinchGestureRecognizer) {
-//        if sender.state == .ended {
-//            if sender.scale < 0.8 {
-//                navigationController?.popViewController(artistViewController, animated: true)
-//            } else {
-//                scrollView.zoomScale = 1.0
-//            }
-//        } else {
-//            scrollView.zoomScale = sender.scale
-//        }
-    }
-    
+
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(scrollView)
@@ -101,20 +102,20 @@ class PhotoViewController: UIViewController {
         scrollView.addSubview(titleLabel)
         scrollView.delegate = self
         
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
-        let left = imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor)
-        left.priority = .init(1)
-        left.isActive = true
-        let right = imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
-        right.priority = .init(1)
-        right.isActive = true
+        imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
+        
+        let width = imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        width.priority = .init(750)
+        width.isActive = true
+        let height = imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        height.priority = .init(750)
+        height.isActive = true
         
         titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
@@ -125,7 +126,7 @@ class PhotoViewController: UIViewController {
 }
 
 // MARK:- UIScrollView Delegate
-extension PhotoViewController: UIScrollViewDelegate {
+extension ArtworkViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }

@@ -100,6 +100,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
         setCollectionView()
         setLoadingView()
         fetchPage()
+        
+        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.available
+        {
+            registerForPreviewing(with: self, sourceView: view)
+            
+        }
     }
     
     func setLoadingView() {
@@ -184,6 +190,19 @@ class PaginatingCollectionViewController: UICollectionViewController {
         pressedCell?.isSelected = true
     }
     
+    // MARK:- Return viewController
+    private func artworkViewController(location: CGPoint) -> ArtworkViewController {
+        guard let index = collectionView.indexPathForItem(at: location)?.item else {
+                return .init()
+        }
+        
+        let photoViewController = ArtworkViewController()
+        photoViewController.artwork = artworkBucket[index]
+        // TODO: 이미지 사이즈에 따라 테스트후 preferredContentSize 값 설정
+        photoViewController.preferredContentSize = CGSize(width: 0.0, height: 300)
+        return photoViewController
+    }
+    
     
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -221,10 +240,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
         guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else {
             fatalError()
         }
-        let photoViewController = PhotoViewController()
+        let photoViewController = ArtworkViewController()
         photoViewController.imageView.image = cell.artworkImageView.image
         navigationController?.pushViewController(photoViewController, animated: false)
         
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        return
     }
 }
 
@@ -411,4 +434,23 @@ extension PaginatingCollectionViewController: MostViewLayoutDelegate {
     }
 }
 
+extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           viewControllerForLocation location: CGPoint)
+        -> UIViewController?
+    {
+         let viewController = artworkViewController(location: location)
+        
+        return viewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           commit viewControllerToCommit: UIViewController)
+    {
+        
+        show(viewControllerToCommit, sender: self)
+    }
+    
+    
+}
 

@@ -338,6 +338,14 @@
 			path = SQLiteDatabase;
 			sourceTree = "<group>";
 		};
+		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5242B85222D44F18CE647856566D29C4 /* ArkworkViewController.swift */,
+			);
+			path = ArtworkViewController;
+			sourceTree = "<group>";
+		};
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,14 +452,6 @@
 				DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
-			isa = PBXGroup;
-			children = (
-				5242B85222D44F18CE647856566D29C4 /* ArkworkViewController.swift */,
-			);
-			path = ArtworkViewController;
 			sourceTree = "<group>";
 		};
 		F366F978F2742F0BB0539C770AD89303 /* Utils */ = {
@@ -772,7 +772,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
+				DEVELOPMENT_TEAM = FUG5BV53BR;
 				INFOPLIST_FILE = BeBrav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -846,7 +846,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
+				DEVELOPMENT_TEAM = FUG5BV53BR;
 				INFOPLIST_FILE = BeBrav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
