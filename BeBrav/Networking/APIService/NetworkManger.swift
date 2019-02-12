@@ -54,7 +54,7 @@ class NetworkManager: DiskCacheProtocol {
                 completion(nil,APIError.invalidData)
                 return
             }
-            guard let image: UIImage = UIImage.init(data: data)?.scale(with: 0.1) else {
+            guard let image: UIImage = UIImage.init(data: data)?.scale(with: 0.2) else {
                 completion(nil,APIError.invalidData)
                 return
             }
