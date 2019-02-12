@@ -25,6 +25,22 @@ class ImageLoader: ImageLoaderProtocol {
         self.memoryCache = memoryCache
     }
     
+    // MARK:- Fetch image with caching
+    public func fetchImage(url: URL,
+                           size: ImageSize,
+                           completion: @escaping (UIImage?, Error?) -> Void)
+    {
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let image = self.fetchCacheImage(url: url, size: size) {
+                completion(image,nil)
+                return
+            }
+            
+            self.downloadImage(url: url, size: size, completion: completion)
+        }
+    }
+    
+    // MARK:- Download Image
     private func downloadImage(url: URL,
                                size: ImageSize,
                                completion: @escaping (UIImage?, Error?) -> Void)
@@ -58,22 +74,6 @@ class ImageLoader: ImageLoaderProtocol {
             }
         }).resume()
     }
-    
-    // MARK:- Get image with caching
-    public func getImageWithCaching(url: URL,
-                                    size: ImageSize,
-                                    completion: @escaping (UIImage?, Error?) -> Void)
-    {
-        DispatchQueue.global(qos: .userInitiated).async {
-            if let image = self.fetchCacheImage(url: url, size: size) {
-                completion(image,nil)
-                return
-            }
-            
-            self.downloadImage(url: url, size: size, completion: completion)
-        }
-    }
-    
     
     // MARK:- Fetch cache image
     private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
