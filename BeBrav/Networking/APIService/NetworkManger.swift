@@ -48,7 +48,7 @@ class NetworkManager {
                 completion(nil,APIError.invalidData)
                 return
             }
-            guard let image: UIImage = UIImage(data: data) else {
+            guard let image: UIImage = UIImage(data: data)?.scale(with: 0.2)  else {
                 completion(nil,APIError.invalidData)
                 return
             }

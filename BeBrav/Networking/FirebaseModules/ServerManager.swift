@@ -29,26 +29,26 @@ struct ServerManager {
                 completion: @escaping (Result<URLResponse?>) -> ()) {
         authManager.signUp(email: email,
                            password: password) { (result) in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success:
-                guard let email = UserDefaults.standard.string(forKey: "userId"),
-                    let uid = UserDefaults.standard.string(forKey: "uid") else {
-                        completion(.failure(APIError.invalidData))
-                        return
-                }
-                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
-                let user = [uid: userData]
-                self.databaseManager.write(path: "root/users", data: user, method: .patch){ (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .success:
-                        completion(.success(response))
-                    }
-                }
-            }
+                            switch result {
+                            case .failure(let error):
+                                completion(.failure(error))
+                            case .success:
+                                guard let email = UserDefaults.standard.string(forKey: "userId"),
+                                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                                        completion(.failure(APIError.invalidData))
+                                        return
+                                }
+                                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
+                                let user = [uid: userData]
+                                self.databaseManager.write(path: "root/users", data: user, method: .patch){ (result, response) in
+                                    switch result {
+                                    case .failure(let error):
+                                        completion(.failure(error))
+                                    case .success:
+                                        completion(.success(response))
+                                    }
+                                }
+                            }
         }
     }
     
@@ -75,80 +75,92 @@ struct ServerManager {
                        path: String,
                        fileName: String,
                        completion: @escaping (Result<URLResponse?>)->()) {
+        
+        //이미지에 분류 알고리즘 적용
+        var imageSort = ImageSort(input: image)
+        
+        guard let r1 = imageSort.sort1(), let r2 = imageSort.sort2(), let r3 = imageSort.sort3() else { return }
+        
         var artworkUid = ""
         guard let uid = UserDefaults.standard.string(forKey: "uid") else {
             completion(.failure(APIError.invalidData))
             return
         }
         let protoArtwork = ArtworkEncodeType(uid: artworkUid,
-                                   url: "",
-                                        title: "",
-                                        timestamp: [:],
-                                        views: 0)
+                                             url: "",
+                                             title: "",
+                                             timestamp: [".sv": "timestamp"],
+                                             views: 0,
+                                             orientation: r1,
+                                             color: r2,
+                                             temperature: r3)
         
         self.databaseManager.write(path: "root/users/\(uid)/artworks",
-                                   data: protoArtwork,
-                                   method: .post) { (result, response) in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let data):
-                guard let uidData =
-                    self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseUidData.self,
-                                                                      binaryData: data)
-                    else {
-                        completion(.failure(APIError.jsonParsingFailure))
-                    return
-                }
-                artworkUid = uidData.name
-                self.storageManager.post(image: image,
-                                    scale: scale,
-                                    path: path,
-                                    fileName: artworkUid) { (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .success(let data):
-                        guard let extractedData =
-                            self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseStorageResponseDataType.self,
-                                                                              binaryData: data)
-                            else {
-                                completion(.failure(APIError.jsonParsingFailure))
-                                return
-                        }
-                        guard let urlString = response?.url?.absoluteString else {
-                            completion(.failure(APIError.invalidData))
+            data: protoArtwork,
+            method: .post) { (result, response) in
+                switch result {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(let data):
+                    guard let uidData =
+                        self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseUidData.self,
+                                                                          binaryData: data)
+                        else {
+                            completion(.failure(APIError.jsonParsingFailure))
                             return
-                        }
-                        let downloadUrl = "\(urlString)&token=\(extractedData.downloadTokens)"
-                        let artwork = ArtworkEncodeType(uid: artworkUid,
-                                              url: downloadUrl,
-                                              title: fileName,
-                                              timestamp: [".sv": "timestamp"],
-                                              views: Int.random(in: 0...10000))
-                        self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
-                                                   data: artwork,
-                                                   method: .put) { (result, response) in
-                            switch result {
-                            case .failure(let error):
-                                completion(.failure(error))
-                            case .success:
-                                self.databaseManager.write(path: "root/artworks/\(artworkUid)",
-                                    data: artwork,
-                                    method: .put) { (result, response) in
-                                        switch result {
-                                        case .failure(let error):
-                                            completion(.failure(error))
-                                        case .success:
-                                            completion(.success(response))
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    }
+                    artworkUid = uidData.name
+                    self.storageManager.post(image: image,
+                                             scale: scale,
+                                             path: path,
+                                             fileName: artworkUid) { (result, response) in
+                                                switch result {
+                                                case .failure(let error):
+                                                    completion(.failure(error))
+                                                case .success(let data):
+                                                    guard let extractedData =
+                                                        self.storageManager.parser.extractDecodedJsonData(decodeType: FirebaseStorageResponseDataType.self,
+                                                                                                          binaryData: data)
+                                                        else {
+                                                            completion(.failure(APIError.jsonParsingFailure))
+                                                            return
+                                                    }
+                                                    guard let urlString = response?.url?.absoluteString else {
+                                                        completion(.failure(APIError.invalidData))
+                                                        return
+                                                    }
+                                                    let downloadUrl = "\(urlString)&token=\(extractedData.downloadTokens)"
+                                                    let artwork = ArtworkEncodeType(uid: artworkUid,
+                                                                                    url: downloadUrl,
+                                                                                    title: fileName,
+                                                                                    timestamp: [".sv": "timestamp"],
+                                                                                    views: Int.random(in: 0...10000),
+                                                                                    orientation: r1,
+                                                                                    color: r2,
+                                                                                    temperature: r3)
+                                                    self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
+                                                        data: artwork,
+                                                        method: .put) { (result, response) in
+                                                            switch result {
+                                                            case .failure(let error):
+                                                                completion(.failure(error))
+                                                            case .success:
+                                                                self.databaseManager.write(path: "root/artworks/\(artworkUid)",
+                                                                    data: artwork,
+                                                                    method: .put) { (result, response) in
+                                                                        switch result {
+                                                                        case .failure(let error):
+                                                                            completion(.failure(error))
+                                                                        case .success:
+                                                                            completion(.success(response))
+                                                                        }
+                                                                }
+                                                            }
+                                                    }
+                                                }
                     }
                 }
-            }
         }
     }
+}
 

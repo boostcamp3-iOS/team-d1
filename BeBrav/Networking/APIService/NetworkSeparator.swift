@@ -59,7 +59,7 @@ struct NetworkSeparator: NetworkSeperatable {
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: method,
-                                                     headers: ["Content-Type": MimeType.json.rawValue],
+                                                     headers: headers,
                                                      body: data) else {
             completion(.failure(APIError.requestFailed), nil)
             return
