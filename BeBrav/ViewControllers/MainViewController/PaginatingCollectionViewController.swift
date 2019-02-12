@@ -190,18 +190,21 @@ class PaginatingCollectionViewController: UICollectionViewController {
         pressedCell?.isSelected = true
     }
     
-    // MARK:- Return viewController
+    // MARK:- Return ArtworkViewController for 3D Touch
     private func artworkViewController(location: CGPoint) -> ArtworkViewController {
         guard let index = collectionView.indexPathForItem(at: location)?.item else {
-                return .init()
+            return .init()
         }
-        let photoViewController = ArtworkViewController()
-        photoViewController.artwork = artworkBucket[index]
+        let width = view.frame.width * 0.85
+        
+        let viewController = ArtworkViewController()
+        viewController.artwork = artworkBucket[index]
         // TODO: 이미지 사이즈에 따라 테스트후 preferredContentSize 값 설정
-        photoViewController.preferredContentSize = CGSize(width: 0.0, height: 300)
-        return photoViewController
+        viewController.preferredContentSize = CGSize(width: width, height: 0.0)
+        
+        viewController.indicator.startAnimating()
+        return viewController
     }
-    
     
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -236,14 +239,10 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else {
-            fatalError()
-        }
-        let photoViewController = ArtworkViewController()
-        photoViewController.imageView.image = cell.artworkImageView.image
+        let viewController = ArtworkViewController()
+        viewController.artwork = artworkBucket[indexPath.item]
 
-        navigationController?.pushViewController(photoViewController, animated: false)
-        
+        navigationController?.pushViewController(viewController, animated: false)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
@@ -434,6 +433,7 @@ extension PaginatingCollectionViewController: MostViewLayoutDelegate {
     }
 }
 
+// MARK:-
 extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing,
                            viewControllerForLocation location: CGPoint)

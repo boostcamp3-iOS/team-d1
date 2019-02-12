@@ -19,7 +19,7 @@ class ArtworkViewController: UIViewController {
         scrollView.zoomScale = 1
         return scrollView
     }()
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -43,6 +43,12 @@ class ArtworkViewController: UIViewController {
         label.text = "작품 제목"
         return label
     }()
+    public let indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.style = .whiteLarge
+        return indicator
+    }()
     
     // MARK:- Properties
     public var artwork: ArtworkDecodeType?
@@ -51,31 +57,34 @@ class ArtworkViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let artwork = artwork,
-            let url = URL(string: artwork.artworkUrl)
-            else
-        {
-            return
-        }
-
-        NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
-            if error != nil {
-                assertionFailure("failed to make cell")
-                return
-            }
-            DispatchQueue.main.async {
-                self.imageView.image = image
+        view.alpha = 1.0
+        
+        titleLabel.isHidden = true
+        artistLabel.isHidden = true
+        
+        if let artwork = artwork, let url = URL(string: artwork.artworkUrl) {
+            NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+                if error != nil {
+                    assertionFailure("failed to make cell")
+                    return
+                }
+                guard let image = image else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    let width = self.view.frame.width * 0.85
+                    let height = width * (image.size.height / image.size.width)
+                    self.preferredContentSize = CGSize(width: width, height: height)
+                    self.indicator.stopAnimating()
+                    self.imageView.image = image
+                    self.titleLabel.isHidden = false
+                    self.artistLabel.isHidden = false
+                }
             }
         }
         
         setLayout()
         setGestureRecognizer()
-        
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
     }
     
     // MARK:- Set Gesture Recognizer
@@ -91,12 +100,12 @@ class ArtworkViewController: UIViewController {
         let artistViewController = ArtistViewController()
         
         navigationController?.pushViewController(artistViewController, animated: true)
-        
     }
 
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(scrollView)
+        view.addSubview(indicator)
         scrollView.addSubview(imageView)
         scrollView.addSubview(artistLabel)
         scrollView.addSubview(titleLabel)
@@ -122,6 +131,9 @@ class ArtworkViewController: UIViewController {
         
         artistLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10).isActive = true
         artistLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor).isActive = true
+        
+        indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
 

@@ -71,19 +71,15 @@ class NetworkManager: DiskCacheProtocol {
     }
     //캐싱 기능을 사용하여 한번 받아온 이미지는 다시 네트워킹을 하지 않도록 처리하였습니다.
     func getImageWithCaching(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
-//        if let image = cache.object(forKey: url.absoluteString as NSString) {
-//            completion(image,nil)
-//        } else {
-//             downloadImage(url: url, completion: completion)
-//        }
+        if let image = cache.object(forKey: url.absoluteString as NSString) {
+            completion(image,nil)
+            return
+        }
+        if let image = fetchDiskCacheImage(url: url) {
+            completion(image,nil)
+            return
+        }
+        
         downloadImage(url: url, completion: completion)
     }
-        
-       //if let image = fetchDiskCacheImage(url: url) {
-           // completion(image,nil)
-       // }
-        
-        
-    
-    
 }
