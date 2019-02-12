@@ -101,9 +101,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
         setLoadingView()
         fetchPage()
         
-        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == UIForceTouchCapability.available
+        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
         {
-            registerForPreviewing(with: self, sourceView: view)
+            registerForPreviewing(with: self, sourceView: collectionView)
             
         }
     }
@@ -195,7 +195,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         guard let index = collectionView.indexPathForItem(at: location)?.item else {
                 return .init()
         }
-        
         let photoViewController = ArtworkViewController()
         photoViewController.artwork = artworkBucket[index]
         // TODO: 이미지 사이즈에 따라 테스트후 preferredContentSize 값 설정
@@ -242,6 +241,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
         let photoViewController = ArtworkViewController()
         photoViewController.imageView.image = cell.artworkImageView.image
+
         navigationController?.pushViewController(photoViewController, animated: false)
         
     }
@@ -447,10 +447,7 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing,
                            commit viewControllerToCommit: UIViewController)
     {
-        
         show(viewControllerToCommit, sender: self)
     }
-    
-    
 }
 
