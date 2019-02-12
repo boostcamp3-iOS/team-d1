@@ -17,6 +17,9 @@ struct ArtworkModel {
     public let date: Double
     public let views: Int
     public let imageURL: String
+    public let orientation: Bool
+    public let temperature: Bool
+    public let color: Bool
     
     // MARK:- Initialize
     init(id: String,
@@ -24,7 +27,10 @@ struct ArtworkModel {
          title: String,
          date: Double,
          imageURL: String,
-         views: Int = 0
+         views: Int = 0,
+         orientation: Bool,
+         temperature: Bool,
+         color: Bool
         )
     {
         self.artworkId = id
@@ -33,6 +39,9 @@ struct ArtworkModel {
         self.date = date
         self.imageURL = imageURL
         self.views = views
+        self.orientation = orientation
+        self.temperature = temperature
+        self.color = color
     }
 }
 
@@ -63,7 +72,10 @@ extension ArtworkModel: DataModelProtocol {
             "title",
             "date",
             "views",
-            "imageURL"
+            "imageURL",
+            "orientation",
+            "temperature",
+            "color"
         ]
     }
     var rows: [Int : String] {
@@ -73,7 +85,11 @@ extension ArtworkModel: DataModelProtocol {
             2: title,
             3: "\(date)",
             4: "\(views)",
-            5: imageURL]
+            5: imageURL,
+            6: "\(orientation ? "" : "1")",
+            7: "\(temperature ? "" : "1")",
+            8: "\(color ? "" : "1")"
+        ]
     }
     
     // MARK:- Set Data
@@ -96,6 +112,9 @@ extension ArtworkModel: DataModelProtocol {
         self.date = 0.0
         self.imageURL = ""
         self.views = 0
+        self.orientation = false
+        self.temperature = false
+        self.color = false
     }
     
     init(data: [String: String]) {
@@ -105,6 +124,9 @@ extension ArtworkModel: DataModelProtocol {
         self.date = Double(data["date"] ?? "") ?? -0.1
         self.views = Int(data["views"] ?? "") ?? -1
         self.imageURL = data["imageURL"] ?? ""
+        self.orientation = data["orientation"]?.isEmpty ?? false
+        self.temperature = data["temperature"]?.isEmpty ?? false
+        self.color = data["color"]?.isEmpty ?? false
     }
 }
 
