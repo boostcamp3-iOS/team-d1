@@ -6,14 +6,25 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class DiskCacheStub: DiskCacheProtocol {
     public let fileManager: FileManagerProtocol
     public let folderName: String = "DiskCacheStub"
-    public var diskCacheList: Set<String> = []
+
+    init(fileManager: FileManagerProtocol) {
+        self.fileManager = fileManager
+    }
     
-    init() {
-        self.fileManager = FileManagerStub()
+    func fetchImage(url: URL) -> UIImage? {
+        return UIImage()
+    }
+    
+    func saveImage(image: UIImage, url: URL) throws {
+        return
+    }
+    
+    func deleteImage(url: URL) throws {
+        return
     }
 }

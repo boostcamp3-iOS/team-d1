@@ -10,9 +10,11 @@
 import UIKit
 
 class MemoryCacheStub: MemoryCacheProtocol {
-    var cache: NSCache<NSString, UIImage> = .init()
+    func fetchImage(url: URL) -> UIImage? {
+        return UIImage()
+    }
     
-    deinit {
-        cache.removeAllObjects()
+    func setImage(image: UIImage, url: URL) {
+        return
     }
 }
