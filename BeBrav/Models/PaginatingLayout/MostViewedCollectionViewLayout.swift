@@ -45,9 +45,9 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     
     private var contentHeight: CGFloat = 0
     
-    override var collectionViewContentSize: CGSize {
+   /* override var collectionViewContentSize: CGSize {
         return CGSize(width: contentWidth, height: contentHeight)
-    }
+    }*/
     
     /// UICollectionViewFlowLayout의 prepare() 메서드를 override하였습니다. 이 메서드는 bounds가 변경되면 불리게 됩니다.
     /// 내부 동작방식:
