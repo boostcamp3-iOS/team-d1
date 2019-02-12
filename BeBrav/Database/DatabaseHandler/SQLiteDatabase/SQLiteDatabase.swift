@@ -68,7 +68,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Create table at SQLite Database
-    public func createTable(name: String, columns: [String]) -> Bool {
+    final func createTable(name: String, columns: [String]) -> Bool {
         let column = columns.reduce("") { $0 + ", \(idFieldName(name: $1)) TEXT"}
         let columnString = column.count > 0 ? column : ""
         let query = """
@@ -103,7 +103,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Insert rows at table in SQLite Database
-    public func insert(table: String, columns: [String], rows: [Int: String])
+    final func insert(table: String, columns: [String], rows: [Int: String])
         throws -> Bool
     {
         var field = ""
@@ -184,11 +184,11 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Update row at table in SQLite Database
-    public func update(table: String,
-                       column: String,
-                       row: String,
-                       idField: String,
-                       idRow: String) throws
+    final func update(table: String,
+                      column: String,
+                      row: String,
+                      idField: String,
+                      idRow: String) throws
     {
         let query = "UPDATE \(table) SET \(column) = '\(row)' WHERE \(idField) = '\(idRow)';"
         
@@ -208,7 +208,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
     
     // MARK:- Delete row at table in SQLite Database
-    public func delete(table: String, idField: String, idRow: String) throws {
+    final func delete(table: String, idField: String, idRow: String) throws {
         let query = "DELETE FROM \(table) WHERE \(idField) = '\(idRow)';"
         
         let statement = try prepare(query: query)

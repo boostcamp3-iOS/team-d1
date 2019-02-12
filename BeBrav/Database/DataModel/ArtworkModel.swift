@@ -88,11 +88,6 @@ extension ArtworkModel: DataModelProtocol {
         return self == artwork
     }
     
-    // MARK:- Data Model
-    func dataModel() -> DataModelProtocol {
-        return ArtworkModel()
-    }
-    
     // MARK:- Initialize
     init() {
         self.artworkId = ""

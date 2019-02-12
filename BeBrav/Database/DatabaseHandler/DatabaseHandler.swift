@@ -14,20 +14,11 @@ class DatabaseHandler {
     
     // MARK:- Singleton
     static let shared = DatabaseHandler()
-    
+
     // MARK:- Properties
-    lazy var database: SQLiteDatabaseProtocol? = try? SQLiteDatabase.open(
-        name: databaseName,
-        fileManager: FileManager.default
-    )
     private let idField = "id"
     
-    // MARk:- Initialize
-    init(database: SQLiteDatabaseProtocol?) {
-        self.database = database
-    }
-    
-    convenience init() {
+    public lazy var database: SQLiteDatabaseProtocol? = {
         let database: SQLiteDatabase?
         
         do {
@@ -40,8 +31,8 @@ class DatabaseHandler {
             assertionFailure(error.localizedDescription)
         }
         
-        self.init(database: database)
-    }
+        return database
+    }()
     
     // MARK:- Check table is enable
     private func accessTable(data: DataModelProtocol) throws -> Bool {
@@ -80,8 +71,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Equal Model Filter
-    private func equalFilter(model: DataModelProtocol,
-                             modelArray: [DataModelProtocol])
+    private func equalFilter(model: DataModelProtocol, modelArray: [DataModelProtocol])
         -> [DataModelProtocol]
     {
         return modelArray.filter{ model.isEqual(model: $0) }
@@ -111,7 +101,7 @@ class DatabaseHandler {
             throw DatabaseError.fetchData
         }
         
-        return dataToModel(model: model, data: dataArray).filter { !$0.isEmpty }
+        return dataToModel(model: model, data: dataArray).filter{ !$0.isEmpty }
     }
     
     // MARK:- Update Data
@@ -130,14 +120,8 @@ class DatabaseHandler {
             throw DatabaseError.fetchData
         }
         
-        let modelList = self.dataToModel(
-            model: data,
-            data: dataArray
-        )
-        let modelArray = self.equalFilter(
-            model: data,
-            modelArray: modelList
-        )
+        let modelList = self.dataToModel(model: data, data: dataArray)
+        let modelArray = self.equalFilter(model: data, modelArray: modelList)
         
         if dataArray.count != modelArray.count || dataArray.count > 1 {
             try self.database?.delete(
@@ -161,7 +145,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Save new data or Update changed data
-    public func saveData(data: DataModelProtocol,
+    final func saveData(data: DataModelProtocol,
                          completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .utility).async {
@@ -194,7 +178,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Delete Data
-    public func deleteData(data: DataModelProtocol,
+    final func deleteData(data: DataModelProtocol,
                            completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -218,7 +202,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Read Data
-    public func readData(type: DataType,
+    final func readData(type: DataType,
                          id: String,
                          completion: @escaping (DataModelProtocol?, Error?) -> Void)
     {
@@ -237,7 +221,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Read Author's Artwork Array
-    public func readArtworkArray(author: AuthorModel,
+    final func readArtworkArray(author: AuthorModel,
                                  completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -265,7 +249,7 @@ class DatabaseHandler {
     }
     
     // MARK:- Read Artwork Array with date
-    public func readArtworkArray(keyDate: Double,
+    final func readArtworkArray(keyDate: Double,
                                  condition: Condition = .equal,
                                  completion: @escaping ([DataModelProtocol]?, Error?) -> Void = {_,_ in })
     {

@@ -74,11 +74,6 @@ extension AuthorModel: DataModelProtocol {
         return self == author
     }
     
-    // MARK:- Data Model
-    func dataModel() -> DataModelProtocol {
-        return AuthorModel()
-    }
-    
     // MARK;- Initialize
     init() {
         self.authorId = ""

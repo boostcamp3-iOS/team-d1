@@ -24,9 +24,6 @@ protocol DataModelProtocol {
     // MARK:- is Equal
     func isEqual(model: DataModelProtocol) -> Bool
     
-    // MARK:- Data Model
-    func dataModel() -> DataModelProtocol
-    
     // MARK:- Initialize
     init()
     init(data: [String: String])

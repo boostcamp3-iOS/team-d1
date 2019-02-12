@@ -150,6 +150,15 @@
 			path = ResponseParser;
 			sourceTree = "<group>";
 		};
+		0AF4FF11C63D1C1688FFC626CBDD6B65 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				516066321233894D1FDFA7D1CA242204 /* Stub */,
+				C423C23BFC9810EA594AD0FCF873629B /* FileManagerProtocol.swift */,
+			);
+			path = FileManager;
+			sourceTree = "<group>";
+		};
 		0BBAA515B504C14DCF51F29AC465CE96 /* BeBrav */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +252,14 @@
 			path = DatabaseHandler;
 			sourceTree = "<group>";
 		};
+		516066321233894D1FDFA7D1CA242204 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				3B9CD018193AAA03CB62BEB7F7BB33FE /* FileManagerStub.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
 		62B96E5BC5986356407DE93DDA64ED8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,6 +331,14 @@
 			path = SQLiteDatabase;
 			sourceTree = "<group>";
 		};
+		900386189F2526C4A182BFEF532CFBC4 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				84A75234C02639B01C9CBC9F1EF1BDEC /* SQLiteDatabaseStub.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,14 +346,6 @@
 				49B9773623144D300D8039EA8BA86079 /* DatabaseHandler */,
 			);
 			path = Database;
-			sourceTree = "<group>";
-		};
-		516066321233894D1FDFA7D1CA242204 /* Stub */ = {
-			isa = PBXGroup;
-			children = (
-				3B9CD018193AAA03CB62BEB7F7BB33FE /* FileManagerStub.swift */,
-			);
-			path = Stub;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -368,14 +385,6 @@
 				2F3ED2A58D132E864D96BAAFF227E6C8 /* BeBravUnitTests */,
 				1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		900386189F2526C4A182BFEF532CFBC4 /* Stub */ = {
-			isa = PBXGroup;
-			children = (
-				84A75234C02639B01C9CBC9F1EF1BDEC /* SQLiteDatabaseStub.swift */,
-			);
-			path = Stub;
 			sourceTree = "<group>";
 		};
 		C89F6C555DEBEC4BCA3ACDA52F9366FC /* FirebaseModules */ = {
@@ -450,15 +459,6 @@
 				D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		0AF4FF11C63D1C1688FFC626CBDD6B65 /* FileManager */ = {
-			isa = PBXGroup;
-			children = (
-				516066321233894D1FDFA7D1CA242204 /* Stub */,
-				C423C23BFC9810EA594AD0FCF873629B /* FileManagerProtocol.swift */,
-			);
-			path = FileManager;
 			sourceTree = "<group>";
 		};
 		FF261075A33C23DEDF441571EEB2EC5D /* Models */ = {
@@ -744,7 +744,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
+				DEVELOPMENT_TEAM = FUG5BV53BR;
 				INFOPLIST_FILE = BeBrav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -818,7 +818,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CMXKRM464P;
+				DEVELOPMENT_TEAM = FUG5BV53BR;
 				INFOPLIST_FILE = BeBrav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
