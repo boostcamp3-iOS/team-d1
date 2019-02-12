@@ -9,29 +9,28 @@
 import UIKit
 
 class MemoryCache: MemoryCacheProtocol {
-    static var cache: NSCache<NSString, UIImage> = {
-        let cache = NSCache<NSString, UIImage>()
+    
+    // MARK:- Properties
+    static var cache: NSCache<NSString, ImageData> = {
+        let cache = NSCache<NSString, ImageData>()
         cache.countLimit = 100
-        cache.totalCostLimit = 100*1024*1024
+        cache.totalCostLimit = 100 * 1024 * 1024
         return cache
     }()
-    
-    // MARK
-//    deinit {
-//        cache.removeAllObjects()
-//    }
     
     // MARK:- Fetch image from cache
     final func fetchImage(url: URL) -> UIImage? {
         let key: NSString = url.absoluteString as NSString
-        
-        return MemoryCache.cache.object(forKey: key)
+        let imageData = MemoryCache.cache.object(forKey: key)
+        return UIImage(data: imageData?.data ?? Data())
     }
     
     // MARK:- Set image to cache
-    final func setImage(image: UIImage, url: URL) {
+    final func setImage(data: Data, url: URL) {
         let key: NSString = url.absoluteString as NSString
+        let size = data.count
+        let imageData = ImageData(data: data)
         
-        MemoryCache.cache.setObject(image, forKey: key, cost: 0)
+        MemoryCache.cache.setObject(imageData, forKey: key, cost: size)
     }
 }

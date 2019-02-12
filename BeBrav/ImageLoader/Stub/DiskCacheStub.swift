@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiskCacheStub: DiskCacheProtocol {
+final class DiskCacheStub: DiskCacheProtocol {
     public let fileManager: FileManagerProtocol
     public let folderName: String = "DiskCacheStub"
 
@@ -16,15 +16,15 @@ class DiskCacheStub: DiskCacheProtocol {
         self.fileManager = fileManager
     }
     
-    func fetchImage(url: URL) -> UIImage? {
-        return UIImage()
+    func fetchData(url: URL) -> Data? {
+        return Data()
     }
     
-    func saveImage(image: UIImage, url: URL) throws {
+    func saveData(data: Data, url: URL) throws {
         return
     }
     
-    func deleteImage(url: URL) throws {
+    func deleteData(url: URL) throws {
         return
     }
 }

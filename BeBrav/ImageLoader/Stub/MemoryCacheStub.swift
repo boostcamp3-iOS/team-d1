@@ -14,7 +14,7 @@ class MemoryCacheStub: MemoryCacheProtocol {
         return UIImage()
     }
     
-    func setImage(image: UIImage, url: URL) {
+    func setImage(data: Data, url: URL) {
         return
     }
 }

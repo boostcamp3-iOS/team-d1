@@ -10,5 +10,5 @@ import UIKit
 
 protocol MemoryCacheProtocol {
     func fetchImage(url: URL) -> UIImage?
-    func setImage(image: UIImage, url: URL)
+    func setImage(data: Data, url: URL)
 }

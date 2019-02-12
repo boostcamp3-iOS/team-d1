@@ -12,9 +12,9 @@ protocol DiskCacheProtocol: class {
     var fileManager: FileManagerProtocol { get }
     var folderName: String { get }
 
-    func fetchImage(url: URL) -> UIImage?
-    func saveImage (image: UIImage, url: URL) throws
-    func deleteImage(url: URL) throws
+    func fetchData(url: URL) -> Data?
+    func saveData(data: Data, url: URL) throws
+    func deleteData(url: URL) throws
     
     init(fileManager: FileManagerProtocol)
 }

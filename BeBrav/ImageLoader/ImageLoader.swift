@@ -8,35 +8,84 @@
 
 import UIKit
 
-class ImageLoader {
-
-    // MARK:- Singleton
-    static let shared = ImageLoader()
+class ImageLoader: ImageLoaderProtocol {
 
     // MARK:- Properties
+    public let session: URLSessionProtocol
     public let diskCache: DiskCacheProtocol
     public let memoryCache: MemoryCacheProtocol
 
     // MARK:- Initialize
-    init(diskCache: DiskCacheProtocol, memoryCache: MemoryCacheProtocol) {
+    init(session: URLSessionProtocol,
+         diskCache: DiskCacheProtocol,
+         memoryCache: MemoryCacheProtocol)
+    {
+        self.session = session
         self.diskCache = diskCache
         self.memoryCache = memoryCache
     }
     
-    convenience init() {
-        self.init(
-            diskCache: DiskCache(fileManager: FileManager.default),
-            memoryCache: MemoryCache()
-        )
+    private func downloadImage(url: URL,
+                               size: ImageSize,
+                               completion: @escaping (UIImage?, Error?) -> Void)
+    {
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        
+        session.dataTask(with: url, completionHandler: { (data, reponse, error) in
+            defer {
+                DispatchQueue.main.async {
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
+            }
+
+            if let error =  error {
+                completion(nil, error)
+                return
+            }
+            guard let data = data,
+                let image = UIImage(data: data)?.scale(with: size.rawValue) else
+            {
+                completion(nil, APIError.invalidData)
+                return
+            }
+            
+            self.saveCacheImage(url: url, data: data)
+
+            OperationQueue.main.addOperation {
+                completion(image,nil)
+            }
+        }).resume()
     }
     
+    // MARK:- Get image with caching
+    public func getImageWithCaching(url: URL,
+                                    size: ImageSize,
+                                    completion: @escaping (UIImage?, Error?) -> Void)
+    {
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let image = self.fetchCacheImage(url: url, size: size) {
+                completion(image,nil)
+                return
+            }
+            
+            self.downloadImage(url: url, size: size, completion: completion)
+        }
+    }
+    
+    
     // MARK:- Fetch cache image
-    private func fetchCacheImage(url: URL) -> UIImage? {
+    private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
         if let image = memoryCache.fetchImage(url: url) {
             return image
         }
         
-        if let image = diskCache.fetchImage(url: url) {
+        if let data = diskCache.fetchData(url: url),
+            let image = UIImage(data: data)
+        {
+            self.memoryCache.setImage(data: data, url: url)
+
             return image
         }
 
@@ -44,17 +93,23 @@ class ImageLoader {
     }
     
     // MARK:- Save cache image
-    private func saveCacheImage(url: URL, image: UIImage) {
+    private func saveCacheImage(url: URL, data: Data) {
         DispatchQueue.global(qos: .userInitiated).async {
-            self.memoryCache.setImage(image: image, url: url)
+            self.memoryCache.setImage(data: data, url: url)
         }
         
         DispatchQueue.global(qos: .utility).async {
             do  {
-                try self.diskCache.saveImage(image: image, url: url)
+                try self.diskCache.saveData(data: data, url: url)
             } catch let error {
                 print(error.localizedDescription)
             }
         }
     }
+}
+
+// MARK:- Image size
+enum ImageSize: CGFloat {
+    case big = 0.5
+    case small = 0.2
 }
