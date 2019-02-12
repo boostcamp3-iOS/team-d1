@@ -38,7 +38,7 @@ struct ArtworkModel {
 
 // MARK:- ModelProtocol
 extension ArtworkModel: DataModelProtocol {
-    
+
     // MARK:- Properties
     public var id: String {
         return artworkId
@@ -74,6 +74,23 @@ extension ArtworkModel: DataModelProtocol {
             3: "\(date)",
             4: "\(views)",
             5: imageURL]
+    }
+    
+    // MARK:- Set Data
+    func setData(data: [String: String]) -> DataModelProtocol {
+        return ArtworkModel(data: data)
+    }
+    
+    // MARK:- Is Equal
+    func isEqual(model: DataModelProtocol) -> Bool {
+        guard let artwork =  model as? ArtworkModel else { return false }
+        
+        return self == artwork
+    }
+    
+    // MARK:- Data Model
+    func dataModel() -> DataModelProtocol {
+        return ArtworkModel()
     }
     
     // MARK:- Initialize

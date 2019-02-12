@@ -18,7 +18,17 @@ protocol DataModelProtocol {
     var columns: [String] { get }
     var rows: [Int: String] { get }
     
+    // MARK:- Set Data
+    func setData(data: [String: String]) -> DataModelProtocol
+    
+    // MARK:- is Equal
+    func isEqual(model: DataModelProtocol) -> Bool
+    
+    // MARK:- Data Model
+    func dataModel() -> DataModelProtocol
+    
     // MARK:- Initialize
     init()
     init(data: [String: String])
 }
+

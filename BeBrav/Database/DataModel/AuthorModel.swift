@@ -29,9 +29,7 @@ struct AuthorModel {
 
 // MARK:- ModelProtocol
 extension AuthorModel: DataModelProtocol {
-    
-    
-    
+
     // MARK:- Properties
     public var id: String {
         return authorId
@@ -62,6 +60,23 @@ extension AuthorModel: DataModelProtocol {
             1: name,
             2: introduction
         ]
+    }
+    
+    // MARK:- Set Data
+    func setData(data: [String: String]) -> DataModelProtocol {
+        return AuthorModel(data: data)
+    }
+    
+    // MARK:- Is Equal
+    func isEqual(model: DataModelProtocol) -> Bool {
+        guard let author =  model as? AuthorModel else { return false }
+        
+        return self == author
+    }
+    
+    // MARK:- Data Model
+    func dataModel() -> DataModelProtocol {
+        return AuthorModel()
     }
     
     // MARK;- Initialize

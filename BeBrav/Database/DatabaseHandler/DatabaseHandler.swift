@@ -16,7 +16,10 @@ class DatabaseHandler {
     static let shared = DatabaseHandler()
     
     // MARK:- Properties
-    private let database: SQLiteDatabaseProtocol?
+    lazy var database: SQLiteDatabaseProtocol? = try? SQLiteDatabase.open(
+        name: databaseName,
+        fileManager: FileManager.default
+    )
     private let idField = "id"
     
     // MARk:- Initialize
@@ -42,64 +45,46 @@ class DatabaseHandler {
     
     // MARK:- Check table is enable
     private func accessTable(data: DataModelProtocol) throws -> Bool {
-        let tableName = data.tableName
-        
         guard let database = database else {
             throw DatabaseError.openDatabase
         }
         
-        return database.createTable(name: tableName, columns: data.columns)
+        return database.createTable(name: data.tableName, columns: data.columns)
     }
     
     // MARK:- Check access is enabled
     private func accessEnabled(data: DataModelProtocol) throws -> Bool {
-        let table = data.tableName
-        
         guard try self.accessTable(data: data) else {
             throw DatabaseError.accessTable
         }
         
         guard let list = try database?.fetch(
-            table: table,
+            table: data.tableName,
             column: idField,
             idField: idField,
             idRow: "\(data.id)",
             condition: nil
             ) else
         {
-                throw DatabaseError.fetchData
+            throw DatabaseError.fetchData
         }
         
         return !list.isEmpty
     }
     
     // MARK:- Transfet data to model
-    private func dataToModel(type: DataType, data: [[String: String]])
+    private func dataToModel(model: DataModelProtocol, data: [[String: String]])
         -> [DataModelProtocol]
     {
-        return data.map{ type.model(data: $0) }
+        return data.map{ model.setData(data: $0) }
     }
     
     // MARK:- Equal Model Filter
-    private func equalFilter(type: DataType,
-                             model: DataModelProtocol,
+    private func equalFilter(model: DataModelProtocol,
                              modelArray: [DataModelProtocol])
         -> [DataModelProtocol]
     {
-        let modelArray = modelArray.filter { data in
-            switch type {
-            case .AuthorData:
-                guard let data = data as? AuthorModel,
-                    let model = model as? AuthorModel else { return false }
-                return model == data
-            case .ArtworkData:
-                guard let data = data as? ArtworkModel,
-                    let model = model as? ArtworkModel else { return false }
-                return model == data
-            }
-        }
-        
-        return modelArray
+        return modelArray.filter{ model.isEqual(model: $0) }
     }
     
     // MARK:- Fetch Data from SQLite Database
@@ -109,16 +94,14 @@ class DatabaseHandler {
                            condition: Condition = .equal)
         throws -> [DataModelProtocol]
     {
-
         let model = type.model
-        let table = model.tableName
         
         guard try self.accessTable(data: model) else {
             throw DatabaseError.accessTable
         }
         
         guard let dataArray = try self.database?.fetch(
-            table: table,
+            table: model.tableName,
             column: nil,
             idField: idField,
             idRow: idRow,
@@ -128,13 +111,12 @@ class DatabaseHandler {
             throw DatabaseError.fetchData
         }
         
-        return dataToModel(type: type, data: dataArray).filter { !$0.isEmpty }
+        return dataToModel(model: model, data: dataArray).filter { !$0.isEmpty }
     }
     
     // MARK:- Update Data
     private func updateData(data: DataModelProtocol) throws -> Bool {
         let id = data.id
-        let type: DataType = data is AuthorModel ? .AuthorData : .ArtworkData
         let table = data.tableName
         
         guard let dataArray = try self.database?.fetch(
@@ -149,11 +131,10 @@ class DatabaseHandler {
         }
         
         let modelList = self.dataToModel(
-            type: type,
+            model: data,
             data: dataArray
         )
         let modelArray = self.equalFilter(
-            type: type,
             model: data,
             modelArray: modelList
         )
@@ -174,10 +155,8 @@ class DatabaseHandler {
                     idRow: id
                 )
             }
-            
             return true
         }
-        
         return false
     }
     
@@ -186,8 +165,6 @@ class DatabaseHandler {
                          completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .utility).async {
-            let table = data.tableName
-            
             do {
                 guard try self.accessTable(data: data) else {
                     completion(false, DatabaseError.accessTable)
@@ -200,7 +177,7 @@ class DatabaseHandler {
                 }
                 
                 guard try self.database?.insert(
-                    table: table,
+                    table: data.tableName,
                     columns: data.columns,
                     rows: data.rows
                     ) ?? false else
@@ -221,8 +198,6 @@ class DatabaseHandler {
                            completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
-            let table = data.tableName
-            
             do {
                 guard try self.accessEnabled(data: data) else {
                     completion(false, DatabaseError.accessData)
@@ -230,7 +205,7 @@ class DatabaseHandler {
                 }
                 
                 try self.database?.delete(
-                    table: table,
+                    table: data.tableName,
                     idField: self.idField,
                     idRow: String(data.id)
                 )
@@ -319,23 +294,11 @@ class DatabaseHandler {
         case ArtworkData
         
         var model: DataModelProtocol {
-            return self == .AuthorData ? AuthorModel() : ArtworkModel()
-        }
-        
-        func model(data: [String: String]) -> DataModelProtocol {
-            return (self == .AuthorData) ? AuthorModel(data: data) : ArtworkModel(data: data)
-        }
-        
-        func equal(lhs: DataModelProtocol, rhs: DataModelProtocol) -> Bool {
             switch self {
             case .AuthorData:
-                guard let lhs = lhs as? AuthorModel,
-                    let rhs = rhs as? AuthorModel else { return false }
-                return lhs == rhs
+                return AuthorModel()
             case .ArtworkData:
-                guard let lhs = lhs as? ArtworkModel,
-                    let rhs = rhs as? ArtworkModel else { return false }
-                return lhs == rhs
+                return ArtworkModel()
             }
         }
     }
