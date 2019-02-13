@@ -28,7 +28,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     private var cellPadding: CGFloat = 2
     
     ///레이아웃을 UICollectionViewLayoutAttributes로 만들어 놓고 저장해두는 cache 입니다.
-    private var cache = [UICollectionViewLayoutAttributes]()
+    private var cache: [UICollectionViewLayoutAttributes] = []
     
     ///현재 뷰의 width를 계산하는 computed 프로퍼티 입니다.
     private var contentWidth: CGFloat {
@@ -62,7 +62,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
+        var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
         
         for attributes in cache {
             if attributes.frame.intersects(rect) {
