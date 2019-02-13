@@ -20,7 +20,7 @@ struct ImageSort                                                                
     }
     
     //알고리즘1 - 가로/세로 분류
-    mutating func sort1() -> Bool? {
+    mutating func orientationSort() -> Bool? {
         guard let image = image else { return nil}
         
         //가로,세로 길이가 같으면 가로이미지로 간주
@@ -30,7 +30,7 @@ struct ImageSort                                                                
     }
     
     //알고리즘2 - 컬러/흑백 분류
-    mutating func sort2() -> Bool? {
+    mutating func colorSort() -> Bool? {
         guard let image = image else { return nil }
         guard let averageColor = image.averageColor else { return nil }
         guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }
@@ -47,7 +47,7 @@ struct ImageSort                                                                
     
     //알고리즘3 - 차가운/따뜻한 이미지 분류
     //FIXME: - 더 개선해볼것
-    mutating func sort3() -> Bool? {
+    mutating func temperatureSort() -> Bool? {
         guard let image = image else { return nil }
         guard let averageColor = image.averageColor else { return nil }
         guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }

@@ -79,7 +79,7 @@ struct ServerManager {
         //이미지에 분류 알고리즘 적용
         var imageSort = ImageSort(input: image)
         
-        guard let r1 = imageSort.sort1(), let r2 = imageSort.sort2(), let r3 = imageSort.sort3() else { return }
+        guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
         
         var artworkUid = ""
         guard let uid = UserDefaults.standard.string(forKey: "uid") else {
