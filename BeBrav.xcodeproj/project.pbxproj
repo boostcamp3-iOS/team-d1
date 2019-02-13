@@ -15,11 +15,13 @@
 		08C1AFFB5C7D3CC77B615E2F4FEAE92D /* ArtworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD33DF6295E76A866F1E854C4AEF5C5 /* ArtworkModel.swift */; };
 		0F84CF224AE2C00E11B9C702535D19F6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */; };
 		1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */; };
+		138C2752E3876B8A3F05860E77C890D5 /* DatabaseFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44926D1810690876DB32624B29DF4C51 /* DatabaseFactoryProtocol.swift */; };
 		16F933495301CA4C742E35FB84B783E9 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */; };
 		1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */; };
 		26377EF3F421DA95B2E5C333D81A66C5 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D19FF454B0882F38C1C746C9DC9EFD8 /* Artwork.swift */; };
 		2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB506BA71E83F3BE05DDB95733CAD941 /* AuthorModel.swift */; };
 		2F26FB1727BAA0ECC282178DE4A17305 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E139F3AF0EFEE51C62C2324FCA7CDB0A /* DatabaseHandler.swift */; };
+		2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */; };
 		422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */; };
 		42A0535864150D885710EA553D8E0A2D /* NetworkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */; };
 		445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */; };
@@ -83,6 +85,7 @@
 		2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B9CD018193AAA03CB62BEB7F7BB33FE /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
+		44926D1810690876DB32624B29DF4C51 /* DatabaseFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactoryProtocol.swift; sourceTree = "<group>"; };
 		480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		4BE03B5039BCE2D3E2411330E36563E1 /* DataModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModelProtocol.swift; sourceTree = "<group>"; };
 		4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewedArtworkDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +98,7 @@
 		6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactory.swift; sourceTree = "<group>"; };
 		84A75234C02639B01C9CBC9F1EF1BDEC /* SQLiteDatabaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseStub.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
@@ -343,9 +347,19 @@
 			isa = PBXGroup;
 			children = (
 				0C2FFFE82E53D6904FEB564FFD935808 /* DataModel */,
+				3A4A8934959FA5B5FC16B87C3F8A5F86 /* DatabaseFactory */,
 				49B9773623144D300D8039EA8BA86079 /* DatabaseHandler */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		3A4A8934959FA5B5FC16B87C3F8A5F86 /* DatabaseFactory */ = {
+			isa = PBXGroup;
+			children = (
+				84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */,
+				44926D1810690876DB32624B29DF4C51 /* DatabaseFactoryProtocol.swift */,
+			);
+			path = DatabaseFactory;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -579,6 +593,8 @@
 				2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */,
 				A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */,
 				4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */,
+				2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */,
+				138C2752E3876B8A3F05860E77C890D5 /* DatabaseFactoryProtocol.swift in Sources */,
 				2F26FB1727BAA0ECC282178DE4A17305 /* DatabaseHandler.swift in Sources */,
 				A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */,
 				05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */,

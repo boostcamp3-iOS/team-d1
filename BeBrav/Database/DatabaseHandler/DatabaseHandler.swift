@@ -8,8 +8,6 @@
 
 import UIKit
 
-fileprivate let databaseName = "BeBravDatabase"
-
 class DatabaseHandler {
     
     // MARK:- Singleton
@@ -18,21 +16,7 @@ class DatabaseHandler {
     // MARK:- Properties
     private let idField = "id"
     
-    public lazy var database: SQLiteDatabaseProtocol? = {
-        let database: SQLiteDatabase?
-        
-        do {
-            database = try SQLiteDatabase.open(
-                name: databaseName,
-                fileManager: FileManager.default
-            )
-        } catch let error {
-            database = nil
-            assertionFailure(error.localizedDescription)
-        }
-        
-        return database
-    }()
+    public var database: SQLiteDatabaseProtocol?
     
     // MARK:- Check table is enable
     private func accessTable(data: DataModelProtocol) throws -> Bool {
