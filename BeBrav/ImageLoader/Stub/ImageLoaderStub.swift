@@ -9,6 +9,8 @@
 import UIKit
 
 class ImageLoaderStub: ImageLoaderProtocol {
+    
+    
     public let session: URLSessionProtocol
     public let diskCache: DiskCacheProtocol
     public let memoryCache: MemoryCacheProtocol
@@ -22,12 +24,15 @@ class ImageLoaderStub: ImageLoaderProtocol {
         self.memoryCache = memoryCache
     }
     
-    func getImageWithCaching(url: URL,
-                             size: ImageSize,
-                             completion: @escaping (UIImage?, Error?) -> Void)
+    func fetchImage(url: URL,
+                    size: ImageSize,
+                    preFetching: Bool,
+                    completion: @escaping (UIImage?, Error?) -> Void)
     {
-        return
+        completion(UIImage(), nil)
     }
     
-    
+    func cancelDownloadImage(url: URL) {
+        return
+    }
 }

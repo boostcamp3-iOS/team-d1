@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-    func scale(with scale: CGFloat) -> UIImage? {
+    func scale(with scale: CGFloat) -> UIImage {
         let size = CGSize(width: self.size.width * scale, height: self.size.height * scale)
         let formet = UIGraphicsImageRendererFormat.default()
         formet.opaque = true

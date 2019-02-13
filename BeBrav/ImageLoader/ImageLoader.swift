@@ -9,11 +9,13 @@
 import UIKit
 
 class ImageLoader: ImageLoaderProtocol {
-    
+
     // MARK:- Properties
     public let session: URLSessionProtocol
     public let diskCache: DiskCacheProtocol
     public let memoryCache: MemoryCacheProtocol
+    
+    private var taskList: [String: URLSessionTaskProtocol] = [:]
     
     // MARK:- Initialize
     required init(session: URLSessionProtocol,
@@ -27,7 +29,8 @@ class ImageLoader: ImageLoaderProtocol {
     
     // MARK:- Fetch image with caching
     public func fetchImage(url: URL,
-                           size: ImageSize,
+                           size: ImageSize = .small,
+                           preFetching: Bool = false,
                            completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -36,43 +39,92 @@ class ImageLoader: ImageLoaderProtocol {
                 return
             }
             
-            self.downloadImage(url: url, size: size, completion: completion)
+            self.downloadImage(url: url,
+                               size: size,
+                               preFetching: preFetching,
+                               completion: completion)
         }
+    }
+    
+    public func cancelDownloadImage(url: URL) {
+        guard let task = taskList[url.path] else { return }
+        
+        if task.state == .running || task.state == .suspended {
+            task.cancel()
+        }
+        
+        taskList.removeValue(forKey: url.path)
     }
     
     // MARK:- Download Image
     private func downloadImage(url: URL,
                                size: ImageSize,
+                               preFetching: Bool,
                                completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         
-        let dataTask = session.dataTask(with: url) { (data, reponse, error) in
+        if let task = taskList[url.path] {
+            switch task.state {
+            case .running:
+                completion(nil, APIError.waitRequest)
+                return
+            case .suspended:
+                task.resume()
+                return
+            case .canceling, .completed:
+                taskList.removeValue(forKey: url.path)
+            }
+        }
+        
+        let dataTask = imageDownloadDataTask(url: url,
+                                             size: size,
+                                             preFetching: preFetching,
+                                             completion: completion)
+        
+        dataTask.resume()
+        taskList[url.path] = dataTask
+    }
+    
+    private func imageDownloadDataTask(url: URL,
+                                       size: ImageSize,
+                                       preFetching: Bool,
+                                       completion: @escaping (UIImage?, Error?) -> Void)
+        -> URLSessionTaskProtocol
+    {
+        return session.dataTask(with: url) { (data, reponse, error) in
             defer {
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
+                self.taskList.removeValue(forKey: url.path)
             }
             
             if let error =  error {
                 completion(nil, error)
                 return
             }
-            guard let data = data,
-                let image = UIImage(data: data)?.scale(with: size.rawValue) else
-            {
+            guard let data = data else {
                 completion(nil, APIError.invalidData)
                 return
             }
             
             self.saveCacheImage(url: url, data: data)
             
+            if preFetching {
+                completion(nil, nil)
+                return
+            }
+            
+            guard let image = UIImage(data: data)?.scale(with: size.rawValue) else {
+                completion(nil, APIError.invalidData)
+                return
+            }
+            
             completion(image,nil)
         }
-        
-        dataTask.resume()
     }
     
     // MARK:- Fetch cache image
