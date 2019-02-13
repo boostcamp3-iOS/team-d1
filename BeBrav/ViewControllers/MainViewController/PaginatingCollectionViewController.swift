@@ -15,6 +15,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///checkIfValidPosition() 메서드가 적용된 이후 리턴되는 튜플을 구분하기 쉽게 적용한 type입니다.
     typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
     
+    weak var pagingDelegate: PagingControlDelegate!
+    
     
     ///MostViewedCollectionViewLayout의 prepare() 메서드가 호출되면 계산해야할 레이아웃은
     ///이전에 계산한 yOffset 아래에 위치해야 하기때문에 한번 데이터를 fetch하면 레이아웃을 이 프로퍼티
@@ -47,6 +49,10 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///때문입니다.
     private var batchSize = 0
     
+    private let pageSize = 2
+    
+    private var itemsPerScreen = 0
+    
     ///isLoading은 스크롤을 끝까지하여 데이터를 요청했을때 데이터가 전부 도착해야만 다음 스크롤때 해당
     ///메서드를 동작시킬수 있도록 제한하는 역할을 합니다
     private var isLoading = false
@@ -77,15 +83,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
     private let padding: CGFloat = 2
     private let columns: CGFloat = 3
     
+    private let loadingIndicator: LoadingIndicatorView = {
+        let indicator = LoadingIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.noticeLabel.text = "loading images"
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //frame이 제대로 안잡힐 것으로 예상했지만 view의 frame은 정상적으로 잡히고 있습니다.
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
-            batchSize = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: self.view.frame.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
-            layout.numberOfItems = batchSize
+            itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: self.view.frame.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
+                batchSize = itemsPerScreen * pageSize
+            layout.numberOfItems = itemsPerScreen
+            pagingDelegate = layout
         }
         setCollectionView()
-        fetchPage()
+        setLoadingView()
+        fetchPages()
     }
     
     func setCollectionView() {
@@ -94,6 +110,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.register(PaginatingCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        //collectionView.prefetchDataSource = self //TODO: 이미지로더 구현이후 적용
         collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
         
         //TODO: filtering에 맞는 이미지로 수정
@@ -105,12 +122,22 @@ class PaginatingCollectionViewController: UICollectionViewController {
             layout.minimumInteritemSpacing = 0
             layout.sectionFootersPinToVisibleBounds = true
             layout.minimumLineSpacing = padding
-            layout.delegate = self
+            layout.fetchPage = pageSize
         }
+    }
+    
+    func setLoadingView() {
+        collectionView.addSubview(loadingIndicator)
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
+        loadingIndicator.deactivateIndicatorView()
     }
     
     @objc func filterButtonDidTap() {
+        print(collectionView.indexPathsForVisibleItems)
         //TODO: filtering 기능 추가
     }
     
@@ -144,9 +171,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 assertionFailure("failed to make cell")
                 return
             }
-            DispatchQueue.main.async {
                  cell.artworkImageView.image = image
-            }
         }
         return cell
     }
@@ -175,11 +200,13 @@ extension PaginatingCollectionViewController {
     /// 이전에 데이터를 받아온 적이 있는지 currentKey를 통해서 확인합니다. 이후 쿼리를 생성하여 timestamp로
     /// 정렬된 데이터를 batchSize만큼 요청합니다. checkIfValidPosition()메서드를 이용하여 리턴된 값을
     /// 데이터 소스에 추가하고 nextLayoutYPosition을 Layout인스탠스의 pageNumber 프로퍼티에 전달해줍니다.
-    func fetchPage() {
-        currentBatchArtworkBucket.removeAll()
-        isLoading = true
-        
+    func fetchPages() {
+       
         if !isEndOfData {
+            currentBatchArtworkBucket.removeAll()
+            isLoading = true
+            loadingIndicator.activateIndicatorView()
+            
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
             }
@@ -187,7 +214,7 @@ extension PaginatingCollectionViewController {
                 let queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
-                
+
                 serverDB.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
                               queries: queries) {
@@ -201,23 +228,30 @@ extension PaginatingCollectionViewController {
                         if result.count < self.batchSize {
                             self.isEndOfData = true
                         }
-                        if result.count > 0 {
                             for artwork in result {
                                 self.currentBatchArtworkBucket.append(artwork)
                             }
-                            let calculatedInfo: CalculatedInformation = checkIfValidPosition(data: self.currentBatchArtworkBucket,
-                                                                                             numberOfColumns: Int(self.columns))
-                            self.artworkBucket.append(contentsOf: calculatedInfo.sortedArray)
-                            self.currentMostViewdArtworkIndex = calculatedInfo.index
+                        let infoBucket =
+                            self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
+                                                   batchSize: self.itemsPerScreen)
+                            var indexList: [Int] = []
+                            infoBucket.forEach {
+                                self.artworkBucket.append(contentsOf: $0.sortedArray)
+                                layout.prepareIndex.append($0.index)
+                            }
                             self.currentKey = result.first?.artworkUid
                             self.recentTimestamp = result.first?.timestamp
                             DispatchQueue.main.async {
                                 self.collectionView.reloadData()
                             }
+                    defer {
+                        DispatchQueue.main.async {
                             self.isLoading = false
+                            self.loadingIndicator.deactivateIndicatorView()
                         }
                     }
                 }
+            }
             } else {
                //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
@@ -241,28 +275,39 @@ extension PaginatingCollectionViewController {
                         for artwork in result {
                             self.currentBatchArtworkBucket.append(artwork)
                         }
+                        let infoBucket =
+                            self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
+                                                   batchSize: self.itemsPerScreen)
+                        var indexList: [Int] = []
                         self.currentKey = result.first?.artworkUid
                         self.recentTimestamp = result.first?.timestamp
-                        
-                        let calculatedInfo: CalculatedInformation = checkIfValidPosition(data: self.currentBatchArtworkBucket,
-                                                                                         numberOfColumns: Int(self.columns))
-                            self.currentMostViewdArtworkIndex = calculatedInfo.index
-                            self.artworkBucket.append(contentsOf: calculatedInfo.sortedArray)
-                            layout.pageNumber = self.nextLayoutYPosition
-                            self.nextLayoutYPosition = self.nextLayoutYPosition + 1
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadData()
+                        infoBucket.forEach {
+                            self.artworkBucket.append(contentsOf: $0.sortedArray)
+                            indexList.append($0.index)
+                        }
+                        DispatchQueue.main.async {
+                            self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
+                            let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
+                            self.collectionView.insertItems(at: indexPaths)
+                        }
+                            defer {
+                                DispatchQueue.main.async {
+                                    self.loadingIndicator.deactivateIndicatorView()
+                                    self.isLoading = false
+                                }
                             }
                         }
-                        self.isLoading = false
-                        DispatchQueue.main.async {
-                            self.footerView?.indicator.stopAnimating()
-                        }
-                        
                     }
                 }
             }
         }
+    
+    private func calculateIndexPathsForReloading(from newArtworks: [ArtworkDecodeType]) -> [IndexPath] {
+        let startIndex = artworkBucket.count - newArtworks.count
+        let endIndex = startIndex + newArtworks.count
+        return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -298,8 +343,7 @@ extension PaginatingCollectionViewController {
         
         if maxOffset - currentOffset <= 40{
             if !isLoading {
-                footerView?.indicator.startAnimating()
-                fetchPage()
+                fetchPages()
             }
         }
     }
@@ -322,11 +366,48 @@ extension PaginatingCollectionViewController {
             }
         }
     }
+    
+    func calculateCellInfo(fetchedData: [ArtworkDecodeType], batchSize: Int) -> [CalculatedInformation] {
+        var mutableDataBucket = fetchedData
+        var calculatedInfoBucket: [CalculatedInformation] = []
+        let numberOfPages = fetchedData.count / batchSize
+        for _ in 0..<numberOfPages {
+            
+            var currentBucket: [ArtworkDecodeType] = []
+            for _ in 0..<batchSize {
+                currentBucket.append(mutableDataBucket.removeLast())
+            }
+            let calculatedInfo: CalculatedInformation =
+                checkIfValidPosition(data: currentBucket,
+                                     numberOfColumns: Int(columns))
+            calculatedInfoBucket.append(calculatedInfo)
+            currentBucket.removeAll()
+        }
+        
+        if !mutableDataBucket.isEmpty {
+            let calculatedInfo: CalculatedInformation =
+                checkIfValidPosition(data: mutableDataBucket,
+                                     numberOfColumns: Int(columns))
+            calculatedInfoBucket.append(calculatedInfo)
+        }
+        return calculatedInfoBucket
+    }
 }
 
-extension PaginatingCollectionViewController: MostViewLayoutDelegate {
-    func getCurrentMostViewedArtworkIndex() -> Int {
-        return currentMostViewdArtworkIndex
+extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach {
+            guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
+                return
+            }//TODO: 이미지로더 구현이후 적용
+            NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+                if error != nil {
+                    assertionFailure("failed to make cell")
+                    return
+                }
+            }
+           
+        }
     }
 }
 

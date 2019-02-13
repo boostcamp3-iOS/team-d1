@@ -48,7 +48,7 @@ class NetworkManager {
                 completion(nil,APIError.invalidData)
                 return
             }
-            guard let image: UIImage = UIImage(data: data)?.scale(with: 0.2)  else {
+            guard let image: UIImage = UIImage(data: data)?.scale(with: 0.4)  else {
                 completion(nil,APIError.invalidData)
                 return
             }
@@ -66,6 +66,7 @@ class NetworkManager {
     func getImageWithCaching(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         if let image = cache.object(forKey: url.absoluteString as NSString) {
             completion(image,nil)
+           // print("from cache")
         } else {
             downloadImage(url: url, completion: completion)
         }

@@ -30,15 +30,14 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        UISetUp()
-   
+        setLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func UISetUp() {
+    private func setLayout() {
         self.backgroundColor = .clear
         addSubview(addArtworkButton)
         addSubview(indicator)
