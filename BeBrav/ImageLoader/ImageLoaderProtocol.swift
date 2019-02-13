@@ -13,11 +13,7 @@ protocol ImageLoaderProtocol {
     var diskCache: DiskCacheProtocol { get }
     var memoryCache: MemoryCacheProtocol { get }
     
-    func getImageWithCaching(url: URL,
-                             size: ImageSize,
-                             completion: @escaping (UIImage?, Error?) -> Void)
-    
-    init(session: URLSessionProtocol,
-         diskCache: DiskCacheProtocol,
-         memoryCache: MemoryCacheProtocol)
+    func fetchImage(url: URL,
+                    size: ImageSize,
+                    completion: @escaping (UIImage?, Error?) -> Void)
 }

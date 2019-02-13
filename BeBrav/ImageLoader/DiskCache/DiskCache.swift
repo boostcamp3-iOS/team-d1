@@ -10,15 +10,13 @@ import UIKit
 
 class DiskCache: DiskCacheProtocol {
     
-    // MARK:- Properties
-    public let fileManager: FileManagerProtocol
-    public let folderName: String = "ArtworkImage"
-    static var diskCacheList: Set<String> = []
+    // MARK:- Singleton
+    static let shared = DiskCache()
     
-    // MARK:- Initialize
-    required init(fileManager: FileManagerProtocol) {
-        self.fileManager = fileManager
-    }
+    // MARK:- Properties
+    public var fileManager: FileManagerProtocol = FileManager.default
+    public let folderName: String = "ArtworkImage"
+    private var diskCacheList: Set<String> = []
     
     // MARK:- Image folder URL in App
     private func folderURL(name: String) throws -> URL {
@@ -55,21 +53,21 @@ class DiskCache: DiskCacheProtocol {
     public func saveData(data: Data, url: URL) throws {
         let name = try fileName(url: url)
         
-        guard !DiskCache.diskCacheList.contains(name) else {
+        guard !diskCacheList.contains(name) else {
             return
         }
         
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         
-        DiskCache.diskCacheList.insert(name)
+        diskCacheList.insert(name)
     
         guard fileManager.createFile(atPath: fileDirectory.path,
                                      contents: data,
                                      attributes: nil)
             else
         {
-            DiskCache.diskCacheList.remove(name)
+            diskCacheList.remove(name)
             throw DiskCacheError.saveData
         }
     }
@@ -88,7 +86,7 @@ class DiskCache: DiskCacheProtocol {
             return nil
         }
         
-        DiskCache.diskCacheList.insert(name)
+        diskCacheList.insert(name)
         
         return data
     }
@@ -100,7 +98,7 @@ class DiskCache: DiskCacheProtocol {
         let fileDirectory = folder.appendingPathComponent(name)
         
         defer {
-            DiskCache.diskCacheList.remove(name)
+            diskCacheList.remove(name)
         }
         
         guard fileManager.fileExists(atPath: fileDirectory.path) else {

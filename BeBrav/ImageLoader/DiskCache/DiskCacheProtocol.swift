@@ -15,6 +15,4 @@ protocol DiskCacheProtocol: class {
     func fetchData(url: URL) -> Data?
     func saveData(data: Data, url: URL) throws
     func deleteData(url: URL) throws
-    
-    init(fileManager: FileManagerProtocol)
 }

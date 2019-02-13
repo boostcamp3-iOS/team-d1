@@ -9,16 +9,16 @@
 import UIKit
 
 class ImageLoader: ImageLoaderProtocol {
-
+    
     // MARK:- Properties
     public let session: URLSessionProtocol
     public let diskCache: DiskCacheProtocol
     public let memoryCache: MemoryCacheProtocol
-
+    
     // MARK:- Initialize
-    init(session: URLSessionProtocol,
-         diskCache: DiskCacheProtocol,
-         memoryCache: MemoryCacheProtocol)
+    required init(session: URLSessionProtocol,
+                  diskCache: DiskCacheProtocol,
+                  memoryCache: MemoryCacheProtocol)
     {
         self.session = session
         self.diskCache = diskCache
@@ -49,13 +49,13 @@ class ImageLoader: ImageLoaderProtocol {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         
-        session.dataTask(with: url, completionHandler: { (data, reponse, error) in
+        let dataTask = session.dataTask(with: url) { (data, reponse, error) in
             defer {
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
             }
-
+            
             if let error =  error {
                 completion(nil, error)
                 return
@@ -68,27 +68,32 @@ class ImageLoader: ImageLoaderProtocol {
             }
             
             self.saveCacheImage(url: url, data: data)
-
-            OperationQueue.main.addOperation {
-                completion(image,nil)
-            }
-        }).resume()
+            
+            completion(image,nil)
+        }
+        
+        dataTask.resume()
     }
     
     // MARK:- Fetch cache image
     private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
         if let image = memoryCache.fetchImage(url: url) {
-            return image
+            let resizedImage = image.scale(with: size.rawValue)
+            return resizedImage
         }
         
         if let data = diskCache.fetchData(url: url),
             let image = UIImage(data: data)
         {
-            self.memoryCache.setImage(data: data, url: url)
-
-            return image
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.memoryCache.setImage(data: data, url: url)
+            }
+            
+            let resizedImage = image.scale(with: size.rawValue)
+            
+            return resizedImage
         }
-
+        
         return nil
     }
     

@@ -9,9 +9,11 @@
 import UIKit
 
 class MemoryCache: MemoryCacheProtocol {
+    // MARK:- Singleton
+    static let shared = MemoryCache()
     
     // MARK:- Properties
-    static var cache: NSCache<NSString, ImageData> = {
+    private var cache: NSCache<NSString, ImageData> = {
         let cache = NSCache<NSString, ImageData>()
         cache.countLimit = 100
         cache.totalCostLimit = 100 * 1024 * 1024
@@ -21,7 +23,7 @@ class MemoryCache: MemoryCacheProtocol {
     // MARK:- Fetch image from cache
     final func fetchImage(url: URL) -> UIImage? {
         let key: NSString = url.absoluteString as NSString
-        let imageData = MemoryCache.cache.object(forKey: key)
+        let imageData = cache.object(forKey: key)
         return UIImage(data: imageData?.data ?? Data())
     }
     
@@ -31,6 +33,6 @@ class MemoryCache: MemoryCacheProtocol {
         let size = data.count
         let imageData = ImageData(data: data)
         
-        MemoryCache.cache.setObject(imageData, forKey: key, cost: size)
+        cache.setObject(imageData, forKey: key, cost: size)
     }
 }
