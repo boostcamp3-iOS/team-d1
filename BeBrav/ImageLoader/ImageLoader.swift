@@ -115,6 +115,6 @@ class ImageLoader: ImageLoaderProtocol {
 
 // MARK:- Image size
 enum ImageSize: CGFloat {
-    case big = 0.5
-    case small = 0.2
+    case big = 1
+    case small = 0.4
 }

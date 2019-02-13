@@ -11,10 +11,15 @@ import UIKit
 extension UIImage {
     func scale(with scale: CGFloat) -> UIImage? {
         let size = CGSize(width: self.size.width * scale, height: self.size.height * scale)
-        UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
-        self.draw(in: CGRect(origin: .zero, size: size))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return resizedImage
+        let formet = UIGraphicsImageRendererFormat.default()
+        formet.opaque = true
+        formet.scale = self.scale
+        
+        let render = UIGraphicsImageRenderer(size:size, format: formet)
+        let image = render.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        return image
     }
 }
