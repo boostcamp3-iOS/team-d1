@@ -13,14 +13,14 @@ struct ImageCacheFactory {
 }
 
 extension ImageCacheFactory: ImageCacheFactoryProtocol {
-    func buildDiskCache() -> DiskCache {
+    public func buildDiskCache() -> DiskCache {
         let diskCache = DiskCache.shared
         diskCache.fileManager = FileManager.default
         
         return diskCache
     }
     
-    func buildImageLoader() -> ImageLoader {
+    public func buildImageLoader() -> ImageLoader {
         let session = URLSession.shared
         let memoryCache = MemoryCache.shared
         let diskCache = buildDiskCache()

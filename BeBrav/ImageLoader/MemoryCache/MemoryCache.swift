@@ -20,6 +20,11 @@ class MemoryCache: MemoryCacheProtocol {
         return cache
     }()
     
+    // MARK:- Deinitialize
+    deinit {
+        cache.removeAllObjects()
+    }
+    
     // MARK:- Fetch image from cache
     final func fetchImage(url: URL) -> UIImage? {
         let key: NSString = url.absoluteString as NSString

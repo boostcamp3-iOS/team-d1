@@ -15,7 +15,7 @@ class DiskCache: DiskCacheProtocol {
     
     // MARK:- Properties
     public var fileManager: FileManagerProtocol = FileManager.default
-    public let folderName: String = "ArtworkImage"
+    public let folderName = "ArtworkImage"
     private var diskCacheList: Set<String> = []
     
     // MARK:- Image folder URL in App
@@ -104,44 +104,6 @@ class DiskCache: DiskCacheProtocol {
         }
         
         try fileManager.removeItem(atPath: fileDirectory.path)
-    }
-}
-
-// MARK:- FileManager Error
-fileprivate enum DiskCacheError: Error {
-    case createFolder
-    case fileName
-    case saveData
-    case deleteData
-}
-
-extension DiskCacheError: CustomNSError {
-    static var errorDomain: String = "SQLiteDatabaseError"
-    
-    var errorCode: Int {
-        switch self {
-        case .createFolder:
-            return 200
-        case .fileName:
-            return 201
-        case .saveData:
-            return 202
-        case .deleteData:
-            return 203
-        }
-    }
-    
-    var userInfo: [String : Any] {
-        switch self {
-        case .createFolder:
-            return ["Type":"createFolder", "Message":"Failure access document directory"]
-        case .fileName:
-            return ["Type":"fileName", "Message":"Failure to create file name from URL"]
-        case .saveData:
-            return ["Type":"save", "Message":"Failure create image file"]
-        case .deleteData:
-            return ["Type":"delete", "Message":"Failure exists file for delete"]
-        }
     }
 }
 

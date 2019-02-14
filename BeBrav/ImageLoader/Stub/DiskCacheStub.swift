@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DiskCacheStub: DiskCacheProtocol {
+class DiskCacheStub: DiskCacheProtocol {
     public let fileManager: FileManagerProtocol
     public let folderName: String = "DiskCacheStub"
 
