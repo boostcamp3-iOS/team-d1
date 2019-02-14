@@ -26,7 +26,7 @@ class ImageLoaderStub: ImageLoaderProtocol {
     
     func fetchImage(url: URL,
                     size: ImageSize,
-                    preFetching: Bool,
+                    prefetching: Bool,
                     completion: @escaping (UIImage?, Error?) -> Void)
     {
         completion(UIImage(), nil)

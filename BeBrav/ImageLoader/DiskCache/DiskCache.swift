@@ -53,9 +53,7 @@ class DiskCache: DiskCacheProtocol {
     public func saveData(data: Data, url: URL) throws {
         let name = try fileName(url: url)
         
-        guard !diskCacheList.contains(name) else {
-            return
-        }
+        guard !diskCacheList.contains(name) else { return }
         
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
