@@ -54,7 +54,7 @@ extension DiskCacheProtocol {
         
         let fileDirectory = folder.appendingPathComponent(fileName)
         let jpgImage = UIImage.jpegData(image)
-        
+
         if fileManager.fileExists(atPath: fileDirectory.path) {
             guard try deleteFile(name: name) == name else {
                 throw FileManagerError.delete(message:
