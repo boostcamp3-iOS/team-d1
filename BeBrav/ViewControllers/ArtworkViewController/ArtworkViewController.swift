@@ -96,22 +96,26 @@ class ArtworkViewController: UIViewController {
     private func fetchArtworkImage() {
         indicator.startAnimating()
         
-        if let artwork = artwork, let url = URL(string: artwork.artworkUrl) {
-            loader.fetchImage(url: url, size: .big) { (image, error) in
-                if let error = error {
-                    assertionFailure(error.localizedDescription) // TODO: 오류처리 추가한 후 변경
-                    indicator.stopAnimating()
-                    return
-                }
-                guard let image = image else {
-                    assertionFailure("failed to fetch image Data") // TODO: 오류처리 추가한 후 변경
-                    indicator.stopAnimating()
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.setArtworkView(artwork: artwork, image: image)
-                }
+        guard let artwork = artwork, let url = URL(string: artwork.artworkUrl) else {
+            assertionFailure("No artwork information") // TODO: 오류처리 추가한 후 변경
+            indicator.startAnimating()
+            return
+        }
+        
+        loader.fetchImage(url: url, size: .big) { (image, error) in
+            if let error = error {
+                assertionFailure(error.localizedDescription) // TODO: 오류처리 추가한 후 변경
+                self.indicator.stopAnimating()
+                return
+            }
+            guard let image = image else {
+                assertionFailure("failed to fetch image Data") // TODO: 오류처리 추가한 후 변경
+                self.indicator.stopAnimating()
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.setArtworkView(artwork: artwork, image: image)
             }
         }
     }
