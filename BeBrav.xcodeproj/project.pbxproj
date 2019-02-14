@@ -14,6 +14,7 @@
 		05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */; };
 		06DCF5D0DFCDE53CB27F9A5941A4D653 /* MostViewLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E41C991B29979328996FE3D462FBF3B /* MostViewLayoutDelegate.swift */; };
 		07E23E11E66EF536E18BF7BBDAECE192 /* NetworkManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324087A009D894845387C4A339451E74 /* NetworkManger.swift */; };
+		0C57EA6B354186291BB0A36126D06DD1 /* ArtAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304789E4DE1ADF694C90B9E33D2E374E /* ArtAddCell.swift */; };
 		1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */; };
 		16F933495301CA4C742E35FB84B783E9 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */; };
 		1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 		CC3662985B7CEEEE359E38BC36C0DA4C /* SQLiteDatabaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */; };
 		CC40F573CDA90F09A092EB33C4C30B88 /* LayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CBB887A7B21BB4DED8BE715563060E /* LayoutModel.swift */; };
 		CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63799CA19F8EA6CCDE340FAFEECD7D85 /* MockSession.swift */; };
+		D309244F2E68AE729E4BC4B3277174DF /* ArtAddCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */; };
 		D46E3E9D78B2E9F670FCF0E837E08630 /* ArkworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5242B85222D44F18CE647856566D29C4 /* ArkworkViewController.swift */; };
 		D82B19EA31F2FC74D8AF3E4F3B145C1D /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */; };
 		E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */; };
@@ -89,6 +91,7 @@
 		2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
 		2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseProtocol.swift; sourceTree = "<group>"; };
 		2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
+		304789E4DE1ADF694C90B9E33D2E374E /* ArtAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddCell.swift; sourceTree = "<group>"; };
 		324087A009D894845387C4A339451E74 /* NetworkManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManger.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E41C991B29979328996FE3D462FBF3B /* MostViewLayoutDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewLayoutDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 		DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeBravUnitTests.swift; sourceTree = "<group>"; };
 		DCE1D3267C875B1DB99580F984A699C3 /* ArtworkAddFooterReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkAddFooterReusableView.swift; sourceTree = "<group>"; };
 		DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseStub.swift; sourceTree = "<group>"; };
+		EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddCollectionViewController.swift; sourceTree = "<group>"; };
 		EE6762080CE72848B6F6B95FDD2AE9CA /* PaginatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatingCell.swift; sourceTree = "<group>"; };
 		F4189D1BC048CDBA568A72B92A407DC7 /* NetworkSeperatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeperatable.swift; sourceTree = "<group>"; };
 		F7AB2B50385F4848EC0907AE79FB9CED /* PaginatingCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatingCollectionViewController.swift; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
 			isa = PBXGroup;
 			children = (
+				304789E4DE1ADF694C90B9E33D2E374E /* ArtAddCell.swift */,
+				EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */,
 				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
 			);
 			path = ArtAddViewController;
@@ -593,6 +599,8 @@
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
 				D46E3E9D78B2E9F670FCF0E837E08630 /* ArkworkViewController.swift in Sources */,
+				0C57EA6B354186291BB0A36126D06DD1 /* ArtAddCell.swift in Sources */,
+				D309244F2E68AE729E4BC4B3277174DF /* ArtAddCollectionViewController.swift in Sources */,
 				1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */,
 				422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */,
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,

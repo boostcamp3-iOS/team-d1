@@ -56,7 +56,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     /// 리턴된 offset을 offsetBucket에 넣어 저장합니다. 이후 루프를 돌면서 (pageNumber * numberOfItems)를 이용하여 요청된
     /// 페이지에 해당하는 부분의 UICollectionViewLayoutAttributes를 생성한 후 이를 cache에 저장합니다.
     override func prepare() {
-        
+        super.prepare()
         guard let collectionView = collectionView,
             collectionView.numberOfItems(inSection: 0) != 0 else {
                 return
