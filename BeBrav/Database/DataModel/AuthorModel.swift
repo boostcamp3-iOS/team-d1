@@ -29,7 +29,7 @@ struct AuthorModel {
 
 // MARK:- ModelProtocol
 extension AuthorModel: DataModelProtocol {
-
+    
     // MARK:- Properties
     public var id: String {
         return authorId

@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  BeBrav
-
-  Created by Seonghun Kim on 14/02/2019.
-  Copyright © 2019 bumslap. All rights reserved.
-*/
+/*
+ Localizable.strings
+ BeBrav
+ 
+ Created by Seonghun Kim on 14/02/2019.
+ Copyright © 2019 bumslap. All rights reserved.
+ */
 
 "chooseFilterTitle" = "필터 방식 선택";
 "chooseFilterDescription" = "어떤 필터링을 적용할까요?";

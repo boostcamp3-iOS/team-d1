@@ -12,7 +12,7 @@ class DatabaseHandler {
     
     // MARK:- Singleton
     static let shared = DatabaseHandler()
-
+    
     // MARK:- Properties
     private let idField = "id"
     
@@ -130,7 +130,7 @@ class DatabaseHandler {
     
     // MARK:- Save new data or Update changed data
     final func saveData(data: DataModelProtocol,
-                         completion: @escaping (Bool, Error?) -> Void = {_,_ in })
+                        completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .utility).async {
             do {
@@ -163,7 +163,7 @@ class DatabaseHandler {
     
     // MARK:- Delete Data
     final func deleteData(data: DataModelProtocol,
-                           completion: @escaping (Bool, Error?) -> Void = {_,_ in })
+                          completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
@@ -187,8 +187,8 @@ class DatabaseHandler {
     
     // MARK:- Read Data
     final func readData(type: DataType,
-                         id: String,
-                         completion: @escaping (DataModelProtocol?, Error?) -> Void)
+                        id: String,
+                        completion: @escaping (DataModelProtocol?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
@@ -206,7 +206,7 @@ class DatabaseHandler {
     
     // MARK:- Read Author's Artwork Array
     final func readArtworkArray(author: AuthorModel,
-                                 completion: @escaping ([ArtworkModel]?, Error?) -> Void)
+                                completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
             let type: DataType = .ArtworkData
@@ -234,8 +234,8 @@ class DatabaseHandler {
     
     // MARK:- Read Artwork Array with date
     final func readArtworkArray(keyDate: Double,
-                                 condition: Condition = .equal,
-                                 completion: @escaping ([DataModelProtocol]?, Error?) -> Void = {_,_ in })
+                                condition: Condition = .equal,
+                                completion: @escaping ([DataModelProtocol]?, Error?) -> Void = {_,_ in })
     {
         DispatchQueue.global(qos: .userInitiated).async {
             let type: DataType = .ArtworkData

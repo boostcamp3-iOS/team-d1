@@ -1,10 +1,10 @@
-/* 
-  Localizable.strings
-  BeBrav
-
-  Created by Seonghun Kim on 14/02/2019.
-  Copyright © 2019 bumslap. All rights reserved.
-*/
+/*
+ Localizable.strings
+ BeBrav
+ 
+ Created by Seonghun Kim on 14/02/2019.
+ Copyright © 2019 bumslap. All rights reserved.
+ */
 
 "chooseFilterTitle" = "اختر مرشح الصورة";
 "chooseFilterDescription" = "أي نوع من الصور تريد؟";

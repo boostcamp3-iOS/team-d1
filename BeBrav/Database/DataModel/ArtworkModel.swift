@@ -47,7 +47,7 @@ struct ArtworkModel {
 
 // MARK:- ModelProtocol
 extension ArtworkModel: DataModelProtocol {
-
+    
     // MARK:- Properties
     public var id: String {
         return artworkId
