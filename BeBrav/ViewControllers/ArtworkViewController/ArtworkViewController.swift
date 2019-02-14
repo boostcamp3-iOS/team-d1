@@ -17,6 +17,7 @@ class ArtworkViewController: UIViewController {
         scrollView.maximumZoomScale = 2.0
         scrollView.minimumZoomScale = 1.0
         scrollView.zoomScale = 1
+        scrollView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         return scrollView
     }()
     private let imageView: UIImageView = {
@@ -61,21 +62,21 @@ class ArtworkViewController: UIViewController {
     // MARK:- Properties
     public var artwork: ArtworkDecodeType?
     public var artist = "" // TODO: 작가 정보를 담은 객체를 추가
-    public var isPeeked = false { // TODO: PaginatingCollectionViewController에서 호출시 설정하도록 변경
+    public var isPeeked = false {// TODO: PaginatingCollectionViewController에서 호출시 설정하도록 변경
         didSet {
             indicator.color = isPeeked ? .white : .darkGray
+            scrollView.backgroundColor = isPeeked ? .clear : .white
+            bottomBar.isHidden = true
         }
     }
+    
     private let loader = ImageCacheFactory().buildImageLoader()
     
     // MARK:- Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.alpha = 1.0
-        
         indicator.startAnimating()
-        bottomBar.isHidden = true
         
         fetchArtworkImage()
         
@@ -93,18 +94,23 @@ class ArtworkViewController: UIViewController {
     }
     
     private func fetchArtworkImage() {
+        indicator.startAnimating()
+        
         if let artwork = artwork, let url = URL(string: artwork.artworkUrl) {
             loader.fetchImage(url: url, size: .big) { (image, error) in
-                if error != nil {
-                    assertionFailure("failed to make cell")
+                if let error = error {
+                    assertionFailure(error.localizedDescription) // TODO: 오류처리 추가한 후 변경
+                    indicator.stopAnimating()
                     return
                 }
                 guard let image = image else {
-                    assertionFailure("failed to make cell")
+                    assertionFailure("failed to fetch image Data") // TODO: 오류처리 추가한 후 변경
+                    indicator.stopAnimating()
                     return
                 }
+                
                 DispatchQueue.main.async {
-                    completeFetchImage(artwork: artwork, image: image)
+                    self.setArtworkView(artwork: artwork, image: image)
                 }
             }
         }
@@ -116,7 +122,6 @@ class ArtworkViewController: UIViewController {
         let height = width * (image.size.height / image.size.width) + 50
         preferredContentSize = CGSize(width: width, height: height)
         
-        view.alpha = 0
         indicator.stopAnimating()
         imageView.image = image
         artistLabel.text = artwork.artworkUid
