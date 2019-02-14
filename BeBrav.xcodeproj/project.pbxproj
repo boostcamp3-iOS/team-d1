@@ -33,6 +33,8 @@
 		97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
+		A30CA64822155CAC00CCABCF /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA64722155CAC00CCABCF /* String+.swift */; };
+		A30CA64A22155CCF00CCABCF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30CA64C22155CCF00CCABCF /* Localizable.strings */; };
 		A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */; };
 		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
@@ -98,6 +100,11 @@
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
 		9D19FF454B0882F38C1C746C9DC9EFD8 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 		A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		A30CA64722155CAC00CCABCF /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		A30CA64B22155CCF00CCABCF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A30CA64D22155CDB00CCABCF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A30CA64E22155CE000CCABCF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A30CA64F22155CEF00CCABCF /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		AACEF7FEA9E405E751D3D56D76B39136 /* RequestMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
 		ADE32E08508EF714F6D6427103DD111A /* ArtAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtAddViewController.swift; path = BeBrav/ViewControllers/ArtAddViewController/ArtAddViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -162,6 +169,7 @@
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
 				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
+				A30CA64C22155CCF00CCABCF /* Localizable.strings */,
 			);
 			path = BeBrav;
 			sourceTree = "<group>";
@@ -235,6 +243,7 @@
 		673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A30CA64922155CB000CCABCF /* Extension */,
 				0285CD9823B868A7B3A95BA8696A989C /* ArtAddViewController */,
 				A775A85D082E6750303108B5526BDE3D /* ArtistViewController */,
 				6895BEC6042EB2B9A18B3199C3603662 /* MainViewController */,
@@ -302,6 +311,14 @@
 				C1C31A18D81E835184BEE797A8FC9627 /* Stub */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		A30CA64922155CB000CCABCF /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA64722155CAC00CCABCF /* String+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -507,6 +524,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				de,
+				ar,
 			);
 			mainGroup = B97F28A7EE8C7E4A8E37852868F25E8A;
 			productRefGroup = 1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */;
@@ -525,6 +545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				005B0D7767364EE83142010AAE3F25CF /* Assets.xcassets in Resources */,
+				A30CA64A22155CCF00CCABCF /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +581,7 @@
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
 				BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */,
 				EA78EFD9160665DA85CAF97258DAC0C8 /* MainAutoResizingCollectionViewCell.swift in Sources */,
+				A30CA64822155CAC00CCABCF /* String+.swift in Sources */,
 				61054ABA347AD577B1CDB45D85F04BE5 /* MainAutoResizingCollectionViewController.swift in Sources */,
 				C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */,
 				CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */,
@@ -605,6 +627,20 @@
 			targetProxy = FB59B1A154BEBEC446128654629A953D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A30CA64C22155CCF00CCABCF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A30CA64B22155CCF00CCABCF /* en */,
+				A30CA64D22155CDB00CCABCF /* ko */,
+				A30CA64E22155CE000CCABCF /* de */,
+				A30CA64F22155CEF00CCABCF /* ar */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1B45A78D3A1D5E8367063D4FA86C5C47 /* Release */ = {
