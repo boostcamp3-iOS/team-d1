@@ -39,6 +39,7 @@ class ArtworkViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.text = ""
         return label
     }()
     private let titleLabel: UILabel = {
@@ -46,18 +47,25 @@ class ArtworkViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.text = ""
         return label
     }()
     public let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.style = .whiteLarge
+        indicator.color = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         return indicator
     }()
     
     // MARK:- Properties
     public var artwork: ArtworkDecodeType?
-    public var artist = "" //TODO: 작가 정보를 담은 객체를 추가
+    public var artist = "" // TODO: 작가 정보를 담은 객체를 추가
+    public var isPeeked = false { // TODO: PaginatingCollectionViewController에서 호출시 설정하도록 변경
+        didSet {
+            indicator.color = isPeeked ? .white : .darkGray
+        }
+    }
     private let loader = ImageCacheFactory().buildImageLoader()
     
     // MARK:- Initialize
@@ -66,31 +74,10 @@ class ArtworkViewController: UIViewController {
         
         view.alpha = 1.0
         
-        titleLabel.isHidden = true
-        artistLabel.isHidden = true
+        indicator.startAnimating()
+        bottomBar.isHidden = true
         
-        if let artwork = artwork, let url = URL(string: artwork.artworkUrl) {
-            loader.fetchImage(url: url, size: .big) { (image, error) in
-                if error != nil {
-                    assertionFailure("failed to make cell")
-                    return
-                }
-                guard let image = image else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    let width = self.view.frame.width * 0.85
-                    let height = width * (image.size.height / image.size.width) + 50
-                    self.preferredContentSize = CGSize(width: width, height: height)
-                    self.indicator.stopAnimating()
-                    self.imageView.image = image
-                    self.artistLabel.text = artwork.artworkUid
-                    self.titleLabel.text = artwork.title
-                    self.titleLabel.isHidden = false
-                    self.artistLabel.isHidden = false
-                }
-            }
-        }
+        fetchArtworkImage()
         
         setLayout()
         setGestureRecognizer()
@@ -101,6 +88,40 @@ class ArtworkViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
         artistLabel.isUserInteractionEnabled = true
         artistLabel.addGestureRecognizer(tapGestureRecognizer)
+        
+        bottomBar.isHidden = true
+    }
+    
+    private func fetchArtworkImage() {
+        if let artwork = artwork, let url = URL(string: artwork.artworkUrl) {
+            loader.fetchImage(url: url, size: .big) { (image, error) in
+                if error != nil {
+                    assertionFailure("failed to make cell")
+                    return
+                }
+                guard let image = image else {
+                    assertionFailure("failed to make cell")
+                    return
+                }
+                DispatchQueue.main.async {
+                    completeFetchImage(artwork: artwork, image: image)
+                }
+            }
+        }
+    }
+    
+    // MARK:- Set Artwork View after end download
+    private func setArtworkView(artwork: ArtworkDecodeType, image: UIImage) {
+        let width = view.frame.width * 0.85
+        let height = width * (image.size.height / image.size.width) + 50
+        preferredContentSize = CGSize(width: width, height: height)
+        
+        view.alpha = 0
+        indicator.stopAnimating()
+        imageView.image = image
+        artistLabel.text = artwork.artworkUid
+        titleLabel.text = artwork.title
+        bottomBar.isHidden = false
     }
     
     // MARK:- Artist Label Did Tap
