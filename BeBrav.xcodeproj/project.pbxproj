@@ -186,9 +186,9 @@
 		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
 			isa = PBXGroup;
 			children = (
-				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
-				EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */,
 				304789E4DE1ADF694C90B9E33D2E374E /* ArtAddCell.swift */,
+				EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */,
+				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
 			);
 			path = ArtAddViewController;
 			sourceTree = "<group>";
@@ -786,7 +786,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dsdsadsdas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -860,7 +860,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dsdsadsdas;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boostCamp.BeBrav;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
