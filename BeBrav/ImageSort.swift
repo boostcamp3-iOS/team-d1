@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import CoreImage
-import CoreGraphics
 
 struct ImageSort                                                                                                                                                                                                                                                       {
     var orientation = false //true면 가로, false면 세로
@@ -21,57 +19,60 @@ struct ImageSort                                                                
         self.image = image
     }
     
-    mutating func sort() -> String {
-        guard let image = image else { return "invalid image" }
+    //알고리즘1 - 가로/세로 분류
+    mutating func orientationSort() -> Bool? {
+        guard let image = image else { return nil}
         
-        guard let averageColor = image.averageColor else {
-            return "invalid average color"
-        }
-        
-        //알고리즘1
         //가로,세로 길이가 같으면 가로이미지로 간주
-        if image.size.width >= image.size.height {
-            orientation = true
-        } else {
-            orientation = false
-        }
+        orientation = (image.size.width >= image.size.height)
         
-        //알고리즘2
-        let diff1 = abs(averageColor[0] - averageColor[1])
-        let diff2 = abs(averageColor[0] - averageColor[2])
-        let diff3 = abs(averageColor[1] - averageColor[2])
+        return orientation
+    }
+    
+    //알고리즘2 - 컬러/흑백 분류
+    mutating func colorSort() -> Bool? {
+        guard let image = image else { return nil }
+        guard let averageColor = image.averageColor else { return nil }
+        guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }
         
-        if diff1>10 || diff2>10 || diff3>10 {
+        let diff1 = abs(r-g)
+        let diff2 = abs(r-b)
+        let diff3 = abs(g-b)
+        
+        if diff1 > 10 || diff2 > 10 || diff3 > 10 {
             color = true
         }
-        
-        //알고리즘3
-        let r = averageColor[0]
-        let g = averageColor[1]
-        let b = averageColor[2]
+        return color
+    }
+    
+    //알고리즘3 - 차가운/따뜻한 이미지 분류
+    //FIXME: - 더 개선해볼것
+    mutating func temperatureSort() -> Bool? {
+        guard let image = image else { return nil }
+        guard let averageColor = image.averageColor else { return nil }
+        guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }
         
         //FIXME: - 기준을 좀 더 구체화 해보기
-        if r>g && r>b {
-            if b>g && (b-g>60) {
+        if r > g && r > b {
+            if b > g && (b-g > 60) {
                 temperature = true
             }
-        } else if g>r && g>b {
-            if b>r && (b-r>60) {
+        } else if g > r && g > b {
+            if b > r && (b-r > 60) {
                 temperature = true
             }
-        } else if b>r && b>g {
-            if g>r {
+        } else if b > r && b > g {
+            if g > r {
                 temperature = true
             }
         }
-        
-        return "\(orientation), \(color), \(temperature)"
+        return temperature
     }
 }
 
 extension UIImage {
     //이미지의 평균 rgb값을 return해주는 확장 프로퍼티
-    var averageColor: [Double]? {
+    var averageColor: [String:Double]? {
         guard let imageData = self.jpegData(compressionQuality: 0.1) else { return nil }
         guard let inputImage = CIImage(data: imageData) else { return nil }
         let extentVector = CIVector(x: 0, y: 0, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
@@ -88,6 +89,7 @@ extension UIImage {
         let doubleValue2 = Double(CGFloat(bitmap[1]))
         let doubleValue3 = Double(CGFloat(bitmap[2]))
         
-        return [doubleValue1, doubleValue2, doubleValue3]
+        return ["r":doubleValue1, "g":doubleValue2, "b":doubleValue3]
     }
 }
+
