@@ -15,6 +15,8 @@ protocol ArtAddCellDelegate: class {
 
 class ArtAddCell: UICollectionViewCell {
     
+    var isReadyUpload: Bool = false
+    
     weak var delegate: ArtAddCellDelegate?
     
     let cancelButton: UIButton = {
@@ -117,14 +119,6 @@ class ArtAddCell: UICollectionViewCell {
         return textField
     }()
     
-    //    let descriptionTextView: UITextView = {
-    //        let textView = UITextView()
-    //        textView.translatesAutoresizingMaskIntoConstraints = false
-    //        textView.text = "descriptionTextView"
-    //        textView.backgroundColor = .white
-    //        return textView
-    //    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -137,6 +131,8 @@ class ArtAddCell: UICollectionViewCell {
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         plusButton.addTarget(self, action: #selector(plusButtonDidTap), for: .touchUpInside)
+        titleTextField.addTarget(self, action: #selector(titleTextFieldDidChange), for: .editingChanged)
+        descriptionTextField.addTarget(self, action: #selector(descTextFieldDidChange), for: .editingChanged)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -144,9 +140,31 @@ class ArtAddCell: UICollectionViewCell {
     }
     
     //MARK : - Helper Method
+    @objc func titleTextFieldDidChange(_ sender: UITextField) {
+        if sender.text?.isEmpty == true {
+            unactivateUpload()
+        } else if descriptionTextField.text?.isEmpty == true {
+            unactivateUpload()
+        } else if imageView.image == nil {
+            unactivateUpload()
+        } else {
+            activateUpload()
+        }
+    }
+    
+    @objc func descTextFieldDidChange(_ sender: UITextField) {
+        if sender.text?.isEmpty == true {
+            unactivateUpload()
+        } else if titleTextField.text?.isEmpty == true {
+            unactivateUpload()
+        } else if imageView.image == nil {
+            unactivateUpload()
+        } else {
+            activateUpload()
+        }
+    }
     
     @objc func cancelButtonDidTap() {
-        print("cancelButtonDidTap")
         delegate?.dismissArtAddView(self)
     }
     
@@ -168,13 +186,27 @@ class ArtAddCell: UICollectionViewCell {
         delegate?.presentImagePicker(self)
     }
     
-    //TODO : - return키 외에 배경 눌러도 키보드 내려가도록 하기
     @objc private func cellBackgroundViewDidTap() {
-        print("cellBackgroundViewDidTap")
+        if titleTextField.isFirstResponder == true {
+            titleTextField.resignFirstResponder()
+        } else if descriptionTextField.isFirstResponder == true {
+            descriptionTextField.resignFirstResponder()
+        }
+    }
+    
+    func activateUpload() {
+        isReadyUpload = true
+        upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
+        uploadLabel.isHidden = false
+    }
+    
+    func unactivateUpload() {
+        isReadyUpload = false
+        upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
+        uploadLabel.isHidden = true
     }
     
     private func setUpViews() {
-        
         backgroundColor = .black
         
         addSubview(cancelButton)
@@ -242,45 +274,8 @@ class ArtAddCell: UICollectionViewCell {
 //MARK : - TextField Delegate
 extension ArtAddCell: UITextFieldDelegate {
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let titleTextField = viewWithTag(100) as? UITextField else { return }
-        guard let descTextField = viewWithTag(101) as? UITextField else { return }
-        
-        if imageView.image != nil && titleTextField.text?.isEmpty == false && descTextField.text?.isEmpty == false {
-            upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
-            uploadLabel.isHidden = false
-            
-        } else {
-            upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
-            uploadLabel.isHidden = true
-        }
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        return true
-    }
-    
-    //TODO : - 수정시마다 글자 수 체크
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string)
-        
-        if updatedString?.count == 0 {
-            upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
-            uploadLabel.isHidden = true
-        }
-        else {
-            if imageView.image != nil {
-                upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
-                uploadLabel.isHidden = false
-            }
-            else {
-                upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
-                uploadLabel.isHidden = true
-            }
-        }
-        
         return true
     }
 }

@@ -43,7 +43,6 @@ struct ImageSort                                                                
             color = true
         }
         return color
-        //return color ? "컬러" : "흑백"
     }
     
     //알고리즘3 - 차가운/따뜻한 이미지 분류
@@ -68,7 +67,6 @@ struct ImageSort                                                                
             }
         }
         return temperature
-        //return temperature ? "차가움" : "따뜻한"
     }
 }
 

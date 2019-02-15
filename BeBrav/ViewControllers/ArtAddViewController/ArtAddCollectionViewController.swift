@@ -17,7 +17,7 @@ class ArtAddCollectionViewController: UICollectionViewController {
     //MARK : - Properties
     private let cellIdentifier = "ArtAddCell"
     
-    private var artAddCell: ArtAddCell? //ArtAddCell 인스턴스를 참조하기 위한 변수
+    private var artAddCell: ArtAddCell?
     
     weak var delegate: ArtAddCollectionViewControllerDelegate?
     
@@ -41,18 +41,13 @@ class ArtAddCollectionViewController: UICollectionViewController {
         setUpCollectionView()
         setKeyboardObserver()
         
-        //test
-        //determines whether bouncing always occurs when vertical scrolling reaches the end of the content.
         collectionView.alwaysBounceVertical = true
         collectionView.contentInsetAdjustmentBehavior = .never
     }
     
     //MARK : - Helper Method
-    
-    //TODO : - 개선하기
     private func setUpCollectionView() {
         collectionView.register(ArtAddCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -60,22 +55,15 @@ class ArtAddCollectionViewController: UICollectionViewController {
     private func setKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    //FixMe : - 화면이 위로 튕김 현상
     @objc func keyboardWillShow(_ sender: Notification) {
         self.view.frame.origin.y = -150  //move view upward
     }
     
     @objc func keyboardWillHide(_ sender: Notification) {
         self.view.frame.origin.y = 0 //move view to original position
-    }
-    
-    @objc func keyboardDidShow(_ sender: Notification) {
-        print()
     }
 }
 
@@ -98,28 +86,26 @@ extension ArtAddCollectionViewController {
 
 //MARK : - Scroll View Delegate
 extension ArtAddCollectionViewController {
-    
-    //TODO: - 뷰를 위로 드래그하면 작품이 업로드 된다
+
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
         guard let image = artAddCell?.imageView.image else { return }
         
-        if scrollView.contentOffset.y > 100 && velocity.y > 2 {
-            if artAddCell?.imageView.image != nil && artAddCell?.titleTextField.text?.isEmpty == false && artAddCell?.descriptionTextField.text?.isEmpty == false {
+        if scrollView.contentOffset.y > 80 && velocity.y > 2 {
+            if artAddCell?.isReadyUpload == true {
                 print("작품업로드")
                 dismiss(animated: true) {
                     self.delegate?.uploadArtwork(self, image: image)
                 }
             }
             else {
-                print("작품정보를 다 입력해주세요!")
+                print("작품정보를 모두 입력해야만 업로드 가능합니다!")
             }
         }
     }
 }
 
 //MARK : - ArtAddCell Delegate Method
-
-//현재 뷰 컨트롤러가 ArtAddCell의 기능을 위임받아 구현하는 부분
 extension ArtAddCollectionViewController: ArtAddCellDelegate {
     
     //ArtAddCell의 imageView가 tap 되었을때 불리는 메서드
@@ -140,6 +126,7 @@ extension ArtAddCollectionViewController: ArtAddCellDelegate {
 
 //MARK: - Image Picker Delegate
 extension ArtAddCollectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     private func showImageSortResultLabel() {
         artAddCell?.orientationLabel.isHidden = false
         artAddCell?.colorLabel.isHidden = false
@@ -160,12 +147,16 @@ extension ArtAddCollectionViewController: UIImagePickerControllerDelegate, UINav
                 
                 guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
                 
+                let orientation = r1 ? "#가로" : "#세로"
+                let color = r2 ? "#컬러" : "#흑백"
+                let temperature = r3 ? "#차가움" : "#따뜻함"
+                
                 DispatchQueue.main.async {
                     self.showImageSortResultLabel()
                     
-                    self.artAddCell?.orientationLabel.text = "#\(r1)"
-                    self.artAddCell?.colorLabel.text = "#\(r2)"
-                    self.artAddCell?.temperatureLabel.text = "#\(r3)"
+                    self.artAddCell?.orientationLabel.text = orientation
+                    self.artAddCell?.colorLabel.text = color
+                    self.artAddCell?.temperatureLabel.text = temperature
                     
                     if self.artAddCell?.titleTextField.text?.isEmpty == false && self.artAddCell?.descriptionTextField.text?.isEmpty == false {
                         self.artAddCell?.upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
