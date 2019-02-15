@@ -34,6 +34,7 @@
 		97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
+		A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */; };
 		A3AD577C0F10A94E92457A3E811374CA /* AutoResizingCollecionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF2A0ED4772009372332E23C0133FE5 /* AutoResizingCollecionViewModel.swift */; };
 		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
@@ -95,6 +96,7 @@
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
+		95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatingViewControllerPresentAnimator.swift; sourceTree = "<group>"; };
 		9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
 		9D19FF454B0882F38C1C746C9DC9EFD8 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
@@ -133,14 +135,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
-			isa = PBXGroup;
-			children = (
-				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
-			);
-			path = ArtAddViewController;
-			sourceTree = "<group>";
-		};
 		08248DCCAAFD3D9D7BF1FEC9774FEAB8 /* ResponseParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +158,14 @@
 				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
 			);
 			path = BeBrav;
+			sourceTree = "<group>";
+		};
+		0DD9128EF47E239C562593112E00BDFC /* ArtAddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
+			);
+			path = ArtAddViewController;
 			sourceTree = "<group>";
 		};
 		1B1B1376FAF23596F96B6198BBDDEEA9 /* Products */ = {
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				4FD35884C27E31E20D35E71DBE18AD33 /* MainAutoResizingCollectionViewController.swift */,
+				95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -292,6 +295,14 @@
 				2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */,
 			);
 			path = SQLiteDatabase;
+			sourceTree = "<group>";
+		};
+		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */,
+			);
+			path = ArtworkViewController;
 			sourceTree = "<group>";
 		};
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
@@ -404,14 +415,6 @@
 				DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
-			isa = PBXGroup;
-			children = (
-				B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */,
-			);
-			path = ArtworkViewController;
 			sourceTree = "<group>";
 		};
 		F366F978F2742F0BB0539C770AD89303 /* Utils */ = {
@@ -570,6 +573,7 @@
 				D82B19EA31F2FC74D8AF3E4F3B145C1D /* NetworkModel.swift in Sources */,
 				F768BDF216682A14A45F2C5DB9D10F93 /* NetworkSeparator.swift in Sources */,
 				E2359D6E25A2B79182D53947E517B7DB /* NetworkSeperatable.swift in Sources */,
+				A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */,
 				E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */,
 				4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */,
 				8CE7E1588ABA6187F67007948F01786C /* RequestMakable.swift in Sources */,
