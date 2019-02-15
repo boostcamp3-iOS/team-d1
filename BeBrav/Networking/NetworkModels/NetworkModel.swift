@@ -14,10 +14,6 @@ struct AuthRequestType: Codable {
         let password: String
         let returnSecureToken: Bool
     }
-    enum behavior {
-        case signIn
-        case signUp
-    }
 }
 
 enum MimeType: String {
@@ -26,13 +22,43 @@ enum MimeType: String {
     case json = "application/json"
 }
 
-struct AuthResponseType: Codable {
+struct FirebaseAuthResponseType: Codable {
     let kind: String
     let idToken: String
     let email: String
     let refreshToken: String
     let expiresIn: String
     let localId: String
+}
+
+struct FirebaseStorageResponseDataType: Decodable {
+    let name: String
+    let bucket: String
+    let generation: String
+    let metageneration: String
+    let contentType: String
+    let timeCreated: String
+    let updated: String
+    let storageClass: String
+    let size: String
+    let md5Hash: String
+    let contentEncoding: String
+    let contentDisposition: String
+    let crc32c: String
+    let etag: String
+    let downloadTokens: String
+}
+
+struct FirebaseUidData: Decodable {
+    let name: String
+}
+
+struct UserData: Encodable {
+    let uid: String
+    let nickName: String
+    let email: String
+    let userProfileUrl: String
+    let artworks: [String: ArtworkEncodeType]
 }
 
 enum Result<Value> {
