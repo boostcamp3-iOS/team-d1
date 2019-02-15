@@ -11,8 +11,7 @@
 import UIKit
 
 class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
-    
-     ///pageNumber 프로퍼티는 Controller 측에서 페이지를 업로드 할때마다 값을 내부적으로 증가시킵니다.
+   
     var prepareIndex: [Int] = []
     
     var fetchPage = 0
@@ -40,11 +39,26 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
             return collectionView.bounds.width - (insets.left + insets.right)
         }
     }
-    
+
     private var contentHeight: CGFloat = 0
     
     override var collectionViewContentSize: CGSize {
+        let lastBiggestYItem = cache.suffix(numberOfColumns).max()
+        contentHeight = max(contentHeight, lastBiggestYItem?.frame.maxY ?? 0.0)
         return CGSize(width: contentWidth, height: contentHeight)
+    }
+    
+    override init() {
+        super.init()
+        self.sectionFootersPinToVisibleBounds = true
+        self.footerReferenceSize = CGSize(width: 300, height: 60)
+        //self.footerReferenceSize = CGSize(width: 300, height: 100)
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+      
     }
     
     /// UICollectionViewFlowLayout의 prepare() 메서드를 override하였습니다. 이 메서드는 bounds가 변경되면 불리게 됩니다.
@@ -53,6 +67,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     /// 지워주게 됩니다.
     override func prepare() {
         super.prepare()
+        
         if prepareIndex.isEmpty {
             return
         }
@@ -66,6 +81,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         
         for attributes in cache {
             if attributes.frame.intersects(rect) {
+                
                 visibleLayoutAttributes.append(attributes)
             }
         }
@@ -107,17 +123,17 @@ extension MostViewedArtworkFlowLayout: PagingControlDelegate {
         let rowHeight = numberOfItems / numberOfColumns + 1
         var inspectableRange = 0..<0
         var yOffset = pageNumber
-
-        for index in indexList {
-            
+        
+        indexList.forEach {
             var offsetPointer = OffsetPointer(numberOfColums: numberOfColumns,
                                               yOffset: yOffset * rowHeight)
-            let offsets = offsetPointer.getOffsets(count: numberOfItems + 3, freezeAt: index)
+            let offsets = offsetPointer.getOffsets(count: numberOfItems + 3, freezeAt: $0)
             for offset in offsets {
                 offsetBucket.append(offset)
             }
             yOffset = yOffset + 1
         }
+        
         var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         var target = indexList[0] + pageNumber * numberOfItems
         inspectableRange = (pageNumber * numberOfItems) ..< (pageNumber * numberOfItems + pageSize)
@@ -142,11 +158,35 @@ extension MostViewedArtworkFlowLayout: PagingControlDelegate {
             }
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            contentHeight = attributes.frame.maxY
             attributes.frame = insetFrame
             cache.append(attributes)
         }
-        let lastBiggestYItem = cache.suffix(numberOfColumns).max()
-        contentHeight = lastBiggestYItem?.frame.maxY ?? 0.0
         pageNumber = pageNumber + indexList.count
+    }
+   override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        return true
+    }
+    
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        guard let layoutAttributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind,
+                                                                                at: indexPath) else {
+                                                                                    return nil
+        }
+        guard let collectionView = collectionView else {
+            return layoutAttributes
+        }
+        guard let window = UIApplication.shared.keyWindow else {
+            return .init()
+        }
+        let topPadding = window.safeAreaInsets.top
+        let contentOffsetY = collectionView.contentOffset.y + 2 * topPadding
+        var frameForSupplementaryView = layoutAttributes.frame
+        let viewHeight = collectionView.frame.height - topPadding * 2
+        let position = viewHeight - frameForSupplementaryView.height
+        frameForSupplementaryView.origin.y = contentOffsetY + position
+        layoutAttributes.frame = frameForSupplementaryView
+        
+        return layoutAttributes
     }
 }

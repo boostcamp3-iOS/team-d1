@@ -10,7 +10,7 @@ import UIKit
 
 class LoadingIndicatorView: UIVisualEffectView {
     
-    let indicatorStackView: UIStackView = {
+   private let indicatorStackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
@@ -19,7 +19,7 @@ class LoadingIndicatorView: UIVisualEffectView {
         return view
     }()
     
-    let indicator: UIActivityIndicatorView = {
+   private let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.style = .gray

@@ -192,6 +192,9 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
                          insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
      }
+   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
 }
 
 extension PaginatingCollectionViewController {
@@ -289,6 +292,7 @@ extension PaginatingCollectionViewController {
                             self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
                             let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
                             self.collectionView.insertItems(at: indexPaths)
+                            self.collectionView.setNeedsLayout()
                         }
                             defer {
                                 DispatchQueue.main.async {
@@ -343,6 +347,7 @@ extension PaginatingCollectionViewController {
         
         if maxOffset - currentOffset <= 40{
             if !isLoading {
+                collectionView.layoutIfNeeded()
                 fetchPages()
             }
         }
