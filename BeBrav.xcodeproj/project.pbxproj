@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		005B0D7767364EE83142010AAE3F25CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */; };
+		11B2A89136452CDB60899F172D63E348 /* ImageSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2418101700466D394D190E562E7128A /* ImageSort.swift */; };
 		0271249084FF828DD59E92BB9610540D /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */; };
 		055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */; };
 		05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */; };
@@ -111,6 +112,7 @@
 		8DEE98627F0B2B8813A66E67C81A00EE /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2418101700466D394D190E562E7128A /* ImageSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSort.swift; sourceTree = "<group>"; };
 		95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
 		9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
 		98B76BB296301BBF388E12724510642F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
 				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
+				D2418101700466D394D190E562E7128A /* ImageSort.swift */,
 				987FB5843E1E1D05DEE691956203B5E7 /* Localizable.strings */,
 			);
 			path = BeBrav;
@@ -246,10 +249,12 @@
 			isa = PBXGroup;
 			children = (
 				55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */,
+
 			);
-			path = ServerAuth;
+			path = ServerAuth;;
 			sourceTree = "<group>";
 		};
+    
 		3A4A8934959FA5B5FC16B87C3F8A5F86 /* DatabaseFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +264,7 @@
 			path = DatabaseFactory;
 			sourceTree = "<group>";
 		};
+
 		3B4D2FFC8D3D0C64791730C3CAE912D1 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +290,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+
 		673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +329,7 @@
 			path = EndPoint;
 			sourceTree = "<group>";
 		};
+
 		7D134BA0D5D4ACCBE9C4A0A0FB0FDEF0 /* NetworkFactories */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,6 +398,7 @@
 			path = APIService;
 			sourceTree = "<group>";
 		};
+
 		B97F28A7EE8C7E4A8E37852868F25E8A = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +471,7 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+
 		EDE3894FB470341E1471F03B9F22DE01 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,6 +638,7 @@
 				629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */,
 				63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */,
 				445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */,
+				11B2A89136452CDB60899F172D63E348 /* ImageSort.swift in Sources */,
 				B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */,
 				78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */,
 				055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */,
