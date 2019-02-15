@@ -10,8 +10,7 @@ import UIKit
 
 protocol ArtAddCellDelegate: class {
     func presentImagePicker(_ cell: ArtAddCell)
-    func enableScroll(_ cell: ArtAddCell)
-    func disableScroll(_cell: ArtAddCell)
+    func dismissArtAddView(_ cell: ArtAddCell)
 }
 
 class ArtAddCell: UICollectionViewCell {
@@ -145,9 +144,10 @@ class ArtAddCell: UICollectionViewCell {
     }
     
     //MARK : - Helper Method
+    
     @objc func cancelButtonDidTap() {
         print("cancelButtonDidTap")
-        //TODO : - dismiss
+        delegate?.dismissArtAddView(self)
     }
     
     @objc func plusButtonDidTap() {
@@ -194,20 +194,20 @@ class ArtAddCell: UICollectionViewCell {
         
         cancelButton.widthAnchor.constraint(equalToConstant: 15).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        cancelButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        cancelButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -13).isActive = true
         
-        upArrowImageView.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        upArrowImageView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: 20).isActive = true
         upArrowImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         upArrowImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         uploadLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        uploadLabel.topAnchor.constraint(equalTo: upArrowImageView.bottomAnchor, constant: 15).isActive = true
+        uploadLabel.topAnchor.constraint(equalTo: upArrowImageView.bottomAnchor, constant: 13).isActive = true
         
         imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5).isActive = true
-        imageView.topAnchor.constraint(equalTo: uploadLabel.bottomAnchor, constant: 30).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: uploadLabel.bottomAnchor, constant: 20).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor).isActive = true
         
         plusButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
         plusButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
@@ -223,34 +223,24 @@ class ArtAddCell: UICollectionViewCell {
         temperatureLabel.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor).isActive = true
         temperatureLabel.leadingAnchor.constraint(equalTo: colorLabel.trailingAnchor, constant: 10).isActive = true
         
-        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40 ).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
         
         titleTextField.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10).isActive = true
         titleTextField.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
-        //titleTextField.trailingAnchor.constraint(equalTo: imageView.trailingAnchor).isActive = true
+        titleTextField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7).isActive = true
         
         descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
         
         descriptionTextField.leadingAnchor.constraint(equalTo: descriptionLabel.trailingAnchor, constant: 10).isActive = true
         descriptionTextField.centerYAnchor.constraint(equalTo: descriptionLabel.centerYAnchor).isActive = true
-        
-        //        descriptionTextView.topAnchor.constraint(equalTo: descriptionTextField.bottomAnchor, constant: 10).isActive = true
-        //        descriptionTextView.leadingAnchor.constraint(equalTo: descriptionTextField.leadingAnchor).isActive = true
-        //        descriptionTextView.trailingAnchor.constraint(equalTo: descriptionTextField.trailingAnchor).isActive = true
-        //        descriptionTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
+        descriptionTextField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7).isActive = true
     }
 }
 
 //MARK : - TextField Delegate
 extension ArtAddCell: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("textFieldDidBeginEditing")
-        delegate?.enableScroll(self)
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let titleTextField = viewWithTag(100) as? UITextField else { return }
@@ -259,16 +249,38 @@ extension ArtAddCell: UITextFieldDelegate {
         if imageView.image != nil && titleTextField.text?.isEmpty == false && descTextField.text?.isEmpty == false {
             upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
             uploadLabel.isHidden = false
-            delegate?.enableScroll(self)
+            
         } else {
             upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
             uploadLabel.isHidden = true
-            delegate?.disableScroll(_cell: self)
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
+    }
+    
+    //TODO : - 수정시마다 글자 수 체크
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string)
+        
+        if updatedString?.count == 0 {
+            upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
+            uploadLabel.isHidden = true
+        }
+        else {
+            if imageView.image != nil {
+                upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
+                uploadLabel.isHidden = false
+            }
+            else {
+                upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
+                uploadLabel.isHidden = true
+            }
+        }
+        
         return true
     }
 }

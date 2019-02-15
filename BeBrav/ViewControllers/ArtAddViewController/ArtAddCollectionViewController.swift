@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol ArtAddCollectionViewControllerDelegate: class {
+    func uploadArtwork(_ controller: ArtAddCollectionViewController, image: UIImage)
+}
+
 class ArtAddCollectionViewController: UICollectionViewController {
     
     //MARK : - Properties
     private let cellIdentifier = "ArtAddCell"
     
     private var artAddCell: ArtAddCell? //ArtAddCell 인스턴스를 참조하기 위한 변수
+    
+    weak var delegate: ArtAddCollectionViewControllerDelegate?
     
     private let imagePicker: UIImagePickerController = {
         let picker = UIImagePickerController()
@@ -38,6 +44,7 @@ class ArtAddCollectionViewController: UICollectionViewController {
         //test
         //determines whether bouncing always occurs when vertical scrolling reaches the end of the content.
         collectionView.alwaysBounceVertical = true
+        collectionView.contentInsetAdjustmentBehavior = .never
     }
     
     //MARK : - Helper Method
@@ -48,8 +55,6 @@ class ArtAddCollectionViewController: UICollectionViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        collectionView.isScrollEnabled = false
     }
     
     private func setKeyboardObserver() {
@@ -93,11 +98,21 @@ extension ArtAddCollectionViewController {
 
 //MARK : - Scroll View Delegate
 extension ArtAddCollectionViewController {
+    
     //TODO: - 뷰를 위로 드래그하면 작품이 업로드 된다
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let image = artAddCell?.imageView.image else { return }
+        
         if scrollView.contentOffset.y > 100 && velocity.y > 2 {
-            //dismiss의 completion으로 작품 업로드하기(네트워킹)
-            print("작품업로드")
+            if artAddCell?.imageView.image != nil && artAddCell?.titleTextField.text?.isEmpty == false && artAddCell?.descriptionTextField.text?.isEmpty == false {
+                print("작품업로드")
+                dismiss(animated: true) {
+                    self.delegate?.uploadArtwork(self, image: image)
+                }
+            }
+            else {
+                print("작품정보를 다 입력해주세요!")
+            }
         }
     }
 }
@@ -110,7 +125,7 @@ extension ArtAddCollectionViewController: ArtAddCellDelegate {
     //ArtAddCell의 imageView가 tap 되었을때 불리는 메서드
     //이미지 피커를 present한다
     func presentImagePicker(_ cell: ArtAddCell) {
-        //artAddCell?.cancelButton.isHidden = true
+        artAddCell?.cancelButton.isHidden = true
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
         cell.orientationLabel.isHidden = true
@@ -118,15 +133,8 @@ extension ArtAddCollectionViewController: ArtAddCellDelegate {
         cell.temperatureLabel.isHidden = true
     }
     
-    //ArtAddCell에서 텍스트 필드를 체크하고 모두 채워져 있을 경우 호출되는 메서드
-    //텍스트 필드가 모두 채워져 있으면, 스크롤을 활성화
-    func enableScroll(_ cell: ArtAddCell) {
-        collectionView.isScrollEnabled = true
-    }
-    
-    //텍스트 필드가 하나라도 채워져있지 않다면, 스크롤 비활성화
-    func disableScroll(_cell: ArtAddCell) {
-        collectionView.isScrollEnabled = false
+    func dismissArtAddView(_ cell: ArtAddCell) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -144,7 +152,7 @@ extension ArtAddCollectionViewController: UIImagePickerControllerDelegate, UINav
         
         artAddCell?.imageView.image = editedImage
         artAddCell?.plusButton.isHidden = true
-        //artAddCell?.cancelButton.isHidden = false
+        artAddCell?.cancelButton.isHidden = false
         
         dismiss(animated: true) {
             DispatchQueue.global().async {
@@ -171,7 +179,7 @@ extension ArtAddCollectionViewController: UIImagePickerControllerDelegate, UINav
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         showImageSortResultLabel()
-        //artAddCell?.cancelButton.isHidden = false
+        artAddCell?.cancelButton.isHidden = false
         dismiss(animated: true, completion: nil)
     }
 }
