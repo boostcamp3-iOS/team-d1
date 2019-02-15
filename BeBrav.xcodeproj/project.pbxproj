@@ -51,6 +51,7 @@
 		C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */; };
 		CA4966938FE397217278B2F57E30AF75 /* NetworkDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CDC56DD0583A2D4A0C1E7FEAC492A /* NetworkDependencyContainer.swift */; };
 		CC3662985B7CEEEE359E38BC36C0DA4C /* SQLiteDatabaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */; };
+		CDDBAA7B9112352D99A351A1A49E5C3C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8330CF5C8CCD04468BA4E8D5393A6213 /* SignInViewController.swift */; };
 		CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63799CA19F8EA6CCDE340FAFEECD7D85 /* MockSession.swift */; };
 		D82B19EA31F2FC74D8AF3E4F3B145C1D /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */; };
 		E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */; };
@@ -60,6 +61,7 @@
 		F21FE802E189D867C530B644ECC7CE02 /* MostViewedArtworkDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C98D7AA1D107754EB075E95C3F7EB08 /* MostViewedArtworkDelegate.swift */; };
 		F6DF953343175B3F542310331596B604 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */; };
 		F768BDF216682A14A45F2C5DB9D10F93 /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */; };
+		FF587AEA6CC87B17E2444C3AAFF9722A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61218282A41B1010F299CDEB3372A73 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,7 @@
 		6CF6F17944EFC05B5D4489C630E0056C /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		8330CF5C8CCD04468BA4E8D5393A6213 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactory.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 		D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
 		D2FD527C2782811EAD01D62452E0E56D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D323B7C06D055BB2E3FC043076DFC75C /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
+		D61218282A41B1010F299CDEB3372A73 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		D6FEC244DAF9284C10C26BEF1CC66DB2 /* BeBrav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeBrav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98CDC56DD0583A2D4A0C1E7FEAC492A /* NetworkDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDependencyContainer.swift; sourceTree = "<group>"; };
 		DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+.swift"; sourceTree = "<group>"; };
@@ -288,6 +292,7 @@
 				3B4D2FFC8D3D0C64791730C3CAE912D1 /* Extension */,
 				6895BEC6042EB2B9A18B3199C3603662 /* MainViewController */,
 				F06F741F5A0C818F37E5B23BF03A7272 /* PhotoViewController */,
+				F99A3A9950F6BADA9B725F0A8BB08AEE /* SignInAndSignUpViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -412,6 +417,15 @@
 				1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */,
 			);
 			path = FirebaseModules;
+			sourceTree = "<group>";
+		};
+		F99A3A9950F6BADA9B725F0A8BB08AEE /* SignInAndSignUpViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8330CF5C8CCD04468BA4E8D5393A6213 /* SignInViewController.swift */,
+				D61218282A41B1010F299CDEB3372A73 /* SignUpViewController.swift */,
+			);
+			path = SignInAndSignUpViewController;
 			sourceTree = "<group>";
 		};
 		C9136B68D11CB1C73771875D23A67511 /* requestMaker */ = {
@@ -642,6 +656,8 @@
 				6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */,
 				7FE7D462F19A9C039E2EE04CAA0A9EFF /* ServerDatabase.swift in Sources */,
 				7F9ABC3DEE881648D6E3100E2A463EE7 /* ServerStorage.swift in Sources */,
+				CDDBAA7B9112352D99A351A1A49E5C3C /* SignInViewController.swift in Sources */,
+				FF587AEA6CC87B17E2444C3AAFF9722A /* SignUpViewController.swift in Sources */,
 				3EA2FFDA96F095805912F21D9C3F6552 /* String+.swift in Sources */,
 				97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */,
 				7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */,
