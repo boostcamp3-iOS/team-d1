@@ -22,10 +22,17 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func read(path: String,
+              queries: [URLQueryItem]? = nil,
               completion: @escaping (Result<Data>, URLResponse?) -> Void) {
-        var url = dispatcher.baseUrl
+        guard var components = dispatcher.components else {
+             completion(.failure(APIError.urlFailure), nil)
+            return
+        }
+        components.queryItems = queries
+        var url = components.url
         url?.appendPathComponent(path)
-        guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
+        //print(url?.asUrlWithoutEncoding())
+        guard let request = requestMaker.makeRequest(url: url,
                                                      method: .get,
                                                      headers: [:],
                                                      body: nil) else {
@@ -48,11 +55,11 @@ struct NetworkSeparator: NetworkSeperatable {
                method: HTTPMethod,
                headers: [String: String],
                completion: @escaping (Result<Data>, URLResponse?) -> Void) {
-        var url = dispatcher.baseUrl
+        var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: method,
-                                                     headers: ["Content-Type": MimeType.json.rawValue],
+                                                     headers: headers,
                                                      body: data) else {
             completion(.failure(APIError.requestFailed), nil)
             return
@@ -69,7 +76,7 @@ struct NetworkSeparator: NetworkSeperatable {
     
     func delete(path: String,
                 completion: @escaping (Result<URLResponse?>) -> Void) {
-        var url = dispatcher.baseUrl
+        var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: .delete,
@@ -87,6 +94,4 @@ struct NetworkSeparator: NetworkSeperatable {
             }
         }
     }
-    
-    
 }

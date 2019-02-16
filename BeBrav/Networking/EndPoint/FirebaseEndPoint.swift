@@ -7,7 +7,7 @@
 //
 
 import Foundation
-//TODO: early exit 추후 적용
+
 class FirebaseEndPoint {
     private init(){}
     static let shared = FirebaseEndPoint()
@@ -21,11 +21,10 @@ enum FirebaseDatabase: String {
     case reference
     
     var urlComponents: URLComponents? {
-        if let components = URLComponents(string: FirebaseEndPoint.shared.dataBaseBaseURL) {
-            return components
-        } else {
+        guard let components = URLComponents(string: FirebaseEndPoint.shared.dataBaseBaseURL) else {
             return nil
         }
+        return components
     }
 }
 
@@ -33,13 +32,12 @@ enum FirebaseAuth: String {
     case auth
     
     var urlComponents: URLComponents? {
-        if var components = URLComponents(string: FirebaseEndPoint.shared.authBaseURL) {
-            components.path = "/identitytoolkit/v3/relyingparty"
-            components.queryItems = [URLQueryItem(name: "key", value: FirebaseEndPoint.shared.appKey)]
-            return components
-        } else {
+        guard var components = URLComponents(string: FirebaseEndPoint.shared.authBaseURL) else {
             return nil
         }
+        components.path = "/identitytoolkit/v3/relyingparty"
+        components.queryItems = [URLQueryItem(name: "key", value: FirebaseEndPoint.shared.appKey)]
+        return components
     }
 }
 
@@ -47,14 +45,12 @@ enum FirebaseStorage: String {
     case storage
 
     var urlComponents: URLComponents? {
-        if var components =
-            URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) {
-            components.path = "/v0/b/bravyprototype.appspot.com/o"
-            components.queryItems = [URLQueryItem(name: "alt", value: "media")]
-            return components
-        } else {
+        guard var components = URLComponents(string: FirebaseEndPoint.shared.storageBaseURL) else {
             return nil
         }
+        components.path = "/v0/b/bravyprototype.appspot.com/o"
+        components.queryItems = [URLQueryItem(name: "alt", value: "media")]
+        return components
     }
 }
 
