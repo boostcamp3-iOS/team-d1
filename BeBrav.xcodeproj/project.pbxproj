@@ -68,6 +68,7 @@
 		E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */; };
 		E2359D6E25A2B79182D53947E517B7DB /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4189D1BC048CDBA568A72B92A407DC7 /* NetworkSeperatable.swift */; };
 		E26C2D0FD051060AD9502D54677B6640 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DB9EDACD7F9456480C533093715665 /* UIImage+.swift */; };
+		E7C41575CC1E6111FB3FADE22D3001BF /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AA88F5D0E705DE6965C7FED01A02A1 /* Error.swift */; };
 		EDCAC6E4E6B8161FD98B25AEEFEBB524 /* MostViewedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF3450565235E459F496CCF0C6D22E5 /* MostViewedCollectionViewLayout.swift */; };
 		EF546B8D3F597DB330B48A43270328F9 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EF2EC595B253068238A8C0BF112319 /* ResponseParser.swift */; };
 		F6750468E7FC992A59A3CAB05A5E837B /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */; };
@@ -119,6 +120,7 @@
 		7268B4DD0B3772999E41F0531F172FC4 /* RequestMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMaker.swift; sourceTree = "<group>"; };
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		8330CF5C8CCD04468BA4E8D5393A6213 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		83AA88F5D0E705DE6965C7FED01A02A1 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactory.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
@@ -277,6 +279,15 @@
 			path = ServerAuth;
 			sourceTree = "<group>";
 		};
+		393152666C6CCE8149D09033C3741BE5 /* DiskCache */ = {
+			isa = PBXGroup;
+			children = (
+				A5213F8B75DBD52CA5AC579DCD92DC22 /* DiskCache.swift */,
+				EA3FB52FCA4D250877F967378EC116BB /* DiskCacheProtocol.swift */,
+			);
+			path = DiskCache;
+			sourceTree = "<group>";
+		};
 		3A4A8934959FA5B5FC16B87C3F8A5F86 /* DatabaseFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				393152666C6CCE8149D09033C3741BE5 /* DiskCache */,
+				8CA0126DDBA2B5E088BE038ED4057414 /* Error */,
 			);
 			path = ImageCache;
 			sourceTree = "<group>";
@@ -406,6 +418,14 @@
 				C1C31A18D81E835184BEE797A8FC9627 /* Stub */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		8CA0126DDBA2B5E088BE038ED4057414 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				83AA88F5D0E705DE6965C7FED01A02A1 /* Error.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -468,15 +488,6 @@
 				2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */,
 			);
 			path = FirebaseModules;
-			sourceTree = "<group>";
-		};
-		393152666C6CCE8149D09033C3741BE5 /* DiskCache */ = {
-			isa = PBXGroup;
-			children = (
-				A5213F8B75DBD52CA5AC579DCD92DC22 /* DiskCache.swift */,
-				EA3FB52FCA4D250877F967378EC116BB /* DiskCacheProtocol.swift */,
-			);
-			path = DiskCache;
 			sourceTree = "<group>";
 		};
 		E809E96650B6598968E3EB41BE22E29F /* Networking */ = {
@@ -679,6 +690,7 @@
 				61C1F30993CC4D94DC19CD9B1018951F /* DiskCacheProtocol.swift in Sources */,
 				05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */,
 				629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */,
+				E7C41575CC1E6111FB3FADE22D3001BF /* Error.swift in Sources */,
 				63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */,
 				445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */,
 				B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */,

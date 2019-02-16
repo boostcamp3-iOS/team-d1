@@ -29,6 +29,8 @@ protocol FileManagerProtocol {
                     attributes attr: [FileAttributeKey : Any]?) -> Bool
     
     func removeItem(atPath path: String) throws
+    
+    func contents(atPath: String) -> Data?
 }
 
 extension FileManager: FileManagerProtocol {
