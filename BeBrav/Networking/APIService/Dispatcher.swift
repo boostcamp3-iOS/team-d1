@@ -13,11 +13,11 @@ import UIKit
 
 struct Dispatcher: Dispatchable {
     
-    var components: URLComponents?
+    var baseUrl: URL?
     var session: URLSessionProtocol
     
-    init(components: URLComponents?, session: URLSessionProtocol) {
-        self.components = components
+    init(baseUrl: URL?, session: URLSessionProtocol) {
+        self.baseUrl = baseUrl
         self.session = session
     }
     

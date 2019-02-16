@@ -20,7 +20,7 @@
 
 import Foundation
 
-struct ServerDatabase: FirebaseDatabaseService {
+struct ServerDatabase: FirebaseService {
     
     let parser: ResponseParser
     let seperator: NetworkSeperatable
@@ -43,7 +43,7 @@ struct ServerDatabase: FirebaseDatabaseService {
                              type: T.Type,
                              queries: [URLQueryItem]? = nil,
                              completion: @escaping (Result<T>, URLResponse?) -> Void) {
-        seperator.read(path: "\(path).json", queries: queries) { (result, response) in
+        seperator.read(path: "\(path).json") { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error), nil)
@@ -76,21 +76,21 @@ struct ServerDatabase: FirebaseDatabaseService {
     func write<T: Encodable>(path: String,
                              data: T,
                              method: HTTPMethod,
-                             completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+                             completion: @escaping (Result<URLResponse?>) -> Void) {
         guard let extractedData =
             self.parser.extractEncodedJsonData(data: data) else {
-                completion(.failure(APIError.jsonParsingFailure), nil)
+                completion(.failure(APIError.jsonParsingFailure))
                 return
         }
-        seperator.write(path: "\(path).json",
+        seperator.write(path: path,
                         data: extractedData,
                         method: method,
                         headers: [:]) { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error), nil)
-            case .success(let data):
-                completion(.success(data), response)
+                completion(.failure(error))
+            case .success:
+                completion(.success(response))
                 return
             }
         }
@@ -105,7 +105,7 @@ struct ServerDatabase: FirebaseDatabaseService {
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다
     func delete(path: String,
                 completion: @escaping (Result<URLResponse?>) -> Void) {
-        seperator.delete(path: "\(path).json") { (result) in
+        seperator.delete(path: path) { (result) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
