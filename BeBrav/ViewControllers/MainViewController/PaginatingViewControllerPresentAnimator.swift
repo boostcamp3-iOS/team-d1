@@ -10,20 +10,29 @@ import UIKit
 
 class PaginatingViewControllerPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let duration = 0.3
+    var viewFrame = CGRect()
     var originFrame = CGRect()
     
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)
+        -> TimeInterval
+    {
         return duration
     }
     
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning){
         guard let toView = transitionContext.view(forKey: .to) else { return }
         
-        let containerView = transitionContext.containerView
-        let finalFrame = toView.frame
+        let height = (viewFrame.height / viewFrame.width) * originFrame.height
+        let frame = CGRect(x: originFrame.origin.x,
+                           y: originFrame.origin.y,
+                           width: originFrame.width,
+                           height: height)
         
-        let scaleX = originFrame.width / finalFrame.width
-        let scaleY = originFrame.height / finalFrame.height
+        let containerView = transitionContext.containerView
+        let toViewFrame = toView.frame
+        
+        let scaleX = frame.width / toViewFrame.width
+        let scaleY = frame.height / toViewFrame.height
         
         let scaleTransform = CGAffineTransform(scaleX: scaleX, y: scaleY)
         
@@ -36,7 +45,7 @@ class PaginatingViewControllerPresentAnimator: NSObject, UIViewControllerAnimate
         
         UIView.animate(withDuration: duration, animations: {
             toView.transform = CGAffineTransform.identity
-            toView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+            toView.center = CGPoint(x: toViewFrame.midX, y: toViewFrame.midY)
         },completion: { _ in
             transitionContext.completeTransition(true)
         })

@@ -20,15 +20,66 @@ class ArtworkViewController: UIViewController {
         scrollView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return scrollView
     }()
-    private let topBar: UIView = {
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    private let closeView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
+        view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
+                                       green: 0.2745098174,
+                                       blue:0.3019607961,
+                                       alpha: 0.5)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 15
         return view
+    }()
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("닫기", for: .normal) // TODO: 제품 등록화면 닫기 버튼과 UI 일치하도록 변경
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
+    private let titleView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
+        view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
+                                       green: 0.2745098174,
+                                       blue:0.3019607961,
+                                       alpha: 0.5)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.text = ""
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textAlignment = .right
+        return label
+    }()
+    private let viewsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = .right
+        return label
     }()
     private let artistView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
         view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
                                        green: 0.2745098174,
                                        blue:0.3019607961,
@@ -41,39 +92,19 @@ class ArtworkViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
+        label.text = ""
         label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        return label
-    }()
-    private let closeButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("닫기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        
-        return button
-    }()
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    
     
     // MARK:- Properties
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
     public var artist = "작가 이름" //TODO: 작가 정보를 담은 객체를 추가
-    public var thumbImage: UIImage? {
+    public var artworkImage: UIImage? {
         didSet {
-            imageView.image = thumbImage
+            imageView.image = artworkImage
         }
     }
     public var isAnimating = false {
@@ -83,7 +114,7 @@ class ArtworkViewController: UIViewController {
     }
     public var isPeeked = false {
         didSet {
-            closeButton.isHidden = isPeeked
+            closeView.isHidden = isPeeked
         }
     }
     
@@ -105,14 +136,16 @@ class ArtworkViewController: UIViewController {
     // MARK:- Fetch artwork image
     private func fetchArtworkImage() {
         guard let artwork = artwork, let url = URL(string: artwork.artworkUrl) else {
-            assertionFailure("No artwork information")
+            assertionFailure("No artwork information") // TODO: 오류처리 추가 후 변경
             return
         }
         
         titleLabel.text = artwork.title
+        viewsLabel.text = artwork.views.decimalString + " Views"
         artistLabel.text = artist
         
-        loader.fetchImage(url: url, size: .big) { (image, error) in
+        loader.fetchImage(url: url, size: .big) { [weak self] (image, error) in
+            guard let self = self else { return }
             self.finishFetchImage(image: image, error: error)
         }
     }
@@ -128,15 +161,16 @@ class ArtworkViewController: UIViewController {
             return
         }
         DispatchQueue.main.async {
-            self.imageView.image = image
+            self.artworkImage = image
         }
     }
+    
     // MARK:- Set preferred content size to view
     private func setPreferredContentSize() {
         guard let image = imageView.image else { return }
         
         let width = view.frame.width * 0.85
-        let height = width * (image.size.height / image.size.width) + 50
+        let height = width * (image.size.height / image.size.width)
         preferredContentSize = CGSize(width: width, height: height)
     }
     
@@ -155,11 +189,13 @@ class ArtworkViewController: UIViewController {
     // MARK:- Present animation
     private func presentAnimation(isAnimating: Bool) {
         if isAnimating {
-            topBar.alpha = 0
+            closeView.alpha = 0
+            titleView.alpha = 0
             artistView.alpha = 0
         } else {
             UIView.animate(withDuration: 0.4, animations: {
-                self.topBar.alpha = 1
+                self.closeView.alpha = 1
+                self.titleView.alpha = 1
                 self.artistView.alpha = 1
             })
         }
@@ -187,34 +223,28 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Image view did double tap
     @objc private func imageViewDidDoubleTap(_ sender: UITapGestureRecognizer) {
-        if scrollView.zoomScale == 1 {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.scrollView.zoomScale = 2
-            })
-            return
-        }
+        let scale = scrollView.zoomScale
         
-        if scrollView.zoomScale == 2 {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.scrollView.zoomScale = 1
-            })
-            return
-        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.scrollView.zoomScale = (scale == 1) ? 2 : 1
+        })
     }
     
     // MARK:- Set layout
     private func setLayout() {
         view.addSubview(scrollView)
-        view.addSubview(topBar)
         view.addSubview(artistView)
-        topBar.addSubview(titleLabel)
-        topBar.addSubview(closeButton)
+        view.addSubview(titleView)
+        view.addSubview(closeView)
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(viewsLabel)
         artistView.addSubview(artistLabel)
+        closeView.addSubview(closeButton)
         scrollView.addSubview(imageView)
         scrollView.alwaysBounceVertical = true
         scrollView.delegate = self
         
-        scrollView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
@@ -224,30 +254,34 @@ class ArtworkViewController: UIViewController {
         imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         
-        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
-        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        artistView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -3).isActive = true
+        artistView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
         
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 7).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -7).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 12).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: 12).isActive = true
+        artistLabel.leadingAnchor.constraint(equalTo: artistView.leadingAnchor, constant: 5).isActive = true
+        artistLabel.trailingAnchor.constraint(equalTo: artistView.trailingAnchor, constant: -5).isActive = true
+        artistLabel.topAnchor.constraint(equalTo: artistView.topAnchor, constant: 5).isActive = true
+        artistLabel.bottomAnchor.constraint(equalTo: artistView.bottomAnchor, constant: -5).isActive = true
         
-        closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        closeButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-        closeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12).isActive = true
+        titleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
+        titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
+        
+        titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 5).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -5).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 1).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: viewsLabel.topAnchor, constant: 1).isActive = true
+        
+        viewsLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 5).isActive = true
+        viewsLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -5).isActive = true
+        viewsLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -5).isActive = true
+        
+        closeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        closeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        
+        closeButton.topAnchor.constraint(equalTo: closeView.topAnchor, constant: 10).isActive = true
+        closeButton.bottomAnchor.constraint(equalTo: closeView.bottomAnchor, constant: -10).isActive = true
+        closeButton.leadingAnchor.constraint(equalTo: closeView.leadingAnchor, constant: 10).isActive = true
+        closeButton.trailingAnchor.constraint(equalTo: closeView.trailingAnchor, constant: -10).isActive = true
         closeButton.widthAnchor.constraint(equalTo: closeButton.heightAnchor).isActive = true
-        closeButton.setContentCompressionResistancePriority(.init(999), for: .horizontal)
-        
-        artistView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        artistView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        artistView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
-        
-        artistLabel.leadingAnchor.constraint(equalTo: artistView.leadingAnchor, constant: 12).isActive = true
-        artistLabel.trailingAnchor.constraint(equalTo: artistView.trailingAnchor, constant: -12).isActive = true
-        artistLabel.centerXAnchor.constraint(equalTo: artistView.centerXAnchor).isActive = true
-        artistLabel.centerYAnchor.constraint(equalTo: artistView.centerYAnchor).isActive = true
     }
 }
 
@@ -264,6 +298,7 @@ extension ArtworkViewController: UIScrollViewDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
+
 
 
 /*
@@ -285,18 +320,21 @@ private func artworkViewController(index: IndexPath) -> ArtworkViewController {
     }
     
     let viewController = ArtworkViewController()
-    herbDetails.transitioningDelegate = self
+    viewController.transitioningDelegate = self
     viewController.mainNavigationController = navigationController
     viewController.artwork = artworkBucket[index.item]
-    viewController.imageView.image = cell.artworkImageView.image
+    viewController.artworkImage = cell.artworkImageView.image
     
     return viewController
 }
 
 override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let viewController = artworkViewController(index: indexPath)
+    viewController.isAnimating = true
     
-    present(viewController, animated: true, completion: nil)
+    present(viewController, animated: true) {
+        viewController.isAnimating = false
+    }
 }
 extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing,
@@ -307,7 +345,7 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
             return .init()
         }
         let viewController = artworkViewController(index: index)
-        viewController.closeButton.isHidden = true
+        viewController.isPeeked = true
         
         return viewController
     }
@@ -318,8 +356,8 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
         guard let viewController = viewControllerToCommit as? ArtworkViewController else {
             return
         }
-        viewController.closeButton.isHidden = false
- 
+        viewController.isPeeked = false
+        
         present(viewController, animated: false, completion: nil)
     }
 }
@@ -339,6 +377,8 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
         }
         
         let transition = PaginatingViewControllerPresentAnimator()
+        
+        transition.viewFrame = view.frame
         transition.originFrame = collectionView.convert(cell.frame, to: nil)
         
         return transition
