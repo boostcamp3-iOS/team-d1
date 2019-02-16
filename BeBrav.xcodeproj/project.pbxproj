@@ -256,6 +256,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1DB2017E3D7DDF4D4AA7AC63B2630273 /* ImageData */ = {
+			isa = PBXGroup;
+			children = (
+				AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */,
+			);
+			path = ImageData;
+			sourceTree = "<group>";
+		};
 		1DCEB569E53D47AA0657F1472B62BBA9 /* ServerDatabase */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,20 +398,6 @@
 			path = NetworkFactories;
 			sourceTree = "<group>";
 		};
-		A3CA7143CE7B3AC3168FC0D2E8275E77 /* ImageLoader */ = {
-			isa = PBXGroup;
-			children = (
-				D1FD691C3B47CB019E6A33364650F8CB /* DiskCache */,
-				A060E587278ED687A5827969A019AEC2 /* Error */,
-				C15B752C956C2BD5F0AAC16E91EF3952 /* ImageCacheFactory */,
-				C2076D575A1A32CBC9815955F235B14E /* MemoryCache */,
-				9375ECE6D3F7382D89CF0497F0744D9B /* Stub */,
-				14150B1AD007F27ADEC60F734E55D195 /* ImageLoader.swift */,
-				F3912ECE393A1735C4FCE64144045A13 /* ImageLoaderProtocol.swift */,
-			);
-			path = ImageLoader;
-			sourceTree = "<group>";
-		};
 		85DED802570A0BE9D2BEC4E78C585683 /* PaginatingLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +418,24 @@
 			path = SQLiteDatabase;
 			sourceTree = "<group>";
 		};
+		9375ECE6D3F7382D89CF0497F0744D9B /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				092B8413EBFE5FB2D4DAB25A36F140AD /* DiskCacheStub.swift */,
+				091931DA73529448A8ADBF82C812EE54 /* ImageLoaderStub.swift */,
+				E5E1FDA22D83F836B071CD67E5989BC3 /* MemoryCacheStub.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
+		A060E587278ED687A5827969A019AEC2 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				3E5432B97DFB81F63EF28B904BDAE982 /* DiskCacheError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,58 +448,18 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-		D1FD691C3B47CB019E6A33364650F8CB /* DiskCache */ = {
+		A3CA7143CE7B3AC3168FC0D2E8275E77 /* ImageLoader */ = {
 			isa = PBXGroup;
 			children = (
-				71CE0FE04E2D414B078E191CCB75882E /* DiskCache.swift */,
-				D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */,
+				D1FD691C3B47CB019E6A33364650F8CB /* DiskCache */,
+				A060E587278ED687A5827969A019AEC2 /* Error */,
+				C15B752C956C2BD5F0AAC16E91EF3952 /* ImageCacheFactory */,
+				C2076D575A1A32CBC9815955F235B14E /* MemoryCache */,
+				9375ECE6D3F7382D89CF0497F0744D9B /* Stub */,
+				14150B1AD007F27ADEC60F734E55D195 /* ImageLoader.swift */,
+				F3912ECE393A1735C4FCE64144045A13 /* ImageLoaderProtocol.swift */,
 			);
-			path = DiskCache;
-			sourceTree = "<group>";
-		};
-		A060E587278ED687A5827969A019AEC2 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				3E5432B97DFB81F63EF28B904BDAE982 /* DiskCacheError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		C15B752C956C2BD5F0AAC16E91EF3952 /* ImageCacheFactory */ = {
-			isa = PBXGroup;
-			children = (
-				6F3C5688A77548E2B8F5FA0221BB1F73 /* ImageCacheFactory.swift */,
-				DB5B05FF6F95AC04BD180BC4D3088D01 /* ImageCacheFactoryProtocol.swift */,
-			);
-			path = ImageCacheFactory;
-			sourceTree = "<group>";
-		};
-		C2076D575A1A32CBC9815955F235B14E /* MemoryCache */ = {
-			isa = PBXGroup;
-			children = (
-				1DB2017E3D7DDF4D4AA7AC63B2630273 /* ImageData */,
-				B2ECD49F46264635932A4B4A8CFA937A /* MemoryCache.swift */,
-				C65CC1C8D944EA8F670DBF032B36F48B /* MemoryCacheProtocol.swift */,
-			);
-			path = MemoryCache;
-			sourceTree = "<group>";
-		};
-		9375ECE6D3F7382D89CF0497F0744D9B /* Stub */ = {
-			isa = PBXGroup;
-			children = (
-				092B8413EBFE5FB2D4DAB25A36F140AD /* DiskCacheStub.swift */,
-				091931DA73529448A8ADBF82C812EE54 /* ImageLoaderStub.swift */,
-				E5E1FDA22D83F836B071CD67E5989BC3 /* MemoryCacheStub.swift */,
-			);
-			path = Stub;
-			sourceTree = "<group>";
-		};
-		1DB2017E3D7DDF4D4AA7AC63B2630273 /* ImageData */ = {
-			isa = PBXGroup;
-			children = (
-				AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */,
-			);
-			path = ImageData;
+			path = ImageLoader;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -531,6 +503,15 @@
 			);
 			sourceTree = "<group>";
 		};
+		C15B752C956C2BD5F0AAC16E91EF3952 /* ImageCacheFactory */ = {
+			isa = PBXGroup;
+			children = (
+				6F3C5688A77548E2B8F5FA0221BB1F73 /* ImageCacheFactory.swift */,
+				DB5B05FF6F95AC04BD180BC4D3088D01 /* ImageCacheFactoryProtocol.swift */,
+			);
+			path = ImageCacheFactory;
+			sourceTree = "<group>";
+		};
 		C1C31A18D81E835184BEE797A8FC9627 /* Stub */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +519,16 @@
 				DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */,
 			);
 			path = Stub;
+			sourceTree = "<group>";
+		};
+		C2076D575A1A32CBC9815955F235B14E /* MemoryCache */ = {
+			isa = PBXGroup;
+			children = (
+				1DB2017E3D7DDF4D4AA7AC63B2630273 /* ImageData */,
+				B2ECD49F46264635932A4B4A8CFA937A /* MemoryCache.swift */,
+				C65CC1C8D944EA8F670DBF032B36F48B /* MemoryCacheProtocol.swift */,
+			);
+			path = MemoryCache;
 			sourceTree = "<group>";
 		};
 		C89F6C555DEBEC4BCA3ACDA52F9366FC /* FirebaseModules */ = {
@@ -550,6 +541,15 @@
 				2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */,
 			);
 			path = FirebaseModules;
+			sourceTree = "<group>";
+		};
+		D1FD691C3B47CB019E6A33364650F8CB /* DiskCache */ = {
+			isa = PBXGroup;
+			children = (
+				71CE0FE04E2D414B078E191CCB75882E /* DiskCache.swift */,
+				D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */,
+			);
+			path = DiskCache;
 			sourceTree = "<group>";
 		};
 		E809E96650B6598968E3EB41BE22E29F /* Networking */ = {
