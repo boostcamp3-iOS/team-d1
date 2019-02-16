@@ -46,6 +46,18 @@
 		97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
+		A30CA6A52218093400CCABCF /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6A42218093400CCABCF /* DiskCache.swift */; };
+		A30CA6A72218094100CCABCF /* DiskCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6A62218094100CCABCF /* DiskCacheError.swift */; };
+		A30CA6A92218094D00CCABCF /* ImageCacheFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6A82218094D00CCABCF /* ImageCacheFactory.swift */; };
+		A30CA6AB2218095B00CCABCF /* ImageCacheFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6AA2218095B00CCABCF /* ImageCacheFactoryProtocol.swift */; };
+		A30CA6AD2218096600CCABCF /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6AC2218096600CCABCF /* ImageData.swift */; };
+		A30CA6AF2218097300CCABCF /* MemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6AE2218097300CCABCF /* MemoryCache.swift */; };
+		A30CA6B12218098000CCABCF /* MemoryCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6B02218098000CCABCF /* MemoryCacheProtocol.swift */; };
+		A30CA6B32218099500CCABCF /* DiskCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6B22218099500CCABCF /* DiskCacheStub.swift */; };
+		A30CA6B5221809A900CCABCF /* ImageLoaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6B4221809A900CCABCF /* ImageLoaderStub.swift */; };
+		A30CA6B7221809B400CCABCF /* MemoryCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6B6221809B400CCABCF /* MemoryCacheStub.swift */; };
+		A30CA6B9221809C700CCABCF /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6B8221809C700CCABCF /* ImageLoader.swift */; };
+		A30CA6BB221809D200CCABCF /* ImageLoaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30CA6BA221809D200CCABCF /* ImageLoaderProtocol.swift */; };
 		A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */; };
 		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
@@ -133,6 +145,18 @@
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
 		9CF3450565235E459F496CCF0C6D22E5 /* MostViewedCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewedCollectionViewLayout.swift; sourceTree = "<group>"; };
 		A0CB14D3501821E56657F253583E9EB4 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		A30CA6A42218093400CCABCF /* DiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCache.swift; sourceTree = "<group>"; };
+		A30CA6A62218094100CCABCF /* DiskCacheError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCacheError.swift; sourceTree = "<group>"; };
+		A30CA6A82218094D00CCABCF /* ImageCacheFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheFactory.swift; sourceTree = "<group>"; };
+		A30CA6AA2218095B00CCABCF /* ImageCacheFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheFactoryProtocol.swift; sourceTree = "<group>"; };
+		A30CA6AC2218096600CCABCF /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		A30CA6AE2218097300CCABCF /* MemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCache.swift; sourceTree = "<group>"; };
+		A30CA6B02218098000CCABCF /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
+		A30CA6B22218099500CCABCF /* DiskCacheStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCacheStub.swift; sourceTree = "<group>"; };
+		A30CA6B4221809A900CCABCF /* ImageLoaderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderStub.swift; sourceTree = "<group>"; };
+		A30CA6B6221809B400CCABCF /* MemoryCacheStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheStub.swift; sourceTree = "<group>"; };
+		A30CA6B8221809C700CCABCF /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		A30CA6BA221809D200CCABCF /* ImageLoaderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderProtocol.swift; sourceTree = "<group>"; };
 		AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		ABD33DF6295E76A866F1E854C4AEF5C5 /* ArtworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkModel.swift; sourceTree = "<group>"; };
 		B101B2C2ACD2B7795BFACE4FA1411F7D /* RequestMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
@@ -191,7 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				A263903DDDEF88E566FBA33CE7CF9EBB /* Database */,
-				7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */,
+				7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageLoader */,
 				FF261075A33C23DEDF441571EEB2EC5D /* Models */,
 				E809E96650B6598968E3EB41BE22E29F /* Networking */,
 				673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */,
@@ -366,12 +390,18 @@
 			path = NetworkFactories;
 			sourceTree = "<group>";
 		};
-		7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageCache */ = {
+		7EB85BD2F6FEAEB0F47D89D894FF8E8D /* ImageLoader */ = {
 			isa = PBXGroup;
 			children = (
-				E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */,
+				A30CA6A22218091500CCABCF /* Stub */,
+				A30CA6A12218090B00CCABCF /* MemoryCache */,
+				A30CA6A0221808FF00CCABCF /* ImageCacheFactory */,
+				A30CA69F221808F500CCABCF /* Error */,
+				A30CA69E221808E100CCABCF /* DiskCache */,
+				A30CA6B8221809C700CCABCF /* ImageLoader.swift */,
+				A30CA6BA221809D200CCABCF /* ImageLoaderProtocol.swift */,
 			);
-			path = ImageCache;
+			path = ImageLoader;
 			sourceTree = "<group>";
 		};
 		85DED802570A0BE9D2BEC4E78C585683 /* PaginatingLayout */ = {
@@ -404,6 +434,60 @@
 				C1C31A18D81E835184BEE797A8FC9627 /* Stub */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		A30CA69E221808E100CCABCF /* DiskCache */ = {
+			isa = PBXGroup;
+			children = (
+				2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */,
+				A30CA6A42218093400CCABCF /* DiskCache.swift */,
+			);
+			path = DiskCache;
+			sourceTree = "<group>";
+		};
+		A30CA69F221808F500CCABCF /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA6A62218094100CCABCF /* DiskCacheError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		A30CA6A0221808FF00CCABCF /* ImageCacheFactory */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA6A82218094D00CCABCF /* ImageCacheFactory.swift */,
+				A30CA6AA2218095B00CCABCF /* ImageCacheFactoryProtocol.swift */,
+			);
+			path = ImageCacheFactory;
+			sourceTree = "<group>";
+		};
+		A30CA6A12218090B00CCABCF /* MemoryCache */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA6A32218092200CCABCF /* ImageData */,
+				A30CA6AE2218097300CCABCF /* MemoryCache.swift */,
+				A30CA6B02218098000CCABCF /* MemoryCacheProtocol.swift */,
+			);
+			path = MemoryCache;
+			sourceTree = "<group>";
+		};
+		A30CA6A22218091500CCABCF /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA6B22218099500CCABCF /* DiskCacheStub.swift */,
+				A30CA6B4221809A900CCABCF /* ImageLoaderStub.swift */,
+				A30CA6B6221809B400CCABCF /* MemoryCacheStub.swift */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
+		A30CA6A32218092200CCABCF /* ImageData */ = {
+			isa = PBXGroup;
+			children = (
+				A30CA6AC2218096600CCABCF /* ImageData.swift */,
+			);
+			path = ImageData;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -466,14 +550,6 @@
 				2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */,
 			);
 			path = FirebaseModules;
-			sourceTree = "<group>";
-		};
-		E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */,
-			);
-			path = DiskCacheProtocol;
 			sourceTree = "<group>";
 		};
 		E809E96650B6598968E3EB41BE22E29F /* Networking */ = {
@@ -661,14 +737,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10746637F03C86A4A08D99171A4D14 /* AppDelegate.swift in Sources */,
+				A30CA6AD2218096600CCABCF /* ImageData.swift in Sources */,
 				1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */,
 				422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */,
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,
+				A30CA6B12218098000CCABCF /* MemoryCacheProtocol.swift in Sources */,
 				05C038C29697A002931EBEB5FC7771EE /* ArtworkAddFooterReusableView.swift in Sources */,
 				AD691557ADDF663A9192F016547551EE /* ArtworkModelForNetwork.swift in Sources */,
+				A30CA6B5221809A900CCABCF /* ImageLoaderStub.swift in Sources */,
 				08C1AFFB5C7D3CC77B615E2F4FEAE92D /* ArtworkModel.swift in Sources */,
 				2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */,
 				4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */,
+				A30CA6A52218093400CCABCF /* DiskCache.swift in Sources */,
 				2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */,
 				138C2752E3876B8A3F05860E77C890D5 /* DatabaseFactoryProtocol.swift in Sources */,
 				2F26FB1727BAA0ECC282178DE4A17305 /* DatabaseHandler.swift in Sources */,
@@ -682,11 +762,14 @@
 				BC4480882171998BD53897673E4E2E49 /* FirebaseAuthService.swift in Sources */,
 				70F249CE2E37FB1B6464198B573CDDC3 /* FirebaseDatabaseService.swift in Sources */,
 				055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */,
+				A30CA6B9221809C700CCABCF /* ImageLoader.swift in Sources */,
 				9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */,
+				A30CA6B32218099500CCABCF /* DiskCacheStub.swift in Sources */,
 				A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */,
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
 				11B2A89136452CDB60899F172D63E348 /* ImageSort.swift in Sources */,
 				BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */,
+				A30CA6AB2218095B00CCABCF /* ImageCacheFactoryProtocol.swift in Sources */,
 				CC40F573CDA90F09A092EB33C4C30B88 /* LayoutModel.swift in Sources */,
 				4DD430029C9AE37D53985633D109E1D1 /* LoadingIndicator.swift in Sources */,
 				C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */,
@@ -699,8 +782,10 @@
 				F768BDF216682A14A45F2C5DB9D10F93 /* NetworkSeparator.swift in Sources */,
 				E2359D6E25A2B79182D53947E517B7DB /* NetworkSeperatable.swift in Sources */,
 				5016B0320CA7A84D19BE5990FFBB2357 /* OffsetPointer.swift in Sources */,
+				A30CA6AF2218097300CCABCF /* MemoryCache.swift in Sources */,
 				35FB4348F69BF9011551160B5986723A /* PaginatingCell.swift in Sources */,
 				704F35A290C025709E477385A7C6F10A /* PaginatingCollectionViewController.swift in Sources */,
+				A30CA6BB221809D200CCABCF /* ImageLoaderProtocol.swift in Sources */,
 				516A901AD3256DFA491A7B5477DA1707 /* PagingControlDelegate.swift in Sources */,
 				E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */,
 				4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */,
@@ -709,6 +794,8 @@
 				B1E6CE5F021886B81896B1FAE21F0E99 /* RequestMaker.swift in Sources */,
 				EF546B8D3F597DB330B48A43270328F9 /* ResponseParser.swift in Sources */,
 				F6DF953343175B3F542310331596B604 /* SQLiteDatabase.swift in Sources */,
+				A30CA6A72218094100CCABCF /* DiskCacheError.swift in Sources */,
+				A30CA6B7221809B400CCABCF /* MemoryCacheStub.swift in Sources */,
 				C6A810DE2CEB3673D8F1910EC7DF982D /* SQLiteDatabaseProtocol.swift in Sources */,
 				CC3662985B7CEEEE359E38BC36C0DA4C /* SQLiteDatabaseStub.swift in Sources */,
 				6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */,
@@ -723,6 +810,7 @@
 				7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */,
 				0271249084FF828DD59E92BB9610540D /* URLSessionProtocol.swift in Sources */,
 				16F933495301CA4C742E35FB84B783E9 /* URLSessionTaskProtocol.swift in Sources */,
+				A30CA6A92218094D00CCABCF /* ImageCacheFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
