@@ -37,10 +37,8 @@
 		6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */; };
 		629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64957DB209F471C5FBA74824EE5FA038 /* Dispatcher.swift */; };
 		63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */; };
-		6E8E808640FAD1A085145BD5FD666A9C /* ArtworkModelForNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC174174B5BD2C50CFDE28C6DB82A94 /* ArtworkModelForNetwork.swift */; };
 		704F35A290C025709E477385A7C6F10A /* PaginatingCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AB2B50385F4848EC0907AE79FB9CED /* PaginatingCollectionViewController.swift */; };
 		70F249CE2E37FB1B6464198B573CDDC3 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5889784B4AF4A78B52E7738A7F974E /* FirebaseDatabaseService.swift */; };
-		72AA7FE5C567544CE73598312233F3D8 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381102D85338C32C5D3B42604B93B50C /* ImageLoader.swift */; };
 		78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */; };
 		7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */; };
 		7F9ABC3DEE881648D6E3100E2A463EE7 /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */; };
@@ -51,6 +49,7 @@
 		A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */; };
 		A8C4E2E80B2D98D89ECEE57DE0DF905E /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
+		AD691557ADDF663A9192F016547551EE /* ArtworkModelForNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183ABACEE7B4D2441A501F814A396154 /* ArtworkModelForNetwork.swift */; };
 		B1E6CE5F021886B81896B1FAE21F0E99 /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7268B4DD0B3772999E41F0531F172FC4 /* RequestMaker.swift */; };
 		B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */; };
 		BC4480882171998BD53897673E4E2E49 /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D090CCFD54E30AA16312F6B84A45E62 /* FirebaseAuthService.swift */; };
@@ -95,6 +94,7 @@
 		0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerProtocol.swift; sourceTree = "<group>"; };
+		183ABACEE7B4D2441A501F814A396154 /* ArtworkModelForNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkModelForNetwork.swift; sourceTree = "<group>"; };
 		1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		23EF2EC595B253068238A8C0BF112319 /* ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
 		246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +103,6 @@
 		2E35EF5638986F5B75335F81734490E9 /* DiskCacheProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskCacheProtocol.swift; sourceTree = "<group>"; };
 		324087A009D894845387C4A339451E74 /* NetworkManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManger.swift; sourceTree = "<group>"; };
 		359BD64513138B2A7F79B192779A1FBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		381102D85338C32C5D3B42604B93B50C /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		43DB9EDACD7F9456480C533093715665 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		44926D1810690876DB32624B29DF4C51 /* DatabaseFactoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactoryProtocol.swift; sourceTree = "<group>"; };
 		480DA08DCE13F448CEC37E36C5D12332 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
@@ -141,7 +140,6 @@
 		BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
 		C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
-		CFC174174B5BD2C50CFDE28C6DB82A94 /* ArtworkModelForNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkModelForNetwork.swift; sourceTree = "<group>"; };
 		D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
 		D2418101700466D394D190E562E7128A /* ImageSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSort.swift; sourceTree = "<group>"; };
 		D2FD527C2782811EAD01D62452E0E56D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 			isa = PBXGroup;
 			children = (
 				E02CF8F1DF2CA353050E0D6B96F3CE5F /* DiskCacheProtocol */,
-				381102D85338C32C5D3B42604B93B50C /* ImageLoader.swift */,
 			);
 			path = ImageCache;
 			sourceTree = "<group>";
@@ -555,7 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				85DED802570A0BE9D2BEC4E78C585683 /* PaginatingLayout */,
-				CFC174174B5BD2C50CFDE28C6DB82A94 /* ArtworkModelForNetwork.swift */,
+				183ABACEE7B4D2441A501F814A396154 /* ArtworkModelForNetwork.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -668,8 +665,8 @@
 				422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */,
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,
 				05C038C29697A002931EBEB5FC7771EE /* ArtworkAddFooterReusableView.swift in Sources */,
+				AD691557ADDF663A9192F016547551EE /* ArtworkModelForNetwork.swift in Sources */,
 				08C1AFFB5C7D3CC77B615E2F4FEAE92D /* ArtworkModel.swift in Sources */,
-				6E8E808640FAD1A085145BD5FD666A9C /* ArtworkModelForNetwork.swift in Sources */,
 				2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */,
 				4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */,
 				2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */,
@@ -688,7 +685,6 @@
 				9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */,
 				A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */,
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
-				72AA7FE5C567544CE73598312233F3D8 /* ImageLoader.swift in Sources */,
 				11B2A89136452CDB60899F172D63E348 /* ImageSort.swift in Sources */,
 				BF087814FE56B85B9D3D75958CD60E5B /* JsonParser.swift in Sources */,
 				CC40F573CDA90F09A092EB33C4C30B88 /* LayoutModel.swift in Sources */,
