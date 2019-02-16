@@ -17,7 +17,7 @@ class ArtworkViewController: UIViewController {
         scrollView.maximumZoomScale = 2.0
         scrollView.minimumZoomScale = 1.0
         scrollView.zoomScale = 1
-        scrollView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        scrollView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         return scrollView
     }()
     private let imageView: UIImageView = {
@@ -46,18 +46,6 @@ class ArtworkViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         return button
     }()
-    private let titleView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
-        view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
-                                       green: 0.2745098174,
-                                       blue:0.3019607961,
-                                       alpha: 0.5)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 5
-        return view
-    }()
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -76,24 +64,13 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
-    private let artistView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
-        view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
-                                       green: 0.2745098174,
-                                       blue:0.3019607961,
-                                       alpha: 0.5)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 5
-        return view
-    }()
     private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.text = ""
         label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textAlignment = .right
         return label
     }()
     
@@ -118,15 +95,25 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    private let loader = ImageCacheFactory().buildImageLoader()
+    private let imageLoader: ImageLoaderProtocol
     
     // MARK:- Initialize
+    init(imageLoader: ImageLoaderProtocol) {
+        self.imageLoader = imageLoader
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         fetchArtworkImage()
         
         setLayout()
+        setLabels()
         setPreferredContentSize()
         setGestureRecognizer()
         
@@ -144,8 +131,7 @@ class ArtworkViewController: UIViewController {
         viewsLabel.text = artwork.views.decimalString + " Views"
         artistLabel.text = artist
         
-        loader.fetchImage(url: url, size: .big) { [weak self] (image, error) in
-            guard let self = self else { return }
+        imageLoader.fetchImage(url: url, size: .big, prefetching: false) { (image, error) in
             self.finishFetchImage(image: image, error: error)
         }
     }
@@ -163,6 +149,22 @@ class ArtworkViewController: UIViewController {
         DispatchQueue.main.async {
             self.artworkImage = image
         }
+    }
+    
+    // MARK:- Set Labels
+    private func setLabels() {
+        setLabelShadow(label: titleLabel)
+        setLabelShadow(label: artistLabel)
+        setLabelShadow(label: viewsLabel)
+    }
+    
+    private func setLabelShadow(label: UILabel) {
+        label.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        label.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        label.layer.shadowOffset = CGSize(width: 0, height: 0)
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 1
     }
     
     // MARK:- Set preferred content size to view
@@ -190,17 +192,19 @@ class ArtworkViewController: UIViewController {
     private func presentAnimation(isAnimating: Bool) {
         if isAnimating {
             closeView.alpha = 0
-            titleView.alpha = 0
-            artistView.alpha = 0
+            titleLabel.alpha = 0
+            artistLabel.alpha = 0
+            viewsLabel.alpha = 0
         } else {
             UIView.animate(withDuration: 0.4, animations: {
                 self.closeView.alpha = 1
-                self.titleView.alpha = 1
-                self.artistView.alpha = 1
+                self.titleLabel.alpha = 1
+                self.artistLabel.alpha = 1
+                self.viewsLabel.alpha = 1
             })
         }
         
-        scrollView.backgroundColor = isAnimating ? .clear : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        scrollView.backgroundColor = isAnimating ? .clear : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     
     // MARK:- Touch up close button
@@ -233,12 +237,10 @@ class ArtworkViewController: UIViewController {
     // MARK:- Set layout
     private func setLayout() {
         view.addSubview(scrollView)
-        view.addSubview(artistView)
-        view.addSubview(titleView)
         view.addSubview(closeView)
-        titleView.addSubview(titleLabel)
-        titleView.addSubview(viewsLabel)
-        artistView.addSubview(artistLabel)
+        view.addSubview(artistLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(viewsLabel)
         closeView.addSubview(closeButton)
         scrollView.addSubview(imageView)
         scrollView.alwaysBounceVertical = true
@@ -253,26 +255,15 @@ class ArtworkViewController: UIViewController {
         imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
         imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+
+        artistLabel.trailingAnchor.constraint(equalTo: viewsLabel.trailingAnchor).isActive = true
+        artistLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -5).isActive = true
         
-        artistView.bottomAnchor.constraint(equalTo: titleView.topAnchor, constant: -3).isActive = true
-        artistView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor).isActive = true
-        
-        artistLabel.leadingAnchor.constraint(equalTo: artistView.leadingAnchor, constant: 5).isActive = true
-        artistLabel.trailingAnchor.constraint(equalTo: artistView.trailingAnchor, constant: -5).isActive = true
-        artistLabel.topAnchor.constraint(equalTo: artistView.topAnchor, constant: 5).isActive = true
-        artistLabel.bottomAnchor.constraint(equalTo: artistView.bottomAnchor, constant: -5).isActive = true
-        
-        titleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
-        titleView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
-        
-        titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 5).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -5).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 1).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: viewsLabel.trailingAnchor).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: viewsLabel.topAnchor, constant: 1).isActive = true
         
-        viewsLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 5).isActive = true
-        viewsLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -5).isActive = true
-        viewsLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -5).isActive = true
+        viewsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
+        viewsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
         
         closeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         closeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true

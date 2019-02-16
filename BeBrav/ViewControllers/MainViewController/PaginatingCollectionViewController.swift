@@ -146,11 +146,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
-        guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
-            return .init()
-        }
+        let imageLoader = ImageCacheFactory().buildImageLoader()
         
-        let viewController = ArtworkViewController()
+        guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
+            return .init(imageLoader: imageLoader)
+        }
+
+        let viewController = ArtworkViewController(imageLoader: imageLoader)
         viewController.transitioningDelegate = self
         viewController.mainNavigationController = navigationController
         viewController.artwork = artworkBucket[index.item]
@@ -194,7 +196,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 assertionFailure("failed to make cell")
                 return
             }
-            cell.artworkImageView.image = image
+            DispatchQueue.main.async {
+                cell.artworkImageView.image = image
+            }
         }
         
         return cell
