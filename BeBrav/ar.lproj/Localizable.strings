@@ -1,0 +1,27 @@
+/*
+ Localizable.strings
+ BeBrav
+ 
+ Created by Seonghun Kim on 14/02/2019.
+ Copyright © 2019 bumslap. All rights reserved.
+ */
+
+"chooseFilterTitle" = "اختر مرشح الصورة";
+"chooseFilterDescription" = "أي نوع من الصور تريد؟";
+"color" = "اللون";
+"orientation" = "اتجاه";
+"temperature" = "درجة الحرارة";
+"cancel" = "إلغاء";
+
+"newArtwork" = "مشاركة العمل الفني الجديد";
+"newArtworkTitle" = "عمل فني جديد";
+"artworkTitle" = "اكتب العنوان";
+"share" = "شارك";
+
+"loadingImages" = "تحميل الصور";
+"photos" = "الصور";
+"delete" = "حذف";
+"artist" = "فنان";
+"edit" = "تصحيح";
+"modification" = "تعديل";
+"done" = "فعله";

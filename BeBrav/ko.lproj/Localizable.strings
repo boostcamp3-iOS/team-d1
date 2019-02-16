@@ -1,0 +1,27 @@
+/*
+ Localizable.strings
+ BeBrav
+ 
+ Created by Seonghun Kim on 14/02/2019.
+ Copyright © 2019 bumslap. All rights reserved.
+ */
+
+"chooseFilterTitle" = "필터 방식 선택";
+"chooseFilterDescription" = "어떤 필터링을 적용할까요?";
+"color" = "흑백 / 컬러";
+"orientation" = "가로 / 세로";
+"temperature" = "색 온도";
+"cancel" = "취소";
+
+"newArtwork" = "작품 등록하기";
+"newArtworkTitle" = "작품 등록";
+"artworkTitle" = "작품명을 입력해주세요.";
+"share" = "등록";
+
+"loadingImages" = "사진을 불러오는중";
+"photos" = "사진";
+"delete" = "삭제";
+"artist" = "작가";
+"edit" = "편집";
+"modification" = "수정";
+"done" = "확인";
