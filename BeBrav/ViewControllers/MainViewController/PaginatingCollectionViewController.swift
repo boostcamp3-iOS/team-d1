@@ -104,6 +104,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
         setCollectionView()
         setLoadingView()
         fetchPages()
+        
+        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
+        {
+            registerForPreviewing(with: self, sourceView: collectionView)
+            
+        }
     }
     
     func setCollectionView() {
@@ -136,6 +142,21 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
         loadingIndicator.deactivateIndicatorView()
+    }
+    
+    // MARK:- Return ArtworkViewController
+    private func artworkViewController(index: IndexPath) -> ArtworkViewController {
+        guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
+            return .init()
+        }
+        
+        let viewController = ArtworkViewController()
+        viewController.transitioningDelegate = self
+        viewController.mainNavigationController = navigationController
+        viewController.artwork = artworkBucket[index.item]
+        viewController.artworkImage = cell.artworkImageView.image
+        
+        return viewController
     }
     
     @objc func filterButtonDidTap() {
@@ -190,13 +211,20 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
          return CGSize(width: width, height: width)
      }
     
-     func collectionView(_ collectionView: UICollectionView,
-                         layout collectionViewLayout: UICollectionViewLayout,
-                         insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
-     }
-   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
+        
+        let viewController = artworkViewController(index: indexPath)
+        viewController.isAnimating = true
+        
+        present(viewController, animated: true) {
+            viewController.isAnimating = false
+        }
     }
 }
 
@@ -418,4 +446,59 @@ extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetch
     }
 }
 
+// MARK:- UIViewController Previewing Delegate
+extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           viewControllerForLocation location: CGPoint)
+        -> UIViewController?
+    {
+        guard let index = collectionView.indexPathForItem(at: location) else {
+            return .init()
+        }
+        let viewController = artworkViewController(index: index)
+        viewController.isPeeked = true
+        
+        return viewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           commit viewControllerToCommit: UIViewController)
+    {
+        guard let viewController = viewControllerToCommit as? ArtworkViewController else {
+            return
+        }
+        viewController.isPeeked = false
+        
+        present(viewController, animated: false, completion: nil)
+    }
+}
 
+// MARK:- PaginatingCollection ViewController
+extension PaginatingCollectionViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController)
+        -> UIViewControllerAnimatedTransitioning?
+    {
+        guard let collectionView = collectionView,
+            let index = collectionView.indexPathsForSelectedItems?.first,
+            let cell = collectionView.cellForItem(at: index)
+            else
+        {
+            return nil
+        }
+        
+        let transition = PaginatingViewControllerPresentAnimator()
+        
+        transition.viewFrame = view.frame
+        transition.originFrame = collectionView.convert(cell.frame, to: nil)
+        
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController)
+        -> UIViewControllerAnimatedTransitioning?
+    {
+        return nil
+    }
+}

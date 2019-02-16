@@ -56,6 +56,7 @@
 		99005F0269E6820E6F4BAD138BFD3057 /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
+		A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */; };
 		A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */; };
 		AC549D02F07721DE2607B63D51F03FBD /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */; };
 		AC97BBB06F27F0D242EFC9C509C8E670 /* MemoryCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1FDA22D83F836B071CD67E5989BC3 /* MemoryCacheStub.swift */; };
@@ -147,6 +148,7 @@
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
+		95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatingViewControllerPresentAnimator.swift; sourceTree = "<group>"; };
 		9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
 		98B76BB296301BBF388E12724510642F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				F7AB2B50385F4848EC0907AE79FB9CED /* PaginatingCollectionViewController.swift */,
+				95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -421,6 +424,14 @@
 				2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */,
 			);
 			path = SQLiteDatabase;
+			sourceTree = "<group>";
+		};
+		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */,
+			);
+			path = ArtworkViewController;
 			sourceTree = "<group>";
 		};
 		9375ECE6D3F7382D89CF0497F0744D9B /* Stub */ = {
@@ -581,14 +592,6 @@
 				DC2B5E67586BFF4520F06AC8995B0722 /* URLResponse+.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8D15307E3EAF6186457EDA0E5274F225 /* ArtworkViewController */ = {
-			isa = PBXGroup;
-			children = (
-				B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */,
-			);
-			path = ArtworkViewController;
 			sourceTree = "<group>";
 		};
 		F366F978F2742F0BB0539C770AD89303 /* Utils */ = {
@@ -797,6 +800,7 @@
 				5016B0320CA7A84D19BE5990FFBB2357 /* OffsetPointer.swift in Sources */,
 				35FB4348F69BF9011551160B5986723A /* PaginatingCell.swift in Sources */,
 				704F35A290C025709E477385A7C6F10A /* PaginatingCollectionViewController.swift in Sources */,
+				A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */,
 				516A901AD3256DFA491A7B5477DA1707 /* PagingControlDelegate.swift in Sources */,
 				E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */,
 				4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */,
