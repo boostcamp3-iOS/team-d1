@@ -15,6 +15,7 @@ enum APIError: Error {
     case responseUnsuccessful
     case jsonParsingFailure
     case urlFailure
+    case waitRequest
     
     var localizedDescription: String {
         switch self {
@@ -24,6 +25,7 @@ enum APIError: Error {
         case .jsonParsingFailure: return "JSON Parsing Failure"
         case .jsonConversionFailure: return "JSON Conversion Failure"
         case .urlFailure: return "url Failure, app is gonna be off"
+        case .waitRequest: return "Request is waiting"
         }
     }
 }

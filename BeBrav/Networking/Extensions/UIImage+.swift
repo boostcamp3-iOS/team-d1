@@ -1,5 +1,5 @@
 //
-//  UIImage+.swift
+//  UIImage+\.swift
 //  BeBrav
 //
 //  Created by bumslap on 12/02/2019.
@@ -9,12 +9,17 @@
 import UIKit
 
 extension UIImage {
-    func scale(with scale: CGFloat) -> UIImage? {
+    func scale(with scale: CGFloat) -> UIImage {
         let size = CGSize(width: self.size.width * scale, height: self.size.height * scale)
-        UIGraphicsBeginImageContextWithOptions(size, true, self.scale)
-        self.draw(in: CGRect(origin: .zero, size: size))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return resizedImage
+        let format = UIGraphicsImageRendererFormat.default()
+        format.opaque = true
+        format.scale = self.scale
+        
+        let render = UIGraphicsImageRenderer(size:size, format: format)
+        let image = render.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+        
+        return image
     }
 }
