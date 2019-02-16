@@ -76,6 +76,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
     
+    private let imageLoader = ImageCacheFactory().buildImageLoader()
+    
     //mainCollectionView 설정 관련 프로퍼티
     private let identifierFooter = "footer"
     private let spacing: CGFloat = 0
@@ -166,13 +168,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return .init()
         }
         //TODO: 팀원과 협의하여 캐시정책 적용
-        NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
             if error != nil {
                 assertionFailure("failed to make cell")
                 return
             }
-                 cell.artworkImageView.image = image
+            cell.artworkImageView.image = image
         }
+        
         return cell
     }
 }
@@ -405,13 +408,12 @@ extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetch
             guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
                 return
             }//TODO: 이미지로더 구현이후 적용
-            NetworkManager.shared.getImageWithCaching(url: url) { (image, error) in
+            imageLoader.fetchImage(url: url, size: .small, prefetching: true) { (image, error) in
                 if error != nil {
                     assertionFailure("failed to make cell")
                     return
                 }
             }
-           
         }
     }
 }
