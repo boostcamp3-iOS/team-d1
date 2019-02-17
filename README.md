@@ -126,6 +126,18 @@ https://github.com/raywenderlich/swift-style-guide
   <img width="200" alt="sign up_2" src="https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png" hspace=5>
  </div>
 
+ # 진행한 데일리 스크럼
+ <div align="middle">
+ <img width="250" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913533-66d99f00-3302-11e9-89cc-733abb56b607.png" hspace=5>
+ 
+  <img width="250" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913534-66d99f00-3302-11e9-82df-a1488786de92.png" hspace=5>
+   <img width="250" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913535-66d99f00-3302-11e9-85ff-66e25b514819.png" hspace=5>
+    <img width="250" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913536-66d99f00-3302-11e9-8a27-fda347909374.png" hspace=5>
+     <img width="250" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913537-67723580-3302-11e9-98f3-feff8e15960b.png" hspace=5>
+     </div>
+
+
+# 개발 완료 화면
 <div align="middle">
  <img width="200" alt="mainview" src="https://user-images.githubusercontent.com/34180216/52913186-d483cc00-32fe-11e9-9bd1-8eab803ca0f1.png" hspace = 5>
   <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52913115-06486300-32fe-11e9-82c3-d267d2709a53.png" hspace=5>
@@ -133,11 +145,6 @@ https://github.com/raywenderlich/swift-style-guide
  </div>
  
  
- <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913533-66d99f00-3302-11e9-89cc-733abb56b607.png" hspace=5>
- 
-  <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913534-66d99f00-3302-11e9-82df-a1488786de92.png" hspace=5>
-   <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913535-66d99f00-3302-11e9-85ff-66e25b514819.png" hspace=5>
-    <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913536-66d99f00-3302-11e9-8a27-fda347909374.png" hspace=5>
-     <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913537-67723580-3302-11e9-98f3-feff8e15960b.png" hspace=5>
+
 
 
