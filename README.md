@@ -111,9 +111,9 @@ https://github.com/raywenderlich/swift-style-guide
   
  # 문서화한 데일리 스크럼
  <div align="middle">
- <img width="400" alt="1 30" src="https://user-images.githubusercontent.com/34180216/52178326-5f010180-2810-11e9-9ca1-c8e2fac04f86.png">
-<img width="400" alt="31" src="https://user-images.githubusercontent.com/34180216/52178362-e2baee00-2810-11e9-8513-ef3d02945ea9.png">
-<img width="400" alt="1" src="https://user-images.githubusercontent.com/34180216/52178365-e6e70b80-2810-11e9-9cae-12ac23ca2462.png">
+ <img width="250" alt="1월30일" src="https://user-images.githubusercontent.com/34180216/52178326-5f010180-2810-11e9-9ca1-c8e2fac04f86.png" hspace=5>
+<img width="250" alt="1월31일" src="https://user-images.githubusercontent.com/34180216/52178362-e2baee00-2810-11e9-8513-ef3d02945ea9.png" hspace=5>
+<img width="250" alt="2월1일" src="https://user-images.githubusercontent.com/34180216/52178365-e6e70b80-2810-11e9-9cae-12ac23ca2462.png" hspace=5>
 
  </div>
 
