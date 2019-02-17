@@ -31,7 +31,7 @@ struct NetworkSeparator: NetworkSeperatable {
         components.queryItems = queries
         var url = components.url
         url?.appendPathComponent(path)
-        //print(url?.asUrlWithoutEncoding())
+
         guard let request = requestMaker.makeRequest(url: url,
                                                      method: .get,
                                                      headers: [:],

@@ -167,14 +167,19 @@ class PaginatingCollectionViewController: UICollectionViewController {
             assertionFailure("failed to make cell")
             return .init()
         }
+        
         //TODO: 팀원과 협의하여 캐시정책 적용
-        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
+        let session: URLSessionProtocol = URLSession.shared
+        session.dataTask(with: url) { (data, res, error) in
             if error != nil {
                 assertionFailure("failed to make cell")
                 return
             }
-            cell.artworkImageView.image = image
-        }
+            DispatchQueue.main.async {
+                cell.artworkImageView.image = UIImage(data: data!)
+            }
+        }.resume()
+      
         
         return cell
     }
@@ -196,7 +201,8 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
         return UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
      }
    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+    guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else {return}
+    print(cell.artworkImageView.image)
     }
 }
 

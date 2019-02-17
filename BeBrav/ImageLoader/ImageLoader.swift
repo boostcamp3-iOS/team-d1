@@ -39,10 +39,10 @@ class ImageLoader: ImageLoaderProtocol {
                 return
             }
             
-            self.downloadImage(url: url,
+           /* self.downloadImage(url: url,
                                size: size,
                                prefetching: prefetching,
-                               completion: completion)
+                               completion: completion)*/
         }
     }
     
@@ -129,10 +129,10 @@ class ImageLoader: ImageLoaderProtocol {
     
     // MARK:- Fetch cache image
     private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
-        if let image = memoryCache.fetchImage(url: url) {
+       /* if let image = memoryCache.fetchImage(url: url) {
             let resizedImage = image.scale(with: size.rawValue)
             return resizedImage
-        }
+        }*/
         
         if let data = diskCache.fetchData(url: url),
             let image = UIImage(data: data)
