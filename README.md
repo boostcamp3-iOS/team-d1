@@ -127,7 +127,7 @@ https://github.com/raywenderlich/swift-style-guide
  </div>
 
 <div align="middle">
- <img width="200" alt="sign in_1"https://user-images.githubusercontent.com/34180216/52913186-d483cc00-32fe-11e9-9bd1-8eab803ca0f1.png" hspace = 5>
+ <img width="200" alt="mainview" src="https://user-images.githubusercontent.com/34180216/52913186-d483cc00-32fe-11e9-9bd1-8eab803ca0f1.png" hspace = 5>
   <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52913115-06486300-32fe-11e9-82c3-d267d2709a53.png" hspace=5>
   <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913116-06e0f980-32fe-11e9-8a45-93bb355be7eb.png" hspace=5>
  </div>
