@@ -118,16 +118,11 @@ https://github.com/raywenderlich/swift-style-guide
  </div>
 
 # 3주차
-![log1](https://user-images.githubusercontent.com/34180216/52908956-142cc280-32c3-11e9-9a4b-2f86c9f61f5b.png)
-![log2](https://user-images.githubusercontent.com/34180216/52908957-14c55900-32c3-11e9-8257-235733b122f8.png)
-![up1](https://user-images.githubusercontent.com/34180216/52908958-14c55900-32c3-11e9-9cdd-a46627cb7a0c.png)
-![up2](https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png)
-
 
 <div align="middle">
-  <img alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52908956-142cc280-32c3-11e9-9a4b-2f86c9f61f5b.png">
-  <img alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52908957-14c55900-32c3-11e9-8257-235733b122f8.png">
-  <img alt="sign up_1" src="https://user-images.githubusercontent.com/34180216/52908958-14c55900-32c3-11e9-9cdd-a46627cb7a0c.png">
-  <img alt="sign up_2" src="https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png">
+  <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52908956-142cc280-32c3-11e9-9a4b-2f86c9f61f5b.png">
+  <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52908957-14c55900-32c3-11e9-8257-235733b122f8.png">
+  <img width="200" alt="sign up_1" src="https://user-images.githubusercontent.com/34180216/52908958-14c55900-32c3-11e9-9cdd-a46627cb7a0c.png">
+  <img width="200" alt="sign up_2" src="https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png">
  </div>
  
