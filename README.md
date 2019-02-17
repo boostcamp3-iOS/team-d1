@@ -119,12 +119,7 @@ https://github.com/raywenderlich/swift-style-guide
 
 # 3주차
 
-<div align="middle">
-  <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52908956-142cc280-32c3-11e9-9a4b-2f86c9f61f5b.png" hspace=5>
-  <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52908957-14c55900-32c3-11e9-8257-235733b122f8.png" hspace=5>
-  <img width="200" alt="sign up_1" src="https://user-images.githubusercontent.com/34180216/52908958-14c55900-32c3-11e9-9cdd-a46627cb7a0c.png" hspace=5>
-  <img width="200" alt="sign up_2" src="https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png" hspace=5>
- </div>
+
 
  # 진행한 데일리 스크럼
  <div align="middle">
@@ -138,6 +133,14 @@ https://github.com/raywenderlich/swift-style-guide
 
 
 # 개발 완료 화면
+
+<div align="middle">
+  <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52908956-142cc280-32c3-11e9-9a4b-2f86c9f61f5b.png" hspace=5>
+  <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52908957-14c55900-32c3-11e9-8257-235733b122f8.png" hspace=5>
+  <img width="200" alt="sign up_1" src="https://user-images.githubusercontent.com/34180216/52908958-14c55900-32c3-11e9-9cdd-a46627cb7a0c.png" hspace=5>
+  <img width="200" alt="sign up_2" src="https://user-images.githubusercontent.com/34180216/52908959-14c55900-32c3-11e9-8b14-fb88b8abc2d0.png" hspace=5>
+ </div>
+ 
 <div align="middle">
  <img width="200" alt="mainview" src="https://user-images.githubusercontent.com/34180216/52913186-d483cc00-32fe-11e9-9bd1-8eab803ca0f1.png" hspace = 5>
   <img width="200" alt="sign in_1" src="https://user-images.githubusercontent.com/34180216/52913115-06486300-32fe-11e9-82c3-d267d2709a53.png" hspace=5>
