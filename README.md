@@ -119,6 +119,10 @@ https://github.com/raywenderlich/swift-style-guide
 
 # 3주차
 
+ - 뷰 구조를 완성한다
+  - 알고리즘을 구현한다
+  - 테스트를 진행한다
+  - 네트워크와 연결한다
 
 
  # 진행한 데일리 스크럼
