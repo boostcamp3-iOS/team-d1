@@ -133,5 +133,11 @@ https://github.com/raywenderlich/swift-style-guide
  </div>
  
  
- <img width="200" alt="sign in_2" src="https://github.com/boostcamp3-iOS/team-d1/files/2872975/D1.-.2019.02.11.png" hspace=5>
+ <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913533-66d99f00-3302-11e9-89cc-733abb56b607.png" hspace=5>
+ 
+  <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913534-66d99f00-3302-11e9-82df-a1488786de92.png" hspace=5>
+   <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913535-66d99f00-3302-11e9-85ff-66e25b514819.png" hspace=5>
+    <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913536-66d99f00-3302-11e9-8a27-fda347909374.png" hspace=5>
+     <img width="200" alt="sign in_2" src="https://user-images.githubusercontent.com/34180216/52913537-67723580-3302-11e9-98f3-feff8e15960b.png" hspace=5>
+
 
