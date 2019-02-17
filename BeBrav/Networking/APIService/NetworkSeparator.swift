@@ -22,6 +22,7 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func read(path: String,
+              headers: [String: String],
               queries: [URLQueryItem]? = nil,
               completion: @escaping (Result<Data>, URLResponse?) -> Void) {
         guard var components = dispatcher.components else {
@@ -34,7 +35,7 @@ struct NetworkSeparator: NetworkSeperatable {
 
         guard let request = requestMaker.makeRequest(url: url,
                                                      method: .get,
-                                                     headers: [:],
+                                                     headers: headers,
                                                      body: nil) else {
             completion(.failure(APIError.requestFailed), nil)
             return

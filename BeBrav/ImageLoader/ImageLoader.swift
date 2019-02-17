@@ -33,16 +33,18 @@ class ImageLoader: ImageLoaderProtocol {
                            prefetching: Bool = false,
                            completion: @escaping (UIImage?, Error?) -> Void)
     {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .default).async {
             if let image = self.fetchCacheImage(url: url, size: size) {
                 completion(image,nil)
                 return
+            } else {
+                self.downloadImage(url: url,
+                                   size: size,
+                                   prefetching: prefetching,
+                                   completion: completion)
             }
             
-           /* self.downloadImage(url: url,
-                               size: size,
-                               prefetching: prefetching,
-                               completion: completion)*/
+           
         }
     }
     
@@ -85,7 +87,7 @@ class ImageLoader: ImageLoaderProtocol {
                                              completion: completion)
         
         dataTask.resume()
-        taskList[url.path] = dataTask
+        taskList.updateValue(dataTask, forKey: url.path)
     }
     
     private func imageDownloadDataTask(url: URL,
@@ -122,17 +124,17 @@ class ImageLoader: ImageLoaderProtocol {
                 completion(nil, APIError.invalidData)
                 return
             }
-            
+            print("resumed")
             completion(image,nil)
         }
     }
     
     // MARK:- Fetch cache image
     private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
-       /* if let image = memoryCache.fetchImage(url: url) {
+       if let image = memoryCache.fetchImage(url: url) {
             let resizedImage = image.scale(with: size.rawValue)
             return resizedImage
-        }*/
+        }
         
         if let data = diskCache.fetchData(url: url),
             let image = UIImage(data: data)

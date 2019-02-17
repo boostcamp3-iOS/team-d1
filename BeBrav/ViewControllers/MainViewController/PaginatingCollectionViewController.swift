@@ -12,6 +12,19 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
+    private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: FirebaseDatabaseService
+    
+    init(serverDatabase: FirebaseDatabaseService, imageLoader: ImageLoaderProtocol) {
+        self.serverDatabase = serverDatabase
+        self.imageLoader = imageLoader
+        super.init(collectionViewLayout: MostViewedArtworkFlowLayout())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     ///checkIfValidPosition() 메서드가 적용된 이후 리턴되는 튜플을 구분하기 쉽게 적용한 type입니다.
     typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
     
@@ -19,7 +32,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     
     ///MostViewedCollectionViewLayout의 prepare() 메서드가 호출되면 계산해야할 레이아웃은
-    ///이전에 계산한 yOffset 아래에 위치해야 하기때문에 한번 데이터를 fetch하면 레이아웃을 이 프로퍼티
+    ///이전에 계산한 yOffset 아래에 위치해야 하기때문에 한번 데이터를 fetch하면 레이아웃을varrr 프로퍼티
     ///를 통해서 업데이트 해주어야합니다.
     private var nextLayoutYPosition = 1
     
@@ -75,8 +88,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
-    
-    private let imageLoader = ImageCacheFactory().buildImageLoader()
+
     
     //mainCollectionView 설정 관련 프로퍼티
     private let identifierFooter = "footer"
@@ -179,8 +191,18 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 cell.artworkImageView.image = UIImage(data: data!)
             }
         }.resume()
-      
+ 
+        /*imageLoader.fetchImage(url: url, size: ImageSize.small, prefetching: false) { (image, error) in
+            if error != nil {
+                assertionFailure("failed to make cell")
+                return
+            }
+            DispatchQueue.main.async {
+                cell.artworkImageView.image = image
+            }
+        }
         
+        */
         return cell
     }
 }
@@ -202,6 +224,31 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
      }
    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else {return}
+    let uid = artworkBucket[indexPath.row].artworkUid
+    serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+        switch result {
+        case .failure(let error):
+            print(error)
+        case .success(let data):
+            
+            print(response)
+            guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                return
+            }
+            struct EtagValue:Encodable {
+                let views: Int
+            }
+        
+            self.serverDatabase.write(path: "root/artworks/\(uid)/views", data: views, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success:
+                    print(response)
+            }
+            })
+        }
+    }
     print(cell.artworkImageView.image)
     }
 }
@@ -228,7 +275,7 @@ extension PaginatingCollectionViewController {
                 ]
 
                 serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self,
+                              type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                     (result, response) in
                     switch result {
@@ -272,7 +319,7 @@ extension PaginatingCollectionViewController {
                                    URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                     ]
                 serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self,
+                              type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                     (result, response) in
                     switch result {
