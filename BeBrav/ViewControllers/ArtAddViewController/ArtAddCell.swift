@@ -22,14 +22,14 @@ class ArtAddCell: UICollectionViewCell {
     let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage( imageLiteral(resourceName: "cancel"), for: UIControl.State.normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "cancel-1"), for: UIControl.State.normal)
         return button
     }()
     
     let upArrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image =  imageLiteral(resourceName: "grayArrow")
+        imageView.image = #imageLiteral(resourceName: "grayArrow")
         return imageView
     }()
     
@@ -37,7 +37,7 @@ class ArtAddCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "위로 슬라이드해서 업로드"
-        label.textColor =  colorLiteral(red: 0.1306727415, green: 0.2843763849, blue: 0.8549019694, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.003921568627, green: 0.3411764706, blue: 1, alpha: 1)
         label.isHidden = true
         return label
     }()
@@ -52,7 +52,7 @@ class ArtAddCell: UICollectionViewCell {
     let plusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage( imageLiteral(resourceName: "plus"), for: .normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "iconPlusButton"), for: .normal)
         return button
     }()
     
@@ -100,7 +100,7 @@ class ArtAddCell: UICollectionViewCell {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "작품의 제목을 입력해주세요."
-        textField.backgroundColor =  colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        textField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         textField.tag = 100
         textField.borderStyle = .roundedRect
         return textField
@@ -201,13 +201,13 @@ class ArtAddCell: UICollectionViewCell {
     
     func activateUpload() {
         isReadyUpload = true
-        upArrowImageView.image =  imageLiteral(resourceName: "blueArrow")
+        upArrowImageView.image = #imageLiteral(resourceName: "blueArrow")
         uploadLabel.isHidden = false
     }
     
     func unactivateUpload() {
         isReadyUpload = false
-        upArrowImageView.image =  imageLiteral(resourceName: "grayArrow")
+        upArrowImageView.image = #imageLiteral(resourceName: "grayArrow")
         uploadLabel.isHidden = true
     }
     
