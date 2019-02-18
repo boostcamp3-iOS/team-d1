@@ -26,23 +26,14 @@ class ArtworkViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    private let closeView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: Merge 한 후에  UIColor 확장에 색상을 담은 후 반환하도록 변경
-        view.backgroundColor = UIColor(displayP3Red: 0.2549019754,
-                                       green: 0.2745098174,
-                                       blue:0.3019607961,
-                                       alpha: 0.5)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 15
-        return view
-    }()
     private let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("닫기", for: .normal) // TODO: 제품 등록화면 닫기 버튼과 UI 일치하도록 변경
-        button.setTitleColor(.white, for: .normal)
+        button.setImage(UIImage(named: "cancel"), for: .normal)
+        button.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        button.layer.shadowOffset = CGSize(width: 0, height: 0)
+        button.layer.shadowRadius = 3.0
+        button.layer.shadowOpacity = 1
         return button
     }()
     private let titleLabel: UILabel = {
@@ -92,7 +83,7 @@ class ArtworkViewController: UIViewController {
     public var isPeeked = false {
         didSet {
             view.backgroundColor = isPeeked ? .clear : .black
-            closeView.isHidden = isPeeked
+            closeButton.isHidden = isPeeked
         }
     }
     
@@ -192,13 +183,13 @@ class ArtworkViewController: UIViewController {
     // MARK:- Present animation
     private func presentAnimation(isAnimating: Bool) {
         if isAnimating {
-            closeView.alpha = 0
+            closeButton.alpha = 0
             titleLabel.alpha = 0
             artistLabel.alpha = 0
             viewsLabel.alpha = 0
         } else {
             UIView.animate(withDuration: 0.4, animations: {
-                self.closeView.alpha = 1
+                self.closeButton.alpha = 1
                 self.titleLabel.alpha = 1
                 self.artistLabel.alpha = 1
                 self.viewsLabel.alpha = 1
@@ -238,11 +229,10 @@ class ArtworkViewController: UIViewController {
     // MARK:- Set layout
     private func setLayout() {
         view.addSubview(scrollView)
-        view.addSubview(closeView)
+        view.addSubview(closeButton)
         view.addSubview(artistLabel)
         view.addSubview(titleLabel)
         view.addSubview(viewsLabel)
-        closeView.addSubview(closeButton)
         scrollView.addSubview(imageView)
         scrollView.alwaysBounceVertical = true
         scrollView.delegate = self
@@ -266,14 +256,10 @@ class ArtworkViewController: UIViewController {
         viewsLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
         viewsLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15).isActive = true
         
-        closeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        closeView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
-        
-        closeButton.topAnchor.constraint(equalTo: closeView.topAnchor, constant: 10).isActive = true
-        closeButton.bottomAnchor.constraint(equalTo: closeView.bottomAnchor, constant: -10).isActive = true
-        closeButton.leadingAnchor.constraint(equalTo: closeView.leadingAnchor, constant: 10).isActive = true
-        closeButton.trailingAnchor.constraint(equalTo: closeView.trailingAnchor, constant: -10).isActive = true
+        closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        closeButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         closeButton.widthAnchor.constraint(equalTo: closeButton.heightAnchor).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
 }
 

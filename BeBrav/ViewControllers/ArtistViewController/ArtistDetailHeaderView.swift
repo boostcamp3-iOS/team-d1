@@ -11,13 +11,6 @@ import UIKit
 class ArtistDetailHeaderView: UICollectionReusableView {
     
     //MARK: - Outlet
-    private let artistImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = #imageLiteral(resourceName: "cat1")
-        return imageView
-    }()
-    
     public let artistNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +44,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         super.init(frame: frame)
         
         setUpViews()
-        
+
         artistNameTextField.delegate = self
     }
     
@@ -72,24 +65,17 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     
     //MARK: - Set Layout
     private func setUpViews() {
-        addSubview(artistImageView)
         addSubview(artistNameTextField)
         addSubview(artistIntroTextView)
+
+        artistNameTextField.topAnchor.constraint(equalTo: topAnchor, constant: 40).isActive = true
+        artistNameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70).isActive = true
+        artistNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70).isActive = true
         
-        artistImageView.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
-        artistImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        artistImageView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3).isActive = true
-        artistImageView.heightAnchor.constraint(equalTo: artistImageView.widthAnchor, multiplier: 1).isActive = true
-        
-        artistNameTextField.topAnchor.constraint(equalTo: artistImageView.bottomAnchor, constant: 20).isActive = true
-        artistNameTextField.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        artistNameTextField.leadingAnchor.constraint(equalTo: artistIntroTextView.leadingAnchor).isActive = true
-        artistNameTextField.trailingAnchor.constraint(equalTo: artistIntroTextView.trailingAnchor).isActive = true
-        
-        artistIntroTextView.topAnchor.constraint(equalTo: artistNameTextField.bottomAnchor, constant: 20).isActive = true
-        artistIntroTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        artistIntroTextView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true
-        artistIntroTextView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2).isActive = true
+        artistIntroTextView.topAnchor.constraint(equalTo: artistNameTextField.bottomAnchor, constant: 40).isActive = true
+        artistIntroTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
+        artistIntroTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40).isActive = true
+        artistIntroTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40).isActive = true
     }
 }
 
