@@ -167,15 +167,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
         let imageLoader = ImageCacheFactory().buildImageLoader()
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let viewController = ArtworkViewController(imageLoader: imageLoader,
+                                                   serverDatabase: serverDatabase)
         
         guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
-            return .init(imageLoader: imageLoader)
+            return viewController
         }
-
-        let viewController = ArtworkViewController(imageLoader: imageLoader)
+        
         viewController.transitioningDelegate = self
         viewController.mainNavigationController = navigationController
-        
         
         let uid = artworkBucket[index.row].artworkUid
         serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in

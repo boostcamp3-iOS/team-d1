@@ -41,23 +41,53 @@ class ArtistViewController: UIViewController {
         }
     }
     
+    private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: ServerDatabase
+    
+    public var artistId: String = ""
+    public var isUser = false {
+        didSet {
+            navigationItem.rightBarButtonItem = editButton
+        }
+    }
+    
     // MARK:- Initialize
+    init(imageLoader: ImageLoaderProtocol, serverDatabase: ServerDatabase) {
+        self.imageLoader = imageLoader
+        self.serverDatabase = serverDatabase
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "아티스트"
-        navigationItem.rightBarButtonItem = editButton
         
         setCollectionView()
         
         editButton.target = self
         editButton.action = #selector(editButtonDidTap(_:))
+        
+        fetchUserData()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         setLayout()
+    }
+    
+    private func fetchUserData() {
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else { return }
+        
+        if uid == artistId {
+            isUser = true
+        }
+        
+        
     }
     
     // MARK:- Set CollectionView

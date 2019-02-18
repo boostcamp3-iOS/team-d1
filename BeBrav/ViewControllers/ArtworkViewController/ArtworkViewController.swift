@@ -64,7 +64,7 @@ class ArtworkViewController: UIViewController {
         return label
     }()
     
-    let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+    
     
     // MARK:- Properties
     public var mainNavigationController: UINavigationController?
@@ -88,10 +88,12 @@ class ArtworkViewController: UIViewController {
     }
     
     private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: ServerDatabase
     
     // MARK:- Initialize
-    init(imageLoader: ImageLoaderProtocol) {
+    init(imageLoader: ImageLoaderProtocol, serverDatabase: ServerDatabase) {
         self.imageLoader = imageLoader
+        self.serverDatabase = serverDatabase
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -209,10 +211,13 @@ class ArtworkViewController: UIViewController {
         guard let navigationController = mainNavigationController else {
             return
         }
+        let imageLoader = ImageCacheFactory().buildImageLoader()
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let viewController = ArtistViewController(imageLoader: imageLoader,
+                                                  serverDatabase: serverDatabase)
         
-        let artistViewController = ArtistViewController()
         // TODO: 작가 정보 추가 후 함께 넘겨 줄 수 있도록 변경
-        navigationController.pushViewController(artistViewController, animated: false)
+        navigationController.pushViewController(viewController, animated: false)
         
         dismiss(animated: true, completion: nil)
     }
