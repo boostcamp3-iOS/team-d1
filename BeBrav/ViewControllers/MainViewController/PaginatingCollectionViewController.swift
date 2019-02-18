@@ -221,8 +221,10 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func addArtworkButtonDidTap() {
-        //TODO: addArtwork 기능 추가
-        print("addButton tapped")
+        let flowLayout = UICollectionViewFlowLayout()
+        let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
+        artAddCollectionViewController.delegate = self
+        present(artAddCollectionViewController, animated: true, completion: nil)
     }
     
     // MARK: UICollectionViewDataSource
