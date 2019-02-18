@@ -12,7 +12,7 @@ struct ArtworkModel {
     
     // MARK:- Properties
     private let artworkId: String
-    public let authorId: String
+    public let userId: String
     public let title: String
     public let date: Double
     public let views: Int
@@ -23,7 +23,7 @@ struct ArtworkModel {
     
     mutating func artworkDecodeType() -> ArtworkDecodeType {
         let artwork = ArtworkDecodeType(
-            userUid: "",
+            userUid: userId,
             uid: id,
             url: imageURL,
             title: title,
@@ -49,7 +49,7 @@ struct ArtworkModel {
         )
     {
         self.artworkId = id
-        self.authorId = authorId
+        self.userId = authorId
         self.title = title
         self.date = date
         self.imageURL = imageURL
@@ -61,7 +61,7 @@ struct ArtworkModel {
     
     init(artwork:ArtworkDecodeType) {
         self.artworkId = artwork.artworkUid
-        self.authorId = "" // TODO: 작가 이름 추가후 수정
+        self.userId = artwork.userUid
         self.title = artwork.title
         self.date = artwork.timestamp
         self.imageURL = artwork.artworkUrl
@@ -81,7 +81,7 @@ extension ArtworkModel: DataModelProtocol {
     }
     public var isEmpty: Bool {
         return id.isEmpty
-            || authorId.isEmpty
+            || userId.isEmpty
             || title.isEmpty
             || date < 0.0
             || views < 0
@@ -95,7 +95,7 @@ extension ArtworkModel: DataModelProtocol {
     var columns: [String] {
         return [
             "id",
-            "authorId",
+            "userId",
             "title",
             "date",
             "views",
@@ -108,7 +108,7 @@ extension ArtworkModel: DataModelProtocol {
     var rows: [Int : String] {
         return [
             0: artworkId,
-            1: authorId,
+            1: userId,
             2: title,
             3: "\(date)",
             4: "\(views)",
@@ -134,7 +134,7 @@ extension ArtworkModel: DataModelProtocol {
     // MARK:- Initialize
     init() {
         self.artworkId = ""
-        self.authorId = ""
+        self.userId = ""
         self.title = ""
         self.date = 0.0
         self.imageURL = ""
@@ -146,7 +146,7 @@ extension ArtworkModel: DataModelProtocol {
     
     init(data: [String: String]) {
         self.artworkId = data["id"] ?? ""
-        self.authorId = data["authorId"] ?? ""
+        self.userId = data["userId"] ?? ""
         self.title = data["title"] ?? ""
         self.date = Double(data["date"] ?? "") ?? -0.1
         self.views = Int(data["views"] ?? "") ?? -1
