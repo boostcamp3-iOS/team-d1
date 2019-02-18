@@ -459,7 +459,7 @@ extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetch
             guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
                 return
             }//TODO: 이미지로더 구현이후 적용
-            imageLoader.fetchImage(url: url, size: .small, prefetching: true) { (image, error) in
+            imageLoader.fetchImage(url: url, size: .small) { (image, error) in
                 if error != nil {
                     assertionFailure("failed to make cell")
                     return

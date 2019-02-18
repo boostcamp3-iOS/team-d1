@@ -28,7 +28,6 @@ class ImageLoader: ImageLoaderProtocol {
     // MARK:- Fetch image with caching
     public func fetchImage(url: URL,
                            size: ImageSize = .small,
-                           prefetching: Bool = false,
                            completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -39,7 +38,6 @@ class ImageLoader: ImageLoaderProtocol {
             
             self.downloadImage(url: url,
                                size: size,
-                               prefetching: prefetching,
                                completion: completion)
         }
     }
@@ -47,7 +45,6 @@ class ImageLoader: ImageLoaderProtocol {
     // MARK:- Download Image
     private func downloadImage(url: URL,
                                size: ImageSize,
-                               prefetching: Bool,
                                completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.main.async {
@@ -56,7 +53,6 @@ class ImageLoader: ImageLoaderProtocol {
         
         let dataTask = imageDownloadDataTask(url: url,
                                              size: size,
-                                             prefetching: prefetching,
                                              completion: completion)
         
         dataTask.resume()
@@ -64,7 +60,6 @@ class ImageLoader: ImageLoaderProtocol {
     
     private func imageDownloadDataTask(url: URL,
                                        size: ImageSize,
-                                       prefetching: Bool,
                                        completion: @escaping (UIImage?, Error?) -> Void)
         -> URLSessionTaskProtocol
     {
@@ -85,11 +80,6 @@ class ImageLoader: ImageLoaderProtocol {
             }
             
             self.saveCacheImage(url: url, data: data)
-            
-            if prefetching {
-                completion(nil, nil)
-                return
-            }
             
             guard let image = UIImage(data: data)?.scale(with: size.rawValue) else {
                 completion(nil, APIError.invalidData)

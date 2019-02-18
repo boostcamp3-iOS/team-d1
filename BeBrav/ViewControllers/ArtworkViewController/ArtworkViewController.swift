@@ -131,7 +131,7 @@ class ArtworkViewController: UIViewController {
         viewsLabel.text = artwork.views.decimalString + " Views"
         artistLabel.text = artist
 
-        imageLoader.fetchImage(url: url, size: .big, prefetching: false) { (image, error) in
+        imageLoader.fetchImage(url: url, size: .big) { (image, error) in
             self.finishFetchImage(image: image, error: error)
         }
     }
