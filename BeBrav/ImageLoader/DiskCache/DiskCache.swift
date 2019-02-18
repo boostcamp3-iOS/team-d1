@@ -84,7 +84,7 @@ class DiskCache: DiskCacheProtocol {
             return nil
         }
         
-        diskCacheList.insert(name)
+       //diskCacheList.insert(name)
         
         return data
     }

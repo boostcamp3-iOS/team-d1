@@ -35,18 +35,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     weak var pagingDelegate: PagingControlDelegate!
     
-    
-    ///MostViewedCollectionViewLayout의 prepare() 메서드가 호출되면 계산해야할 레이아웃은
-    ///이전에 계산한 yOffset 아래에 위치해야 하기때문에 한번 데이터를 fetch하면 레이아웃을 이 프로퍼티
-    ///를 통해서 업데이트 해주어야합니다.
-    private var nextLayoutYPosition = 1
-    
+
     ///연산이 완료된 currentBatchArtworkBucket를 저장하는 전체 데이터 저장소 프로퍼티입니다.
     private var artworkBucket: [ArtworkDecodeType] = []
-    
-    ///현재 batchSize만큼 얻어온 데이터 중 checkIfValidPosition() 메서드를 통해 연산한 후 얻어낸
-    ///가장 뷰수가 많은 데이터의 index입니다.
-    private var currentMostViewdArtworkIndex = 0
     
     ///현재 batchSize만큼 얻어온 데이터 중 checkIfValidPosition() 메서드를 통해 연산한 후 얻어낸
     ///정렬과 레이아웃을 위해 적절히 조정된 데이터셋입니다. +
@@ -114,9 +105,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //frame이 제대로 안잡힐 것으로 예상했지만 view의 frame은 정상적으로 잡히고 있습니다.
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
-            itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: self.view.frame.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
+            itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: UIScreen.main.bounds.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
                 batchSize = itemsPerScreen * pageSize
             layout.numberOfItems = itemsPerScreen
             pagingDelegate = layout
@@ -210,11 +200,28 @@ class PaginatingCollectionViewController: UICollectionViewController {
     @objc func filterButtonDidTap() {
         print(collectionView.indexPathsForVisibleItems)
         //TODO: filtering 기능 추가
+        refreshLayout()
     }
     
     @objc func addArtworkButtonDidTap() {
         //TODO: addArtwork 기능 추가
         print("addButton tapped")
+    }
+    
+    func refreshLayout() {
+        guard let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout else {
+            return
+        }
+        layout.layoutRefresh()
+        isEndOfData = false
+        isLoading = false
+        recentTimestamp = nil
+        currentKey = nil
+        artworkBucket.removeAll()
+        thumbImage.removeAll()
+        
+        
+        fetchPages()
     }
     
     // MARK: UICollectionViewDataSource
@@ -239,7 +246,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         let artwork = artworkBucket[indexPath.row]
         
-        if let image = thumbImage[artwork.artworkUid] {
+        if let image = thumbImage[artwork.artworkUid]?.scale(with: 0.4) {
             cell.artworkImageView.image = image
         } else {
             fetchImage(artwork: artwork, indexPath: indexPath)
@@ -340,10 +347,7 @@ extension PaginatingCollectionViewController {
                                     }
                                     self.currentKey = result.first?.artworkUid
                                     self.recentTimestamp = result.first?.timestamp
-                                    
-                                    
-                                    
-                                    
+             
                                     DispatchQueue.main.async {
                                         self.collectionView.reloadData()
                                     }

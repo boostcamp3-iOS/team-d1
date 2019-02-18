@@ -101,6 +101,14 @@ extension UICollectionViewLayoutAttributes: Comparable {
 
 extension MostViewedArtworkFlowLayout: PagingControlDelegate {
     
+    func layoutRefresh() {
+        prepareIndex.removeAll()
+        fetchPage = 0
+        pageNumber = 0
+        offsetBucket.removeAll()
+        cache.removeAll()
+    }
+    
     /// PagingControlDelegate 의 구현 메서드 입니다. PaginationCollectionViewController에서 호출하게 됩니다.
     ///
     /// - Parameters:
@@ -183,7 +191,7 @@ extension MostViewedArtworkFlowLayout: PagingControlDelegate {
         let contentOffsetY = collectionView.contentOffset.y + 2 * topPadding
         var frameForSupplementaryView = layoutAttributes.frame
         let viewHeight = collectionView.frame.height - topPadding * 2
-        let position = viewHeight - frameForSupplementaryView.height
+        let position = viewHeight - frameForSupplementaryView.height - topPadding
         frameForSupplementaryView.origin.y = contentOffsetY + position
         layoutAttributes.frame = frameForSupplementaryView
         

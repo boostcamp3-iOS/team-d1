@@ -39,11 +39,11 @@ class BeBravUnitTests: XCTestCase {
         let parser = JsonParser()
         let requestMaker = RequestMaker()
         
-        let databaseDispatcher = Dispatcher(baseUrl: FirebaseDatabase.reference.urlComponents?.url, session: session)
+        let databaseDispatcher = Dispatcher(components: FirebaseDatabase.reference.urlComponents, session: session)
         let databaseSeperator = NetworkSeparator(dispatcher: databaseDispatcher, requestMaker: requestMaker)
         
         let client = ServerDatabase(seperator: databaseSeperator, parser: parser)
-        client.read(path: "root/users.json", type: Users.self) { (result, response) in
+        client.read(path: "root/users.json", type: Users.self, headers: [:]) { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
