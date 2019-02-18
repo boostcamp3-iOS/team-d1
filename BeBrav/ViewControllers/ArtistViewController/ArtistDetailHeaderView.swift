@@ -24,6 +24,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개" //temporary input
+        textView.textAlignment = .center
         textView.isEditable = false
         return textView
     }()
