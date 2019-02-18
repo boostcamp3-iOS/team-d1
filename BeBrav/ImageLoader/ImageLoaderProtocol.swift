@@ -17,6 +17,4 @@ protocol ImageLoaderProtocol {
                     size: ImageSize,
                     prefetching: Bool,
                     completion: @escaping (UIImage?, Error?) -> Void)
-    
-    func cancelDownloadImage(url: URL)
 }
