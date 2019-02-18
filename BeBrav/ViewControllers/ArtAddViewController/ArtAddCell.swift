@@ -59,7 +59,7 @@ class ArtAddCell: UICollectionViewCell {
     let orientationLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.isHidden = true
         label.layer.shadowColor = UIColor.black.cgColor
@@ -73,18 +73,28 @@ class ArtAddCell: UICollectionViewCell {
     let colorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.isHidden = true
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize(width: 4, height: 4)
+        label.layer.masksToBounds = false
         return label
     }()
     
     let temperatureLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.isHidden = true
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowRadius = 3.0
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize(width: 4, height: 4)
+        label.layer.masksToBounds = false
         return label
     }()
     

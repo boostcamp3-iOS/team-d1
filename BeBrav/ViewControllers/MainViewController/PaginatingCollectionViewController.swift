@@ -594,7 +594,7 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
                 return
             case .success(let data):
                 print("success")
-                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
+                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test200", completion: { (result) in
                     switch result {
                     case .failure(let error):
                         print(error)
