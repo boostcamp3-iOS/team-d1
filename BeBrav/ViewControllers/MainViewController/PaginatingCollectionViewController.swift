@@ -456,9 +456,12 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
                            viewControllerForLocation location: CGPoint)
         -> UIViewController?
     {
-        guard let index = collectionView.indexPathForItem(at: location) else {
-            return .init()
+        guard let index = collectionView.indexPathForItem(at: location),
+            let cell = collectionView.cellForItem(at: index) else {
+                return .init()
         }
+        previewingContext.sourceRect = cell.frame
+        
         let viewController = artworkViewController(index: index)
         viewController.isPeeked = true
         

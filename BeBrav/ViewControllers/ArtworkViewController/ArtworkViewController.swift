@@ -17,7 +17,6 @@ class ArtworkViewController: UIViewController {
         scrollView.maximumZoomScale = 2.0
         scrollView.minimumZoomScale = 1.0
         scrollView.zoomScale = 1
-        scrollView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         return scrollView
     }()
     private let imageView: UIImageView = {
@@ -91,6 +90,7 @@ class ArtworkViewController: UIViewController {
     }
     public var isPeeked = false {
         didSet {
+            view.backgroundColor = isPeeked ? .clear : .black
             closeView.isHidden = isPeeked
         }
     }
@@ -130,7 +130,7 @@ class ArtworkViewController: UIViewController {
         titleLabel.text = artwork.title
         viewsLabel.text = artwork.views.decimalString + " Views"
         artistLabel.text = artist
-        
+
         imageLoader.fetchImage(url: url, size: .big, prefetching: false) { (image, error) in
             self.finishFetchImage(image: image, error: error)
         }
@@ -204,7 +204,7 @@ class ArtworkViewController: UIViewController {
             })
         }
         
-        scrollView.backgroundColor = isAnimating ? .clear : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        view.backgroundColor = isAnimating ? .clear : .black
     }
     
     // MARK:- Touch up close button
