@@ -73,6 +73,7 @@ class ArtworkViewController: UIViewController {
         return label
     }()
     
+    let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
     
     // MARK:- Properties
     public var mainNavigationController: UINavigationController?
