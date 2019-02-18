@@ -49,7 +49,7 @@ struct ArtworkEncodeType: Encodable {
     }
 }
 
-struct ArtworkDecodeType: Decodable {
+struct ArtworkDecodeType: Codable {
     let artworkUid: String
     let artworkUrl: String
     let timestamp: Double
@@ -69,7 +69,30 @@ struct ArtworkDecodeType: Decodable {
         self.color = false
         self.temperature = false
     }
+    
+    
+    init(uid: String,
+         url: String,
+         title: String,
+         timestamp: Double,
+         views: Int,
+         orientation: Bool,
+         color: Bool,
+         temperature: Bool) {
+        
+        self.artworkUid = uid
+        self.artworkUrl = url
+        self.title = title
+        self.timestamp = timestamp
+        self.views = views
+        self.orientation = orientation
+        self.color = color
+        self.temperature = temperature
+    }
+    
 }
+
+
 
 extension ArtworkDecodeType: Comparable {
     static func < (lhs: ArtworkDecodeType, rhs: ArtworkDecodeType) -> Bool {

@@ -1,3 +1,4 @@
+
 //
 //  SignIViewController.swift
 //  BeBrav
@@ -10,6 +11,16 @@ import UIKit
 
 class SignInViewController: UIViewController {
     
+    private let serverAuth: FirebaseAuthService
+    
+    init(serverAuth: FirebaseAuthService) {
+        self.serverAuth = serverAuth
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var textFields: [UITextField] = []
     private var bottomConstraintOfButton: NSLayoutConstraint?
@@ -22,6 +33,13 @@ class SignInViewController: UIViewController {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    private let loadingIndicator: LoadingIndicatorView = {
+        let indicator = LoadingIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.noticeLabel.text = "verifying"
+        return indicator
     }()
     
     private let inputEmailTextField: UITextField = {
@@ -50,6 +68,7 @@ class SignInViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.textContentType = .password
         textField.autocapitalizationType = .none
+        textField.isSecureTextEntry = true
         textField.placeholder = "비밀번호"
         return textField
     }()
@@ -107,6 +126,14 @@ class SignInViewController: UIViewController {
         signUpScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         signUpScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
+        signUpScrollView.addSubview(loadingIndicator)
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        loadingIndicator.deactivateIndicatorView()
+        
         fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 8).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         
@@ -123,7 +150,7 @@ class SignInViewController: UIViewController {
         inputPasswordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         inputPasswordTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
-        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
+        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: -16)
         bottomConstraintOfButton?.isActive = true
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -148,7 +175,6 @@ class SignInViewController: UIViewController {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
-        
     }
     
     @objc func handleHideKeyboard(notification: NSNotification) {
@@ -162,11 +188,43 @@ class SignInViewController: UIViewController {
     }
     
     @objc func signUpButtonDidTap() {
-        let signUpPageViewController = SignUpViewController()
+        let container = NetworkDependencyContainer()
+        let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
         navigationController?.pushViewController(signUpPageViewController, animated: false)
     }
     
     @objc func confirmButtonDidTap() {
+        loadingIndicator.activateIndicatorView()
+        guard let email = inputEmailTextField.text,
+            let password = inputPasswordTextField.text else { return }
+        serverAuth.signIn(email: email, password: password) { (result) in
+            switch result {
+            case .failure:
+                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "로그인 오류",
+                                                  message: "아이디 / 비밀번호를 확인해주세요",
+                                                  preferredStyle: .alert)
+                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.loadingIndicator.deactivateIndicatorView()
+                    self.present(alert, animated: false, completion: nil)
+                    
+                }
+            case .success:
+                DispatchQueue.main.async {
+                    self.loadingIndicator.deactivateIndicatorView()
+                    let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
+                    let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+                    
+                    let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
+                    
+                    let newRootViewController = UINavigationController(rootViewController: mainViewController)
+                    UIApplication.shared.keyWindow?.rootViewController = newRootViewController
+                }
+                
+            }
+        }
         //TODO: 이후 메인뷰로 이동하는 로직 추가
     }
 }

@@ -45,7 +45,7 @@ struct ServerStorage: FirebaseStorageService {
     func get(path: String,
              fileName: String,
              completion: @escaping (Result<String>) -> Void) {
-        seperator.read(path: "\(path)%2F\(fileName)", queries: nil) { (result, response) in
+        seperator.read(path: "\(path)%2F\(fileName)", headers: [:], queries: nil) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))

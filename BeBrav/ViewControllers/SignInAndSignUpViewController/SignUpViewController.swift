@@ -10,6 +10,18 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
+    private let serverAuth: FirebaseAuthService
+    private let serverDatabase: FirebaseDatabaseService
+    
+    init(serverAuth: FirebaseAuthService, serverDatabase: FirebaseDatabaseService) {
+        self.serverAuth = serverAuth
+        self.serverDatabase = serverDatabase
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var textFields: [UITextField] = []
     private var bottomConstraintOfButton: NSLayoutConstraint?
@@ -22,6 +34,13 @@ class SignUpViewController: UIViewController {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    private let loadingIndicator: LoadingIndicatorView = {
+        let indicator = LoadingIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.noticeLabel.text = "verifying"
+        return indicator
     }()
     
     private let inputEmailTextField: UITextField = {
@@ -137,13 +156,19 @@ class SignUpViewController: UIViewController {
         
         signUpScrollView.addSubview(approveButton)
         
-        signUpScrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        signUpScrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        signUpScrollView.addSubview(loadingIndicator)
+        
         signUpScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         signUpScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         signUpScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         signUpScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        loadingIndicator.deactivateIndicatorView()
         
         fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 8).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
@@ -189,7 +214,7 @@ class SignUpViewController: UIViewController {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         bottomConstraintOfButton?.constant = -(keyboardFrame.height + CGFloat(self.keyboardPadding))
         guard let currentY = currentTextField?.frame.origin.y else { return }
-        signUpScrollView.contentInset = UIEdgeInsets(top: -currentY + 42 , left: 0, bottom: 0, right: 0)
+        signUpScrollView.contentInset = UIEdgeInsets(top: -currentY + 36 , left: 0, bottom: 0, right: 0)
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
@@ -209,7 +234,54 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func confirmButtonDidTap() {
-        
+        loadingIndicator.activateIndicatorView()
+        guard let email = inputEmailTextField.text,
+            let password = inputPasswordTextField.text,
+            let name = inputNameTextField.text else {
+                assertionFailure("text error")
+                return
+        }
+        serverAuth.signUp(email: email,
+                          password: password) { (result) in
+                            switch result {
+                            case .failure:
+                                DispatchQueue.main.async {
+                                    let alert = UIAlertController(title: "회원가입 오류",
+                                                                  message: "회원가입에 실패하였습니다.",
+                                                                  preferredStyle: .alert)
+                                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                                    alert.addAction(action)
+                                    self.loadingIndicator.deactivateIndicatorView()
+                                    self.present(alert, animated: false, completion: nil)
+                                }
+                            case .success:
+                                guard let email = UserDefaults.standard.string(forKey: "userId"),
+                                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                                        assertionFailure("fetching uid from UserDefault failure")
+                                        return
+                                }
+                                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
+                                let user = [uid: userData]
+                                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
+                                    switch result {
+                                    case .failure(let error):
+                                        DispatchQueue.main.async {
+                                            let alert = UIAlertController(title: "회원가입 오류",
+                                                                          message: "회원가입에 실패하였습니다.",
+                                                                          preferredStyle: .alert)
+                                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                                            alert.addAction(action)
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                            self.present(alert, animated: false, completion: nil)
+                                        }
+                                    case .success:
+                                        DispatchQueue.main.async {
+                                            self.navigationController?.popViewController(animated: false)
+                                        }
+                                    }
+                                }
+                            }
+        }
     }
 }
 

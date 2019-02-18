@@ -39,7 +39,7 @@ struct ServerManager {
                                 }
                                 let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
                                 let user = [uid: userData]
-                                self.databaseManager.write(path: "root/users", data: user, method: .patch){ (result, response) in
+                                self.databaseManager.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
                                     switch result {
                                     case .failure(let error):
                                         completion(.failure(error))
@@ -96,7 +96,7 @@ struct ServerManager {
         
         self.databaseManager.write(path: "root/users/\(uid)/artworks",
             data: protoArtwork,
-            method: .post) { (result, response) in
+            method: .post, headers: [:]) { (result, response) in
                 switch result {
                 case .failure(let error):
                     completion(.failure(error))
@@ -139,14 +139,14 @@ struct ServerManager {
                                                                                     temperature: r3)
                                                     self.databaseManager.write(path: "root/users/\(uid)/artworks/\(artworkUid)",
                                                         data: artwork,
-                                                        method: .put) { (result, response) in
+                                                        method: .put, headers: [:]) { (result, response) in
                                                             switch result {
                                                             case .failure(let error):
                                                                 completion(.failure(error))
                                                             case .success:
                                                                 self.databaseManager.write(path: "root/artworks/\(artworkUid)",
                                                                     data: artwork,
-                                                                    method: .put) { (result, response) in
+                                                                    method: .put, headers: [:]) { (result, response) in
                                                                         switch result {
                                                                         case .failure(let error):
                                                                             completion(.failure(error))

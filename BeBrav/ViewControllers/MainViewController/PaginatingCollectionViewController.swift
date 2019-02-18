@@ -12,8 +12,26 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
+    
+    private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: FirebaseDatabaseService
+    
+    init(serverDatabase: FirebaseDatabaseService, imageLoader: ImageLoaderProtocol) {
+        self.serverDatabase = serverDatabase
+        self.imageLoader = imageLoader
+        super.init(collectionViewLayout: MostViewedArtworkFlowLayout())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
     ///checkIfValidPosition() 메서드가 적용된 이후 리턴되는 튜플을 구분하기 쉽게 적용한 type입니다.
     typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
+    
+    
     
     weak var pagingDelegate: PagingControlDelegate!
     
@@ -75,8 +93,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
-    
-    private let imageLoader = ImageCacheFactory().buildImageLoader()
     
     //mainCollectionView 설정 관련 프로퍼티
     private let identifierFooter = "footer"
@@ -155,9 +171,33 @@ class PaginatingCollectionViewController: UICollectionViewController {
         let viewController = ArtworkViewController(imageLoader: imageLoader)
         viewController.transitioningDelegate = self
         viewController.mainNavigationController = navigationController
-        viewController.artwork = artworkBucket[index.item]
-        viewController.artworkImage = cell.artworkImageView.image
         
+        
+        let uid = artworkBucket[index.row].artworkUid
+        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                    return
+                }
+                
+                let updateValue = data.views + 1
+                
+                let encodeData = ArtworkDecodeType(uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
+                
+                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case .success:
+                        viewController.artwork = self.artworkBucket[index.item]
+                        viewController.artworkImage = cell.artworkImageView.image
+                    }
+                })
+            }
+        }
         return viewController
     }
     
@@ -191,7 +231,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return .init()
         }
         //TODO: 팀원과 협의하여 캐시정책 적용
-        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
+        imageLoader.fetchImage(url: url, size: .small, prefetching: false) { (image, error) in
             if error != nil {
                 assertionFailure("failed to make cell")
                 return
@@ -239,7 +279,7 @@ extension PaginatingCollectionViewController {
     /// 정렬된 데이터를 batchSize만큼 요청합니다. checkIfValidPosition()메서드를 이용하여 리턴된 값을
     /// 데이터 소스에 추가하고 nextLayoutYPosition을 Layout인스탠스의 pageNumber 프로퍼티에 전달해줍니다.
     func fetchPages() {
-       
+        
         if !isEndOfData {
             currentBatchArtworkBucket.removeAll()
             isLoading = true
@@ -252,94 +292,99 @@ extension PaginatingCollectionViewController {
                 let queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
-
+                
                 serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self,
+                              type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
-                    (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        //TODO: 유저에게 보여줄 에러메세지 생성
-                        print(error)
-                    case .success(let data):
-                        let result = data.values.sorted()
-                        if result.count < self.batchSize {
-                            self.isEndOfData = true
-                        }
-                            for artwork in result {
-                                self.currentBatchArtworkBucket.append(artwork)
-                            }
-                        let infoBucket =
-                            self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
-                                                   batchSize: self.itemsPerScreen)
-                            var indexList: [Int] = []
-                            infoBucket.forEach {
-                                self.artworkBucket.append(contentsOf: $0.sortedArray)
-                                layout.prepareIndex.append($0.index)
-                            }
-                            self.currentKey = result.first?.artworkUid
-                            self.recentTimestamp = result.first?.timestamp
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadData()
-                            }
-                    defer {
-                        DispatchQueue.main.async {
-                            self.isLoading = false
-                            self.loadingIndicator.deactivateIndicatorView()
-                        }
-                    }
-                }
-            }
-            } else {
-               //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
-                let timestamp = "\"timestamp\""
-                    let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                                   URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
-                                   URLQueryItem(name: "limitToLast", value: "\(batchSize)")
-                    ]
-                serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self,
-                              queries: queries) {
-                    (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        //TODO: 유저에게 보여줄 에러메세지 생성
-                        print(error)
-                    case .success(let data):
-                        let result = data.values.sorted()
-                        if result.count < self.batchSize {
-                            self.isEndOfData = true
-                        }
-                        for artwork in result {
-                            self.currentBatchArtworkBucket.append(artwork)
-                        }
-                        let infoBucket =
-                            self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
-                                                   batchSize: self.itemsPerScreen)
-                        var indexList: [Int] = []
-                        self.currentKey = result.first?.artworkUid
-                        self.recentTimestamp = result.first?.timestamp
-                        infoBucket.forEach {
-                            self.artworkBucket.append(contentsOf: $0.sortedArray)
-                            indexList.append($0.index)
-                        }
-                        DispatchQueue.main.async {
-                            self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
-                            let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
-                            self.collectionView.insertItems(at: indexPaths)
-                            self.collectionView.setNeedsLayout()
-                        }
-                            defer {
-                                DispatchQueue.main.async {
-                                    self.loadingIndicator.deactivateIndicatorView()
-                                    self.isLoading = false
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    let result = data.values.sorted()
+                                    if result.count < self.batchSize {
+                                        self.isEndOfData = true
+                                    }
+                                    for artwork in result {
+                                        self.currentBatchArtworkBucket.append(artwork)
+                                    }
+                                    let infoBucket =
+                                        self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
+                                                               batchSize: self.itemsPerScreen)
+                                    var indexList: [Int] = []
+                                    infoBucket.forEach {
+                                        self.artworkBucket.append(contentsOf: $0.sortedArray)
+                                        layout.prepareIndex.append($0.index)
+                                    }
+                                    self.currentKey = result.first?.artworkUid
+                                    self.recentTimestamp = result.first?.timestamp
+                                    
+                                    
+                                    
+                                    
+                                    DispatchQueue.main.async {
+                                        self.collectionView.reloadData()
+                                    }
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            self.isLoading = false
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }
+                }
+            } else {
+                //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
+                let timestamp = "\"timestamp\""
+                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
+                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
+                ]
+                serverDB.read(path: "root/artworks",
+                              type: [String: ArtworkDecodeType].self, headers: [:],
+                              queries: queries) {
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    let result = data.values.sorted()
+                                    if result.count < self.batchSize {
+                                        self.isEndOfData = true
+                                    }
+                                    for artwork in result {
+                                        self.currentBatchArtworkBucket.append(artwork)
+                                    }
+                                    let infoBucket =
+                                        self.calculateCellInfo(fetchedData: self.currentBatchArtworkBucket,
+                                                               batchSize: self.itemsPerScreen)
+                                    var indexList: [Int] = []
+                                    self.currentKey = result.first?.artworkUid
+                                    self.recentTimestamp = result.first?.timestamp
+                                    infoBucket.forEach {
+                                        self.artworkBucket.append(contentsOf: $0.sortedArray)
+                                        indexList.append($0.index)
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
+                                        let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
+                                        self.collectionView.insertItems(at: indexPaths)
+                                        self.collectionView.setNeedsLayout()
+                                    }
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                            self.isLoading = false
+                                        }
+                                    }
+                                }
                 }
             }
         }
+    }
     
     private func calculateIndexPathsForReloading(from newArtworks: [ArtworkDecodeType]) -> [IndexPath] {
         let startIndex = artworkBucket.count - newArtworks.count

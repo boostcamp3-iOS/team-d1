@@ -14,6 +14,7 @@ import Foundation
 protocol NetworkSeperatable {
     
     func read(path: String,
+              headers: [String: String],
               queries: [URLQueryItem]?,
               completion: @escaping (Result<Data>, URLResponse?) -> Void)
     

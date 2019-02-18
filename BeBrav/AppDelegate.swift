@@ -17,11 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let mainTabBarController = PaginatingCollectionViewController(collectionViewLayout: MostViewedArtworkFlowLayout())
-
+        let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        
+        let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
+        
+        //let newRootViewController = UINavigationController(rootViewController: mainViewController)
+        let container = NetworkDependencyContainer()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.rootViewController = UINavigationController(rootViewController: mainTabBarController)
+        window?.rootViewController = mainViewController//UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))
         window?.makeKeyAndVisible()
         return true
     }

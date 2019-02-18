@@ -13,10 +13,12 @@ protocol FirebaseDatabaseService: FirebaseService {
     func write<T: Encodable>(path: String,
                              data: T,
                              method: HTTPMethod,
+                             headers: [String: String],
                              completion: @escaping (Result<Data>, URLResponse?) -> Void)
     
     func read<T : Decodable>(path: String,
                              type: T.Type,
+                             headers: [String: String],
                              queries: [URLQueryItem]?,
                              completion: @escaping (Result<T>, URLResponse?) -> Void)
     

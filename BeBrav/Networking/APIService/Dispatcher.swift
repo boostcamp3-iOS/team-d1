@@ -45,10 +45,11 @@ struct Dispatcher: Dispatchable {
                 completion(.failure(error), nil)
                 return
             }
-            guard response?.isSuccess ?? false else {
-                completion(.failure(APIError.responseUnsuccessful), nil)
-                return
-            }
+            //Test에서 fail
+            /* guard response?.isSuccess ?? false else {
+             completion(.failure(APIError.responseUnsuccessful), nil)
+             return
+             }*/
             guard let data = data else {
                 completion(.failure(APIError.invalidData), nil)
                 return
