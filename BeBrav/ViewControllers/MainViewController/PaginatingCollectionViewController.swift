@@ -232,15 +232,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
             assertionFailure("failed to make cell")
             return .init()
         }
-        guard let url = URL(string: artworkBucket[indexPath.row].artworkUrl) else {
-            assertionFailure("failed to make cell")
-            return .init()
-        }
-        
+
         let artwork = artworkBucket[indexPath.row]
         
         if let image = thumbImage[artwork.artworkUid] {
             cell.artworkImageView.image = image
+            thumbImage.removeValue(forKey: artwork.artworkUid)
         } else {
             fetchImage(artwork: artwork, indexPath: indexPath)
         }
@@ -393,7 +390,7 @@ extension PaginatingCollectionViewController {
                                         self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
                                         let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
                                         self.collectionView.insertItems(at: indexPaths)
-                                        self.collectionView.setNeedsLayout()
+                                       
                                     }
                                     defer {
                                         DispatchQueue.main.async {

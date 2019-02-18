@@ -103,9 +103,7 @@ class ImageLoader: ImageLoaderProtocol {
             DispatchQueue.global(qos: .userInitiated).async {
                 self.memoryCache.setImage(data: data, url: url)
             }
-            
             let resizedImage = image.scale(with: size.rawValue)
-            
             return resizedImage
         }
         
@@ -119,7 +117,7 @@ class ImageLoader: ImageLoaderProtocol {
         }
         
         DispatchQueue.global(qos: .utility).async {
-            do  {
+            do {
                 try self.diskCache.saveData(data: data, url: url)
             } catch let error {
                 print(error.localizedDescription)
