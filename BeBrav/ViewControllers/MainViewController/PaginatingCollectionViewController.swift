@@ -94,6 +94,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
     
+    private let imageLoader = ImageCacheFactory().buildImageLoader()
+    
+    private let databaseHandler = DatabaseFactory().buildDatabaseHandler()
+    
+    private var thumbImage: [String: UIImage] = [:]
+    
     //mainCollectionView 설정 관련 프로퍼티
     private let identifierFooter = "footer"
     private let spacing: CGFloat = 0
@@ -230,18 +236,33 @@ class PaginatingCollectionViewController: UICollectionViewController {
             assertionFailure("failed to make cell")
             return .init()
         }
-        //TODO: 팀원과 협의하여 캐시정책 적용
-        imageLoader.fetchImage(url: url, size: .small, prefetching: false) { (image, error) in
+        
+        let artwork = artworkBucket[indexPath.row]
+        
+        if let image = thumbImage[artwork.artworkUid] {
+            cell.artworkImageView.image = image
+        } else {
+            fetchImage(artwork: artwork, indexPath: indexPath)
+        }
+        return cell
+    }
+    
+    private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath) {
+        guard let url = URL(string: artwork.artworkUrl) else { return }
+        
+        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
             if error != nil {
                 assertionFailure("failed to make cell")
                 return
             }
+            
+            guard let image = image else { return }
+            self.thumbImage[artwork.artworkUid] = image
+            
             DispatchQueue.main.async {
-                cell.artworkImageView.image = image
+                self.collectionView.reloadItems(at: [indexPath])
             }
         }
-        
-        return cell
     }
 }
 
@@ -485,7 +506,7 @@ extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetch
             guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
                 return
             }//TODO: 이미지로더 구현이후 적용
-            imageLoader.fetchImage(url: url, size: .small, prefetching: true) { (image, error) in
+            imageLoader.fetchImage(url: url, size: .small) { (image, error) in
                 if error != nil {
                     assertionFailure("failed to make cell")
                     return
