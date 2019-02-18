@@ -94,8 +94,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
     
-    private let imageLoader = ImageCacheFactory().buildImageLoader()
-    
     private let databaseHandler = DatabaseFactory().buildDatabaseHandler()
     
     private var thumbImage: [String: UIImage] = [:]
@@ -191,19 +189,21 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let updateValue = data.views + 1
                 
-                let encodeData = ArtworkDecodeType(uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
+                let encodeData = ArtworkDecodeType(userUid: "", uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
                 
                 self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
                     switch result {
                     case .failure(let error):
                         print(error.localizedDescription)
                     case .success:
-                        viewController.artwork = self.artworkBucket[index.item]
-                        viewController.artworkImage = cell.artworkImageView.image
+                       print("success")
                     }
                 })
             }
         }
+        
+        viewController.artwork = self.artworkBucket[index.item]
+        viewController.artworkImage = cell.artworkImageView.image
         return viewController
     }
     

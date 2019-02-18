@@ -23,8 +23,9 @@ struct ArtworkModel {
     
     mutating func artworkDecodeType() -> ArtworkDecodeType {
         let artwork = ArtworkDecodeType(
-            artworkUid: id,
-            artworkUrl: imageURL,
+            userUid: "",
+            uid: id,
+            url: imageURL,
             title: title,
             timestamp: date,
             views: views,

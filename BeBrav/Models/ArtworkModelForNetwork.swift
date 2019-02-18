@@ -9,6 +9,7 @@
 import UIKit
 
 struct ArtworkEncodeType: Encodable {
+    let userUid: String
     let artworkUid: String
     let artworkUrl: String
     let title: String
@@ -18,7 +19,8 @@ struct ArtworkEncodeType: Encodable {
     let color: Bool
     let temperature: Bool
     
-    init(uid: String,
+    init(userUid: String,
+         uid: String,
          url: String,
          title: String,
          timestamp: [String: String],
@@ -26,7 +28,7 @@ struct ArtworkEncodeType: Encodable {
          orientation: Bool,
          color: Bool,
          temperature: Bool) {
-        
+        self.userUid = userUid
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
@@ -38,6 +40,7 @@ struct ArtworkEncodeType: Encodable {
     }
     
     init() {
+        self.userUid = ""
         self.artworkUid = ""
         self.artworkUrl = ""
         self.title = ""
@@ -50,6 +53,7 @@ struct ArtworkEncodeType: Encodable {
 }
 
 struct ArtworkDecodeType: Codable {
+    let userUid: String
     let artworkUid: String
     let artworkUrl: String
     let timestamp: Double
@@ -60,6 +64,7 @@ struct ArtworkDecodeType: Codable {
     let temperature: Bool
     
     init() {
+        self.userUid = ""
         self.artworkUid = ""
         self.artworkUrl = ""
         self.title = ""
@@ -71,7 +76,8 @@ struct ArtworkDecodeType: Codable {
     }
     
     
-    init(uid: String,
+    init(userUid: String,
+         uid: String,
          url: String,
          title: String,
          timestamp: Double,
@@ -79,7 +85,7 @@ struct ArtworkDecodeType: Codable {
          orientation: Bool,
          color: Bool,
          temperature: Bool) {
-        
+        self.userUid = userUid
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
