@@ -10,9 +10,6 @@ import UIKit
 
 class ArtistViewController: UIViewController {
     
-    // MARK:- Properties
-    private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
-    
     // MARK:- Outlet
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
@@ -29,6 +26,7 @@ class ArtistViewController: UIViewController {
     }()
     
     // MARK:- Properties
+    private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
     private let photoListIdentifier = "PhotoListCollectionViewCell"
     private let photoListHeaderIdentifier = "PhotoListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
@@ -104,21 +102,41 @@ class ArtistViewController: UIViewController {
 // MARK:- UICollectionView DataSource
 extension ArtistViewController: UICollectionViewDataSource {
     // MARK:- UICollectionView Header View
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else { return .init() }
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath)
+        -> UICollectionReusableView
+    {
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return .init()
+        }
         
         switch indexPath.section {
         case 0:
-            return artistDetailHeaderView(collectionView: collectionView, kind: kind, indexPath: indexPath)
+            return artistDetailHeaderView(collectionView: collectionView,
+                                          kind: kind,
+                                          indexPath: indexPath)
         case 1:
-            return photoListHeaderView(collectionView: collectionView, kind: kind, indexPath: indexPath)
+            return photoListHeaderView(collectionView: collectionView,
+                                       kind: kind,
+                                       indexPath: indexPath)
         default:
             return .init()
         }
     }
     
-    func artistDetailHeaderView(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: artistDetailHeaderView, for: indexPath) as? ArtistDetailHeaderView else { return .init() }
+    func artistDetailHeaderView(collectionView: UICollectionView,
+                                kind: String,
+                                indexPath: IndexPath)
+        -> UICollectionReusableView
+    {
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: artistDetailHeaderView,
+            for: indexPath) as? ArtistDetailHeaderView else
+        {
+                return .init()
+        }
         
         // TODO: 네트워킹 기능 추가 후 적합한 정보가 변경되도록 변경
         headerView.artistNameTextField.text = "작가제목"
@@ -128,10 +146,24 @@ extension ArtistViewController: UICollectionViewDataSource {
         return headerView
     }
     
-    func photoListHeaderView(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: photoListHeaderIdentifier, for: indexPath) as? PhotoListHeaderCollectionReusableView else { return .init() }
+    func photoListHeaderView(collectionView: UICollectionView,
+                             kind: String,
+                             indexPath: IndexPath)
+        -> UICollectionReusableView
+    {
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: photoListHeaderIdentifier,
+            for: indexPath) as? PhotoListHeaderCollectionReusableView else
+        {
+            return .init()
+        }
         
-        headerView.deleteButton.addTarget(self, action: #selector(deletePhotoButtonDidTap(_:)), for: .touchUpInside)
+        headerView.deleteButton.addTarget(
+            self,
+            action: #selector(deletePhotoButtonDidTap(_:)),
+            for: .touchUpInside
+        )
         headerView.deleteButton.isHidden = !isEditmode
         
         return headerView
@@ -143,7 +175,10 @@ extension ArtistViewController: UICollectionViewDataSource {
     }
     
     // MARK:- UICollectionView Number of Cell
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int)
+        -> Int
+    {
         switch section {
         case 1:
             return 10
@@ -153,22 +188,32 @@ extension ArtistViewController: UICollectionViewDataSource {
     }
     
     // MARK:- UICollectionView Cell
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath)
+        -> UICollectionViewCell
+    {
         switch indexPath.section {
         case 1:
-            return photoListCollectionViewCell(collectionView: collectionView, indexPath: indexPath)
+            return photoListCollectionViewCell(collectionView: collectionView,
+                                               indexPath: indexPath)
         default:
             return .init()
         }
     }
     
-    func photoListCollectionViewCell(collectionView: UICollectionView, indexPath: IndexPath) -> PhotoListCollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: photoListIdentifier, for: indexPath) as? PhotoListCollectionViewCell else {
+    func photoListCollectionViewCell(collectionView: UICollectionView,
+                                     indexPath: IndexPath)
+        -> PhotoListCollectionViewCell
+    {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: photoListIdentifier,
+            for: indexPath) as? PhotoListCollectionViewCell else
+        {
             return .init()
         }
         
         // TODO: 네트워킹을 추가 후 네트워킹의 이미지 값을 추가하도록 변경
-        cell.imageView.image = UIImage(named: "north")
+        cell.imageView.image = UIImage(named: "cat1")
         
         return cell
     }
@@ -184,11 +229,12 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     // MARK:- UICollectionView Header View Height
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize
+                        referenceSizeForHeaderInSection section: Int)
+        -> CGSize
     {
         switch section {
         case 0:
-            return CGSize(width: view.frame.width, height: view.frame.height * 0.5)
+            return CGSize(width: view.frame.width, height: 200)
         case 1:
             return CGSize(width: view.frame.width, height: 50)
         default:
@@ -196,23 +242,43 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath)
+        -> CGSize
+    {
 
         let cellWitdh = ((collectionView.frame.width - (layout.spacing * 2)) / 3)
         let cellHeight = cellWitdh
         return CGSize(width: cellWitdh, height: cellHeight)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int)
+        -> CGFloat
+    {
         return layout.spacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int)
+        -> CGFloat
+    {
         return layout.spacing
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int)
+        -> UIEdgeInsets
+    {
+        let edgeInsets = UIEdgeInsets(top: layout.inset,
+                                      left: layout.inset,
+                                      bottom: layout.inset,
+                                      right: layout.inset)
 
-        return UIEdgeInsets(top: layout.inset, left: layout.inset, bottom: layout.inset, right: layout.inset)
+        return edgeInsets
     }
 }
