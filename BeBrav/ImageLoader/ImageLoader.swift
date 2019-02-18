@@ -15,8 +15,6 @@ class ImageLoader: ImageLoaderProtocol {
     public let diskCache: DiskCacheProtocol
     public let memoryCache: MemoryCacheProtocol
     
-    private var taskList: [String: URLSessionTaskProtocol] = [:]
-    
     // MARK:- Initialize
     required init(session: URLSessionProtocol,
                   diskCache: DiskCacheProtocol,
@@ -30,7 +28,6 @@ class ImageLoader: ImageLoaderProtocol {
     // MARK:- Fetch image with caching
     public func fetchImage(url: URL,
                            size: ImageSize = .small,
-                           prefetching: Bool = false,
                            completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -41,56 +38,28 @@ class ImageLoader: ImageLoaderProtocol {
             
             self.downloadImage(url: url,
                                size: size,
-                               prefetching: prefetching,
                                completion: completion)
         }
     }
-    
-    public func cancelDownloadImage(url: URL) {
-        guard let task = taskList[url.path] else { return }
-        
-        if task.state == .running || task.state == .suspended {
-            task.cancel()
-        }
-        
-        taskList.removeValue(forKey: url.path)
-    }
-    
+
     // MARK:- Download Image
     private func downloadImage(url: URL,
                                size: ImageSize,
-                               prefetching: Bool,
                                completion: @escaping (UIImage?, Error?) -> Void)
     {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         
-        if let task = taskList[url.path] {
-            switch task.state {
-            case .running:
-                completion(nil, APIError.waitRequest)
-                return
-            case .suspended:
-                task.resume()
-                return
-            case .canceling, .completed:
-                taskList.removeValue(forKey: url.path)
-            }
-        }
-        
         let dataTask = imageDownloadDataTask(url: url,
                                              size: size,
-                                             prefetching: prefetching,
                                              completion: completion)
         
         dataTask.resume()
-        taskList[url.path] = dataTask
     }
     
     private func imageDownloadDataTask(url: URL,
                                        size: ImageSize,
-                                       prefetching: Bool,
                                        completion: @escaping (UIImage?, Error?) -> Void)
         -> URLSessionTaskProtocol
     {
@@ -99,7 +68,6 @@ class ImageLoader: ImageLoaderProtocol {
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
-                self.taskList.removeValue(forKey: url.path)
             }
             
             if let error =  error {
@@ -112,11 +80,6 @@ class ImageLoader: ImageLoaderProtocol {
             }
             
             self.saveCacheImage(url: url, data: data)
-            
-            if prefetching {
-                completion(nil, nil)
-                return
-            }
             
             guard let image = UIImage(data: data)?.scale(with: size.rawValue) else {
                 completion(nil, APIError.invalidData)

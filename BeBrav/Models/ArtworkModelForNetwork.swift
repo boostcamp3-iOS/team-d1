@@ -69,6 +69,26 @@ struct ArtworkDecodeType: Decodable {
         self.color = false
         self.temperature = false
     }
+    
+    init(artworkUid: String,
+         artworkUrl: String,
+         title: String,
+         timestamp: Double,
+         views: Int,
+         orientation: Bool,
+         color: Bool,
+         temperature: Bool
+        )
+    {
+        self.artworkUid = artworkUid
+        self.artworkUrl = artworkUrl
+        self.title = title
+        self.timestamp = timestamp
+        self.views = views
+        self.orientation = orientation
+        self.color = color
+        self.temperature = temperature
+    }
 }
 
 extension ArtworkDecodeType: Comparable {

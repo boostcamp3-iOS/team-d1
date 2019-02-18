@@ -21,6 +21,20 @@ struct ArtworkModel {
     public let temperature: Bool
     public let color: Bool
     
+    mutating func artworkDecodeType() -> ArtworkDecodeType {
+        let artwork = ArtworkDecodeType(
+            artworkUid: id,
+            artworkUrl: imageURL,
+            title: title,
+            timestamp: date,
+            views: views,
+            orientation: orientation,
+            color: color,
+            temperature: temperature
+        )
+        return artwork
+    }
+    
     // MARK:- Initialize
     init(id: String,
          authorId: String,
@@ -42,6 +56,18 @@ struct ArtworkModel {
         self.orientation = orientation
         self.temperature = temperature
         self.color = color
+    }
+    
+    init(artwork:ArtworkDecodeType) {
+        self.artworkId = artwork.artworkUid
+        self.authorId = "" // TODO: 작가 이름 추가후 수정
+        self.title = artwork.title
+        self.date = artwork.timestamp
+        self.imageURL = artwork.artworkUrl
+        self.views = artwork.views
+        self.orientation = artwork.orientation
+        self.temperature = artwork.temperature
+        self.color = artwork.color
     }
 }
 
