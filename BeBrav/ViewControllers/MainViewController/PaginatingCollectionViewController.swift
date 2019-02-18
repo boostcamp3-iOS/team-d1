@@ -94,6 +94,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
     
+    private lazy var serverST = container.buildServerStorage()
+    private lazy var serverAu = container.buildServerAuth()
+    private lazy var manager = ServerManager(authManager: serverAu,
+                                             databaseManager: serverDB,
+                                             storageManager: serverST,
+                                             uid: "123")
+    
     private let databaseHandler = DatabaseFactory().buildDatabaseHandler()
     
     private var thumbImage: [String: UIImage] = [:]
