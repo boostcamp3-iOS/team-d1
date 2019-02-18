@@ -572,3 +572,32 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
         return nil
     }
 }
+
+extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDelegate {
+    func uploadArtwork(_ controller: ArtAddCollectionViewController, image: UIImage) {
+        
+        //FIXME: - SignIn 머지되면 수정
+        manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print("success")
+                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .success(let data):
+                        print(data)
+                    }
+                })
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.fetchPages()
+        }
+    }
+}

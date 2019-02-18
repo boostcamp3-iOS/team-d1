@@ -52,6 +52,8 @@
 		7F9ABC3DEE881648D6E3100E2A463EE7 /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */; };
 		7FE7D462F19A9C039E2EE04CAA0A9EFF /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */; };
 		83C50A133091BF50F121C0A047A2219C /* ArtworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */; };
+		88472D9D221AA91A0043CCC8 /* ArtAddCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88472D9C221AA91A0043CCC8 /* ArtAddCollectionViewController.swift */; };
+		88472D9F221AA9280043CCC8 /* ArtAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88472D9E221AA9280043CCC8 /* ArtAddCell.swift */; };
 		97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */; };
 		99005F0269E6820E6F4BAD138BFD3057 /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
@@ -141,6 +143,8 @@
 		803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
 		8330CF5C8CCD04468BA4E8D5393A6213 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseFactory.swift; sourceTree = "<group>"; };
+		88472D9C221AA91A0043CCC8 /* ArtAddCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddCollectionViewController.swift; sourceTree = "<group>"; };
+		88472D9E221AA9280043CCC8 /* ArtAddCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddCell.swift; sourceTree = "<group>"; };
 		891771D686E46D37CD4D3A7489CAC95C /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		8BA29AB727D140413F10F7634A4B161D /* FileManagerStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerStub.swift; sourceTree = "<group>"; };
 		8D090CCFD54E30AA16312F6B84A45E62 /* FirebaseAuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 			isa = PBXGroup;
 			children = (
 				043E64F1220F434938CFF8A95304113B /* ArtAddViewController.swift */,
+				88472D9C221AA91A0043CCC8 /* ArtAddCollectionViewController.swift */,
+				88472D9E221AA9280043CCC8 /* ArtAddCell.swift */,
 			);
 			path = ArtAddViewController;
 			sourceTree = "<group>";
@@ -805,6 +811,7 @@
 				E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */,
 				4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */,
 				BF293ABDA0A02218C8A622E6C9339079 /* RequestMakable.swift in Sources */,
+				88472D9D221AA91A0043CCC8 /* ArtAddCollectionViewController.swift in Sources */,
 				B1E6CE5F021886B81896B1FAE21F0E99 /* RequestMaker.swift in Sources */,
 				EF546B8D3F597DB330B48A43270328F9 /* ResponseParser.swift in Sources */,
 				F6DF953343175B3F542310331596B604 /* SQLiteDatabase.swift in Sources */,
@@ -819,6 +826,7 @@
 				3EA2FFDA96F095805912F21D9C3F6552 /* String+.swift in Sources */,
 				E26C2D0FD051060AD9502D54677B6640 /* UIImage+.swift in Sources */,
 				97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */,
+				88472D9F221AA9280043CCC8 /* ArtAddCell.swift in Sources */,
 				7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */,
 				1D5EF1B1FAE73846D0BAA17A325095A3 /* URLSessionDataTaskProtocol.swift in Sources */,
 				0271249084FF828DD59E92BB9610540D /* URLSessionProtocol.swift in Sources */,
