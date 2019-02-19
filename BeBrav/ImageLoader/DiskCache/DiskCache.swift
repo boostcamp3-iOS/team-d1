@@ -16,7 +16,6 @@ class DiskCache: DiskCacheProtocol {
     // MARK:- Properties
     public var fileManager: FileManagerProtocol = FileManager.default
     public let folderName = "ArtworkImage"
-    private var diskCacheList: Set<String> = []
     
     // MARK:- Image folder URL in App
     private func folderURL(name: String) throws -> URL {
@@ -53,19 +52,19 @@ class DiskCache: DiskCacheProtocol {
     public func saveData(data: Data, url: URL) throws {
         let name = try fileName(url: url)
         
-        guard !diskCacheList.contains(name) else { return }
-        
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         
-        diskCacheList.insert(name)
+        guard fileManager.fileExists(atPath: fileDirectory.path) else {
+            return
+        }
         
         guard fileManager.createFile(atPath: fileDirectory.path,
                                      contents: data,
                                      attributes: nil)
             else
         {
-            diskCacheList.remove(name)
+            print("Save Error")
             throw DiskCacheError.saveData
         }
     }
@@ -84,8 +83,11 @@ class DiskCache: DiskCacheProtocol {
             return nil
         }
         
+<<<<<<< HEAD
        //diskCacheList.insert(name)
         
+=======
+>>>>>>> develop
         return data
     }
     
@@ -94,11 +96,7 @@ class DiskCache: DiskCacheProtocol {
         let name = try fileName(url: url)
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
-        
-        defer {
-            diskCacheList.remove(name)
-        }
-        
+
         guard fileManager.fileExists(atPath: fileDirectory.path) else {
             throw DiskCacheError.deleteData
         }

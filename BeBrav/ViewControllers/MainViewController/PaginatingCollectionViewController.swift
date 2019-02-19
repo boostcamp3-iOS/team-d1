@@ -85,6 +85,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
     private lazy var serverDB = container.buildServerDatabase()
     
+    private lazy var serverST = container.buildServerStorage()
+    private lazy var serverAu = container.buildServerAuth()
+    private lazy var manager = ServerManager(authManager: serverAu,
+                                             databaseManager: serverDB,
+                                             storageManager: serverST,
+                                             uid: "123")
+    
     private let databaseHandler = DatabaseFactory().buildDatabaseHandler()
     
     private var thumbImage: [String: UIImage] = [:]
@@ -157,15 +164,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
         let imageLoader = ImageCacheFactory().buildImageLoader()
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let viewController = ArtworkViewController(imageLoader: imageLoader,
+                                                   serverDatabase: serverDatabase)
         
         guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
-            return .init(imageLoader: imageLoader)
+            return viewController
         }
-
-        let viewController = ArtworkViewController(imageLoader: imageLoader)
+        
         viewController.transitioningDelegate = self
         viewController.mainNavigationController = navigationController
-        
         
         let uid = artworkBucket[index.row].artworkUid
         serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
@@ -205,8 +213,10 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func addArtworkButtonDidTap() {
-        //TODO: addArtwork 기능 추가
-        print("addButton tapped")
+        let flowLayout = UICollectionViewFlowLayout()
+        let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
+        artAddCollectionViewController.delegate = self
+        present(artAddCollectionViewController, animated: true, completion: nil)
     }
     
     func refreshLayout() {
@@ -243,15 +253,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
             assertionFailure("failed to make cell")
             return .init()
         }
-        guard let url = URL(string: artworkBucket[indexPath.row].artworkUrl) else {
-            assertionFailure("failed to make cell")
-            return .init()
-        }
-        
+
         let artwork = artworkBucket[indexPath.row]
         
         if let image = thumbImage[artwork.artworkUid]?.scale(with: 0.4) {
             cell.artworkImageView.image = image
+            thumbImage.removeValue(forKey: artwork.artworkUid)
         } else {
             fetchImage(artwork: artwork, indexPath: indexPath)
         }
@@ -581,5 +588,34 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
         -> UIViewControllerAnimatedTransitioning?
     {
         return nil
+    }
+}
+
+extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDelegate {
+    func uploadArtwork(_ controller: ArtAddCollectionViewController, image: UIImage) {
+        
+        //FIXME: - SignIn 머지되면 수정
+        manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                return
+            case .success(let data):
+                print("success")
+                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                        return
+                    case .success(let data):
+                        print(data)
+                    }
+                })
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.fetchPages()
+        }
     }
 }
