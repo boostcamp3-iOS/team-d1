@@ -22,9 +22,10 @@ class ArtAddViewController: UIViewController {
         return true
     }
     
-    private let scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentSize.height = 1000
         return view
     }()
     
@@ -121,12 +122,11 @@ class ArtAddViewController: UIViewController {
     public let titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "작품 제목"
-
         textField.font = UIFont.boldSystemFont(ofSize: 25)
-        textField.backgroundColor = .white
-        textField.tag = 100
-        textField.borderStyle = .roundedRect
+        textField.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        textField.backgroundColor = .clear
+        textField.borderStyle = .none
+        textField.attributedPlaceholder = NSAttributedString(string: "작품 제목", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)])
         return textField
     }()
     
@@ -143,10 +143,20 @@ class ArtAddViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "작품의 설명"
         textField.font = UIFont.boldSystemFont(ofSize: 25)
-        textField.backgroundColor = .white
-        textField.borderStyle = .roundedRect
-        textField.tag = 101
+        textField.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        textField.backgroundColor = .clear
+        textField.borderStyle = .none
+        textField.attributedPlaceholder = NSAttributedString(string: "작품 설명", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)])
         return textField
+    }()
+    
+    let alertLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .red
+        label.text = "아직 정보가 부족합니다."
+        label.isHidden = true
+        return label
     }()
     
     override func viewDidLoad() {
@@ -214,22 +224,25 @@ class ArtAddViewController: UIViewController {
     }
     
     @objc func uploadButtonDidTap() {
-        
-        guard let image = imageView.image, let title = titleTextField.text else { return }
-        
-        dismiss(animated: true) {
-            self.delegate?.uploadArtwork(self, image: image, title: title)
+        if isReadyUpload == false {
+            alertLabel.isHidden = false
+        }
+        else {
+            guard let image = imageView.image, let title = titleTextField.text else { return }
+            
+            dismiss(animated: true) {
+                self.delegate?.uploadArtwork(self, image: image, title: title)
+            }
         }
     }
     
     func activateUpload() {
-        print("업로드가 가능합니다.")
+        alertLabel.isHidden = true
         isReadyUpload = true
         uploadButton.setTitleColor(#colorLiteral(red: 0.003921568627, green: 0.3411764706, blue: 1, alpha: 1), for: .normal)
     }
     
     func inactivateUploadButton() {
-        print("업로드가 불가능합니다. 정보를 다 입력해주세요")
         isReadyUpload = false
         uploadButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
     }
@@ -261,10 +274,17 @@ class ArtAddViewController: UIViewController {
     }
     
     private func setUpViews() {
-        
-        view.backgroundColor = .black
-        
+    
         view.addSubview(scrollView)
+        
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        view.backgroundColor = #colorLiteral(red: 0.1793349345, green: 0.1811105279, blue: 0.1811105279, alpha: 1)
+        
+        //scrollView.alwaysBounceVertical = true
         
         scrollView.addSubview(cancelButton)
         scrollView.addSubview(uploadButton)
@@ -273,66 +293,58 @@ class ArtAddViewController: UIViewController {
         scrollView.addSubview(titleTextField)
         scrollView.addSubview(descriptionLabel)
         scrollView.addSubview(descriptionTextField)
+        scrollView.addSubview(alertLabel)
         
         imageView.addSubview(plusButton)
         imageView.addSubview(orientationLabel)
         imageView.addSubview(colorLabel)
         imageView.addSubview(temperatureLabel)
         
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
         cancelButton.widthAnchor.constraint(equalToConstant: 15).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        cancelButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 30).isActive = true
         cancelButton.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 15).isActive = true
         
         uploadButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
         uploadButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -15).isActive = true
-        
+
         imageView.topAnchor.constraint(equalTo: cancelButton.topAnchor, constant: 50).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.5).isActive = true
+        imageView.widthAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.widthAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+
         plusButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         plusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         plusButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         plusButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
-        
+
         orientationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 3).isActive = true
         //orientationLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10).isActive = true
         orientationLabel.trailingAnchor.constraint(equalTo: colorLabel.leadingAnchor, constant: -10).isActive = true
-        
+
         colorLabel.bottomAnchor.constraint(equalTo: orientationLabel.bottomAnchor).isActive = true
         colorLabel.trailingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor, constant: -10).isActive = true
-        
+
         temperatureLabel.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor).isActive = true
         temperatureLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor).isActive = true
-        
+
         titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20).isActive = true
         titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
-        
+
         titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleTextField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
         titleTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
         //titleTextField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20).isActive = true
-        
+
         descriptionLabel.leadingAnchor.constraint(equalTo: titleTextField.leadingAnchor).isActive = true
         descriptionLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20).isActive = true
-        
+
         descriptionTextField.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor).isActive = true
         descriptionTextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10).isActive = true
         descriptionTextField.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor).isActive = true
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height * 1.5)
-        scrollView.contentSize.height = self.view.frame.height * 1.5
         
+        alertLabel.topAnchor.constraint(equalTo: descriptionTextField.bottomAnchor, constant: 15).isActive = true
+        alertLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
     }
 }
 
@@ -374,6 +386,7 @@ extension ArtAddViewController: UIImagePickerControllerDelegate, UINavigationCon
                     self.temperatureLabel.text = temperature
                     
                     if self.titleTextField.text?.isEmpty == false && self.descriptionTextField.text?.isEmpty == false {
+                        self.activateUpload()
                         self.uploadButton.setTitleColor(#colorLiteral(red: 0.003921568627, green: 0.3411764706, blue: 1, alpha: 1), for: .normal)
                     }
                 }
