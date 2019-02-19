@@ -330,7 +330,7 @@ extension PaginatingCollectionViewController {
                               queries: queries) {
                                 (result, response) in
                                 switch result {
-                                case .failure(let error):
+                                case .failure:
                                     self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
                                                                isOn: false, // TODO: 분류 필터 기능 추가후 수정
                                                                doNeedMore: false,
@@ -353,7 +353,7 @@ extension PaginatingCollectionViewController {
                               queries: queries) {
                                 (result, response) in
                                 switch result {
-                                case .failure(let error):
+                                case .failure:
                                     self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
                                                                isOn: false, // TODO: 분류 필터 기능 추가후 수정
                                                                doNeedMore: false,
@@ -666,6 +666,27 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
         
         DispatchQueue.main.async {
             self.fetchPages()
+        }
+    }
+}
+
+extension PaginatingCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
+        let max = visubleCellsIndex.max{ $0 < $1 }
+        
+        guard let maxIndex = max, maxIndex != 0 else { return }
+        var prefetchIndex = 0
+        if maxIndex < indexPath.item {
+            prefetchIndex = min(indexPath.item + batchSize, artworkBucket.count - 1)
+        } else {
+            prefetchIndex = min(indexPath.item - 6, artworkBucket.count - 1)
+        }
+        
+        guard prefetchIndex > 0 else { return }
+        let artwork = artworkBucket[prefetchIndex]
+        if !thumbImage.contains(where: { $0.key == artwork.artworkUid}) {
+            self.fetchImage(artwork: artwork, indexPath: nil)
         }
     }
 }
