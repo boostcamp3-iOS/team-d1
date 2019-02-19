@@ -243,44 +243,44 @@ class SignUpViewController: UIViewController {
         }
         serverAuth.signUp(email: email,
                           password: password) { (result) in
-                            switch result {
-                            case .failure:
-                                DispatchQueue.main.async {
-                                    let alert = UIAlertController(title: "회원가입 오류",
-                                                                  message: "회원가입에 실패하였습니다.",
-                                                                  preferredStyle: .alert)
-                                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                                    alert.addAction(action)
-                                    self.loadingIndicator.deactivateIndicatorView()
-                                    self.present(alert, animated: false, completion: nil)
-                                }
-                            case .success:
-                                guard let email = UserDefaults.standard.string(forKey: "userId"),
-                                    let uid = UserDefaults.standard.string(forKey: "uid") else {
-                                        assertionFailure("fetching uid from UserDefault failure")
-                                        return
-                                }
-                                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
-                                let user = [uid: userData]
-                                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
-                                    switch result {
-                                    case .failure(let error):
-                                        DispatchQueue.main.async {
-                                            let alert = UIAlertController(title: "회원가입 오류",
-                                                                          message: "회원가입에 실패하였습니다.",
-                                                                          preferredStyle: .alert)
-                                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                                            alert.addAction(action)
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.present(alert, animated: false, completion: nil)
-                                        }
-                                    case .success:
-                                        DispatchQueue.main.async {
-                                            self.navigationController?.popViewController(animated: false)
-                                        }
-                                    }
-                                }
-                            }
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "회원가입 오류",
+                                                  message: "회원가입에 실패하였습니다.",
+                                                  preferredStyle: .alert)
+                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.loadingIndicator.deactivateIndicatorView()
+                    self.present(alert, animated: false, completion: nil)
+                }
+            case .success:
+                guard let email = UserDefaults.standard.string(forKey: "userId"),
+                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                        assertionFailure("fetching uid from UserDefault failure")
+                        return
+                }
+                let userData = UserData(uid: uid, description: "", nickName: "", email: email, artworks: [:])
+                let user = [uid: userData]
+                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "회원가입 오류",
+                                                          message: "회원가입에 실패하였습니다.",
+                                                          preferredStyle: .alert)
+                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                            alert.addAction(action)
+                            self.loadingIndicator.deactivateIndicatorView()
+                            self.present(alert, animated: false, completion: nil)
+                        }
+                    case .success:
+                        DispatchQueue.main.async {
+                            self.navigationController?.popViewController(animated: false)
+                        }
+                    }
+                }
+            }
         }
     }
 }
