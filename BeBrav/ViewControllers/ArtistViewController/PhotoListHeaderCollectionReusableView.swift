@@ -15,13 +15,13 @@ class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Photos"
+        label.textColor = .white
         return label
     }()
     
     public lazy var deleteButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        // TODO: 삭제아이콘 추가시 타이틀 삭제 및 버튼 이미지 추가
         button.setTitle("삭제", for: .normal)
         button.setTitleColor(.red, for: .normal)
         return button
@@ -43,6 +43,8 @@ class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
     private func setLayout() {
         addSubview(titleLabel)
         addSubview(deleteButton)
+        
+        backgroundColor = .black
         
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true

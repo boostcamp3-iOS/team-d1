@@ -66,3 +66,23 @@ enum Result<Value> {
     case failure(Error)
 }
 
+struct UserDataDecodeType: Decodable {
+    let uid: String
+    let nickName: String
+    let email: String
+    let userProfileUrl: String
+    let artworks: [String: Artwork]
+}
+
+struct Artwork: Decodable {
+    let userUid: String
+    let artworkUid: String
+    let artworkUrl: String
+    let timestamp: Double
+    let title: String
+    let views: Int
+    let orientation: Bool
+    let color: Bool
+    let temperature: Bool
+}
+
