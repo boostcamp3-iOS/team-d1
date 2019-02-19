@@ -150,6 +150,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         //TODO: filtering에 맞는 이미지로 수정
         let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
+        //let barItem = UIBarButtonItem(image: #imageLiteral(resourceName: "filter"), style: .plain, target: self, action: #selector(filterButtonDidTap))
+        //barItem.width = 15
         barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         navigationItem.rightBarButtonItem = barItem
         
@@ -185,7 +187,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         viewController.transitioningDelegate = self
         viewController.mainNavigationController = navigationController
         
-        let uid = artworkBucket[index.row].artworkUid
+       /* let uid = artworkBucket[index.row].artworkUid
         serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
             switch result {
             case .failure(let error):
@@ -208,7 +210,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     }
                 })
             }
-        }
+        }*/
         
         viewController.artwork = self.artworkBucket[index.item]
         viewController.artworkImage = cell.artworkImageView.image
@@ -218,13 +220,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
     @objc func filterButtonDidTap() {
         print(collectionView.indexPathsForVisibleItems)
         //TODO: filtering 기능 추가
+        
     }
     
     @objc func addArtworkButtonDidTap() {
         let flowLayout = UICollectionViewFlowLayout()
-        let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
-        artAddCollectionViewController.delegate = self
-        present(artAddCollectionViewController, animated: true, completion: nil)
+        let artAddViewController = ArtAddViewController()
+        artAddViewController.delegate = self
+        present(artAddViewController, animated: true, completion: nil)
     }
     
     // MARK: UICollectionViewDataSource
@@ -583,9 +586,8 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
     }
 }
 
-extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDelegate {
-    func uploadArtwork(_ controller: ArtAddCollectionViewController, image: UIImage) {
-        
+extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
+    func uploadArtwork(_ controller: ArtAddViewController, image: UIImage, title: String) {
         //FIXME: - SignIn 머지되면 수정
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
@@ -594,7 +596,7 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
                 return
             case .success(let data):
                 print("success")
-                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test200", completion: { (result) in
+                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: title, completion: { (result) in
                     switch result {
                     case .failure(let error):
                         print(error)
@@ -604,10 +606,6 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
                     }
                 })
             }
-        }
-        
-        DispatchQueue.main.async {
-            self.fetchPages()
         }
     }
 }

@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
         let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
         
-//        let mainViewController = ExampleViewController()//PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
+//        let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
         
         //let newRootViewController = UINavigationController(rootViewController: mainViewController)
         let container = NetworkDependencyContainer()
