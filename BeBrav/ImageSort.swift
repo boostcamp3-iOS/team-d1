@@ -73,8 +73,9 @@ struct ImageSort                                                                
 extension UIImage {
     //이미지의 평균 rgb값을 return해주는 확장 프로퍼티
     var averageColor: [String:Double]? {
-        guard let imageData = self.jpegData(compressionQuality: 0.1) else { return nil }
-        guard let inputImage = CIImage(data: imageData) else { return nil }
+        //guard let imageData = self.jpegData(compressionQuality: 0.1) else { return nil }
+        //guard let inputImage = CIImage(data: imageData) else { return nil }
+        guard let inputImage = CIImage(image: self) else { return nil }
         let extentVector = CIVector(x: 0, y: 0, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
         
         //CIAreaAverage - Returns a single-pixel image that contains the average color for the region of interest.

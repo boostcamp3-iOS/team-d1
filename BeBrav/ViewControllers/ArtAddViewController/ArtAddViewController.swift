@@ -44,7 +44,7 @@ class ArtAddViewController: UIViewController {
     let uploadButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("업로드", for: UIControl.State.normal)
+        button.setTitle("등록", for: UIControl.State.normal)
         button.titleLabel?.tintColor = .white
         return button
     }()
@@ -56,13 +56,15 @@ class ArtAddViewController: UIViewController {
         //imageView.backgroundColor = #colorLiteral(red: 0.003921568627, green: 0.3411764706, blue: 1, alpha: 1)
         imageView.isUserInteractionEnabled = true
         //imageView.layer.cornerRadius = 5.0
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
      let plusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage(#imageLiteral(resourceName: "iconPlusButton"), for: UIControl.State.normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "add (1)"), for: UIControl.State.normal)
+        button.isUserInteractionEnabled = true
         return button
     }()
     
@@ -162,6 +164,8 @@ class ArtAddViewController: UIViewController {
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonDidTap), for: .touchUpInside)
+        plusButton.addTarget(self, action: #selector(plusButtonDidTap), for: .touchUpInside)
+        
         titleTextField.addTarget(self, action: #selector(titleTextFieldDidChange(_:)), for: .editingChanged)
         descriptionTextField.addTarget(self, action: #selector(descTextFieldDidChange(_:)), for: .editingChanged)
         
@@ -170,11 +174,15 @@ class ArtAddViewController: UIViewController {
     @objc func keyboardWillShow(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
-        self.view.frame.origin.y = -keyboardFrame.height // Move view 150 points upward
+        self.view.frame.origin.y = -keyboardFrame.height
     }
     
     @objc func keyboardWillHide(_ sender: Notification) {
-        self.view.frame.origin.y = 0 // Move view to original position
+        self.view.frame.origin.y = 0
+    }
+    
+    @objc func plusButtonDidTap() {
+        presentImagePicker()
     }
     
     @objc func titleTextFieldDidChange(_ sender: UITextField) {
@@ -286,22 +294,23 @@ class ArtAddViewController: UIViewController {
         
         imageView.topAnchor.constraint(equalTo: cancelButton.topAnchor, constant: 50).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: view.frame.width - 20).isActive = true
-        imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.5).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        plusButton.widthAnchor.constraint(equalToConstant: imageView.frame.width * 0.2).isActive = true
-        plusButton.heightAnchor.constraint(equalToConstant: imageView.frame.height * 0.2).isActive = true
+        plusButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        plusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         plusButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         plusButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
         
-        orientationLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10).isActive = true
-        orientationLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -130).isActive = true
+        orientationLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 3).isActive = true
+        //orientationLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10).isActive = true
+        orientationLabel.trailingAnchor.constraint(equalTo: colorLabel.leadingAnchor, constant: -10).isActive = true
         
         colorLabel.bottomAnchor.constraint(equalTo: orientationLabel.bottomAnchor).isActive = true
-        colorLabel.leadingAnchor.constraint(equalTo: orientationLabel.trailingAnchor, constant: 10).isActive = true
+        colorLabel.trailingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor, constant: -10).isActive = true
         
         temperatureLabel.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor).isActive = true
-        temperatureLabel.leadingAnchor.constraint(equalTo: colorLabel.trailingAnchor, constant: 10).isActive = true
+        temperatureLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor).isActive = true
         
         titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20).isActive = true
         titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
@@ -348,7 +357,6 @@ extension ArtAddViewController: UIImagePickerControllerDelegate, UINavigationCon
         plusButton.isHidden = true
         
         dismiss(animated: true) {
-            print(self.imageView.image) //제거
             DispatchQueue.global().async {
                 var imageSort = ImageSort(input: editedImage)
                 
