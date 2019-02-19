@@ -18,21 +18,7 @@ extension DatabaseFactory: DatabaseFactoryProtocol {
         let databaseHandler = DatabaseHandler.shared
         let fileManager = FileManager.default
         
-        databaseHandler.database = {
-            let database: SQLiteDatabase?
-            
-            do {
-                database = try SQLiteDatabase.open(
-                    name: databaseName,
-                    fileManager: fileManager
-                )
-            } catch let error {
-                database = nil
-                assertionFailure(error.localizedDescription)
-            }
-            
-            return database
-        }()
+        databaseHandler.fileManager = fileManager
         
         return databaseHandler
     }

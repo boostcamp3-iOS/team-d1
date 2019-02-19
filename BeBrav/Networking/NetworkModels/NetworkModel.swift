@@ -72,6 +72,14 @@ struct UserDataDecodeType: Decodable {
     let email: String
     let userProfileUrl: String
     let artworks: [String: Artwork]
+    
+    init(uid: String, nickName: String, artworks: [String: Artwork]) {
+        self.uid = uid
+        self.nickName = nickName
+        self.email = ""
+        self.userProfileUrl = ""
+        self.artworks = artworks
+    }
 }
 
 struct Artwork: Decodable {
@@ -84,5 +92,17 @@ struct Artwork: Decodable {
     let orientation: Bool
     let color: Bool
     let temperature: Bool
+    
+    init(artworkModel: ArtworkModel) {
+        self.userUid = artworkModel.userId
+        self.artworkUid = artworkModel.id
+        self.artworkUrl = artworkModel.imageURL
+        self.timestamp = artworkModel.timestamp
+        self.title = artworkModel.title
+        self.views = artworkModel.views
+        self.orientation = artworkModel.orientation
+        self.color = artworkModel.color
+        self.temperature = artworkModel.temperature
+    }
 }
 

@@ -68,7 +68,7 @@ class ArtistViewController: UIViewController {
         
         navigationItem.title = "아티스트"
         
-        fetchImage()
+        setImageList()
         
         setCollectionView()
         
@@ -82,31 +82,32 @@ class ArtistViewController: UIViewController {
         setLayout()
     }
     
-    private func fetchImage() {
-        guard let artistData = artistData else {
-            return
+    private func setImageList() {
+        guard let artistData = artistData else { return
+            
         }
-
         artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
-        
-        artworkList.enumerated().forEach{ (index, artwork) in
-            guard let url = URL(string: artwork.artworkUrl) else { return }
-            imageLoader.fetchImage(url: url, size: .small) { image, error in
-                guard let image = image else { return }
-                
-                self.artworkImage[artwork.artworkUid] = image
-                
-                DispatchQueue.main.async {
-                    self.setImage(index: index)
-                }
-            }
+        artworkList.indices.forEach{ index in
+            self.fetchImage(index: index)
         }
     }
     
-    private func setImage(index: Int) {
-        let indexPath = IndexPath(item: index, section: 1)
+    // MARK:- Set Artist's image
+    private func fetchImage(index: Int) {
+        let artwork = artworkList[index]
         
-        collectionView.reloadItems(at: [indexPath])
+        guard let url = URL(string: artwork.artworkUrl) else { return }
+        
+        imageLoader.fetchImage(url: url, size: .small) { image, error in
+            guard let image = image else { return }
+            self.artworkImage[artwork.artworkUid] = image
+            
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(item: index, section: 1)
+                
+                self.collectionView.reloadItems(at: [indexPath])
+            }
+        }
     }
     
     // MARK:- Set CollectionView
@@ -263,9 +264,13 @@ extension ArtistViewController: UICollectionViewDataSource {
         {
             return .init()
         }
+        let id = artworkList[indexPath.item].artworkUid
         
-        if let image = artworkImage[artworkList[indexPath.item].artworkUid] {
+        if let image = artworkImage[id] {
             cell.imageView.image = image
+            artworkImage.removeValue(forKey: id)
+        } else {
+            fetchImage(index: indexPath.item)
         }
         
         return cell

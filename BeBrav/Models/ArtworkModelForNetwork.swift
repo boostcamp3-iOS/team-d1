@@ -96,6 +96,17 @@ struct ArtworkDecodeType: Codable {
         self.temperature = temperature
     }
     
+    init(artworkModel: ArtworkModel) {
+        self.userUid = artworkModel.userId
+        self.artworkUid = artworkModel.id
+        self.artworkUrl = artworkModel.imageURL
+        self.title = artworkModel.title
+        self.timestamp = artworkModel.timestamp
+        self.views = artworkModel.views
+        self.orientation = artworkModel.orientation
+        self.color = artworkModel.color
+        self.temperature = artworkModel.temperature
+    }
 }
 
 

@@ -87,12 +87,17 @@ class ArtworkViewController: UIViewController {
     }
     
     private let imageLoader: ImageLoaderProtocol
+    private let databaseHandler: DatabaseHandler
     private let serverDatabase: ServerDatabase
     
     // MARK:- Initialize
-    init(imageLoader: ImageLoaderProtocol, serverDatabase: ServerDatabase) {
+    init(imageLoader: ImageLoaderProtocol,
+         serverDatabase: ServerDatabase,
+         databaseHandler: DatabaseHandler)
+    {
         self.imageLoader = imageLoader
         self.serverDatabase = serverDatabase
+        self.databaseHandler = databaseHandler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -117,7 +122,7 @@ class ArtworkViewController: UIViewController {
     // MARK:- Fetch artwork image
     private func fetchArtworkImage() {
         guard let artwork = artwork, let url = URL(string: artwork.artworkUrl) else {
-            assertionFailure("No artwork information") // TODO: 오류처리 추가 후 변경
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         
@@ -129,6 +134,7 @@ class ArtworkViewController: UIViewController {
         }
     }
     
+    // MARK:- Fetch artist data
     private func fetchArtistData() {
         guard let uid = artwork?.userUid else { return }
         
@@ -138,16 +144,19 @@ class ArtworkViewController: UIViewController {
         
         serverDatabase.read(path: "root/users", type:[String: UserDataDecodeType].self, headers: [:], queries: queries) { result, responds  in
             switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure:
+                self.fetchDataFromDatabase(id: uid)
             case .success(let data):
-                self.setArtistData(data: data[uid])
+                guard let data = data[uid] else { return }
+
+                self.saveDataToDatabase(data: data)
+                self.setArtistData(data: data)
             }
         }
     }
     
-    private func setArtistData(data: UserDataDecodeType?) {
-        guard let data = data else { return }
+    // MARK:- Set artist data
+    private func setArtistData(data: UserDataDecodeType) {
         artistData = data
         
         DispatchQueue.main.async {
@@ -155,14 +164,62 @@ class ArtworkViewController: UIViewController {
         }
     }
     
+     // MARK:- Save data to database
+    private func saveDataToDatabase(data: UserDataDecodeType) {
+        let author = AuthorModel(id: data.uid, name: data.nickName, introduction: "") // TODO: Firebase에 해당 정보 추가 후 수정
+        
+        databaseHandler.saveData(data: author)
+    }
+    
+    // MARK:- Fetch data from database
+    private func fetchDataFromDatabase(id: String) {
+        databaseHandler.readData(type: .AuthorData, id: id) { data, error in
+            guard let data = data as? AuthorModel else { return }
+
+            self.databaseHandler.readArtworkArray(author: data) { artworks, error in
+                guard let artworks = artworks else {
+                    self.showErrorAlert(type: .fetchArtistData)
+                    return
+                }
+                
+                let list = artworks.sorted{ $0.timestamp > $1.timestamp }
+                var artworksDictionary: [String: Artwork] = [:]
+                
+                list.forEach{ artworksDictionary[$0.id] = Artwork(artworkModel: $0) }
+                
+                let artistData = UserDataDecodeType(uid: data.id,
+                                                    nickName: data.name,
+                                                    artworks: artworksDictionary)
+                
+                self.setArtistData(data: artistData)
+            }
+        }
+    }
+    
+    // MARK:- Show error alert
+    private func showErrorAlert(type: errorType) {
+        let alert = UIAlertController(title: "네트워킹 오류",
+                                      message: type.rawValue,
+                                      preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "확인", style: .default) { _ in
+            if self.imageView.image == nil {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        alert.addAction(action)
+
+        present(alert, animated: false, completion: nil)
+    }
+    
     // MARK:- Finish fetch image
     private func finishFetchImage(image: UIImage?, error: Error?) {
-        if let error = error {
-            assertionFailure(error.localizedDescription) // TODO: 오류처리 추가 후 삭제
+        if error != nil {
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         guard let image = image else {
-            assertionFailure("failed to fetch image Data") // TODO: 오류처리 추가 후 삭제
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         DispatchQueue.main.async {
@@ -197,7 +254,7 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Set gesture recognizer
     private func setGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,action: #selector(artistLabelDidTap(_:)))
         artistLabel.isUserInteractionEnabled = true
         artistLabel.addGestureRecognizer(tapGestureRecognizer)
         
@@ -233,7 +290,10 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Artist label did tap
     @objc private func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
-        guard let navigationController = mainNavigationController else {
+        guard let navigationController = mainNavigationController,
+            let artistData = artistData
+            else
+        {
             return
         }
         let imageLoader = ImageCacheFactory().buildImageLoader()
@@ -306,4 +366,9 @@ extension ArtworkViewController: UIScrollViewDelegate {
         
         dismiss(animated: true, completion: nil)
     }
+}
+
+fileprivate enum errorType: String {
+    case fetchImage = "이미지를 불러올 수 없습니다."
+    case fetchArtistData = "작가 정보를 확인할 수 없습니다."
 }

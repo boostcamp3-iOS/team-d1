@@ -9,7 +9,7 @@
 import Foundation
 
 class SQLiteDatabaseStub: SQLiteDatabaseProtocol {
-    
+ 
     func createTable(name: String, columns: [String]) -> Bool {
         return true
     }
