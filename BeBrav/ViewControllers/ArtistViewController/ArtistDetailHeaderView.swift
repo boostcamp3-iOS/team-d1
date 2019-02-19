@@ -14,8 +14,9 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     public let artistNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = "작가이름" //temporary input
+        textField.text = ""
         textField.textAlignment = .center
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.isEnabled = false
         return textField
     }()
@@ -23,7 +24,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     public let artistIntroTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개" //temporary input
+        textView.text = ""
         textView.textAlignment = .center
         textView.isEditable = false
         return textView

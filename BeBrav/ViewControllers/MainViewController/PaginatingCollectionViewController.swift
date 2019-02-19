@@ -186,29 +186,29 @@ class PaginatingCollectionViewController: UICollectionViewController {
         viewController.mainNavigationController = navigationController
         
         let uid = artworkBucket[index.row].artworkUid
-        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
-                    return
-                }
-                
-                let updateValue = data.views + 1
-                
-                let encodeData = ArtworkDecodeType(userUid: "", uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
-                
-                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    case .success:
-                       print("success")
-                    }
-                })
-            }
-        }
+//        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let data):
+//                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+//                    return
+//                }
+//
+//                let updateValue = data.views + 1
+//
+//                let encodeData = ArtworkDecodeType(userUid: "", uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
+//
+//                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+//                    switch result {
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    case .success:
+//                       print("success")
+//                    }
+//                })
+//            }
+//        }
         
         viewController.artwork = self.artworkBucket[index.item]
         viewController.artworkImage = cell.artworkImageView.image
