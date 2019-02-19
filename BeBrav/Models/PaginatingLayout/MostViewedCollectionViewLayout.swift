@@ -73,6 +73,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
         }
         
         makeAttributes(indexList: prepareIndex, pageSize: numberOfItems * fetchPage)
+        print("is..\(cache)")
         prepareIndex.removeAll()
     }
     

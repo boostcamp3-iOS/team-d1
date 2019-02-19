@@ -18,18 +18,7 @@ struct Users : Decodable {
 
 class ExampleViewController: UIViewController {
     
-    let imageAssets1 = [#imageLiteral(resourceName: "flower-3980666_1920"),#imageLiteral(resourceName: "fallow-deer-3729821_1920"),#imageLiteral(resourceName: "close-up-desk-indoors-1459103"),#imageLiteral(resourceName: "flower-3844639_1920"),#imageLiteral(resourceName: "cat2"),#imageLiteral(resourceName: "photographer-1"),#imageLiteral(resourceName: "4k-wallpaper-beautiful-bloom-1460799"),#imageLiteral(resourceName: "close-up-cup-of-coffee-desk-1459105"),#imageLiteral(resourceName: "breakfast-chocolate-cloth-1740891"),#imageLiteral(resourceName: "얼룩말"),
-                       #imageLiteral(resourceName: "tet-3979500_1920"),#imageLiteral(resourceName: "997077465A73DC122B"),#imageLiteral(resourceName: "StockSnap_P5M4OGVMEP"),#imageLiteral(resourceName: "beverage-books-coffee-1638502"),#imageLiteral(resourceName: "delicious-drink-drinking-glass-1474926"),#imageLiteral(resourceName: "99E4A0485A73DAB318"),#imageLiteral(resourceName: "adorable-animal-cat-1741207"),#imageLiteral(resourceName: "flower-3980666_1920"),#imageLiteral(resourceName: "orlova-maria-375371-unsplash"),#imageLiteral(resourceName: "wallaby-3764309_1920")]
-    
-    let imageAssets2 = [
-                        #imageLiteral(resourceName: "cat1"),#imageLiteral(resourceName: "breakfast-cutlery-decoration-1458680"),#imageLiteral(resourceName: "polar-bear-196318_1920"),#imageLiteral(resourceName: "old-man-2687112_1920"),#imageLiteral(resourceName: "adorable-animal-cat-1477377"),#imageLiteral(resourceName: "smoke-69124_1280"),#imageLiteral(resourceName: "hamburg"),#imageLiteral(resourceName: "blur-close-up-container-1740904"),#imageLiteral(resourceName: "helicopter-2966569_1920"),#imageLiteral(resourceName: "taxi-cab-381233_1920"),
-                        #imageLiteral(resourceName: "light-bulb-3903345_1920"),#imageLiteral(resourceName: "art-1478831_1920"),#imageLiteral(resourceName: "stefania-crudeli-1074566-unsplash"),#imageLiteral(resourceName: "am-fl-1326209-unsplash"),#imageLiteral(resourceName: "firenze-1249854_1920"),#imageLiteral(resourceName: "rays"),#imageLiteral(resourceName: "statue-of-liberty-267949_1920"),#imageLiteral(resourceName: "painting-1974614_1920"),#imageLiteral(resourceName: "meteora-3717220_1920"),#imageLiteral(resourceName: "north-1")
-    ]
-    let imageAssets3 = [
-                        #imageLiteral(resourceName: "breakfast-cutlery-decoration-1458681"),#imageLiteral(resourceName: "full-moon-496873_1920"),#imageLiteral(resourceName: "rail-3678287_1920"),#imageLiteral(resourceName: "StockSnap_KK9KNIXXOR"),#imageLiteral(resourceName: "beverage-books-coffee-1638503"),#imageLiteral(resourceName: "sandburg-1639994_1920"),#imageLiteral(resourceName: "chairs-comfort-contemporary-1813503"),#imageLiteral(resourceName: "angel-2403401_1920"),#imageLiteral(resourceName: "people-3968216_1920"),#imageLiteral(resourceName: "beer-2161767_1920"),
-                        #imageLiteral(resourceName: "open-fire-3879031_1920"),#imageLiteral(resourceName: "sea-3974262_1920"),#imageLiteral(resourceName: "lion-3372720_1920"),#imageLiteral(resourceName: "beverage-breakfast-caffeine-1879322"),#imageLiteral(resourceName: "landscape-3779159_1920"),#imageLiteral(resourceName: "harley-davidson-3794909_1920"),#imageLiteral(resourceName: "christmas-motif-3834860_1920"),#imageLiteral(resourceName: "bowls-breakfast-cutlery-1813504"),#imageLiteral(resourceName: "close-up-desk-indoors-1459102"),#imageLiteral(resourceName: "old-3975765_1920"),
-                        #imageLiteral(resourceName: "mosaic-200864_1920"),#imageLiteral(resourceName: "StockSnap_51MWB7SI71"),#imageLiteral(resourceName: "adorable-animal-cat-1741206"),#imageLiteral(resourceName: "wolf-3818343_1920")
-    ]
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -147,7 +136,7 @@ class ExampleViewController: UIViewController {
             }
         }
  */
-        
+        /*
         
         manager.signIn(email: "t2@naver.com", password: "123456") { (result) in
             switch result {
@@ -170,7 +159,7 @@ class ExampleViewController: UIViewController {
                     
                 }
             }
-        }
+        }*/
     }
         
 }

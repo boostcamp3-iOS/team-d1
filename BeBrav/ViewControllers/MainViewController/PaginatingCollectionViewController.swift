@@ -201,6 +201,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         print(collectionView.indexPathsForVisibleItems)
         //TODO: filtering 기능 추가
         refreshLayout()
+        
     }
     
     @objc func addArtworkButtonDidTap() {
@@ -213,6 +214,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return
         }
         layout.layoutRefresh()
+        
+        layout.fetchPage = pageSize
         isEndOfData = false
         isLoading = false
         recentTimestamp = nil
@@ -222,6 +225,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         
         fetchPages()
+        
     }
     
     // MARK: UICollectionViewDataSource
@@ -347,7 +351,7 @@ extension PaginatingCollectionViewController {
                                     }
                                     self.currentKey = result.first?.artworkUid
                                     self.recentTimestamp = result.first?.timestamp
-             
+                                    
                                     DispatchQueue.main.async {
                                         self.collectionView.reloadData()
                                     }
@@ -397,7 +401,7 @@ extension PaginatingCollectionViewController {
                                         self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
                                         let indexPaths = self.calculateIndexPathsForReloading(from: self.currentBatchArtworkBucket)
                                         self.collectionView.insertItems(at: indexPaths)
-                                        self.collectionView.setNeedsLayout()
+                                        
                                     }
                                     defer {
                                         DispatchQueue.main.async {
