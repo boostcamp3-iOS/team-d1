@@ -194,10 +194,90 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func filterButtonDidTap() {
-        print(collectionView.indexPathsForVisibleItems)
+        //print(collectionView.indexPathsForVisibleItems)
         //TODO: filtering 기능 추가
-        refreshLayout()
         
+        let alertController = UIAlertController(title: "필터링", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
+        
+        //가로
+        let orientationAction1 = UIAlertAction(title: "가로", style: .default) { (action) in
+            let orientation = true
+            let queries = [URLQueryItem(name: "orderBy", value: "\"orientation\""),
+                           URLQueryItem(name: "equalTo", value: "\(orientation)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .orientation, isOn: orientation)
+        }
+        
+        //세로
+        let orientationAction2 = UIAlertAction(title: "세로", style: .default) { (action) in
+            let orientation = false
+            let queries = [URLQueryItem(name: "orderBy", value: "\"orientation\""),
+                           URLQueryItem(name: "equalTo", value: "\(orientation)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .orientation, isOn: orientation)
+        }
+        
+        //컬러
+        let colorAction1 = UIAlertAction(title: "컬러", style: .default) { (action) in
+            let color = true
+            let queries = [URLQueryItem(name: "orderBy", value: "\"color\""),
+                           URLQueryItem(name: "equalTo", value: "\(color)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .color, isOn: color)
+        }
+        
+        //흑백
+        let colorAction2 = UIAlertAction(title: "흑백", style: .default) { (action) in
+            let color = false
+            let queries = [URLQueryItem(name: "orderBy", value: "\"color\""),
+                           URLQueryItem(name: "equalTo", value: "\(color)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .color, isOn: color)
+        }
+
+        //차갑
+        let temperatureAction1 = UIAlertAction(title: "차갑", style: .default) { (action) in
+            let temperature = true
+            let queries = [URLQueryItem(name: "orderBy", value: "\"temperature\""),
+                           URLQueryItem(name: "equalTo", value: "\(temperature)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .temperature, isOn: temperature)
+        }
+
+        //따뜻
+        let temperatureAction2 = UIAlertAction(title: "따뜻", style: .default) { (action) in
+            let temperature = false
+            let queries = [URLQueryItem(name: "orderBy", value: "\"temperature\""),
+                           URLQueryItem(name: "equalTo", value: "\(temperature)"),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .temperature, isOn: temperature)
+        }
+        
+        //모두보기
+        let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
+            let queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+            self.refreshLayout(queries: queries, type: .none, isOn: true)
+        }
+        
+        alertController.addAction(orientationAction1)
+        alertController.addAction(orientationAction2)
+        alertController.addAction(colorAction1)
+        alertController.addAction(colorAction2)
+        alertController.addAction(temperatureAction1)
+        alertController.addAction(temperatureAction2)
+        alertController.addAction(originAction)
+        
+        present(alertController, animated: true) {
+            print("filterAlertController presented")
+        }
     }
     
     @objc func addArtworkButtonDidTap() {
@@ -206,8 +286,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
         artAddCollectionViewController.delegate = self
         present(artAddCollectionViewController, animated: true, completion: nil)
     }
+
     
-    func refreshLayout() {
+    func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
         guard let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout else {
             return
         }
@@ -219,8 +300,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         currentKey = nil
         artworkBucket.removeAll()
         thumbImage.removeAll()
-        fetchPages()
-        
+        fetchPages(queries: queries, type: type, isOn: isOn)
     }
     
     // MARK: UICollectionViewDataSource
@@ -297,6 +377,63 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 }
 
 extension PaginatingCollectionViewController {
+    func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
+        
+        if !isEndOfData {
+            isLoading = true
+            loadingIndicator.activateIndicatorView()
+            
+            guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
+                return
+            }
+            if currentKey == nil {
+                let queries = queries
+                
+                serverDB.read(path: "root/artworks",
+                              type: [String: ArtworkDecodeType].self, headers: [:],
+                              queries: queries) {
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    self.processData(data: data,
+                                                     doNeedMore: false,
+                                                     targetLayout: layout)
+                                }
+                }
+            } else {
+                //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
+                let timestamp = "\"timestamp\""
+                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
+                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
+                ]
+                serverDB.read(path: "root/artworks",
+                              type: [String: ArtworkDecodeType].self,
+                              headers: [:],
+                              queries: queries) {
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    self.processData(data: data,
+                                                     doNeedMore: true,
+                                                     targetLayout: layout)
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                            self.isLoading = false
+                                        }
+                                    }
+                                }
+                }
+            }
+        }
+    }
     
     /// 컬렉션 뷰의 데이터를 페이지 단위로 받아오기 위한 메서드입니다.
     /// 이전에 데이터를 받아온 적이 있는지 currentKey를 통해서 확인합니다. 이후 쿼리를 생성하여 timestamp로
@@ -626,4 +763,11 @@ struct Queries {
     ]
     
     ]*/
+}
+
+enum FilterType {
+    case orientation
+    case color
+    case temperature
+    case none
 }
