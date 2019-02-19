@@ -43,8 +43,10 @@ class ArtistViewController: UIViewController {
     
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: ServerDatabase
+    private var artworkList: [Artwork] = []
+    private var artworkImage: [String: UIImage] = [:]
     
-    public var artistId: String = ""
+    public var artistData: UserDataDecodeType?
     public var isUser = false {
         didSet {
             navigationItem.rightBarButtonItem = editButton
@@ -66,12 +68,12 @@ class ArtistViewController: UIViewController {
         
         navigationItem.title = "아티스트"
         
+        fetchImage()
+        
         setCollectionView()
         
         editButton.target = self
         editButton.action = #selector(editButtonDidTap(_:))
-        
-        fetchUserData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -80,14 +82,31 @@ class ArtistViewController: UIViewController {
         setLayout()
     }
     
-    private func fetchUserData() {
-        guard let uid = UserDefaults.standard.string(forKey: "uid") else { return }
-        
-        if uid == artistId {
-            isUser = true
+    private func fetchImage() {
+        guard let artistData = artistData else {
+            return
         }
+
+        artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
         
+        artworkList.enumerated().forEach{ (index, artwork) in
+            guard let url = URL(string: artwork.artworkUrl) else { return }
+            imageLoader.fetchImage(url: url, size: .small) { image, error in
+                guard let image = image else { return }
+                
+                self.artworkImage[artwork.artworkUid] = image
+                
+                DispatchQueue.main.async {
+                    self.setImage(index: index)
+                }
+            }
+        }
+    }
+    
+    private func setImage(index: Int) {
+        let indexPath = IndexPath(item: index, section: 1)
         
+        collectionView.reloadItems(at: [indexPath])
     }
     
     // MARK:- Set CollectionView
@@ -108,6 +127,8 @@ class ArtistViewController: UIViewController {
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(collectionView)
+        view.backgroundColor = .black
+        collectionView.backgroundColor = .black
         
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -168,9 +189,10 @@ extension ArtistViewController: UICollectionViewDataSource {
                 return .init()
         }
         
-        // TODO: 네트워킹 기능 추가 후 적합한 정보가 변경되도록 변경
-        headerView.artistNameTextField.text = "작가제목"
-        headerView.artistIntroTextView.text = "작가 간략 설명"
+        guard let artistData = artistData else { return .init() }
+        
+        headerView.artistNameTextField.text = artistData.nickName
+        headerView.artistIntroTextView.text = "작가 상세정보"
         headerView.isEditMode = isEditmode
         
         return headerView
@@ -211,7 +233,7 @@ extension ArtistViewController: UICollectionViewDataSource {
     {
         switch section {
         case 1:
-            return 10
+            return artworkList.count
         default:
             return 0
         }
@@ -242,8 +264,9 @@ extension ArtistViewController: UICollectionViewDataSource {
             return .init()
         }
         
-        // TODO: 네트워킹을 추가 후 네트워킹의 이미지 값을 추가하도록 변경
-        cell.imageView.image = UIImage(named: "cat1")
+        if let image = artworkImage[artworkList[indexPath.item].artworkUid] {
+            cell.imageView.image = image
+        }
         
         return cell
     }

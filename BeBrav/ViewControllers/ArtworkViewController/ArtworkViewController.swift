@@ -64,12 +64,11 @@ class ArtworkViewController: UIViewController {
         return label
     }()
     
-    
-    
     // MARK:- Properties
+    private var artistData: UserDataDecodeType?
+    
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
-    public var artist = "작가 이름" //TODO: 작가 정보를 담은 객체를 추가
     public var artworkImage: UIImage? {
         didSet {
             imageView.image = artworkImage
@@ -105,6 +104,7 @@ class ArtworkViewController: UIViewController {
         super.viewDidLoad()
         
         fetchArtworkImage()
+        fetchArtistData()
         
         setLayout()
         setLabels()
@@ -123,10 +123,35 @@ class ArtworkViewController: UIViewController {
         
         titleLabel.text = artwork.title
         viewsLabel.text = artwork.views.decimalString + " Views"
-        artistLabel.text = artist
 
         imageLoader.fetchImage(url: url, size: .big) { (image, error) in
             self.finishFetchImage(image: image, error: error)
+        }
+    }
+    
+    private func fetchArtistData() {
+        guard let uid = artwork?.userUid else { return }
+        
+        let queries = [URLQueryItem(name: "orderBy", value: "\"uid\""),
+                       URLQueryItem(name: "equalTo", value: "\"\(uid)\"")
+        ]
+        
+        serverDatabase.read(path: "root/users", type:[String: UserDataDecodeType].self, headers: [:], queries: queries) { result, responds  in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let data):
+                self.setArtistData(data: data[uid])
+            }
+        }
+    }
+    
+    private func setArtistData(data: UserDataDecodeType?) {
+        guard let data = data else { return }
+        artistData = data
+        
+        DispatchQueue.main.async {
+            self.artistLabel.text = data.nickName
         }
     }
     
@@ -216,7 +241,8 @@ class ArtworkViewController: UIViewController {
         let viewController = ArtistViewController(imageLoader: imageLoader,
                                                   serverDatabase: serverDatabase)
         
-        // TODO: 작가 정보 추가 후 함께 넘겨 줄 수 있도록 변경
+        viewController.artistData = artistData
+
         navigationController.pushViewController(viewController, animated: false)
         
         dismiss(animated: true, completion: nil)

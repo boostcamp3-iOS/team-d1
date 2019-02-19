@@ -14,8 +14,10 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     public let artistNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = "작가이름" //temporary input
+        textField.text = ""
         textField.textAlignment = .center
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.textColor = .white
         textField.isEnabled = false
         return textField
     }()
@@ -23,8 +25,10 @@ class ArtistDetailHeaderView: UICollectionReusableView {
     public let artistIntroTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개 작가소개" //temporary input
+        textView.text = ""
         textView.textAlignment = .center
+        textView.textColor = .white
+        textView.backgroundColor = .black
         textView.isEditable = false
         return textView
     }()
@@ -69,6 +73,8 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         addSubview(artistNameTextField)
         addSubview(artistIntroTextView)
 
+        backgroundColor = .black
+        
         artistNameTextField.topAnchor.constraint(equalTo: topAnchor, constant: 40).isActive = true
         artistNameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70).isActive = true
         artistNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70).isActive = true

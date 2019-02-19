@@ -176,6 +176,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         viewController.mainNavigationController = navigationController
         
         let uid = artworkBucket[index.row].artworkUid
+
         serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
             switch result {
             case .failure(let error):
