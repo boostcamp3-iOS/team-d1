@@ -256,7 +256,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath) {
+    private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath?) {
         guard let url = URL(string: artwork.artworkUrl) else { return }
         
         imageLoader.fetchImage(url: url, size: .small) { (image, error) in
@@ -268,8 +268,10 @@ class PaginatingCollectionViewController: UICollectionViewController {
             guard let image = image else { return }
             self.thumbImage[artwork.artworkUid] = image
             
-            DispatchQueue.main.async {
-                self.collectionView.reloadItems(at: [indexPath])
+            if let indexPath = indexPath {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadItems(at: [indexPath])
+                }
             }
         }
     }
@@ -412,8 +414,13 @@ extension PaginatingCollectionViewController {
                              doNeedMore: Bool,
                              targetLayout: MostViewedArtworkFlowLayout) {
         
+        let result = data.values.sorted()
+        result.forEach{
+            self.databaseHandler.saveData(data: ArtworkModel(artwork: $0))
+            self.fetchImage(artwork: $0, indexPath: nil)
+        }
+        
         if doNeedMore {
-            let result = data.values.sorted()
             var indexList: [Int] = []
             
             self.currentKey = result.first?.artworkUid
@@ -437,8 +444,6 @@ extension PaginatingCollectionViewController {
             }
             
         } else {
-            let result = data.values.sorted()
-            
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
