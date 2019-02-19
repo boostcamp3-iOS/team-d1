@@ -127,6 +127,8 @@ class ArtistViewController: UIViewController {
     // MARK:- Set Layout
     private func setLayout() {
         view.addSubview(collectionView)
+        view.backgroundColor = .black
+        collectionView.backgroundColor = .black
         
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
