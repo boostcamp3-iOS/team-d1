@@ -260,7 +260,7 @@ class SignUpViewController: UIViewController {
                         assertionFailure("fetching uid from UserDefault failure")
                         return
                 }
-                let userData = UserData(uid: uid, description: "", nickName: "", email: email, artworks: [:])
+                let userData = UserData(uid: uid, description: "", nickName: name, email: email, artworks: [:])
                 let user = [uid: userData]
                 self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
                     switch result {
