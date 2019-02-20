@@ -208,7 +208,6 @@ class SignInViewController: UIViewController {
         let container = NetworkDependencyContainer()
         let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
         present(signUpPageViewController, animated: false, completion: nil)
-       // navigationController?.pushViewController(signUpPageViewController, animated: false)
     }
     
     @objc func confirmButtonDidTap() {

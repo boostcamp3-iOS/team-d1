@@ -256,7 +256,6 @@ class SignUpViewController: UIViewController {
         guard let email = inputEmailTextField.text,
             let password = inputPasswordTextField.text,
             let name = inputNameTextField.text else {
-                assertionFailure("text error")
                 return
         }
         serverAuth.signUp(email: email,
@@ -275,7 +274,6 @@ class SignUpViewController: UIViewController {
             case .success:
                 guard let email = UserDefaults.standard.string(forKey: "userId"),
                     let uid = UserDefaults.standard.string(forKey: "uid") else {
-                        assertionFailure("fetching uid from UserDefault failure")
                         return
                 }
                 let userData = UserData(uid: uid, description: "", nickName: name, email: email, artworks: [:])

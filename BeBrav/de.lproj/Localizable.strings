@@ -6,22 +6,55 @@
  Copyright © 2019 bumslap. All rights reserved.
  */
 
-"chooseFilterTitle" = "필터 방식 선택";
-"chooseFilterDescription" = "어떤 필터링을 적용할까요?";
-"color" = "흑백 / 컬러";
-"orientation" = "가로 / 세로";
-"temperature" = "색 온도";
-"cancel" = "취소";
+"chooseFilterTitle" = "Bildfilter auswählen";
+"chooseFilterDescription" = "Welche Art von Bildern möchtest du?";
+"color" = "Farbe";
+"orientation" = "Orientierung";
+"temperature" = "Temperatur";
+"cancel" = "Stornieren";
 
-"newArtwork" = "작품 등록하기";
-"newArtworkTitle" = "작품 등록";
-"artworkTitle" = "작품명을 입력해주세요.";
-"share" = "등록";
+"newArtwork" = "Teilen Sie neue Kunstwerke";
+"newArtworkTitle" = "Neues Kunstwerk";
+"artworkTitle" = "Schreibe einen Titel";
+"share" = "Aktie";
 
-"loadingImages" = "사진을 불러오는중";
-"photos" = "사진";
-"delete" = "삭제";
-"artist" = "작가";
-"edit" = "편집";
-"modification" = "수정";
-"done" = "확인";
+"loadingImages" = "Bilder laden";
+"artworks" = "Kunstwerke";
+"delete" = "Löschen";
+"artist" = "Künstler";
+"edit" = "Bearbeiten";
+"modification" = "Änderung";
+"done" = "Erledigt";
+
+"email" = "E-Mail";
+"enterEmail" = "Geben sie ihre E-Mail Adresse ein.";
+"isValidEmailMessage" = "Es ist keine gültige E-Mail.";
+
+"Password" = "Passwort";
+"enterPassword" = "Geben Sie Ihr Passwort ein.";
+"passwordCheckMessage" = "Passwort muss mindestens 6 Zeichen lang sein.";
+
+"signIn" = "Einloggen";
+"signInError" = "Fehler bei der Anmeldung";
+"signInErrorMessage" = "Überprüfen Sie E-Mail und Passwort";
+
+"name" = "Name";
+"enterName" = "Gib deinen Namen ein";
+
+"informationNotEnough" = "Es ist nicht genug Information.";
+"needMoreInformation"  = "Wünschen Sie weitere Informationen";
+
+"signInIsReady" = "Die Anmeldung ist fertig.";
+
+"doSignUp" = "Anmelden";
+"signUp" = "Anmelden";
+"signUpError" = "Anmeldefehler";
+"signUpFailarue" = "Anmeldung ist fehlgeschlagen.";
+
+"signUnDone" = "Erfolg Melden Sie sich an";
+
+"verifying" = "Überprüfung";
+
+"networkError" = "Netzwerkfehler";
+"imageNetworkErrorMessage" = "Ich kann kein Bildmaterial erhalten.";
+"artistNetworkErrorMessage" = "Künstlerbild kann nicht abgerufen werden.";
