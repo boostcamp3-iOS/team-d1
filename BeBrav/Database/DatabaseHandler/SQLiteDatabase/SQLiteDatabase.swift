@@ -151,15 +151,15 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     {
         let id = idFieldName(name: idField)
         let column = column != nil ? idFieldName(name: id) : "*"
-        
+
         var query = "SELECT \(column) FROM \(table)"
         var values: [[String: String]] = []
-        
+
         if !id.isEmpty && !idRow.isEmpty {
             let condition = condition?.rawValue ?? "="
-            query.append(" WHERE \(id) \(condition) \(idRow)")
+            query.append(" WHERE \(id) \(condition) '\(idRow)'")
         }
-        
+
         query.append(";")
         
         let statement = try prepare(query: query)

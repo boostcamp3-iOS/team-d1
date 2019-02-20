@@ -8,90 +8,90 @@
 
 import Foundation
 
-struct AuthorModel {
+struct ArtistModel {
     
     // MARK:- Properties
-    private let authorId: String
+    private let artistId: String
     public let name: String
-    public let introduction: String
+    public let description: String
     
     // MARK:- Initialize
     init(id: String,
          name: String,
-         introduction: String
+         description: String
         )
     {
-        self.authorId = id
+        self.artistId = id
         self.name = name
-        self.introduction = introduction
+        self.description = description
     }
 }
 
 // MARK:- ModelProtocol
-extension AuthorModel: DataModelProtocol {
+extension ArtistModel: DataModelProtocol {
     
     // MARK:- Properties
     public var id: String {
-        return authorId
+        return artistId
     }
     public var isEmpty: Bool {
         return id.isEmpty
             || name.isEmpty
     }
     public var tableName: String {
-        return "AuthorTable"
+        return "ArtistTable"
     }
     public var variableList: [String: String] {
         return [
             "name": name,
-            "introduction": introduction
+            "description": description
         ]
     }
     public var columns: [String] {
         return [
             "id",
             "name",
-            "introduction"
+            "description"
         ]
     }
     public var rows: [Int: String] {
         return [
-            0: authorId,
+            0: artistId,
             1: name,
-            2: introduction
+            2: description
         ]
     }
     
     // MARK:- Set Data
     func setData(data: [String: String]) -> DataModelProtocol {
-        return AuthorModel(data: data)
+        return ArtistModel(data: data)
     }
     
     // MARK:- Is Equal
     func isEqual(model: DataModelProtocol) -> Bool {
-        guard let author =  model as? AuthorModel else { return false }
+        guard let artist =  model as? ArtistModel else { return false }
         
-        return self == author
+        return self == artist
     }
     
     // MARK;- Initialize
     init() {
-        self.authorId = ""
+        self.artistId = ""
         self.name = ""
-        self.introduction = ""
+        self.description = ""
     }
     
     init(data: [String: String]) {
-        self.authorId = data["id"] ?? ""
+        self.artistId = data["id"] ?? ""
         self.name = data["name"] ?? ""
-        self.introduction = data["introduction"] ?? ""
+        self.description = data["description"] ?? ""
     }
 }
 
-extension AuthorModel: Equatable {
-    static func == (lhs: AuthorModel, rhs: AuthorModel) -> Bool {
+extension ArtistModel: Equatable {
+    static func == (lhs: ArtistModel, rhs: ArtistModel) -> Bool {
         return lhs.id == rhs.id
             && lhs.name == rhs.name
-            && lhs.introduction == rhs.introduction
+            && lhs.description == rhs.description
     }
 }

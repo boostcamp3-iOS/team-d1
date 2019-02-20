@@ -23,8 +23,8 @@
 		1D5EF1B1FAE73846D0BAA17A325095A3 /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C6AEB1769CA460FCD6D64A60B89901 /* URLSessionDataTaskProtocol.swift */; };
 		2097C62430E7D734A611906E6C0B61BC /* MockTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AC0180C138C4C7D5AD2C4EE736141C /* MockTask.swift */; };
 		211FBA60439DEAAAC8A1E6D377CDC6A6 /* MemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ECD49F46264635932A4B4A8CFA937A /* MemoryCache.swift */; };
+		2496439991B54D656D6F1AAEF08A1AA5 /* ArtworkListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF813E8D8644A8767250AEEB48A08274 /* ArtworkListHeaderCollectionReusableView.swift */; };
 		292B096C43F8DF0EA977A04670E00547 /* ImageCacheFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3C5688A77548E2B8F5FA0221BB1F73 /* ImageCacheFactory.swift */; };
-		2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB506BA71E83F3BE05DDB95733CAD941 /* AuthorModel.swift */; };
 		2F26FB1727BAA0ECC282178DE4A17305 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E139F3AF0EFEE51C62C2324FCA7CDB0A /* DatabaseHandler.swift */; };
 		2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84648E41E9FD5355B4EB35AC6E95D658 /* DatabaseFactory.swift */; };
 		32886731291B8F3376FD0383D4E50A5B /* DiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE0FE04E2D414B078E191CCB75882E /* DiskCache.swift */; };
@@ -36,10 +36,10 @@
 		462F59B96E598ECA555948C20D1A0745 /* DiskCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092B8413EBFE5FB2D4DAB25A36F140AD /* DiskCacheStub.swift */; };
 		48BDD2DCF427AC1D03FA945D9534177B /* ImageLoaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091931DA73529448A8ADBF82C812EE54 /* ImageLoaderStub.swift */; };
 		4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE03B5039BCE2D3E2411330E36563E1 /* DataModelProtocol.swift */; };
-		4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */; };
 		4DD430029C9AE37D53985633D109E1D1 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F872876D58B995CA2E6CB9EB7A92BCA5 /* LoadingIndicator.swift */; };
 		5016B0320CA7A84D19BE5990FFBB2357 /* OffsetPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE86350BDBF5A12C77D792A461E5BE4 /* OffsetPointer.swift */; };
 		516A901AD3256DFA491A7B5477DA1707 /* PagingControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001388F37F9B33FB6291D063F915791E /* PagingControlDelegate.swift */; };
+		5F082232B4175A144662B8B06C33ABDB /* CollectionViewControllerPresentAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EE6FF1D94AD79F2EF83B5C71A6B799 /* CollectionViewControllerPresentAnimator.swift */; };
 		5FDAA1790C83B8B32FC46DF8456AD4C0 /* BeBravUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6AB31456A5D684D0087292DEF0967C /* BeBravUnitTests.swift */; };
 		6036F80446995F40FAF6ADF6891F6628 /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB6CDE054DD8ACC816E8EC949B7C1F /* ServerAuth.swift */; };
 		629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64957DB209F471C5FBA74824EE5FA038 /* Dispatcher.swift */; };
@@ -57,8 +57,8 @@
 		99005F0269E6820E6F4BAD138BFD3057 /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
-		A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */; };
 		A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */; };
+		A9ABE57AB2DD110A7CA90C6C7484C501 /* ArtistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AAD50E466B2EDCDC5BF313E7079714 /* ArtistModel.swift */; };
 		AC549D02F07721DE2607B63D51F03FBD /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */; };
 		AC97BBB06F27F0D242EFC9C509C8E670 /* MemoryCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1FDA22D83F836B071CD67E5989BC3 /* MemoryCacheStub.swift */; };
 		AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */; };
@@ -79,13 +79,13 @@
 		CE9EF046EE3B691025493D118DD2E2A7 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63799CA19F8EA6CCDE340FAFEECD7D85 /* MockSession.swift */; };
 		D309244F2E68AE729E4BC4B3277174DF /* ArtAddCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */; };
 		D82B19EA31F2FC74D8AF3E4F3B145C1D /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */; };
-		E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */; };
 		E2359D6E25A2B79182D53947E517B7DB /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4189D1BC048CDBA568A72B92A407DC7 /* NetworkSeperatable.swift */; };
 		E26C2D0FD051060AD9502D54677B6640 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DB9EDACD7F9456480C533093715665 /* UIImage+.swift */; };
 		E5EC5314AE153480142C527B09F5A1BD /* DiskCacheError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5432B97DFB81F63EF28B904BDAE982 /* DiskCacheError.swift */; };
 		E978DC55BF5BB4D20A81BE17714D9B12 /* ImageCacheFactoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5B05FF6F95AC04BD180BC4D3088D01 /* ImageCacheFactoryProtocol.swift */; };
 		EDCAC6E4E6B8161FD98B25AEEFEBB524 /* MostViewedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF3450565235E459F496CCF0C6D22E5 /* MostViewedCollectionViewLayout.swift */; };
 		EF546B8D3F597DB330B48A43270328F9 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23EF2EC595B253068238A8C0BF112319 /* ResponseParser.swift */; };
+		F6155DAF3F7A7C9B3DCDB9F2EDFA5284 /* ArtworkListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF2EB54315150AFB4EF0645E61DF6EC /* ArtworkListCollectionViewCell.swift */; };
 		F6750468E7FC992A59A3CAB05A5E837B /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2588CB7318EB3C7D3BBBEFC19E760B98 /* ServerManager.swift */; };
 		F6DF953343175B3F542310331596B604 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803D284F9C90EFA9404E2B83501FB0F9 /* SQLiteDatabase.swift */; };
 		F768BDF216682A14A45F2C5DB9D10F93 /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */; };
@@ -109,7 +109,6 @@
 		091931DA73529448A8ADBF82C812EE54 /* ImageLoaderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderStub.swift; sourceTree = "<group>"; };
 		092B8413EBFE5FB2D4DAB25A36F140AD /* DiskCacheStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskCacheStub.swift; sourceTree = "<group>"; };
 		0A8F61C7BB2E878A2478910D1FF3763B /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
-		0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C155042BBAB2EBC2C17EE5971B95C98 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		1285B46C1A38F8A4E0F61F4FCE712C01 /* FileManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerProtocol.swift; sourceTree = "<group>"; };
@@ -151,7 +150,6 @@
 		92011610F0CBDF804E47737086A8E867 /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEndPoint.swift; sourceTree = "<group>"; };
 		926F3EA2607F67AF8410EAF1374AE908 /* BeBravUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeBravUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistDetailHeaderView.swift; sourceTree = "<group>"; };
-		95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginatingViewControllerPresentAnimator.swift; sourceTree = "<group>"; };
 		9887D1F0DB948BE7109D35E4F8F6EBA0 /* ServerDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDatabase.swift; sourceTree = "<group>"; };
 		98B76BB296301BBF388E12724510642F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
@@ -159,12 +157,13 @@
 		AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		ABD33DF6295E76A866F1E854C4AEF5C5 /* ArtworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkModel.swift; sourceTree = "<group>"; };
 		AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		AF813E8D8644A8767250AEEB48A08274 /* ArtworkListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		B101B2C2ACD2B7795BFACE4FA1411F7D /* RequestMakable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
 		B2ECD49F46264635932A4B4A8CFA937A /* MemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCache.swift; sourceTree = "<group>"; };
+		B2EE6FF1D94AD79F2EF83B5C71A6B799 /* CollectionViewControllerPresentAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewControllerPresentAnimator.swift; sourceTree = "<group>"; };
 		B3CBB887A7B21BB4DED8BE715563060E /* LayoutModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutModel.swift; sourceTree = "<group>"; };
 		B5222EF608F2264D56B76B3438472BEB /* ArtworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkViewController.swift; sourceTree = "<group>"; };
 		BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
-		C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		C65CC1C8D944EA8F670DBF032B36F48B /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
 		CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
 		CFC174174B5BD2C50CFDE28C6DB82A94 /* ArtworkModelForNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkModelForNetwork.swift; sourceTree = "<group>"; };
@@ -183,14 +182,15 @@
 		DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseStub.swift; sourceTree = "<group>"; };
 		E139F3AF0EFEE51C62C2324FCA7CDB0A /* DatabaseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
 		E5E1FDA22D83F836B071CD67E5989BC3 /* MemoryCacheStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheStub.swift; sourceTree = "<group>"; };
+		E8AAD50E466B2EDCDC5BF313E7079714 /* ArtistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistModel.swift; sourceTree = "<group>"; };
 		EB3DA7E9F937A8B11C3F4E6F3A497267 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		EC8759DD832A451C2AC65E25222B8B7F /* ArtAddCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtAddCollectionViewController.swift; sourceTree = "<group>"; };
+		EDF2EB54315150AFB4EF0645E61DF6EC /* ArtworkListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkListCollectionViewCell.swift; sourceTree = "<group>"; };
 		EE6762080CE72848B6F6B95FDD2AE9CA /* PaginatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatingCell.swift; sourceTree = "<group>"; };
 		F3912ECE393A1735C4FCE64144045A13 /* ImageLoaderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderProtocol.swift; sourceTree = "<group>"; };
 		F4189D1BC048CDBA568A72B92A407DC7 /* NetworkSeperatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeperatable.swift; sourceTree = "<group>"; };
 		F7AB2B50385F4848EC0907AE79FB9CED /* PaginatingCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatingCollectionViewController.swift; sourceTree = "<group>"; };
 		F872876D58B995CA2E6CB9EB7A92BCA5 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
-		FB506BA71E83F3BE05DDB95733CAD941 /* AuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorModel.swift; sourceTree = "<group>"; };
 		FDE86350BDBF5A12C77D792A461E5BE4 /* OffsetPointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffsetPointer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,8 +242,8 @@
 		0C2FFFE82E53D6904FEB564FFD935808 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				E8AAD50E466B2EDCDC5BF313E7079714 /* ArtistModel.swift */,
 				ABD33DF6295E76A866F1E854C4AEF5C5 /* ArtworkModel.swift */,
-				FB506BA71E83F3BE05DDB95733CAD941 /* AuthorModel.swift */,
 				4BE03B5039BCE2D3E2411330E36563E1 /* DataModelProtocol.swift */,
 			);
 			path = DataModel;
@@ -364,6 +364,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		65E9B8C6484F205AF9D7C09C51BDFB00 /* ViewControllerPresentAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				B2EE6FF1D94AD79F2EF83B5C71A6B799 /* CollectionViewControllerPresentAnimator.swift */,
+			);
+			path = ViewControllerPresentAnimator;
+			sourceTree = "<group>";
+		};
 		673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +381,7 @@
 				3B4D2FFC8D3D0C64791730C3CAE912D1 /* Extension */,
 				6895BEC6042EB2B9A18B3199C3603662 /* MainViewController */,
 				F99A3A9950F6BADA9B725F0A8BB08AEE /* SignInAndSignUpViewController */,
+				65E9B8C6484F205AF9D7C09C51BDFB00 /* ViewControllerPresentAnimator */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -381,7 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				F7AB2B50385F4848EC0907AE79FB9CED /* PaginatingCollectionViewController.swift */,
-				95A21773E8CCECC3E01FC9FF5E994DBD /* PaginatingViewControllerPresentAnimator.swift */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -489,8 +497,8 @@
 			children = (
 				95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */,
 				246006B460246CD2BAC67C717ADBEBA8 /* ArtistViewController.swift */,
-				0A9EA216BEF1D6C5956D1585A3EEA17B /* PhotoListCollectionViewCell.swift */,
-				C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */,
+				EDF2EB54315150AFB4EF0645E61DF6EC /* ArtworkListCollectionViewCell.swift */,
+				AF813E8D8644A8767250AEEB48A08274 /* ArtworkListHeaderCollectionReusableView.swift */,
 			);
 			path = ArtistViewController;
 			sourceTree = "<group>";
@@ -756,12 +764,15 @@
 				D309244F2E68AE729E4BC4B3277174DF /* ArtAddCollectionViewController.swift in Sources */,
 				1233AB81CDBBA83FF416FAB509FADA1E /* ArtAddViewController.swift in Sources */,
 				422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */,
+				A9ABE57AB2DD110A7CA90C6C7484C501 /* ArtistModel.swift in Sources */,
 				AD04133C229C107735462E39A4A375B0 /* ArtistViewController.swift in Sources */,
 				05C038C29697A002931EBEB5FC7771EE /* ArtworkAddFooterReusableView.swift in Sources */,
+				F6155DAF3F7A7C9B3DCDB9F2EDFA5284 /* ArtworkListCollectionViewCell.swift in Sources */,
+				2496439991B54D656D6F1AAEF08A1AA5 /* ArtworkListHeaderCollectionReusableView.swift in Sources */,
 				08C1AFFB5C7D3CC77B615E2F4FEAE92D /* ArtworkModel.swift in Sources */,
 				6E8E808640FAD1A085145BD5FD666A9C /* ArtworkModelForNetwork.swift in Sources */,
 				83C50A133091BF50F121C0A047A2219C /* ArtworkViewController.swift in Sources */,
-				2B5584F28D1F25FCAEC759EF2DFED700 /* AuthorModel.swift in Sources */,
+				5F082232B4175A144662B8B06C33ABDB /* CollectionViewControllerPresentAnimator.swift in Sources */,
 				4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */,
 				2F99877C97F7D2E7E903E20DD5D3832F /* DatabaseFactory.swift in Sources */,
 				138C2752E3876B8A3F05860E77C890D5 /* DatabaseFactoryProtocol.swift in Sources */,
@@ -808,10 +819,7 @@
 				5016B0320CA7A84D19BE5990FFBB2357 /* OffsetPointer.swift in Sources */,
 				35FB4348F69BF9011551160B5986723A /* PaginatingCell.swift in Sources */,
 				704F35A290C025709E477385A7C6F10A /* PaginatingCollectionViewController.swift in Sources */,
-				A11223745E1B183CC8489CC052DA65D9 /* PaginatingViewControllerPresentAnimator.swift in Sources */,
 				516A901AD3256DFA491A7B5477DA1707 /* PagingControlDelegate.swift in Sources */,
-				E1FC68BC9E358FBE460BC5DD66A99705 /* PhotoListCollectionViewCell.swift in Sources */,
-				4D41570FCB25A68B3E86B51D3F1A56FE /* PhotoListHeaderCollectionReusableView.swift in Sources */,
 				BF293ABDA0A02218C8A622E6C9339079 /* RequestMakable.swift in Sources */,
 				B1E6CE5F021886B81896B1FAE21F0E99 /* RequestMaker.swift in Sources */,
 				EF546B8D3F597DB330B48A43270328F9 /* ResponseParser.swift in Sources */,
