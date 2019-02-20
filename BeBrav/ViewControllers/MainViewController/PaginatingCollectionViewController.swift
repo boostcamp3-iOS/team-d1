@@ -134,7 +134,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             layout.minimumInteritemSpacing = 0
             layout.sectionFootersPinToVisibleBounds = true
             layout.minimumLineSpacing = padding
-            layout.fetchPage = pageSize
+            
         }
     }
     
@@ -286,7 +286,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return
         }
         layout.layoutRefresh()
-        layout.fetchPage = pageSize
+        //layout.fetchPage = pageSize
         isEndOfData = false
         isLoading = false
         recentTimestamp = nil
@@ -314,7 +314,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
 
         let artwork = artworkBucket[indexPath.row]
         
-        if let image = thumbImage[artwork.artworkUid]?.scale(with: 0.4) {
+        if let image = thumbImage[artwork.artworkUid] {
             cell.artworkImageView.image = image
             thumbImage.removeValue(forKey: artwork.artworkUid)
         } else {
@@ -528,9 +528,8 @@ extension PaginatingCollectionViewController {
             
             if result.count < self.batchSize {
                 self.isEndOfData = true
-                targetLayout.fetchPage = result.count
             }
-            
+            targetLayout.fetchPage = result.count
             let infoBucket =
                 self.calculateCellInfo(fetchedData: result,
                                        batchSize: self.itemsPerScreen)
@@ -540,6 +539,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                
                 self.collectionView.reloadData()
             }
             defer {

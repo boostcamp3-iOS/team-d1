@@ -19,15 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
         let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
-        
-//        let mainViewController = ExampleViewController()//PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
+
+        let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: DatabaseHandler())
         
         //let newRootViewController = UINavigationController(rootViewController: mainViewController)
         let container = NetworkDependencyContainer()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.rootViewController = UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))//mainViewController//
+        window?.rootViewController = UINavigationController(rootViewController: mainViewController) // UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))//mainViewController//
         window?.makeKeyAndVisible()
         return true
     }
