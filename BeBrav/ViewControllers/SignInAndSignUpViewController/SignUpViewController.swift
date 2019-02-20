@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
     private let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.noticeLabel.text = "verifying"
+        indicator.noticeLabel.text = "verifying".localized
         return indicator
     }()
     
@@ -50,9 +50,9 @@ class SignUpViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
-        textField.placeholder = "이메일"
+        textField.placeholder = "email".localized
         textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string:"이메일",
+        textField.attributedPlaceholder = NSAttributedString(string:"email".localized,
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -61,7 +61,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "이메일 주소를 입력해주세요"
+        label.text = "enterEmail".localized
         label.textColor = .white
         return label
     }()
@@ -74,7 +74,7 @@ class SignUpViewController: UIViewController {
         textField.textContentType = .newPassword
         textField.autocapitalizationType = .none
         textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string:"비밀번호",
+        textField.attributedPlaceholder = NSAttributedString(string:"Password".localized,
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -83,7 +83,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "비밀번호를 입력해주세요"
+        label.text = "enterPassword".localized
         label.textColor = .white
         return label
     }()
@@ -97,7 +97,7 @@ class SignUpViewController: UIViewController {
         textField.textContentType = .username
         textField.autocapitalizationType = .none
         textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string:"이름",
+        textField.attributedPlaceholder = NSAttributedString(string:"name".localized,
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -106,7 +106,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "이름를 입력해주세요"
+        label.text = "enterName".localized
         label.textColor = .white
         return label
     }()
@@ -115,7 +115,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "아직 정보가 부족합니다."
+        label.text = "informationNotEnough".localized
         label.textColor = .red
         return label
     }()
@@ -126,7 +126,7 @@ class SignUpViewController: UIViewController {
         button.backgroundColor = .lightGray
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
-        button.setTitle("가입 완료", for: .normal)
+        button.setTitle("signUpDone".localized, for: .normal)
         button.isEnabled = false
         return button
     }()
@@ -154,7 +154,7 @@ class SignUpViewController: UIViewController {
     
     func setLayout() {
         
-        navigationItem.title = "회원가입"
+        navigationItem.title = "signUp".localized
         
         view.addSubview(signUpScrollView)
         
@@ -263,10 +263,10 @@ class SignUpViewController: UIViewController {
             switch result {
             case .failure:
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "회원가입 오류",
-                                                  message: "회원가입에 실패하였습니다.",
+                    let alert = UIAlertController(title: "signUpError".localized,
+                                                  message: "signUpFailarue".localized,
                                                   preferredStyle: .alert)
-                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    let action = UIAlertAction(title: "done".localized, style: .default, handler: nil)
                     alert.addAction(action)
                     self.loadingIndicator.deactivateIndicatorView()
                     self.present(alert, animated: false, completion: nil)
@@ -282,10 +282,10 @@ class SignUpViewController: UIViewController {
                     switch result {
                     case .failure(let error):
                         DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "회원가입 오류",
-                                                          message: "회원가입에 실패하였습니다.",
+                            let alert = UIAlertController(title: "signUpError".localized,
+                                                          message: "signUpFailarue".localized,
                                                           preferredStyle: .alert)
-                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                            let action = UIAlertAction(title: "done".localized, style: .default, handler: nil)
                             alert.addAction(action)
                             self.loadingIndicator.deactivateIndicatorView()
                             self.present(alert, animated: false, completion: nil)
@@ -319,11 +319,11 @@ extension SignUpViewController: UITextFieldDelegate {
         }
         // 튜플 이용해서 안내사항 보여줄지 고민중입니다
         if textField == inputEmailTextField {
-            return (text.isValidEmail(), "유효한 이메일이 아닙니다.")
+            return (text.isValidEmail(), "isValidEmailMessage".localized)
         } else if textField == inputPasswordTextField {
-            return (text.count >= 6, "비밀번호가 6자 이상이어야 합니다.")
+            return (text.count >= 6, "passwordCheckMessage".localized)
         } else {
-            return (!text.isEmpty, "정보가 더 필요합니다")
+            return (!text.isEmpty, "needMoreInformation".localized)
         }
     }
     
@@ -336,14 +336,14 @@ extension SignUpViewController: UITextFieldDelegate {
             guard valid else {
                 isValid = false
                 approveButton.backgroundColor = .lightGray
-                fixedConfirmLabel.text = "아직 정보가 더 필요합니다"
+                fixedConfirmLabel.text = "needMoreInformation".localized
                 fixedConfirmLabel.textColor = .red
                 return
             }
         }
         approveButton.isEnabled = isValid
         approveButton.backgroundColor = UIColor(named: "keyColor")
-        fixedConfirmLabel.text = "준비가 완료되었습니다."
+        fixedConfirmLabel.text = "signInIsReady".localized
         fixedConfirmLabel.textColor = UIColor(named: "keyColor")
     }
 }

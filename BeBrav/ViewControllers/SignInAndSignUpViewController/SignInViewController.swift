@@ -38,7 +38,7 @@ class SignInViewController: UIViewController {
     private let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.noticeLabel.text = "verifying"
+        indicator.noticeLabel.text = "verifying".localized
         return indicator
     }()
     
@@ -49,9 +49,9 @@ class SignInViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
-        textField.placeholder = "이메일"
+        textField.placeholder = "email".localized
         textField.textColor = .white
-        textField.attributedPlaceholder = NSAttributedString(string:"이메일",
+        textField.attributedPlaceholder = NSAttributedString(string:"email".localized,
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -60,7 +60,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "이메일 주소를 입력해주세요"
+        label.text = "enterEmail".localized
         label.textColor = .white
         return label
     }()
@@ -74,8 +74,8 @@ class SignInViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
         textField.textColor = .white
-        textField.placeholder = "비밀번호"
-        textField.attributedPlaceholder = NSAttributedString(string:"비밀번호",
+        textField.placeholder = "Password".localized
+        textField.attributedPlaceholder = NSAttributedString(string:"Password".localized,
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -84,7 +84,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "비밀번호를 입력해주세요"
+        label.text = "enterPassword".localized
         label.textColor = .white
         return label
     }()
@@ -95,7 +95,7 @@ class SignInViewController: UIViewController {
         button.backgroundColor = .lightGray
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
-        button.setTitle("로그인", for: .normal)
+        button.setTitle("signIn".localized, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.isEnabled = false
         return button
@@ -109,7 +109,7 @@ class SignInViewController: UIViewController {
         textFields = [ inputPasswordTextField,
                        inputEmailTextField
         ]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "가입하기", style: .plain, target: self, action: #selector(signUpButtonDidTap))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "doSignUp".localized, style: .plain, target: self, action: #selector(signUpButtonDidTap))
         NotificationCenter.default.addObserver(self, selector: #selector(handleShowKeyboard), name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleHideKeyboard), name: UIWindow.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange(_:)), name: UITextField.textDidChangeNotification, object: nil)
@@ -120,7 +120,7 @@ class SignInViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "backgroundColor")
         
-        navigationItem.title = "로그인"
+        navigationItem.title = "signIn".localized
         let font = UIFont.boldSystemFont(ofSize: 22)
        
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: font,
@@ -219,10 +219,10 @@ class SignInViewController: UIViewController {
             case .failure:
                 
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "로그인 오류",
-                                                  message: "아이디 / 비밀번호를 확인해주세요",
+                    let alert = UIAlertController(title: "signInError".localized,
+                                                  message: "signInErrorMessage".localized,
                                                   preferredStyle: .alert)
-                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    let action = UIAlertAction(title: "done".localized, style: .default, handler: nil)
                     alert.addAction(action)
                     self.loadingIndicator.deactivateIndicatorView()
                     self.present(alert, animated: false, completion: nil)

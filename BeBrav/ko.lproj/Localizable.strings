@@ -17,6 +17,7 @@
 "newArtworkTitle" = "작품 등록";
 "artworkTitle" = "작품명을 입력해주세요.";
 "share" = "등록";
+"views" = "조회수";
 
 "loadingImages" = "사진을 불러오는중";
 "artworks" = "사진";
@@ -46,12 +47,12 @@
 
 "signInIsReady" = "준비가 완료되었습니다.";
 
-"doSignUp" = "가입";
+"doSignUp" = "가입하기";
 "signUp" = "회원가입";
 "signUpError" = "회원가입 오류";
 "signUpFailarue" = "회원가입에 실패하였습니다.";
 
-"signUnDone" = "가입 완료";
+"signUpDone" = "가입 완료";
 
 "verifying" = "인증 확인중";
 

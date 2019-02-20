@@ -25,6 +25,7 @@
 "edit" = "Bearbeiten";
 "modification" = "Änderung";
 "done" = "Erledigt";
+"views" = "Ansichten";
 
 "email" = "E-Mail";
 "enterEmail" = "Geben sie ihre E-Mail Adresse ein.";
@@ -51,7 +52,7 @@
 "signUpError" = "Anmeldefehler";
 "signUpFailarue" = "Anmeldung ist fehlgeschlagen.";
 
-"signUnDone" = "Erfolg Melden Sie sich an";
+"signUpDone" = "Erfolg Melden Sie sich an";
 
 "verifying" = "Überprüfung";
 

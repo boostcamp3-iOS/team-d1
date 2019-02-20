@@ -25,6 +25,7 @@
 "edit" = "تصحيح";
 "modification" = "تعديل";
 "done" = "فعله";
+"views" = "الآراء";
 
 "email" = "البريد الإلكتروني";
 "enterEmail" = "أدخل بريدك الالكتروني.";
@@ -51,7 +52,7 @@
 "signUpError" = "خطأ في التسجيل";
 "signUpFailarue" = "التسجيل هو الفشل";
 
-"signUnDone" = "نجاح التسجيل";
+"signUpDone" = "نجاح التسجيل";
 
 "verifying" = "التحقق";
 

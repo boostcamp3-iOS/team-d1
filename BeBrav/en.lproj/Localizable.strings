@@ -25,6 +25,7 @@
 "edit" = "Edit";
 "modification" = "Modification";
 "done" = "Done";
+"views" = "Views";
 
 "email" = "E-Mail";
 "enterEmail" = "Enter your E-Mail.";
@@ -51,7 +52,7 @@
 "signUpError" = "Sign Up error";
 "signUpFailarue" = "Sign Up is failure.";
 
-"signUnDone" = "Success Sign Up";
+"signUpDone" = "Sign Up";
 
 "verifying" = "Verifying";
 
