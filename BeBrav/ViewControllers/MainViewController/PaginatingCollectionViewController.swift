@@ -626,7 +626,7 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
             return nil
         }
         
-        let transition = PaginatingViewControllerPresentAnimator()
+        let transition = CollectionViewControllerPresentAnimator()
         
         transition.viewFrame = view.frame
         transition.originFrame = collectionView.convert(cell.frame, to: nil)
