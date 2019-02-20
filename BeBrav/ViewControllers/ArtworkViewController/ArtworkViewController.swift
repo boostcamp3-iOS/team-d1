@@ -82,7 +82,7 @@ class ArtworkViewController: UIViewController {
     }
     public var isPeeked = false {
         didSet {
-            view.backgroundColor = isPeeked ? .clear : .black
+            view.backgroundColor = isPeeked ? .clear : #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
             closeButton.isHidden = isPeeked
         }
     }
@@ -287,7 +287,7 @@ class ArtworkViewController: UIViewController {
             })
         }
         
-        view.backgroundColor = isAnimating ? .clear : .black
+        view.backgroundColor = isAnimating ? .clear : #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
     }
     
     // MARK:- Touch up close button

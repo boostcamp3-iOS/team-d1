@@ -37,7 +37,7 @@ struct ServerManager {
                                         completion(.failure(APIError.invalidData))
                                         return
                                 }
-                                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
+                                let userData = UserData(uid: uid, description: "", nickName: "", email: email, artworks: [:])
                                 let user = [uid: userData]
                                 self.databaseManager.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
                                     switch result {

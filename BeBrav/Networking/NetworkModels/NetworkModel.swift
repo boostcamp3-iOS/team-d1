@@ -55,9 +55,9 @@ struct FirebaseUidData: Decodable {
 
 struct UserData: Encodable {
     let uid: String
+    let description: String
     let nickName: String
     let email: String
-    let userProfileUrl: String
     let artworks: [String: ArtworkEncodeType]
 }
 

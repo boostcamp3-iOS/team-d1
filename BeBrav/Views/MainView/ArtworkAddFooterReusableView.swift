@@ -31,6 +31,7 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
+        UIView.setAnimationsEnabled(false)
     }
     
     required init?(coder aDecoder: NSCoder) {
