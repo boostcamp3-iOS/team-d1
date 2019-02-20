@@ -350,17 +350,19 @@ extension PaginatingCollectionViewController {
                               queries: queries) {
                                 (result, response) in
                     switch result {
-                                case .failure:
-                                    self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
-                                                               isOn: false, // TODO: 분류 필터 기능 추가후 수정
-                                                               doNeedMore: false,
-                                                               targetLayout: layout)
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: true,
-                                                     targetLayout: layout)
-                                }
+                    case .failure:
+                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
+                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: true,
+                                         targetLayout: layout)
+                    }
                 }
+            }
+        }
     }
     
     private func fetchDataFromDatabase(filter: FilterType, isOn: Bool, doNeedMore: Bool, targetLayout: MostViewedArtworkFlowLayout) {
@@ -689,3 +691,4 @@ fileprivate enum FilterType {
     case temperature
     case none
 
+}
