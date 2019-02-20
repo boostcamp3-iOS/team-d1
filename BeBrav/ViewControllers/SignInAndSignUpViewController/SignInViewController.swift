@@ -50,6 +50,9 @@ class SignInViewController: UIViewController {
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
         textField.placeholder = "이메일"
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string:"이메일",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
     
@@ -58,6 +61,7 @@ class SignInViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "이메일 주소를 입력해주세요"
+        label.textColor = .white
         return label
     }()
     
@@ -69,7 +73,10 @@ class SignInViewController: UIViewController {
         textField.textContentType = .password
         textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
+        textField.textColor = .white
         textField.placeholder = "비밀번호"
+        textField.attributedPlaceholder = NSAttributedString(string:"비밀번호",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
     
@@ -78,6 +85,7 @@ class SignInViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "비밀번호를 입력해주세요"
+        label.textColor = .white
         return label
     }()
     
@@ -88,6 +96,7 @@ class SignInViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         button.setTitle("로그인", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.isEnabled = false
         return button
     }()
@@ -109,7 +118,15 @@ class SignInViewController: UIViewController {
     
     func setLayout() {
         
+        view.backgroundColor = UIColor(named: "backgroundColor")
+        
         navigationItem.title = "로그인"
+        let font = UIFont.boldSystemFont(ofSize: 22)
+       
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: font,
+                                                            NSAttributedString.Key.foregroundColor: UIColor(named: "backgroundColor")
+        ]
+        
         
         view.addSubview(signUpScrollView)
         
@@ -190,7 +207,8 @@ class SignInViewController: UIViewController {
     @objc func signUpButtonDidTap() {
         let container = NetworkDependencyContainer()
         let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
-        navigationController?.pushViewController(signUpPageViewController, animated: false)
+        present(signUpPageViewController, animated: false, completion: nil)
+       // navigationController?.pushViewController(signUpPageViewController, animated: false)
     }
     
     @objc func confirmButtonDidTap() {

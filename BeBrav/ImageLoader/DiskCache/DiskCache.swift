@@ -55,7 +55,7 @@ class DiskCache: DiskCacheProtocol {
         let folder = try folderURL(name: folderName)
         let fileDirectory = folder.appendingPathComponent(name)
         
-        guard fileManager.fileExists(atPath: fileDirectory.path) else {
+        guard !fileManager.fileExists(atPath: fileDirectory.path) else {
             return
         }
         

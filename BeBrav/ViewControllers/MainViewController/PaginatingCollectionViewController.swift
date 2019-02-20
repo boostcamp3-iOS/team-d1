@@ -99,6 +99,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "BeBrav"
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: UIScreen.main.bounds.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
                 batchSize = itemsPerScreen * pageSize
@@ -122,6 +123,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.register(PaginatingCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
         //collectionView.prefetchDataSource = self //TODO: 이미지로더 구현이후 적용
         collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
         
@@ -241,7 +243,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
 
         let artwork = artworkBucket[indexPath.row]
         
-        if let image = thumbImage[artwork.artworkUid]?.scale(with: 0.4) {
+        if let image = thumbImage[artwork.artworkUid] {
             cell.artworkImageView.image = image
             thumbImage.removeValue(forKey: artwork.artworkUid)
         } else {
@@ -461,7 +463,7 @@ extension PaginatingCollectionViewController {
         
         if maxOffset - currentOffset <= 40{
             if !isLoading {
-                collectionView.layoutIfNeeded()
+                //collectionView.layoutIfNeeded()
                 fetchPages()
             }
         }
@@ -469,19 +471,16 @@ extension PaginatingCollectionViewController {
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         latestContentsOffset = scrollView.contentOffset.y;
+        print(scrollView.contentOffset.y)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 0 {
             if self.latestContentsOffset > scrollView.contentOffset.y {
-                UIView.animate(withDuration: 1) {
                 self.footerView?.addArtworkButton.alpha = 1
-                }
             }
             else if (self.latestContentsOffset < scrollView.contentOffset.y) {
-                UIView.animate(withDuration: 1) {
                     self.footerView?.addArtworkButton.alpha = 0
-                }
             }
         }
     }

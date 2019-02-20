@@ -32,7 +32,6 @@
 		3EA2FFDA96F095805912F21D9C3F6552 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEE98627F0B2B8813A66E67C81A00EE /* String+.swift */; };
 		422EC39B0A5F41DF7CAA9376F6ADE96B /* ArtistDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95456023B00B453E21B107A11A140CA5 /* ArtistDetailHeaderView.swift */; };
 		42A0535864150D885710EA553D8E0A2D /* NetworkFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */; };
-		445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */; };
 		462F59B96E598ECA555948C20D1A0745 /* DiskCacheStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092B8413EBFE5FB2D4DAB25A36F140AD /* DiskCacheStub.swift */; };
 		48BDD2DCF427AC1D03FA945D9534177B /* ImageLoaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091931DA73529448A8ADBF82C812EE54 /* ImageLoaderStub.swift */; };
 		4CEC83D34719021DA7FBDAEAC040BFCF /* DataModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE03B5039BCE2D3E2411330E36563E1 /* DataModelProtocol.swift */; };
@@ -72,6 +71,7 @@
 		BF293ABDA0A02218C8A622E6C9339079 /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B101B2C2ACD2B7795BFACE4FA1411F7D /* RequestMakable.swift */; };
 		C6A810DE2CEB3673D8F1910EC7DF982D /* SQLiteDatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2851E888CFFD59116FA629E2F344F668 /* SQLiteDatabaseProtocol.swift */; };
 		C7FE81959E804D2CCAF18A1DEF05EE35 /* MockDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647910DED3DD0A9AAEE9B5084EF998FF /* MockDataTask.swift */; };
+		C94BA2CB221C2C9600EF8880 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C94BA2CA221C2C9600EF8880 /* Launch Screen.storyboard */; };
 		CA4966938FE397217278B2F57E30AF75 /* NetworkDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98CDC56DD0583A2D4A0C1E7FEAC492A /* NetworkDependencyContainer.swift */; };
 		CC3662985B7CEEEE359E38BC36C0DA4C /* SQLiteDatabaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE797299AF89591F326E15764C1FD44F /* SQLiteDatabaseStub.swift */; };
 		CC40F573CDA90F09A092EB33C4C30B88 /* LayoutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CBB887A7B21BB4DED8BE715563060E /* LayoutModel.swift */; };
@@ -135,7 +135,6 @@
 		650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseStorageService.swift; sourceTree = "<group>"; };
 		69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6C0DD253572421B2E12F6B61F0F333F3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		6F3C5688A77548E2B8F5FA0221BB1F73 /* ImageCacheFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheFactory.swift; sourceTree = "<group>"; };
 		6F5889784B4AF4A78B52E7738A7F974E /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		71C6AEB1769CA460FCD6D64A60B89901 /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
@@ -166,6 +165,7 @@
 		BC9CE18B415226161E45D5801EE4BEEE /* NetworkFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFactory.swift; sourceTree = "<group>"; };
 		C5D4B5EDE9A5800D635DFB10F3B574E5 /* PhotoListHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoListHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		C65CC1C8D944EA8F670DBF032B36F48B /* MemoryCacheProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCacheProtocol.swift; sourceTree = "<group>"; };
+		C94BA2CA221C2C9600EF8880 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CA47ECEE105E82B73256B25A70B2F0E8 /* NetworkSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkSeparator.swift; sourceTree = "<group>"; };
 		CFC174174B5BD2C50CFDE28C6DB82A94 /* ArtworkModelForNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkModelForNetwork.swift; sourceTree = "<group>"; };
 		D2044F9CE1C06432BC4894740D0674C2 /* Dispatchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
@@ -232,7 +232,7 @@
 				62B96E5BC5986356407DE93DDA64ED8F /* Views */,
 				69A0A3ED2A0B8654815B50854C44633E /* AppDelegate.swift */,
 				02616C4AB21A85C687C03458439E5FCE /* Assets.xcassets */,
-				6EB856024BD68CAE8110ACFF92382570 /* ExampleViewController.swift */,
+				C94BA2CA221C2C9600EF8880 /* Launch Screen.storyboard */,
 				D2418101700466D394D190E562E7128A /* ImageSort.swift */,
 				987FB5843E1E1D05DEE691956203B5E7 /* Localizable.strings */,
 			);
@@ -732,6 +732,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94BA2CB221C2C9600EF8880 /* Launch Screen.storyboard in Resources */,
 				005B0D7767364EE83142010AAE3F25CF /* Assets.xcassets in Resources */,
 				BEAF04C9AEFEA3F7FDA1BD7662F31790 /* Localizable.strings in Resources */,
 			);
@@ -773,7 +774,6 @@
 				05C2ABA52BB2AD1E628ADD348BBF99EC /* Dispatchable.swift in Sources */,
 				629FE086E967301875C02AFB1AC9D620 /* Dispatcher.swift in Sources */,
 				63C9D5B463A61879CCDC7D659457D18B /* Error.swift in Sources */,
-				445A16B3DE66210EC82D0D24F7B77BD6 /* ExampleViewController.swift in Sources */,
 				B82E87178F7D9CCC5645794B97758A28 /* FileManagerProtocol.swift in Sources */,
 				78CED76E7C3176EEE878744482290F4B /* FileManagerStub.swift in Sources */,
 				BC4480882171998BD53897673E4E2E49 /* FirebaseAuthService.swift in Sources */,
