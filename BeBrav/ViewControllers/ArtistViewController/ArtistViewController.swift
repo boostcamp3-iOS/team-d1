@@ -27,6 +27,7 @@ class ArtistViewController: UIViewController {
     
     // MARK:- Properties
     private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
+    private let prefetchSize = 6
     private let artworkListIdentifier = "ArtworkListCollectionViewCell"
     private let artworkListHeaderIdentifier = "ArtworkListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
@@ -343,18 +344,23 @@ extension ArtistViewController: UICollectionViewDataSource {
 // MARK:- UICollectionView Delegate
 extension ArtistViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        
         let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
         let max = visubleCellsIndex.max{ $0 < $1 }
         
         guard let maxIndex = max, maxIndex != 0 else { return }
         var prefetchIndex = 0
         if maxIndex < indexPath.item {
-            prefetchIndex = min(indexPath.item + 6, artworkList.count - 1)
+            prefetchIndex = min(indexPath.item + prefetchSize, artworkList.count - 1)
         } else {
-            prefetchIndex = min(indexPath.item - 6, artworkList.count - 1)
+            prefetchIndex = min(indexPath.item - prefetchSize, artworkList.count - 1)
         }
         
-        guard prefetchIndex > 0 else { return }
+        guard  artworkList.count - prefetchIndex > prefetchSize else { return }
+        
+        guard prefetchIndex >= 0 else { return }
         let artwork = artworkList[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
             self.fetchImage(index: prefetchIndex)

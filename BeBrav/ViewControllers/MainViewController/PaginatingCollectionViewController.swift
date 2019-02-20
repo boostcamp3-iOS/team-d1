@@ -67,6 +67,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///
     private var latestContentsOffset: CGFloat = 0
     
+    private let prefetchSize = 6
+    
     
     ///네트워킹을 전체적으로 관리하는 인스탠스를 생성하기 위한 컨테이너 입니다.
     private let container = NetworkDependencyContainer()
@@ -723,6 +725,9 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
 
 extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        
         let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
         let max = visubleCellsIndex.max{ $0 < $1 }
         
@@ -731,10 +736,12 @@ extension PaginatingCollectionViewController {
         if maxIndex < indexPath.item {
             prefetchIndex = min(indexPath.item + batchSize, artworkBucket.count - 1)
         } else {
-            prefetchIndex = min(indexPath.item - 6, artworkBucket.count - 1)
+            prefetchIndex = min(indexPath.item - prefetchSize, artworkBucket.count - 1)
         }
         
-        guard prefetchIndex > 0 else { return }
+        guard  artworkBucket.count - prefetchIndex > prefetchSize else { return }
+        
+        guard prefetchIndex >= 0 else { return }
         let artwork = artworkBucket[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
             self.fetchImage(artwork: artwork, indexPath: nil)
