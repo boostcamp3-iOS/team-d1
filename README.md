@@ -12,6 +12,7 @@
 
 * Firebase Rest API
 * SQLite3
+* Photos
 
 ## Deployment
 
@@ -154,4 +155,9 @@ https://github.com/raywenderlich/swift-style-guide
  
 
 # 4주차
+
+- UI 화면 전체 구성 완료
+  - 통합 테스트 진행
+  - 부분적 테스트 코드 작성
+  - Localization / RTL 
 
