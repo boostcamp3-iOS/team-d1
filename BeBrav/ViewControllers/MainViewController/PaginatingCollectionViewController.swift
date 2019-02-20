@@ -225,51 +225,71 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
     }
     
+    func makeAlert(title: String) {
+        var message: String?
+        var trueActionTitle: String?
+        var falseActionTitle: String?
+        var filterType: FilterType?
+        
+        if title == "방향" {
+            message = "어떤 방향으로 필터링 할까요?"
+            trueActionTitle = "가로사진"
+            falseActionTitle = "세로사진"
+            filterType = .orientation
+        }
+        else if title == "컬러" {
+            message = "어떤 색 필터링 할까요?"
+            trueActionTitle = "컬러사진"
+            falseActionTitle = "흑백사진"
+            filterType = .color
+        }
+        else if title == "온도" {
+            message = "어떤 온도로 필터링 할까요?"
+            trueActionTitle = "차가운 사진"
+            falseActionTitle = "따뜻한 사진"
+            filterType = .temperature
+        }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let trueAction = UIAlertAction(title: trueActionTitle, style: .default, handler: { (action) in
+            self.makeQueryAndRefresh(filterType: filterType!, isOn: true)
+        })
+        
+        let falseAction = UIAlertAction(title: falseActionTitle, style: .default, handler: { (action) in
+            self.makeQueryAndRefresh(filterType: filterType!, isOn: false)
+        })
+        
+        alertController.addAction(trueAction)
+        alertController.addAction(falseAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @objc func filterButtonDidTap() {
-        let alertController = UIAlertController(title: "필터링", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "filtering", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
         
-        //가로
-        let orientationAction1 = UIAlertAction(title: "가로", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .orientation, isOn: true)
-        }
-        
-        //세로
-        let orientationAction2 = UIAlertAction(title: "세로", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .orientation, isOn: false)
+        let orientationAction = UIAlertAction(title: "방향", style: .default) { (action) in
+            guard let title = action.title else { return }
+            self.makeAlert(title: title)
         }
         
-        //컬러
-        let colorAction1 = UIAlertAction(title: "컬러", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .color, isOn: true)
+        let colorAction = UIAlertAction(title: "컬러", style: .default) { (action) in
+            guard let title = action.title else { return }
+            self.makeAlert(title: title)
         }
         
-        //흑백
-        let colorAction2 = UIAlertAction(title: "흑백", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .color, isOn: false)
-        }
-
-        //차갑
-        let temperatureAction1 = UIAlertAction(title: "차갑", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .temperature, isOn: true)
-        }
-
-        //따뜻
-        let temperatureAction2 = UIAlertAction(title: "따뜻", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .temperature, isOn: false)
+        let temperatureAction = UIAlertAction(title: "온도", style: .default) { (action) in
+            guard let title = action.title else { return }
+            self.makeAlert(title: title)
         }
         
-        //모두보기
-        let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
-            self.makeQueryAndRefresh(filterType: .none, isOn: true)
-        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
-        alertController.addAction(orientationAction1)
-        alertController.addAction(orientationAction2)
-        alertController.addAction(colorAction1)
-        alertController.addAction(colorAction2)
-        alertController.addAction(temperatureAction1)
-        alertController.addAction(temperatureAction2)
-        alertController.addAction(originAction)
+        alertController.addAction(orientationAction)
+        alertController.addAction(colorAction)
+        alertController.addAction(temperatureAction)
+        alertController.addAction(cancelAction)
         
         present(alertController, animated: true)
     }
