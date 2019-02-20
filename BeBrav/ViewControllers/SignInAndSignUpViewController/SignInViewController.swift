@@ -26,11 +26,17 @@ class SignInViewController: UIViewController {
     private var bottomConstraintOfButton: NSLayoutConstraint?
     private var currentTextField: UITextField?
     
-    private let keyboardPadding = 16
+    private let keyboardPadding = 0
     private let minPasswordLength = 6
     
     private let signUpScrollView: UIScrollView = {
         let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let logoImageView: UIImageView = {
+        let view = UIImageView(image: #imageLiteral(resourceName: "logoCaligraphy"))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -51,6 +57,7 @@ class SignInViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.placeholder = "이메일"
         textField.textColor = .white
+        textField.becomeFirstResponder()
         textField.attributedPlaceholder = NSAttributedString(string:"이메일",
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
@@ -60,7 +67,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "이메일 주소를 입력해주세요"
+        label.text = "이메일"
         label.textColor = .white
         return label
     }()
@@ -84,7 +91,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "비밀번호를 입력해주세요"
+        label.text = "비밀번호"
         label.textColor = .white
         return label
     }()
@@ -92,10 +99,10 @@ class SignInViewController: UIViewController {
     private let approveButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .lightGray
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         button.layer.cornerRadius = 10
         button.setTitle("로그인", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.isEnabled = false
         return button
@@ -114,6 +121,22 @@ class SignInViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleHideKeyboard), name: UIWindow.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange(_:)), name: UITextField.textDidChangeNotification, object: nil)
         
+    }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if let emailClearButton = inputEmailTextField.value(forKey: "_clearButton") as? UIButton,
+            let passwordClearButton = inputPasswordTextField.value(forKey: "_clearButton") as? UIButton {
+            let buttonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            emailClearButton.setImage(buttonImage, for: .normal)
+            emailClearButton.setImage(buttonImage, for: .highlighted)
+            emailClearButton.tintColor = .white
+
+            passwordClearButton.setImage(buttonImage, for: .normal)
+            passwordClearButton.setImage(buttonImage, for: .highlighted)
+            passwordClearButton.tintColor = .white
+        }
     }
     
     func setLayout() {
@@ -151,12 +174,21 @@ class SignInViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 8).isActive = true
+        view.addSubview(logoImageView)
+        
+        logoImageView.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 124).isActive = true
+        logoImageView.centerXAnchor.constraint(equalTo: signUpScrollView.centerXAnchor).isActive = true
+        
+        
+        
+        
+        fixedEmailUpperLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 42).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         
         inputEmailTextField.topAnchor.constraint(equalTo: fixedEmailUpperLabel.bottomAnchor, constant: 16).isActive = true
         inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputEmailTextField.widthAnchor.constraint(equalTo: signUpScrollView.widthAnchor, multiplier: 0.9).isActive = true
+        
         
         fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 16).isActive = true
         fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
@@ -167,12 +199,12 @@ class SignInViewController: UIViewController {
         inputPasswordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         inputPasswordTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
-        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: -16)
+        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.01, constant: -16)
         bottomConstraintOfButton?.isActive = true
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
     }
     
@@ -207,7 +239,7 @@ class SignInViewController: UIViewController {
     @objc func signUpButtonDidTap() {
         let container = NetworkDependencyContainer()
         let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
-        present(signUpPageViewController, animated: false, completion: nil)
+        present(signUpPageViewController, animated: true, completion: nil)
        // navigationController?.pushViewController(signUpPageViewController, animated: false)
     }
     
@@ -217,11 +249,11 @@ class SignInViewController: UIViewController {
             let password = inputPasswordTextField.text else { return }
         serverAuth.signIn(email: email, password: password) { (result) in
             switch result {
-            case .failure:
+            case .failure(let error):
                 
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "로그인 오류",
-                                                  message: "아이디 / 비밀번호를 확인해주세요",
+                                                  message: error.localizedDescription,
                                                   preferredStyle: .alert)
                     let action = UIAlertAction(title: "확인", style: .default, handler: nil)
                     alert.addAction(action)

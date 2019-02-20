@@ -52,6 +52,7 @@ class SignUpViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.placeholder = "이메일"
         textField.textColor = .white
+        textField.becomeFirstResponder()
         textField.attributedPlaceholder = NSAttributedString(string:"이메일",
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
@@ -71,7 +72,7 @@ class SignUpViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
         textField.clearButtonMode = .whileEditing
-        textField.textContentType = .newPassword
+        textField.textContentType = .password
         textField.autocapitalizationType = .none
         textField.textColor = .white
         textField.attributedPlaceholder = NSAttributedString(string:"비밀번호",
@@ -83,7 +84,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "비밀번호를 입력해주세요"
+        label.text = "비밀번호를 입력해주세요 (6자리 이상)"
         label.textColor = .white
         return label
     }()
@@ -92,7 +93,6 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
-        textField.keyboardAppearance = .dark
         textField.clearButtonMode = .whileEditing
         textField.textContentType = .username
         textField.autocapitalizationType = .none
@@ -115,8 +115,8 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "아직 정보가 부족합니다."
-        label.textColor = .red
+        label.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        label.isHidden = true
         return label
     }()
     
@@ -128,6 +128,14 @@ class SignUpViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.setTitle("가입 완료", for: .normal)
         button.isEnabled = false
+        return button
+    }()
+    
+    private let exitButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        button.tintColor = .white
         return button
     }()
     
@@ -152,6 +160,28 @@ class SignUpViewController: UIViewController {
         
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if let emailClearButton = inputEmailTextField.value(forKey: "_clearButton") as? UIButton,
+            let passwordClearButton = inputPasswordTextField.value(forKey: "_clearButton") as? UIButton,
+         let nameClearButton = inputNameTextField.value(forKey: "_clearButton") as? UIButton {
+            let emailButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            emailClearButton.setImage(emailButtonImage, for: .normal)
+            emailClearButton.setImage(emailButtonImage, for: .highlighted)
+            emailClearButton.tintColor = .white
+            
+            let passwordButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            passwordClearButton.setImage(passwordButtonImage, for: .normal)
+            passwordClearButton.setImage(passwordButtonImage, for: .highlighted)
+            passwordClearButton.tintColor = .white
+            
+            let nameButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            nameClearButton.setImage(nameButtonImage, for: .normal)
+            nameClearButton.setImage(nameButtonImage, for: .highlighted)
+            nameClearButton.tintColor = .white
+        }
+    }
+    
     func setLayout() {
         
         navigationItem.title = "회원가입"
@@ -174,6 +204,8 @@ class SignUpViewController: UIViewController {
         signUpScrollView.addSubview(approveButton)
         
         signUpScrollView.addSubview(loadingIndicator)
+        
+        signUpScrollView.addSubview(exitButton)
         
         
         signUpScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -218,9 +250,16 @@ class SignUpViewController: UIViewController {
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
+        
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
+        exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -228,12 +267,15 @@ class SignUpViewController: UIViewController {
         signUpScrollView.contentSize.height = self.view.frame.height * 1.5
     }
     
+    private func resetData() {
+        inputNameTextField.text = ""
+        inputPasswordTextField.text = ""
+        inputEmailTextField.text = ""
+    }
+    
     @objc func handleShowKeyboard(notification: NSNotification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         bottomConstraintOfButton?.constant = -(keyboardFrame.height + CGFloat(self.keyboardPadding))
-        guard let currentY = currentTextField?.frame.origin.y else { return }
-        signUpScrollView.contentInset = UIEdgeInsets(top: -currentY + 36 , left: 0, bottom: 0, right: 0)
-        
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -242,14 +284,18 @@ class SignUpViewController: UIViewController {
     @objc func handleHideKeyboard(notification: NSNotification) {
         
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)
-        signUpScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        signUpScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+      
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            
             self.view.layoutIfNeeded()
         }, completion: nil)
         
     }
+    
+    
+    @objc private func exitButtonDidTap() {
+        self.dismiss(animated: false)
+    }
+    
     
     @objc private func confirmButtonDidTap() {
         loadingIndicator.activateIndicatorView()
@@ -259,6 +305,7 @@ class SignUpViewController: UIViewController {
                 assertionFailure("text error")
                 return
         }
+     
         serverAuth.signUp(email: email,
                           password: password) { (result) in
             switch result {
@@ -271,6 +318,7 @@ class SignUpViewController: UIViewController {
                     alert.addAction(action)
                     self.loadingIndicator.deactivateIndicatorView()
                     self.present(alert, animated: false, completion: nil)
+                    self.resetData()
                 }
             case .success:
                 guard let email = UserDefaults.standard.string(forKey: "userId"),
@@ -292,9 +340,10 @@ class SignUpViewController: UIViewController {
                             self.loadingIndicator.deactivateIndicatorView()
                             self.present(alert, animated: false, completion: nil)
                         }
+                        self.resetData()
                     case .success:
                         DispatchQueue.main.async {
-                            self.navigationController?.popViewController(animated: false)
+                            self.dismiss(animated: false, completion: nil)
                         }
                     }
                 }
@@ -325,7 +374,7 @@ extension SignUpViewController: UITextFieldDelegate {
         } else if textField == inputPasswordTextField {
             return (text.count >= 6, "비밀번호가 6자 이상이어야 합니다.")
         } else {
-            return (!text.isEmpty, "정보가 더 필요합니다")
+            return (!text.isEmpty, "이름을 입력해주세요")
         }
     }
     
@@ -333,26 +382,20 @@ extension SignUpViewController: UITextFieldDelegate {
         var isValid = true
         
         for textField in textFields {
-            let (valid, _) = validate(textField)
+            let (valid, text) = validate(textField)
             
             guard valid else {
                 isValid = false
                 approveButton.backgroundColor = .lightGray
-                fixedConfirmLabel.text = "아직 정보가 더 필요합니다"
-                fixedConfirmLabel.textColor = .red
+                fixedConfirmLabel.text = text
+                fixedConfirmLabel.isHidden = false
+                fixedConfirmLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
                 return
             }
         }
         approveButton.isEnabled = isValid
         approveButton.backgroundColor = UIColor(named: "keyColor")
         fixedConfirmLabel.text = "준비가 완료되었습니다."
-        fixedConfirmLabel.textColor = UIColor(named: "keyColor")
-    }
-}
-//이후 Extension 모아두는 부분에 통합예정
-extension String {
-    func isValidEmail() -> Bool {
-        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
-        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
+        fixedConfirmLabel.textColor = .white
     }
 }

@@ -129,9 +129,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
         
         //TODO: filtering에 맞는 이미지로 수정
-        let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
-        barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        navigationItem.rightBarButtonItem = barItem
+        let filterBarItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
+        filterBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        let userSettingBarItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector
+            (userSettingButtonDidTap))
+        userSettingBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+
+        navigationItem.rightBarButtonItems = [filterBarItem, userSettingBarItem]
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
@@ -202,7 +207,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
         refreshLayout()
         
     }
-    
+   
+    @objc func userSettingButtonDidTap() {
+        print(collectionView.indexPathsForVisibleItems)
+        //TODO: setting 기능 추가
+        UserDefaults.standard.removeObject(forKey: "uid")
+        UserDefaults.standard.synchronize()
+  
+        
+    }
     @objc func addArtworkButtonDidTap() {
         let flowLayout = UICollectionViewFlowLayout()
         let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
@@ -272,6 +285,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
             }
         }
     }
+ 
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
+            return
+        }
+        DispatchQueue.main.async {
+            if self.traitCollection.verticalSizeClass == .compact {
+                //self.refreshLayout()
+                
+            } else {
+               // self.refreshLayout()
+
+        }
+        
+    }
+    }
+        
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -515,7 +547,6 @@ extension PaginatingCollectionViewController {
         
         if maxOffset - currentOffset <= 40{
             if !isLoading {
-                //collectionView.layoutIfNeeded()
                 fetchPages()
             }
         }

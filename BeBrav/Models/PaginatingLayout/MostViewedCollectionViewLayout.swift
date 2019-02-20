@@ -50,9 +50,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     
     override init() {
         super.init()
-        //self.sectionFootersPinToVisibleBounds = true
         self.footerReferenceSize = CGSize(width: 300, height: 60)
-        //self.footerReferenceSize = CGSize(width: 300, height: 100)
 
     }
     
