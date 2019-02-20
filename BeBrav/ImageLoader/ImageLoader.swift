@@ -42,7 +42,7 @@ class ImageLoader: ImageLoaderProtocol {
         }
     }
 
-    // MARK:- Download Image
+    // MARK:- Download image
     private func downloadImage(url: URL,
                                size: ImageSize,
                                completion: @escaping (UIImage?, Error?) -> Void)
@@ -58,6 +58,7 @@ class ImageLoader: ImageLoaderProtocol {
         dataTask.resume()
     }
     
+    // MARK:- Image download DataTask
     private func imageDownloadDataTask(url: URL,
                                        size: ImageSize,
                                        completion: @escaping (UIImage?, Error?) -> Void)
@@ -90,7 +91,7 @@ class ImageLoader: ImageLoaderProtocol {
         }
     }
     
-    // MARK:- Fetch cache image
+    // MARK:- Fetch cached image
     private func fetchCacheImage(url: URL, size: ImageSize) -> UIImage? {
         if let image = memoryCache.fetchImage(url: url) {
             let resizedImage = image.scale(with: size.rawValue)
@@ -110,7 +111,7 @@ class ImageLoader: ImageLoaderProtocol {
         return nil
     }
     
-    // MARK:- Save cache image
+    // MARK:- Save caching image
     private func saveCacheImage(url: URL, data: Data) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.memoryCache.setImage(data: data, url: url)

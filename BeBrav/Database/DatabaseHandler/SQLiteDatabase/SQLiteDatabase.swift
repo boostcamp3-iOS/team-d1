@@ -20,7 +20,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         return "No error message at SQLite Database"
     }
     
-    // MARK:- initialize
+    // MARK:- Initialize
     init(database: OpaquePointer?) {
         self.database = database
     }
@@ -29,7 +29,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         sqlite3_close(database)
     }
     
-    // MARK:- Open SQLite Wrapper
+    // MARK:- Open SQLite Database
     static func open(name: String, fileManager: FileManagerProtocol)
         throws -> SQLiteDatabase
     {
@@ -48,7 +48,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             }
             
             let error = String(cString: sqlite3_errmsg(database))
-            assertionFailure(error)
+            
             throw SQLiteError.openDatabase(message: error)
         }
         
@@ -73,7 +73,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         let columnString = column.count > 0 ? column : ""
         let query = """
         CREATE TABLE IF NOT EXISTS \(name)(
-        primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
+            primaryKey INTEGER PRIMARY KEY AUTOINCREMENT\(columnString)
         );
         """
         
@@ -82,7 +82,6 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         do {
             statement = try prepare(query: query)
         } catch let error {
-            assertionFailure(error.localizedDescription)
             return false
         }
         
@@ -91,14 +90,9 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            assertionFailure(
-                "Failure create table : \(errorMessage)"
-            )
             return false
         }
-        
-        print("Successfully created table \(name)")
-        
+ 
         return true
     }
     
@@ -135,9 +129,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         guard sqlite3_step(statement) == SQLITE_DONE else {
             throw SQLiteError.step(message: errorMessage)
         }
-        
-        print("Successfully inserted value at \(table)")
-        
+
         return true
     }
     
@@ -177,9 +169,7 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
             }
             values.append(value)
         }
-        
-        print("Successfully read value at \(table) with \(column)")
-        
+
         return values
     }
     
@@ -199,12 +189,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         }
         
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            throw SQLiteError.step(
-                message: errorMessage + " from \(#function) in \(#line)"
-            )
+            throw SQLiteError.step(message: errorMessage)
         }
-        
-        print("Successfully updated value at \(table) with \(idField)/\(column):\(row)")
     }
     
     // MARK:- Delete row at table in SQLite Database
@@ -220,8 +206,6 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
         guard sqlite3_step(statement) == SQLITE_DONE else {
             throw SQLiteError.step(message: errorMessage)
         }
-        
-        print("Successfully deleted field at \(table) with \(idField)")
     }
     
     // MARK:- Change id string
@@ -234,45 +218,8 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     }
 }
 
-public enum Condition: String {
+enum Condition: String {
     case greater = ">"
     case less = "<"
     case equal = "="
-}
-
-// MARK:- SQLite Error
-fileprivate enum SQLiteError: Error {
-    case openDatabase(message: String)
-    case prepare(message: String)
-    case step(message: String)
-    case bind(message: String)
-}
-
-extension SQLiteError: CustomNSError {
-    static var errorDomain: String = "SQLiteDatabase"
-    var errorCode: Int {
-        switch self {
-        case .openDatabase:
-            return 200
-        case .prepare:
-            return 201
-        case .step:
-            return 202
-        case .bind:
-            return 203
-        }
-    }
-    
-    var userInfo: [String: Any] {
-        switch self {
-        case let .openDatabase(message):
-            return ["File": #file, "Type": "openDatabase", "Message":message]
-        case let .prepare(message):
-            return ["File": #file, "Type": "prepare", "Message":message]
-        case let .step(message):
-            return ["File": #file, "Type": "step", "Message":message]
-        case let .bind(message):
-            return ["File": #file, "Type": "bind", "Message":message]
-        }
-    }
 }

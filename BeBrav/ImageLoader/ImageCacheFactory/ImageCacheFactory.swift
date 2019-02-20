@@ -12,6 +12,7 @@ struct ImageCacheFactory {
     
 }
 
+// MARK:- ImageCache Factory Protocol
 extension ImageCacheFactory: ImageCacheFactoryProtocol {
     public func buildDiskCache() -> DiskCache {
         let diskCache = DiskCache.shared

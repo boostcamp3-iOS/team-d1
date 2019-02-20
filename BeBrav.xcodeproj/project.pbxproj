@@ -57,6 +57,8 @@
 		99005F0269E6820E6F4BAD138BFD3057 /* DiskCacheProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B402506F53E9738413F741BBB8BBA2 /* DiskCacheProtocol.swift */; };
 		992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2A6BB047EAC83D31A5FCAC1DAF4DE2 /* HTTPMethod.swift */; };
 		9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C86CE1D6F867A42E8B2C1672A17EF42 /* FirebaseService.swift */; };
+		A3D142F4221D1A79003B2D18 /* SQLiteDatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D142F3221D1A79003B2D18 /* SQLiteDatabaseError.swift */; };
+		A3D142F6221D1AC1003B2D18 /* DatabaseHandlerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D142F5221D1AC1003B2D18 /* DatabaseHandlerError.swift */; };
 		A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B52C37F94542A2F94909A3D5840B9 /* FirebaseStorageService.swift */; };
 		A9ABE57AB2DD110A7CA90C6C7484C501 /* ArtistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AAD50E466B2EDCDC5BF313E7079714 /* ArtistModel.swift */; };
 		AC549D02F07721DE2607B63D51F03FBD /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */; };
@@ -154,6 +156,8 @@
 		98B76BB296301BBF388E12724510642F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A9DBF17A867215EC651CD62E4CCB45E /* ServerStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStorage.swift; sourceTree = "<group>"; };
 		9CF3450565235E459F496CCF0C6D22E5 /* MostViewedCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostViewedCollectionViewLayout.swift; sourceTree = "<group>"; };
+		A3D142F3221D1A79003B2D18 /* SQLiteDatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabaseError.swift; sourceTree = "<group>"; };
+		A3D142F5221D1AC1003B2D18 /* DatabaseHandlerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHandlerError.swift; sourceTree = "<group>"; };
 		AA38CA42B34BC6CB919B0885B4211270 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		ABD33DF6295E76A866F1E854C4AEF5C5 /* ArtworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkModel.swift; sourceTree = "<group>"; };
 		AD3DE0E0D27B441D5A621DC20FB1543C /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
@@ -364,12 +368,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		65E9B8C6484F205AF9D7C09C51BDFB00 /* ViewControllerPresentAnimator */ = {
+		65E9B8C6484F205AF9D7C09C51BDFB00 /* CollectionViewControllerPresentAnimator */ = {
 			isa = PBXGroup;
 			children = (
 				B2EE6FF1D94AD79F2EF83B5C71A6B799 /* CollectionViewControllerPresentAnimator.swift */,
 			);
-			path = ViewControllerPresentAnimator;
+			path = CollectionViewControllerPresentAnimator;
 			sourceTree = "<group>";
 		};
 		673D7A40F60945813D1EEE3FC0E3A35B /* ViewControllers */ = {
@@ -381,7 +385,7 @@
 				3B4D2FFC8D3D0C64791730C3CAE912D1 /* Extension */,
 				6895BEC6042EB2B9A18B3199C3603662 /* MainViewController */,
 				F99A3A9950F6BADA9B725F0A8BB08AEE /* SignInAndSignUpViewController */,
-				65E9B8C6484F205AF9D7C09C51BDFB00 /* ViewControllerPresentAnimator */,
+				65E9B8C6484F205AF9D7C09C51BDFB00 /* CollectionViewControllerPresentAnimator */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -469,6 +473,7 @@
 		A263903DDDEF88E566FBA33CE7CF9EBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				A3D142F2221D1A69003B2D18 /* Error */,
 				0C2FFFE82E53D6904FEB564FFD935808 /* DataModel */,
 				3A4A8934959FA5B5FC16B87C3F8A5F86 /* DatabaseFactory */,
 				49B9773623144D300D8039EA8BA86079 /* DatabaseHandler */,
@@ -490,6 +495,15 @@
 				F3912ECE393A1735C4FCE64144045A13 /* ImageLoaderProtocol.swift */,
 			);
 			path = ImageLoader;
+			sourceTree = "<group>";
+		};
+		A3D142F2221D1A69003B2D18 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				A3D142F3221D1A79003B2D18 /* SQLiteDatabaseError.swift */,
+				A3D142F5221D1AC1003B2D18 /* DatabaseHandlerError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		A775A85D082E6750303108B5526BDE3D /* ArtistViewController */ = {
@@ -791,6 +805,7 @@
 				70F249CE2E37FB1B6464198B573CDDC3 /* FirebaseDatabaseService.swift in Sources */,
 				055B20725DDF5BB291918B7E9BD9B88A /* FirebaseEndPoint.swift in Sources */,
 				9ED89D9162DE88CA1F08C7A9DA3B8242 /* FirebaseService.swift in Sources */,
+				A3D142F4221D1A79003B2D18 /* SQLiteDatabaseError.swift in Sources */,
 				A486DEA4C632C77CA2FD2720810EC44C /* FirebaseStorageService.swift in Sources */,
 				992ACBE6107CFBA8A352D829DB0E7ABA /* HTTPMethod.swift in Sources */,
 				292B096C43F8DF0EA977A04670E00547 /* ImageCacheFactory.swift in Sources */,
@@ -834,6 +849,7 @@
 				FF587AEA6CC87B17E2444C3AAFF9722A /* SignUpViewController.swift in Sources */,
 				3EA2FFDA96F095805912F21D9C3F6552 /* String+.swift in Sources */,
 				E26C2D0FD051060AD9502D54677B6640 /* UIImage+.swift in Sources */,
+				A3D142F6221D1AC1003B2D18 /* DatabaseHandlerError.swift in Sources */,
 				97F788816DE40F8FF9AC45AC30DE7126 /* URL+.swift in Sources */,
 				7B2A32ACA4789A542C87A4281D352448 /* URLResponse+.swift in Sources */,
 				1D5EF1B1FAE73846D0BAA17A325095A3 /* URLSessionDataTaskProtocol.swift in Sources */,

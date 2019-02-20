@@ -21,7 +21,7 @@ class DatabaseHandler {
     
     public var fileManager: FileManagerProtocol = FileManager.default
     
-    
+    // MARK:- Open Database
     private func openDatabase() throws {
         database = try SQLiteDatabase.open(
             name: databaseName,
@@ -72,7 +72,7 @@ class DatabaseHandler {
         return modelArray.filter{ model.isEqual(model: $0) }
     }
     
-    // MARK:- Fetch Data from SQLite Database
+    // MARK:- Fetch data from SQLite Database
     private func fetchData(type: DataType,
                            idField: String = "",
                            idRow: String = "",
@@ -99,7 +99,7 @@ class DatabaseHandler {
         return dataToModel(model: model, data: dataArray).filter{ !$0.isEmpty }
     }
     
-    // MARK:- Update Data
+    // MARK:- Update data to SQLite Database
     private func updateData(data: DataModelProtocol) throws -> Bool {
         let id = data.id
         let table = data.tableName
@@ -139,7 +139,7 @@ class DatabaseHandler {
         return false
     }
     
-    // MARK:- Save new data or Update changed data
+    // MARK:- Save new data or Update changed data to SQLite Database
     final func saveData(data: DataModelProtocol,
                         completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
@@ -172,7 +172,7 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Delete Data
+    // MARK:- Delete Data to SQLite Database
     final func deleteData(data: DataModelProtocol,
                           completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
@@ -196,7 +196,7 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Read Data
+    // MARK:- Read Data from SQLite Database
     final func readData(type: DataType,
                         id: String,
                         completion: @escaping (DataModelProtocol?, Error?) -> Void)
@@ -303,48 +303,6 @@ class DatabaseHandler {
             case .artworkData:
                 return ArtworkModel()
             }
-        }
-    }
-}
-
-// MARK:- Database Error
-fileprivate enum DatabaseError: Error {
-    case openDatabase
-    case accessTable
-    case accessData
-    case saveData
-    case fetchData
-}
-
-extension DatabaseError: CustomNSError {
-    static var errorDomain: String = "SQLiteDatabase"
-    var errorCode: Int {
-        switch self {
-        case .openDatabase:
-            return 300
-        case .accessTable:
-            return 301
-        case .accessData:
-            return 302
-        case .saveData:
-            return 303
-        case .fetchData:
-            return 304
-        }
-    }
-    
-    var userInfo: [String : Any] {
-        switch self {
-        case .openDatabase:
-            return ["File": #file, "Type":"openDatabase", "Message":"No Database at DatabaseHandler"]
-        case .accessTable:
-            return ["File": #file, "Type":"accessTable", "Message":"Failure access table"]
-        case .accessData:
-            return ["File": #file, "Type":"accessData", "Message":"Failure access data"]
-        case .saveData:
-            return ["File": #file, "Type":"save", "Message":"Failure save data"]
-        case .fetchData:
-            return ["File": #file, "Type":"fetch", "Message":"Failure fetch data"]
         }
     }
 }

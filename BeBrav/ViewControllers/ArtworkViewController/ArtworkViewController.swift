@@ -19,6 +19,7 @@ class ArtworkViewController: UIViewController {
         scrollView.zoomScale = 1
         return scrollView
     }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +27,7 @@ class ArtworkViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
     private let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +38,7 @@ class ArtworkViewController: UIViewController {
         button.layer.shadowOpacity = 1
         return button
     }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +48,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let viewsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +58,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

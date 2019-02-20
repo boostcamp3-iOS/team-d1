@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK:- FileManager Error
+// MARK:- DiskCacheError Error
 enum DiskCacheError: Error {
     case createFolder
     case fileName
@@ -16,6 +16,7 @@ enum DiskCacheError: Error {
     case deleteData
 }
 
+// MARK:- CustomNSError Protocol
 extension DiskCacheError: CustomNSError {
     static var errorDomain: String = "SQLiteDatabaseError"
     

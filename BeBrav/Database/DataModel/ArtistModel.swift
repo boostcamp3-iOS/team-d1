@@ -88,6 +88,7 @@ extension ArtistModel: DataModelProtocol {
     }
 }
 
+// MARK:- ArtistModel Equatable
 extension ArtistModel: Equatable {
     static func == (lhs: ArtistModel, rhs: ArtistModel) -> Bool {
         return lhs.id == rhs.id
