@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaginatingViewControllerPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class CollectionViewControllerPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let duration = 0.3
     var viewFrame = CGRect()
     var originFrame = CGRect()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
+class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
     
     // MARK:- Outlet
     private let titleLabel: UILabel = {
@@ -17,14 +17,6 @@ class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
         label.text = "Photos"
         label.textColor = .white
         return label
-    }()
-    
-    public lazy var deleteButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("삭제", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        return button
     }()
     
     // MARK:- Initialize
@@ -42,14 +34,10 @@ class PhotoListHeaderCollectionReusableView: UICollectionReusableView {
     // MARK:- Set Layout
     private func setLayout() {
         addSubview(titleLabel)
-        addSubview(deleteButton)
         
         backgroundColor = .black
         
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-        
-        deleteButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
     }
 }
