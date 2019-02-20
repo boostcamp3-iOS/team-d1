@@ -70,6 +70,10 @@ class ArtworkViewController: UIViewController {
     }()
     
     // MARK:- Properties
+    private let imageLoader: ImageLoaderProtocol
+    private let databaseHandler: DatabaseHandler
+    private let serverDatabase: ServerDatabase
+    
     private var artistData: UserDataDecodeType?
     
     public var mainNavigationController: UINavigationController?
@@ -92,9 +96,7 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    private let imageLoader: ImageLoaderProtocol
-    private let databaseHandler: DatabaseHandler
-    private let serverDatabase: ServerDatabase
+    
     
     // MARK:- Initialize
     init(imageLoader: ImageLoaderProtocol,

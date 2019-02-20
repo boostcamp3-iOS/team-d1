@@ -171,7 +171,13 @@ class ArtistViewController: UIViewController {
     }
     
     private func updateViewsCount(id: String) {
-        serverDatabase.read(path: "root/artworks/\(id)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+        serverDatabase.read(
+            path: "root/artworks/\(id)",
+            type: ArtworkDecodeType.self,
+            headers: ["X-Firebase-ETag": "true"],
+            queries: nil
+            )
+        { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
@@ -195,18 +201,19 @@ class ArtistViewController: UIViewController {
                     temperature: data.temperature
                 )
                 
-                self.serverDatabase.write(path: "root/artworks/\(id)/",
+                self.serverDatabase.write(
+                    path: "root/artworks/\(id)/",
                     data: encodeData,
                     method: .put,
                     headers: ["if-match": eTag]
-                )
+                    )
                 {
                     (result, response) in
                     switch result {
                     case .failure(let error):
                         print(error.localizedDescription)
                     case .success:
-                        print("success")
+                        break
                     }
                 }
             }
@@ -383,9 +390,9 @@ extension ArtistViewController: UIViewControllerTransitioningDelegate {
         return nil
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath)
+    {
         let viewController = artworkViewController(index: indexPath)
         viewController.isAnimating = true
         
@@ -427,7 +434,6 @@ extension ArtistViewController: UIViewControllerPreviewingDelegate {
 
 // MARK:- UICollectinoView Delegate FlowLayout
 extension ArtistViewController: UICollectionViewDelegateFlowLayout {
-    // MARK:- UICollectionView Header View Height
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int)
@@ -435,7 +441,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     {
         switch section {
         case 0:
-            return CGSize(width: view.frame.width, height: 200)
+            return CGSize(width: view.frame.width, height: 170)
         case 1:
             return CGSize(width: view.frame.width, height: 50)
         default:
