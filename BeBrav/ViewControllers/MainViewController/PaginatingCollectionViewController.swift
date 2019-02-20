@@ -325,17 +325,22 @@ extension PaginatingCollectionViewController {
                               type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                                 (result, response) in
-                                switch result {
-                                case .failure:
-                                    self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
-                                                               isOn: false, // TODO: 분류 필터 기능 추가후 수정
-                                                               doNeedMore: false,
-                                                               targetLayout: layout)
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: false,
-                                                     targetLayout: layout)
-                                }
+                    switch result {
+                    case .failure:
+                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
+                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: false,
+                                         targetLayout: layout)
+                    }
+                    defer {
+                        DispatchQueue.main.async {
+                            self.loadingIndicator.deactivateIndicatorView()
+                        }
+                    }
                 }
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
@@ -359,6 +364,12 @@ extension PaginatingCollectionViewController {
                         self.processData(data: data,
                                          doNeedMore: true,
                                          targetLayout: layout)
+                    }
+                    defer {
+                        DispatchQueue.main.async {
+                            
+                            self.loadingIndicator.deactivateIndicatorView()
+                        }
                     }
                 }
             }
@@ -458,13 +469,8 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                 self.isLoading = false
                 self.collectionView.reloadData()
-            }
-            defer {
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.loadingIndicator.deactivateIndicatorView()
-                }
             }
         }
     }
