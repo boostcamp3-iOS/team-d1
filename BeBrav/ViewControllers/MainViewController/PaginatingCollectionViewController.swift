@@ -193,78 +193,74 @@ class PaginatingCollectionViewController: UICollectionViewController {
         return viewController
     }
     
-    @objc func filterButtonDidTap() {
-        //print(collectionView.indexPathsForVisibleItems)
-        //TODO: filtering 기능 추가
+    func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
+        let orderBy: String?
+        let queries: [URLQueryItem]?
         
+        switch filterType {
+        case .orientation:
+            orderBy = "\"orientation\""
+        case .color:
+            orderBy = "\"color\""
+        case .temperature:
+            orderBy = "\"temperature\""
+        case .none:
+            orderBy = "\"timestamp\""
+        }
+        
+        if filterType == .none {
+            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                       URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+        }
+        else {
+            queries = [URLQueryItem(name: "orderBy", value: orderBy),
+                       URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                       URLQueryItem(name: "equalTo", value: "\(isOn)"),
+                       URLQueryItem(name: "limitToLast", value: "\(batchSize)")]
+        }
+        
+        if let queries = queries {
+            refreshLayout(queries: queries, type: filterType, isOn: isOn)
+        }
+    }
+    
+    @objc func filterButtonDidTap() {
         let alertController = UIAlertController(title: "필터링", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
         
         //가로
         let orientationAction1 = UIAlertAction(title: "가로", style: .default) { (action) in
-            let orientation = true
-            let queries = [URLQueryItem(name: "orderBy", value: "\"orientation\""),
-                           URLQueryItem(name: "equalTo", value: "\(orientation)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .orientation, isOn: orientation)
+            self.makeQueryAndRefresh(filterType: .orientation, isOn: true)
         }
         
         //세로
         let orientationAction2 = UIAlertAction(title: "세로", style: .default) { (action) in
-            let orientation = false
-            let queries = [URLQueryItem(name: "orderBy", value: "\"orientation\""),
-                           URLQueryItem(name: "equalTo", value: "\(orientation)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .orientation, isOn: orientation)
+            self.makeQueryAndRefresh(filterType: .orientation, isOn: false)
         }
         
         //컬러
         let colorAction1 = UIAlertAction(title: "컬러", style: .default) { (action) in
-            let color = true
-            let queries = [URLQueryItem(name: "orderBy", value: "\"color\""),
-                           URLQueryItem(name: "equalTo", value: "\(color)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .color, isOn: color)
+            self.makeQueryAndRefresh(filterType: .color, isOn: true)
         }
         
         //흑백
         let colorAction2 = UIAlertAction(title: "흑백", style: .default) { (action) in
-            let color = false
-            let queries = [URLQueryItem(name: "orderBy", value: "\"color\""),
-                           URLQueryItem(name: "equalTo", value: "\(color)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .color, isOn: color)
+            self.makeQueryAndRefresh(filterType: .color, isOn: false)
         }
 
         //차갑
         let temperatureAction1 = UIAlertAction(title: "차갑", style: .default) { (action) in
-            let temperature = true
-            let queries = [URLQueryItem(name: "orderBy", value: "\"temperature\""),
-                           URLQueryItem(name: "equalTo", value: "\(temperature)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .temperature, isOn: temperature)
+            self.makeQueryAndRefresh(filterType: .temperature, isOn: true)
         }
 
         //따뜻
         let temperatureAction2 = UIAlertAction(title: "따뜻", style: .default) { (action) in
-            let temperature = false
-            let queries = [URLQueryItem(name: "orderBy", value: "\"temperature\""),
-                           URLQueryItem(name: "equalTo", value: "\(temperature)"),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .temperature, isOn: temperature)
+            self.makeQueryAndRefresh(filterType: .temperature, isOn: false)
         }
         
         //모두보기
         let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
-            let queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
-                           URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
-            ]
-            self.refreshLayout(queries: queries, type: .none, isOn: true)
+            self.makeQueryAndRefresh(filterType: .none, isOn: true)
         }
         
         alertController.addAction(orientationAction1)
@@ -275,9 +271,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         alertController.addAction(temperatureAction2)
         alertController.addAction(originAction)
         
-        present(alertController, animated: true) {
-            print("filterAlertController presented")
-        }
+        present(alertController, animated: true)
     }
     
     @objc func addArtworkButtonDidTap() {
@@ -287,7 +281,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         present(artAddCollectionViewController, animated: true, completion: nil)
     }
 
-    
     func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
         guard let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout else {
             return
