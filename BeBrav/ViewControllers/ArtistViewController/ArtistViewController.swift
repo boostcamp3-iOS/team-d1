@@ -30,6 +30,11 @@ class ArtistViewController: UIViewController {
     private let artworkListIdentifier = "ArtworkListCollectionViewCell"
     private let artworkListHeaderIdentifier = "ArtworkListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
+    private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: ServerDatabase
+    
+    private var artworkList: [Artwork] = []
+    private var artworkImage: [String: UIImage] = [:]
     private var isEditmode = false {
         didSet {
             navigationItem.title = isEditmode ? "수정" : "아티스트"
@@ -37,11 +42,6 @@ class ArtistViewController: UIViewController {
             editButton.style = isEditmode ? .plain : .done
         }
     }
-    
-    private let imageLoader: ImageLoaderProtocol
-    private let serverDatabase: ServerDatabase
-    private var artworkList: [Artwork] = []
-    private var artworkImage: [String: UIImage] = [:]
     
     public var artistData: UserDataDecodeType?
     public var isUser = false {
@@ -86,15 +86,16 @@ class ArtistViewController: UIViewController {
         setLayout()
     }
     
+    // MARK:- Set Artist's image list
     private func setImageList() {
         guard let artistData = artistData else { return }
         artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
-        artworkList.indices.forEach{ index in
-            self.fetchImage(index: index)
+        artworkList.indices.forEach{
+            self.fetchImage(index: $0)
         }
     }
     
-    // MARK:- Set Artist's image
+    // MARK:- Fetch image
     private func fetchImage(index: Int) {
         let artwork = artworkList[index]
         
@@ -127,7 +128,7 @@ class ArtistViewController: UIViewController {
                                 withReuseIdentifier: artistDetailHeaderView)
     }
     
-    // MARK:- Set Layout
+    // MARK:- Set layout
     private func setLayout() {
         view.addSubview(collectionView)
         view.backgroundColor = .black
@@ -140,10 +141,9 @@ class ArtistViewController: UIViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
-    // MARK:- Edit Button Did Tap
+    // MARK:- Edit button did tap
     @objc func editButtonDidTap(_ sender: UIBarButtonItem) {
         isEditmode = !isEditmode
-        
     }
     
     // MARK:- Return ArtworkViewController
@@ -162,34 +162,55 @@ class ArtistViewController: UIViewController {
         viewController.transitioningDelegate = self
         let artwork = artworkList[index.item]
         
-        serverDatabase.read(path: "root/artworks/\(artwork.artworkUid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+        updateViewsCount(id: artwork.artworkUid)
+        
+        viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
+        viewController.artworkImage = cell.imageView.image
+        viewController.artistName = artistData?.nickName
+        return viewController
+    }
+    
+    private func updateViewsCount(id: String) {
+        serverDatabase.read(path: "root/artworks/\(id)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                guard let formedResponse = response as? HTTPURLResponse,
+                    let eTag = formedResponse.allHeaderFields["Etag"] as? String
+                    else
+                {
                     return
                 }
+
+                let encodeData = ArtworkDecodeType(
+                    userUid: data.userUid,
+                    uid: data.artworkUid,
+                    url: data.artworkUrl,
+                    title: data.title,
+                    timestamp: data.timestamp,
+                    views: data.views + 1,
+                    orientation: data.orientation,
+                    color: data.color,
+                    temperature: data.temperature
+                )
                 
-                let updateValue = data.views + 1
-                
-                let encodeData = ArtworkDecodeType(userUid: data.userUid, uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
-                
-                self.serverDatabase.write(path: "root/artworks/\(artwork.artworkUid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                self.serverDatabase.write(path: "root/artworks/\(id)/",
+                    data: encodeData,
+                    method: .put,
+                    headers: ["if-match": eTag]
+                )
+                {
+                    (result, response) in
                     switch result {
                     case .failure(let error):
                         print(error.localizedDescription)
                     case .success:
                         print("success")
                     }
-                })
+                }
             }
         }
-        
-        viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
-        viewController.artworkImage = cell.imageView.image
-        viewController.artistName = artistData?.nickName
-        return viewController
     }
 }
 
@@ -382,7 +403,7 @@ extension ArtistViewController: UIViewControllerPreviewingDelegate {
     {
         guard let index = collectionView.indexPathForItem(at: location),
             let cell = collectionView.cellForItem(at: index) else {
-                return .init()
+                return nil
         }
         previewingContext.sourceRect = cell.frame
         

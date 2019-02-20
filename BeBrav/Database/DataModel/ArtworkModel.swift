@@ -142,6 +142,7 @@ extension ArtworkModel: DataModelProtocol {
     }
 }
 
+// MARK:- ArtworkModel Equatable
 extension ArtworkModel: Equatable {
     static func == (lhs: ArtworkModel, rhs: ArtworkModel) -> Bool {
         return lhs.id == rhs.id && lhs.views == rhs.views
