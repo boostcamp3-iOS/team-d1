@@ -14,10 +14,15 @@ class ArtAddInstaViewController: UIViewController {
     //properties for photos
     var fetchResult: PHFetchResult<PHAsset>?
     let imageManager: PHCachingImageManager = PHCachingImageManager()
-    var thisAssetCollection: PHAssetCollection?
+    var cameraRoll: PHAssetCollection?
+    var imageList: [UIImage] = []
     
     let cellIdentifier = "ArtAddCollectionViewCell"
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -51,8 +56,45 @@ class ArtAddInstaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        requestAlbumAuth()
+        
         setUpViews()
         setCollectionView()
+        
+        guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
+        
+        let fetchOption = PHFetchOptions()
+        fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
+        
+        let asset = fetchResult?.firstObject
+        
+        imageManager.requestImage(for: asset!, targetSize: CGSize(width: (collectionView.frame.width-12)/4, height: (collectionView.frame.width-12)/4), contentMode: .aspectFill, options: nil) { (image, _) in
+            self.imageView.image = image
+        }
+        
+    }
+    
+    func requestAlbumAuth() {
+        let requestHandler = { (status: PHAuthorizationStatus) in
+            switch status {
+            case PHAuthorizationStatus.authorized:
+                print("사진첩 접근 허용됨")
+            case PHAuthorizationStatus.denied:
+                print("사진첩 접근 거부됨")
+            default:
+                break
+            }
+        }
+        
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized: print("사진첩 접근 허용됨")
+        case .denied: print("사진첩 접근 거부됨")
+        case .restricted: print("사진첩 접근 제한됨")
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(requestHandler)
+        }
     }
     
     func setUpViews() {
@@ -88,43 +130,60 @@ class ArtAddInstaViewController: UIViewController {
         collectionView.register(ArtAddCollectionViewCell.self,
                                 forCellWithReuseIdentifier: cellIdentifier)
     }
+    
+//    func configure(cell: ArtAddCollectionViewCell, collectionView: UICollectionView, indexPath: IndexPath) {
+//        //카메라롤 가져오기
+//
+//        guard let maxIndex = fetchResult?.count else { return }
+//
+//
+//
+//        guard let assetList = assetList else { return }
+//
+//        let asset = assetList[indexPath.row]
+//
+//        let width = (collectionView.frame.width - 12) / 4
+//        let height = width
+//        imageManager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFit, options: nil) { (image, _) in
+//            let cellAtIndex: UICollectionViewCell? = collectionView.cellForItem(at: indexPath)
+//            guard let cell: ArtAddCollectionViewCell = cellAtIndex as? ArtAddCollectionViewCell else { return }
+//
+//            cell.imageView.image = image
+//        }
+//    }
 }
 
 extension ArtAddInstaViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //TODO: - 선택된 이미지를 imageView의 image로 지정
         print(indexPath)
+        imageView.image = imageList[indexPath.row]
     }
 }
 
 extension ArtAddInstaViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //FIXME : - 라이브러리 내 사진의 갯수만큼으로 수정해줘야 함
-        return self.fetchResult?.count ?? 0
+        return fetchResult?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ArtAddCollectionViewCell else { return ArtAddCollectionViewCell() }
         
-        guard let fetchResult = fetchResult else { return cell }
-        
-        var asset: PHAsset = fetchResult.object(at: indexPath.item)
-        
-        DispatchQueue.global().async {
-            let width = (collectionView.frame.width-12) / 4
-            let height = width
-            self.imageManager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFill, options: nil, resultHandler: { (image, _) in
-                DispatchQueue.main.async {
-                    cell.imageView.image = image
-                }
-            })
+        let asset = fetchResult?.object(at: indexPath.row)
+        let width = (collectionView.frame.width - 12) / 4
+        let height = width
+        imageManager.requestImage(for: asset!, targetSize: CGSize(width: width, height: height), contentMode: .aspectFit, options: nil) { (image, _) in
+            
+            if let image = image {
+            self.imageList.append(image)
+            }
+            cell.imageView.image = image
         }
-        
-        
-        //cell.imageView.image = #imageLiteral(resourceName: "lion-3372720_1920")
         return cell
     }
 }
+
 
 extension ArtAddInstaViewController: UICollectionViewDelegateFlowLayout {
     
