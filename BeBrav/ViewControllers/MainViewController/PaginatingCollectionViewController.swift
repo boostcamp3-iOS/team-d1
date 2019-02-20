@@ -285,20 +285,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath?) {
-        guard let url = URL(string: artwork.artworkUrl) else { return }
-        
-        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
-            if error != nil {
-                return
-            }
+        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+            guard let url = URL(string: artwork.artworkUrl) else { return }
             
-            guard let image = image else { return }
-            self.artworkImage[artwork.artworkUid] = image
-            
-            if let indexPath = indexPath {
-                DispatchQueue.main.async {
-                    self.collectionView.reloadItems(at: [indexPath])
+            imageLoader.fetchImage(url: url, size: .small) { image, error in
+                guard let image = image else { return }
+                self.artworkImage[artwork.artworkUid] = image
+                
+                if let indexPath = indexPath {
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadItems(at: [indexPath])
+                    }
                 }
+            }
+            return
+        }
+        
+        if let indexPath = indexPath {
+            DispatchQueue.main.async {
+                self.collectionView.reloadItems(at: [indexPath])
             }
         }
     }
@@ -734,7 +739,7 @@ extension PaginatingCollectionViewController {
         guard let maxIndex = max, maxIndex != 0 else { return }
         var prefetchIndex = 0
         if maxIndex < indexPath.item {
-            prefetchIndex = min(indexPath.item + batchSize, artworkBucket.count - 1)
+            prefetchIndex = min(indexPath.item + prefetchSize, artworkBucket.count - 1)
         } else {
             prefetchIndex = min(indexPath.item - prefetchSize, artworkBucket.count - 1)
         }

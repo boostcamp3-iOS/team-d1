@@ -87,25 +87,44 @@ class ArtistViewController: UIViewController {
         setLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        collectionView.reloadData()
+    }
+    
     // MARK:- Set Artist's image list
     private func setImageList() {
         guard let artistData = artistData else { return }
         artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
         artworkList.indices.forEach{
-            self.fetchImage(index: $0)
+            self.fetchImage(index: $0, prefetch: true)
         }
     }
     
     // MARK:- Fetch image
-    private func fetchImage(index: Int) {
+    private func fetchImage(index: Int, prefetch: Bool) {
         let artwork = artworkList[index]
         
-        guard let url = URL(string: artwork.artworkUrl) else { return }
-        
-        imageLoader.fetchImage(url: url, size: .small) { image, error in
-            guard let image = image else { return }
-            self.artworkImage[artwork.artworkUid] = image
+        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+            guard let url = URL(string: artwork.artworkUrl) else { return }
             
+            imageLoader.fetchImage(url: url, size: .small) { image, error in
+                guard let image = image else { return }
+                self.artworkImage[artwork.artworkUid] = image
+                
+                if !prefetch  {
+                    DispatchQueue.main.async {
+                        let indexPath = IndexPath(item: index, section: 1)
+                        
+                        self.collectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            return
+        }
+        
+        if !prefetch  {
             DispatchQueue.main.async {
                 let indexPath = IndexPath(item: index, section: 1)
                 
@@ -334,7 +353,7 @@ extension ArtistViewController: UICollectionViewDataSource {
             cell.imageView.image = image
             artworkImage.removeValue(forKey: id)
         } else {
-            fetchImage(index: indexPath.item)
+            fetchImage(index: indexPath.item, prefetch: false)
         }
         
         return cell
@@ -363,7 +382,7 @@ extension ArtistViewController: UICollectionViewDelegate {
         guard prefetchIndex >= 0 else { return }
         let artwork = artworkList[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
-            self.fetchImage(index: prefetchIndex)
+            self.fetchImage(index: prefetchIndex, prefetch: true)
         }
     }
 }
