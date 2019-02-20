@@ -72,7 +72,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
             return
         }
         
-        makeAttributes(indexList: prepareIndex, pageSize: numberOfItems * fetchPage)
+        makeAttributes(indexList: prepareIndex, pageSize: fetchPage)
         prepareIndex.removeAll()
     }
     
