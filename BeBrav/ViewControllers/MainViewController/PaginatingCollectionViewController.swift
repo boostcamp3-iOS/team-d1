@@ -103,7 +103,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     private let databaseHandler = DatabaseFactory().buildDatabaseHandler()
     
-    private var thumbImage: [String: UIImage] = [:]
+    private var artworkImage: [String: UIImage] = [:]
     private var artworkDataFromDatabase: [ArtworkModel] = []
     
     //mainCollectionView 설정 관련 프로퍼티
@@ -188,29 +188,29 @@ class PaginatingCollectionViewController: UICollectionViewController {
         viewController.mainNavigationController = navigationController
         
         let uid = artworkBucket[index.row].artworkUid
-//        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let data):
-//                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
-//                    return
-//                }
-//
-//                let updateValue = data.views + 1
-//
-//                let encodeData = ArtworkDecodeType(userUid: "", uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
-//
-//                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
-//                    switch result {
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    case .success:
-//                       print("success")
-//                    }
-//                })
-//            }
-//        }
+        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                    return
+                }
+
+                let updateValue = data.views + 1
+
+                let encodeData = ArtworkDecodeType(userUid: data.userUid, uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
+
+                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case .success:
+                       print("success")
+                    }
+                })
+            }
+        }
         
         viewController.artwork = self.artworkBucket[index.item]
         viewController.artworkImage = cell.artworkImageView.image
@@ -247,9 +247,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
 
         let artwork = artworkBucket[indexPath.row]
         
-        if let image = thumbImage[artwork.artworkUid] {
+        if let image = artworkImage[artwork.artworkUid] {
             cell.artworkImageView.image = image
-            thumbImage.removeValue(forKey: artwork.artworkUid)
+            artworkImage.removeValue(forKey: artwork.artworkUid)
         } else {
             fetchImage(artwork: artwork, indexPath: indexPath)
         }
@@ -266,7 +266,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             }
             
             guard let image = image else { return }
-            self.thumbImage[artwork.artworkUid] = image
+            self.artworkImage[artwork.artworkUid] = image
             
             if let indexPath = indexPath {
                 DispatchQueue.main.async {
@@ -611,7 +611,7 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
     }
 }
 
-// MARK:- PaginatingCollection ViewController
+// MARK:- PaginatingCollectionViewController Transitioning Delegate
 extension PaginatingCollectionViewController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
@@ -685,7 +685,7 @@ extension PaginatingCollectionViewController {
         
         guard prefetchIndex > 0 else { return }
         let artwork = artworkBucket[prefetchIndex]
-        if !thumbImage.contains(where: { $0.key == artwork.artworkUid}) {
+        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
             self.fetchImage(artwork: artwork, indexPath: nil)
         }
     }

@@ -27,17 +27,14 @@ class ArtistViewController: UIViewController {
     
     // MARK:- Properties
     private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
-    private let photoListIdentifier = "PhotoListCollectionViewCell"
-    private let photoListHeaderIdentifier = "PhotoListHeaderCollectionReusableView"
+    private let artworkListIdentifier = "ArtworkListCollectionViewCell"
+    private let artworkListHeaderIdentifier = "ArtworkListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
     private var isEditmode = false {
         didSet {
             navigationItem.title = isEditmode ? "수정" : "아티스트"
             editButton.title = isEditmode ? "확인" : "편집"
             editButton.style = isEditmode ? .plain : .done
-            collectionView.allowsMultipleSelection = isEditmode
-            collectionView.allowsSelection = isEditmode
-            collectionView.reloadData()
         }
     }
     
@@ -74,6 +71,13 @@ class ArtistViewController: UIViewController {
         
         editButton.target = self
         editButton.action = #selector(editButtonDidTap(_:))
+        
+        if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
+        {
+            registerForPreviewing(with: self, sourceView: collectionView)
+        }
+        
+        collectionView.allowsSelection = true
     }
     
     override func viewWillLayoutSubviews() {
@@ -83,9 +87,7 @@ class ArtistViewController: UIViewController {
     }
     
     private func setImageList() {
-        guard let artistData = artistData else { return
-            
-        }
+        guard let artistData = artistData else { return }
         artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
         artworkList.indices.forEach{ index in
             self.fetchImage(index: index)
@@ -115,11 +117,11 @@ class ArtistViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = false
-        collectionView.register(PhotoListCollectionViewCell.self,
-                                forCellWithReuseIdentifier: photoListIdentifier)
-        collectionView.register(PhotoListHeaderCollectionReusableView.self,
+        collectionView.register(ArtworkListCollectionViewCell.self,
+                                forCellWithReuseIdentifier: artworkListIdentifier)
+        collectionView.register(ArtworkListHeaderCollectionReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: photoListHeaderIdentifier)
+                                withReuseIdentifier: artworkListHeaderIdentifier)
         collectionView.register(ArtistDetailHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: artistDetailHeaderView)
@@ -142,12 +144,52 @@ class ArtistViewController: UIViewController {
     @objc func editButtonDidTap(_ sender: UIBarButtonItem) {
         isEditmode = !isEditmode
         
-        // TODO: 편집모드에서 탭시 삭제 네트워킹 진행하도록 코드 추가
     }
     
-    // MARK:- Delete Photo Button Did Tap
-    @objc func deletePhotoButtonDidTap(_ sender: UIButton) {
-        // TODO: 이미지 삭제 네트워킹 추가 후 코드 변경
+    // MARK:- Return ArtworkViewController
+    private func artworkViewController(index: IndexPath) -> ArtworkViewController {
+        let imageLoader = ImageCacheFactory().buildImageLoader()
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let databaseHandler = DatabaseHandler()
+        let viewController = ArtworkViewController(imageLoader: imageLoader,
+                                                   serverDatabase: serverDatabase,
+                                                   databaseHandler: databaseHandler)
+        
+        guard let cell = collectionView.cellForItem(at: index) as? ArtworkListCollectionViewCell else {
+            return viewController
+        }
+        
+        viewController.transitioningDelegate = self
+        let artwork = artworkList[index.item]
+        
+        serverDatabase.read(path: "root/artworks/\(artwork.artworkUid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                    return
+                }
+                
+                let updateValue = data.views + 1
+                
+                let encodeData = ArtworkDecodeType(userUid: data.userUid, uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
+                
+                self.serverDatabase.write(path: "root/artworks/\(artwork.artworkUid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case .success:
+                        print("success")
+                    }
+                })
+            }
+        }
+        
+        viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
+        viewController.artworkImage = cell.imageView.image
+        viewController.artistName = artistData?.nickName
+        return viewController
     }
 }
 
@@ -169,9 +211,9 @@ extension ArtistViewController: UICollectionViewDataSource {
                                           kind: kind,
                                           indexPath: indexPath)
         case 1:
-            return photoListHeaderView(collectionView: collectionView,
-                                       kind: kind,
-                                       indexPath: indexPath)
+            return artworkListHeaderView(collectionView: collectionView,
+                                         kind: kind,
+                                         indexPath: indexPath)
         default:
             return .init()
         }
@@ -187,37 +229,30 @@ extension ArtistViewController: UICollectionViewDataSource {
             withReuseIdentifier: artistDetailHeaderView,
             for: indexPath) as? ArtistDetailHeaderView else
         {
-                return .init()
+            return .init()
         }
         
         guard let artistData = artistData else { return .init() }
         
         headerView.artistNameTextField.text = artistData.nickName
-        headerView.artistIntroTextView.text = "작가 상세정보"
+        headerView.artistIntroTextView.text = artistData.description
         headerView.isEditMode = isEditmode
         
         return headerView
     }
     
-    func photoListHeaderView(collectionView: UICollectionView,
-                             kind: String,
-                             indexPath: IndexPath)
+    func artworkListHeaderView(collectionView: UICollectionView,
+                               kind: String,
+                               indexPath: IndexPath)
         -> UICollectionReusableView
     {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
-            withReuseIdentifier: photoListHeaderIdentifier,
-            for: indexPath) as? PhotoListHeaderCollectionReusableView else
+            withReuseIdentifier: artworkListHeaderIdentifier,
+            for: indexPath) as? ArtworkListHeaderCollectionReusableView else
         {
             return .init()
         }
-        
-        headerView.deleteButton.addTarget(
-            self,
-            action: #selector(deletePhotoButtonDidTap(_:)),
-            for: .touchUpInside
-        )
-        headerView.deleteButton.isHidden = !isEditmode
         
         return headerView
     }
@@ -247,20 +282,20 @@ extension ArtistViewController: UICollectionViewDataSource {
     {
         switch indexPath.section {
         case 1:
-            return photoListCollectionViewCell(collectionView: collectionView,
-                                               indexPath: indexPath)
+            return artworkListCollectionViewCell(collectionView: collectionView,
+                                                 indexPath: indexPath)
         default:
             return .init()
         }
     }
     
-    func photoListCollectionViewCell(collectionView: UICollectionView,
-                                     indexPath: IndexPath)
-        -> PhotoListCollectionViewCell
+    func artworkListCollectionViewCell(collectionView: UICollectionView,
+                                       indexPath: IndexPath)
+        -> ArtworkListCollectionViewCell
     {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: photoListIdentifier,
-            for: indexPath) as? PhotoListCollectionViewCell else
+            withReuseIdentifier: artworkListIdentifier,
+            for: indexPath) as? ArtworkListCollectionViewCell else
         {
             return .init()
         }
@@ -279,7 +314,94 @@ extension ArtistViewController: UICollectionViewDataSource {
 
 // MARK:- UICollectionView Delegate
 extension ArtistViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
+        let max = visubleCellsIndex.max{ $0 < $1 }
+        
+        guard let maxIndex = max, maxIndex != 0 else { return }
+        var prefetchIndex = 0
+        if maxIndex < indexPath.item {
+            prefetchIndex = min(indexPath.item + 6, artworkList.count - 1)
+        } else {
+            prefetchIndex = min(indexPath.item - 6, artworkList.count - 1)
+        }
+        
+        guard prefetchIndex > 0 else { return }
+        let artwork = artworkList[prefetchIndex]
+        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+            self.fetchImage(index: prefetchIndex)
+        }
+    }
+}
+
+// MARK:- PaginatingCollectionViewController Transitioning Delegate
+extension ArtistViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController)
+        -> UIViewControllerAnimatedTransitioning?
+    {
+        guard let index = collectionView.indexPathsForSelectedItems?.first,
+            let cell = collectionView.cellForItem(at: index)
+            else
+        {
+            return nil
+        }
+        
+        let transition = CollectionViewControllerPresentAnimator()
+        
+        transition.viewFrame = view.frame
+        transition.originFrame = collectionView.convert(cell.frame, to: nil)
+        
+        return transition
+    }
     
+    func animationController(forDismissed dismissed: UIViewController)
+        -> UIViewControllerAnimatedTransitioning?
+    {
+        return nil
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+        
+        let viewController = artworkViewController(index: indexPath)
+        viewController.isAnimating = true
+        
+        present(viewController, animated: true) {
+            viewController.isAnimating = false
+        }
+    }
+}
+
+// MARK:- UIViewController Previewing Delegate
+extension ArtistViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           viewControllerForLocation location: CGPoint)
+        -> UIViewController?
+    {
+        guard let index = collectionView.indexPathForItem(at: location),
+            let cell = collectionView.cellForItem(at: index) else {
+                return .init()
+        }
+        previewingContext.sourceRect = cell.frame
+        
+        let viewController = artworkViewController(index: index)
+        viewController.isPeeked = true
+        
+        return viewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           commit viewControllerToCommit: UIViewController)
+    {
+        guard let viewController = viewControllerToCommit as? ArtworkViewController else {
+            return
+        }
+        viewController.isPeeked = false
+        
+        present(viewController, animated: false, completion: nil)
+    }
 }
 
 // MARK:- UICollectinoView Delegate FlowLayout
@@ -305,12 +427,12 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath)
         -> CGSize
     {
-
+        
         let cellWitdh = ((collectionView.frame.width - (layout.spacing * 2)) / 3)
         let cellHeight = cellWitdh
         return CGSize(width: cellWitdh, height: cellHeight)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int)
@@ -318,7 +440,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     {
         return layout.spacing
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int)
@@ -326,7 +448,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     {
         return layout.spacing
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int)
@@ -336,7 +458,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
                                       left: layout.inset,
                                       bottom: layout.inset,
                                       right: layout.inset)
-
+        
         return edgeInsets
     }
 }

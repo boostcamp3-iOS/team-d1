@@ -215,14 +215,14 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Read Author's Artwork Array
-    final func readArtworkArray(author: AuthorModel,
+    // MARK:- Read Artist's Artwork Array
+    final func readArtworkArray(artist: ArtistModel,
                                 completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
         databaseQueue.async {
-            let type: DataType = .ArtworkData
+            let type: DataType = .artworkData
             let idField = "userId"
-            let idRow = author.id
+            let idRow = artist.id
             
             do {
                 guard let artworkArray = try self.fetchData(
@@ -249,7 +249,7 @@ class DatabaseHandler {
                                 completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
         databaseQueue.async {
-            let type: DataType = .ArtworkData
+            let type: DataType = .artworkData
             let idField = "date"
             let idRow = String(keyDate)
             
@@ -276,7 +276,7 @@ class DatabaseHandler {
     final func readArtworkArray(completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
         databaseQueue.async {
-            let type: DataType = .ArtworkData
+            let type: DataType = .artworkData
             
             do {
                 guard let modelArray = try self.fetchData(type: type) as? [ArtworkModel] else
@@ -293,14 +293,14 @@ class DatabaseHandler {
     
     // MARK:- Data Type Enum
     enum DataType {
-        case AuthorData
-        case ArtworkData
+        case artistData
+        case artworkData
         
         var model: DataModelProtocol {
             switch self {
-            case .AuthorData:
-                return AuthorModel()
-            case .ArtworkData:
+            case .artistData:
+                return ArtistModel()
+            case .artworkData:
                 return ArtworkModel()
             }
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotoListCollectionViewCell: UICollectionViewCell {
+class ArtworkListCollectionViewCell: UICollectionViewCell {
     
     // MARK:- Outlet
     public let imageView: UIImageView = {
@@ -18,13 +18,6 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
-    
-    // MARK:- Properties
-    override var isSelected: Bool {
-        didSet {
-            ChangeCellLayout(isSelected: isSelected)
-        }
-    }
     
     // MARK:- Initialize
     override init(frame: CGRect) {
@@ -41,14 +34,6 @@ class PhotoListCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         imageView.image = nil
-        isSelected = false
-    }
-    
-    // MARK:- ChangeCellLayout
-    private func ChangeCellLayout(isSelected: Bool) {
-        imageView.alpha = isSelected ? 0.5 : 1.0
-        
-        contentView.layer.borderColor = isSelected ? #colorLiteral(red: 7.121353701e-05, green: 0.3243641257, blue: 0.9695228934, alpha: 1) : UIColor.clear.cgColor
     }
     
     // MARK:- Set Layout

@@ -70,14 +70,14 @@ struct UserDataDecodeType: Decodable {
     let uid: String
     let nickName: String
     let email: String
-    let userProfileUrl: String
+    let description: String
     let artworks: [String: Artwork]
     
-    init(uid: String, nickName: String, artworks: [String: Artwork]) {
+    init(uid: String, nickName: String, description: String, artworks: [String: Artwork]) {
         self.uid = uid
         self.nickName = nickName
         self.email = ""
-        self.userProfileUrl = ""
+        self.description = description
         self.artworks = artworks
     }
 }

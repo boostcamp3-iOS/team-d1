@@ -69,6 +69,7 @@ class ArtworkViewController: UIViewController {
     
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
+    public var artistName: String?
     public var artworkImage: UIImage? {
         didSet {
             imageView.image = artworkImage
@@ -136,6 +137,11 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Fetch artist data
     private func fetchArtistData() {
+        if let artistName = artistName {
+            self.artistLabel.text = artistName
+            return
+        }
+        
         guard let uid = artwork?.userUid else { return }
         
         let queries = [URLQueryItem(name: "orderBy", value: "\"uid\""),
@@ -166,17 +172,17 @@ class ArtworkViewController: UIViewController {
     
      // MARK:- Save data to database
     private func saveDataToDatabase(data: UserDataDecodeType) {
-        let author = AuthorModel(id: data.uid, name: data.nickName, introduction: "") // TODO: Firebase에 해당 정보 추가 후 수정
+        let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
         
         databaseHandler.saveData(data: author)
     }
     
     // MARK:- Fetch data from database
     private func fetchDataFromDatabase(id: String) {
-        databaseHandler.readData(type: .AuthorData, id: id) { data, error in
-            guard let data = data as? AuthorModel else { return }
+        databaseHandler.readData(type: .artistData, id: id) { data, error in
+            guard let data = data as? ArtistModel else { return }
 
-            self.databaseHandler.readArtworkArray(author: data) { artworks, error in
+            self.databaseHandler.readArtworkArray(artist: data) { artworks, error in
                 guard let artworks = artworks else {
                     self.showErrorAlert(type: .fetchArtistData)
                     return
@@ -189,6 +195,7 @@ class ArtworkViewController: UIViewController {
                 
                 let artistData = UserDataDecodeType(uid: data.id,
                                                     nickName: data.name,
+                                                    description: data.description,
                                                     artworks: artworksDictionary)
                 
                 self.setArtistData(data: artistData)
