@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Photos
 
 class ArtAddInstaViewController: UIViewController {
+    
+    //properties for photos
+    var fetchResult: PHFetchResult<PHAsset>?
+    let imageManager: PHCachingImageManager = PHCachingImageManager()
+    var thisAssetCollection: PHAssetCollection?
+    
+    let cellIdentifier = "ArtAddCollectionViewCell"
     
     let cancelButton: UIButton = {
         let button = UIButton()
@@ -36,7 +44,7 @@ class ArtAddInstaViewController: UIViewController {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .brown
+        collectionView.backgroundColor = .black
         return collectionView
     }()
 
@@ -78,24 +86,42 @@ class ArtAddInstaViewController: UIViewController {
         collectionView.delegate = self
         
         collectionView.register(ArtAddCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "ArtAddCollectionViewCell")
+                                forCellWithReuseIdentifier: cellIdentifier)
     }
 }
 
 extension ArtAddInstaViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //TODO: - 선택된 이미지를 imageView의 image로 지정
+        print(indexPath)
+    }
 }
 
 extension ArtAddInstaViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //FIXME : - 라이브러리 내 사진의 갯수만큼으로 수정해줘야 함
-        return 15 //임시로
+        return self.fetchResult?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArtAddCollectionViewCell", for: indexPath) as? ArtAddCollectionViewCell else { return ArtAddCollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ArtAddCollectionViewCell else { return ArtAddCollectionViewCell() }
         
-        cell.imageView.image = #imageLiteral(resourceName: "lion-3372720_1920")
+        guard let fetchResult = fetchResult else { return cell }
+        
+        var asset: PHAsset = fetchResult.object(at: indexPath.item)
+        
+        DispatchQueue.global().async {
+            let width = (collectionView.frame.width-12) / 4
+            let height = width
+            self.imageManager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFill, options: nil, resultHandler: { (image, _) in
+                DispatchQueue.main.async {
+                    cell.imageView.image = image
+                }
+            })
+        }
+        
+        
+        //cell.imageView.image = #imageLiteral(resourceName: "lion-3372720_1920")
         return cell
     }
 }
