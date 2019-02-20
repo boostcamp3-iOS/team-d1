@@ -225,26 +225,26 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
     }
     
-    func makeAlert(title: String) {
+    func makeAlert(title: String?) {
         var message: String?
         var trueActionTitle: String?
         var falseActionTitle: String?
         var filterType: FilterType?
         
         if title == "방향" {
-            message = "어떤 방향으로 필터링 할까요?"
+            message = "어떤 방향의 작품을 보여드릴까요?"
             trueActionTitle = "가로사진"
             falseActionTitle = "세로사진"
             filterType = .orientation
         }
         else if title == "컬러" {
-            message = "어떤 색 필터링 할까요?"
+            message = "어떤 색 작품을 보여드릴까요?"
             trueActionTitle = "컬러사진"
             falseActionTitle = "흑백사진"
             filterType = .color
         }
         else if title == "온도" {
-            message = "어떤 온도로 필터링 할까요?"
+            message = "어떤 온도 작품을 보여드릴까요?"
             trueActionTitle = "차가운 사진"
             falseActionTitle = "따뜻한 사진"
             filterType = .temperature
@@ -260,8 +260,11 @@ class PaginatingCollectionViewController: UICollectionViewController {
             self.makeQueryAndRefresh(filterType: filterType!, isOn: false)
         })
         
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
         alertController.addAction(trueAction)
         alertController.addAction(falseAction)
+        alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion: nil)
     }
@@ -270,18 +273,19 @@ class PaginatingCollectionViewController: UICollectionViewController {
         let alertController = UIAlertController(title: "filtering", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
         
         let orientationAction = UIAlertAction(title: "방향", style: .default) { (action) in
-            guard let title = action.title else { return }
-            self.makeAlert(title: title)
+            self.makeAlert(title: action.title)
         }
         
         let colorAction = UIAlertAction(title: "컬러", style: .default) { (action) in
-            guard let title = action.title else { return }
-            self.makeAlert(title: title)
+            self.makeAlert(title: action.title)
         }
         
         let temperatureAction = UIAlertAction(title: "온도", style: .default) { (action) in
-            guard let title = action.title else { return }
-            self.makeAlert(title: title)
+            self.makeAlert(title: action.title)
+        }
+        
+        let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
+            self.makeQueryAndRefresh(filterType: .none, isOn: true)
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -289,6 +293,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         alertController.addAction(orientationAction)
         alertController.addAction(colorAction)
         alertController.addAction(temperatureAction)
+        alertController.addAction(originAction)
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true)
