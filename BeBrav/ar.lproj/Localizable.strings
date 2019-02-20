@@ -7,7 +7,7 @@
  */
 
 "chooseFilterTitle" = "اختر مرشح الصورة";
-"chooseFilterDescription" = "أي نوع من الصور تريد?";
+"chooseFilterDescription" = "أي نوع من الصور تريد؟";
 "color" = "اللون";
 "orientation" = "اتجاه";
 "temperature" = "درجة الحرارة";
@@ -28,21 +28,21 @@
 "views" = "الآراء";
 
 "email" = "البريد الإلكتروني";
-"enterEmail" = "أدخل بريدك الالكتروني.";
-"isValidEmailMessage" = "انها ليست صالحة البريد الإلكتروني.";
+"enterEmail" = "أدخل بريدك الإلكتروني";
+"isValidEmailMessage" = "انها ليست صالحة البريد الإلكتروني";
 
 "Password" = "كلمه السر";
-"enterPassword" = "ادخل رقمك السري.";
-"passwordCheckMessage" = "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.";
+"enterPassword" = "ادخل رقمك السري";
+"passwordCheckMessage" = "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل";
 
 "signIn" = "تسجيل الدخول";
 "signInError" = "تسجيل الدخول خطأ";
-"signInErrorMessage" = "تحقق من البريد الإلكتروني وكلمة المرور.";
+"signInErrorMessage" = "تحقق من البريد الإلكتروني وكلمة المرور";
 
 "name" = "اسم";
 "enterName" = "أدخل أسمك";
 
-"informationNotEnough" = "إنها ليست معلومات كافية.";
+"informationNotEnough" = "إنها ليست معلومات كافية";
 "needMoreInformation"  = "تحتاج المزيد من المعلومات";
 
 "signInIsReady" = "تسجيل الدخول جاهز.";
@@ -57,5 +57,5 @@
 "verifying" = "التحقق";
 
 "networkError" = "خطأ في الشبكة";
-"imageNetworkErrorMessage" = "لا يمكن الحصول على صورة عمل فني.";
-"artistNetworkErrorMessage" = "لا يمكن الحصول على صورة الفنان.";
+"imageNetworkErrorMessage" = "لا يمكن الحصول على صورة عمل فني";
+"artistNetworkErrorMessage" = "لا يمكن الحصول على صورة الفنان";
