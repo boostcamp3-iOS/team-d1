@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.rootViewController = ArtAddViewController() //UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))//mainViewController//
+        window?.rootViewController = ArtAddInstaViewController()//UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))//mainViewController//
         window?.makeKeyAndVisible()
         return true
     }
