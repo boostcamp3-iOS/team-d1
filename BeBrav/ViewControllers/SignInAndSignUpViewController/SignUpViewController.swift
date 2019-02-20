@@ -51,6 +51,9 @@ class SignUpViewController: UIViewController {
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
         textField.placeholder = "이메일"
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string:"이메일",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
     
@@ -59,6 +62,7 @@ class SignUpViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "이메일 주소를 입력해주세요"
+        label.textColor = .white
         return label
     }()
     
@@ -69,7 +73,9 @@ class SignUpViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.textContentType = .newPassword
         textField.autocapitalizationType = .none
-        textField.placeholder = "비밀번호"
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string:"비밀번호",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
     
@@ -78,6 +84,7 @@ class SignUpViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "비밀번호를 입력해주세요"
+        label.textColor = .white
         return label
     }()
     
@@ -85,10 +92,13 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
+        textField.keyboardAppearance = .dark
         textField.clearButtonMode = .whileEditing
         textField.textContentType = .username
         textField.autocapitalizationType = .none
-        textField.placeholder = "이름"
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string:"이름",
+                                                             attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
     
@@ -97,6 +107,7 @@ class SignUpViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "이름를 입력해주세요"
+        label.textColor = .white
         return label
     }()
     
@@ -119,6 +130,10 @@ class SignUpViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,6 +158,8 @@ class SignUpViewController: UIViewController {
         
         view.addSubview(signUpScrollView)
         
+        signUpScrollView.backgroundColor = UIColor(named: "backgroundColor")
+        
         signUpScrollView.addSubview(fixedEmailUpperLabel)
         signUpScrollView.addSubview(inputEmailTextField)
         
@@ -158,6 +175,7 @@ class SignUpViewController: UIViewController {
         
         signUpScrollView.addSubview(loadingIndicator)
         
+        
         signUpScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         signUpScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         signUpScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -170,14 +188,14 @@ class SignUpViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 8).isActive = true
-        fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
+        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 54).isActive = true
+        fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 20).isActive = true
         
         inputEmailTextField.topAnchor.constraint(equalTo: fixedEmailUpperLabel.bottomAnchor, constant: 16).isActive = true
         inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
         
-        fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 16).isActive = true
+        fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 20).isActive = true
         fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         
         inputPasswordTextField.topAnchor.constraint(equalTo: fixedPasswordUpperLabel.bottomAnchor, constant: 16).isActive = true
@@ -185,7 +203,7 @@ class SignUpViewController: UIViewController {
         inputNameTextField.widthAnchor.constraint(equalTo: signUpScrollView.widthAnchor, multiplier: 0.8).isActive = true
         inputPasswordTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
-        fixedNameUpperLabel.topAnchor.constraint(equalTo: inputPasswordTextField.bottomAnchor, constant: 64).isActive = true
+        fixedNameUpperLabel.topAnchor.constraint(equalTo: inputPasswordTextField.bottomAnchor, constant: 20).isActive = true
         fixedNameUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         
         inputNameTextField.topAnchor.constraint(equalTo: fixedNameUpperLabel.bottomAnchor, constant: 16).isActive = true
@@ -225,7 +243,7 @@ class SignUpViewController: UIViewController {
         
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)
         signUpScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        signUpScrollView.setContentOffset(CGPoint(x: 0, y: -100), animated: true)
+        signUpScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             
             self.view.layoutIfNeeded()
@@ -243,44 +261,44 @@ class SignUpViewController: UIViewController {
         }
         serverAuth.signUp(email: email,
                           password: password) { (result) in
-                            switch result {
-                            case .failure:
-                                DispatchQueue.main.async {
-                                    let alert = UIAlertController(title: "회원가입 오류",
-                                                                  message: "회원가입에 실패하였습니다.",
-                                                                  preferredStyle: .alert)
-                                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                                    alert.addAction(action)
-                                    self.loadingIndicator.deactivateIndicatorView()
-                                    self.present(alert, animated: false, completion: nil)
-                                }
-                            case .success:
-                                guard let email = UserDefaults.standard.string(forKey: "userId"),
-                                    let uid = UserDefaults.standard.string(forKey: "uid") else {
-                                        assertionFailure("fetching uid from UserDefault failure")
-                                        return
-                                }
-                                let userData = UserData(uid: uid, nickName: "", email: email, userProfileUrl: "", artworks: [:])
-                                let user = [uid: userData]
-                                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
-                                    switch result {
-                                    case .failure(let error):
-                                        DispatchQueue.main.async {
-                                            let alert = UIAlertController(title: "회원가입 오류",
-                                                                          message: "회원가입에 실패하였습니다.",
-                                                                          preferredStyle: .alert)
-                                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                                            alert.addAction(action)
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.present(alert, animated: false, completion: nil)
-                                        }
-                                    case .success:
-                                        DispatchQueue.main.async {
-                                            self.navigationController?.popViewController(animated: false)
-                                        }
-                                    }
-                                }
-                            }
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "회원가입 오류",
+                                                  message: "회원가입에 실패하였습니다.",
+                                                  preferredStyle: .alert)
+                    let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.loadingIndicator.deactivateIndicatorView()
+                    self.present(alert, animated: false, completion: nil)
+                }
+            case .success:
+                guard let email = UserDefaults.standard.string(forKey: "userId"),
+                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                        assertionFailure("fetching uid from UserDefault failure")
+                        return
+                }
+                let userData = UserData(uid: uid, description: "", nickName: name, email: email, artworks: [:])
+                let user = [uid: userData]
+                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "회원가입 오류",
+                                                          message: "회원가입에 실패하였습니다.",
+                                                          preferredStyle: .alert)
+                            let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                            alert.addAction(action)
+                            self.loadingIndicator.deactivateIndicatorView()
+                            self.present(alert, animated: false, completion: nil)
+                        }
+                    case .success:
+                        DispatchQueue.main.async {
+                            self.navigationController?.popViewController(animated: false)
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -320,6 +338,8 @@ extension SignUpViewController: UITextFieldDelegate {
             guard valid else {
                 isValid = false
                 approveButton.backgroundColor = .lightGray
+                fixedConfirmLabel.text = "아직 정보가 더 필요합니다"
+                fixedConfirmLabel.textColor = .red
                 return
             }
         }

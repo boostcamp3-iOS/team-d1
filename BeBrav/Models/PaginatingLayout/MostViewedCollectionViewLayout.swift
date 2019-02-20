@@ -50,7 +50,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     
     override init() {
         super.init()
-        self.sectionFootersPinToVisibleBounds = true
+        //self.sectionFootersPinToVisibleBounds = true
         self.footerReferenceSize = CGSize(width: 300, height: 60)
         //self.footerReferenceSize = CGSize(width: 300, height: 100)
 
@@ -100,6 +100,14 @@ extension UICollectionViewLayoutAttributes: Comparable {
 }
 
 extension MostViewedArtworkFlowLayout: PagingControlDelegate {
+    
+    func layoutRefresh() {
+        prepareIndex.removeAll()
+        fetchPage = 0
+        pageNumber = 0
+        offsetBucket.removeAll()
+        cache.removeAll()
+    }
     
     /// PagingControlDelegate 의 구현 메서드 입니다. PaginationCollectionViewController에서 호출하게 됩니다.
     ///
@@ -182,11 +190,10 @@ extension MostViewedArtworkFlowLayout: PagingControlDelegate {
         let topPadding = window.safeAreaInsets.top
         let contentOffsetY = collectionView.contentOffset.y + 2 * topPadding
         var frameForSupplementaryView = layoutAttributes.frame
-        let viewHeight = collectionView.frame.height - topPadding * 2
-        let position = viewHeight - frameForSupplementaryView.height
+        let viewHeight = collectionView.frame.height - topPadding * 3
+        let position = viewHeight - frameForSupplementaryView.height //- topPadding
         frameForSupplementaryView.origin.y = contentOffsetY + position
         layoutAttributes.frame = frameForSupplementaryView
-        
         return layoutAttributes
     }
 }
