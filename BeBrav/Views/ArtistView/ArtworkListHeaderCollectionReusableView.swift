@@ -15,6 +15,7 @@ class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "artworks".localized
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .white
         return label
     }()
@@ -35,7 +36,7 @@ class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
     private func setLayout() {
         addSubview(titleLabel)
         
-        backgroundColor = .black
+        backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true

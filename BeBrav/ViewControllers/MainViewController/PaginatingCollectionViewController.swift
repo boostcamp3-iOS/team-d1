@@ -943,7 +943,7 @@ extension PaginatingCollectionViewController {
         }
     }
     
-
+    // MARK:- Remove prefetched artwork from ViewController
     private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
         if front {
             let targetIndex = prefetchIndex - prefetchSize

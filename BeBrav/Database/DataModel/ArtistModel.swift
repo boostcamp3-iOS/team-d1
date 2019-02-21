@@ -74,7 +74,7 @@ extension ArtistModel: DataModelProtocol {
         return self == artist
     }
     
-    // MARK;- Initialize
+    // MARK:- Initialize
     init() {
         self.artistId = ""
         self.name = ""

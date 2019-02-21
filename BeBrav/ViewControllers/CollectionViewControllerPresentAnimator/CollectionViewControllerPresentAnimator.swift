@@ -9,16 +9,20 @@
 import UIKit
 
 class CollectionViewControllerPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    // MARK:- Properties
     let duration = 0.3
     var viewFrame = CGRect()
     var originFrame = CGRect()
     
+    // MARK:- Transition duration
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?)
         -> TimeInterval
     {
         return duration
     }
     
+    // MARK:- Animate transition
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning){
         guard let toView = transitionContext.view(forKey: .to) else { return }
         
