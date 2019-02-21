@@ -12,6 +12,7 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
+    //private var currentFilterType: String = ""
     
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: FirebaseDatabaseService
@@ -132,21 +133,22 @@ class PaginatingCollectionViewController: UICollectionViewController {
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                 withReuseIdentifier: identifierFooter)
         
-        //TODO: filtering에 맞는 이미지로 수정
-        let filterBarItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
-        filterBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        //set filter right bar button
+        let button = UIButton(type: UIButton.ButtonType.custom)
+        button.setImage(#imageLiteral(resourceName: "filter (1)"), for: .normal)
+        button.addTarget(self, action: #selector(filterButtonDidTap), for: .touchUpInside)
         
-        let userSettingBarItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector
-            (userSettingButtonDidTap))
-        userSettingBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-
-        navigationItem.rightBarButtonItems = [filterBarItem, userSettingBarItem]
+        let barButton = UIBarButtonItem(customView: button)
+        barButton.customView?.translatesAutoresizingMaskIntoConstraints = false
+        barButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        barButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        navigationItem.rightBarButtonItem = barButton
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
             layout.sectionFootersPinToVisibleBounds = true
             layout.minimumLineSpacing = padding
-            layout.fetchPage = pageSize
+            
         }
     }
     
@@ -238,11 +240,113 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
     }
     
-    @objc func filterButtonDidTap() {
-        print(collectionView.indexPathsForVisibleItems)
-        //TODO: filtering 기능 추가
-        refreshLayout()
+    func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
+        let orderBy: String?
+        let queries: [URLQueryItem]?
         
+        switch filterType {
+        case .orientation:
+            orderBy = "\"orientation\""
+        case .color:
+            orderBy = "\"color\""
+        case .temperature:
+            orderBy = "\"temperature\""
+        case .none:
+            orderBy = "\"timestamp\""
+        }
+        
+        if filterType == .none {
+            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                       URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            ]
+        }
+        else {
+            queries = [URLQueryItem(name: "orderBy", value: orderBy),
+                       URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                       URLQueryItem(name: "equalTo", value: "\(isOn)"),
+                       URLQueryItem(name: "limitToLast", value: "\(batchSize)")]
+        }
+        
+        if let queries = queries {
+            refreshLayout(queries: queries, type: filterType, isOn: isOn)
+        }
+    }
+    
+    func makeAlert(title: String?) {
+        var message: String?
+        var trueActionTitle: String?
+        var falseActionTitle: String?
+        var filterType: FilterType?
+        
+        if title == "방향" {
+            message = "어떤 방향의 작품을 보여드릴까요?"
+            trueActionTitle = "가로 작품"
+            falseActionTitle = "세로 작품"
+            filterType = .orientation
+        }
+        else if title == "컬러" {
+            message = "어떤 색의 작품을 보여드릴까요?"
+            trueActionTitle = "컬러 작품"
+            falseActionTitle = "흑백 작품"
+            filterType = .color
+        }
+        else if title == "온도" {
+            message = "어떤 온도의 작품을 보여드릴까요?"
+            trueActionTitle = "차가운 작품"
+            falseActionTitle = "따뜻한 작품"
+            filterType = .temperature
+        }
+        
+        guard let type = filterType else { return }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        let trueAction = UIAlertAction(title: trueActionTitle, style: .default, handler: { (action) in
+            
+            self.makeQueryAndRefresh(filterType: type, isOn: true)
+        })
+        
+        let falseAction = UIAlertAction(title: falseActionTitle, style: .default, handler: { (action) in
+            self.makeQueryAndRefresh(filterType: type, isOn: false)
+        })
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(trueAction)
+        alertController.addAction(falseAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func filterButtonDidTap() {
+        let alertController = UIAlertController(title: "filtering", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
+        
+        let orientationAction = UIAlertAction(title: "방향", style: .default) { (action) in
+            self.makeAlert(title: action.title)
+        }
+        
+        let colorAction = UIAlertAction(title: "컬러", style: .default) { (action) in
+            self.makeAlert(title: action.title)
+        }
+        
+        let temperatureAction = UIAlertAction(title: "온도", style: .default) { (action) in
+            self.makeAlert(title: action.title)
+        }
+        
+        let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
+            self.makeQueryAndRefresh(filterType: .none, isOn: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(orientationAction)
+        alertController.addAction(colorAction)
+        alertController.addAction(temperatureAction)
+        alertController.addAction(originAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
    
     @objc func userSettingButtonDidTap() {
@@ -259,21 +363,20 @@ class PaginatingCollectionViewController: UICollectionViewController {
         artAddCollectionViewController.delegate = self
         present(artAddCollectionViewController, animated: true, completion: nil)
     }
-    
-    func refreshLayout() {
+
+    func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
         guard let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout else {
             return
         }
         layout.layoutRefresh()
-        layout.fetchPage = pageSize
+        //layout.fetchPage = pageSize
         isEndOfData = false
         isLoading = false
         recentTimestamp = nil
         currentKey = nil
         artworkBucket.removeAll()
         thumbImage.removeAll()
-        fetchPages()
-        
+        fetchPages(queries: queries, type: type, isOn: isOn)
     }
     
     // MARK: UICollectionViewDataSource
@@ -383,6 +486,63 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 }
 
 extension PaginatingCollectionViewController {
+    func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
+        
+        if !isEndOfData {
+            isLoading = true
+            loadingIndicator.activateIndicatorView()
+            
+            guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
+                return
+            }
+            if currentKey == nil {
+                let queries = queries
+                
+                serverDB.read(path: "root/artworks",
+                              type: [String: ArtworkDecodeType].self, headers: [:],
+                              queries: queries) {
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    self.processData(data: data,
+                                                     doNeedMore: false,
+                                                     targetLayout: layout)
+                                }
+                }
+            } else {
+                //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
+                let timestamp = "\"timestamp\""
+                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
+                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
+                ]
+                serverDB.read(path: "root/artworks",
+                              type: [String: ArtworkDecodeType].self,
+                              headers: [:],
+                              queries: queries) {
+                                (result, response) in
+                                switch result {
+                                case .failure(let error):
+                                    //TODO: 유저에게 보여줄 에러메세지 생성
+                                    print(error)
+                                case .success(let data):
+                                    self.processData(data: data,
+                                                     doNeedMore: true,
+                                                     targetLayout: layout)
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                            self.isLoading = false
+                                        }
+                                    }
+                                }
+                }
+            }
+        }
+    }
     
     /// 컬렉션 뷰의 데이터를 페이지 단위로 받아오기 위한 메서드입니다.
     /// 이전에 데이터를 받아온 적이 있는지 currentKey를 통해서 확인합니다. 이후 쿼리를 생성하여 timestamp로
@@ -553,9 +713,8 @@ extension PaginatingCollectionViewController {
             
             if result.count < self.batchSize {
                 self.isEndOfData = true
-                targetLayout.fetchPage = result.count
             }
-            
+            targetLayout.fetchPage = result.count
             let infoBucket =
                 self.calculateCellInfo(fetchedData: result,
                                        batchSize: self.itemsPerScreen)
@@ -565,7 +724,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
-                 self.isLoading = false
+                self.isLoading = false
                 self.collectionView.reloadData()
             }
         }
@@ -613,10 +772,6 @@ extension PaginatingCollectionViewController {
             if !isEndOfData {
                 self.loadingIndicator.activateIndicatorView()
             }
-            
-//            if !isLoading {
-//                fetchPages()
-//            }
         }
     }
     
@@ -773,7 +928,6 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
     }
 }
 
-
 extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
@@ -837,5 +991,4 @@ fileprivate enum FilterType {
     case color
     case temperature
     case none
-
 }
