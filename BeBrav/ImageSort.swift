@@ -69,4 +69,3 @@ struct ImageSort                                                                
         return temperature
     }
 }
-
