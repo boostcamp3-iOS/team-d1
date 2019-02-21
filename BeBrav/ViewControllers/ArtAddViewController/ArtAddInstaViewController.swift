@@ -15,17 +15,19 @@ protocol ArtAddInstaViewControllerDelegate: class {
 
 class ArtAddInstaViewController: UIViewController {
     
-    var fetchResult: PHFetchResult<PHAsset>?
-    var cameraRoll: PHAssetCollection?
-    var imageList: [UIImage] = []
+    private let cellIdentifier = "ArtAddCollectionViewCell"
+    private let spacing: CGFloat = 12
+    private let numOfItemsPerRow: CGFloat = 4
+    private let minimumLineSpacingForSectionAt: CGFloat = 3
+    private let minimumInteritemSpacingForSectionAt: CGFloat = 3
+    private let targetSizeWidth = 250
+    private let targetSizeHeight = 250
     
-    let imageManager = PHCachingImageManager()
+    private let imageManager = PHCachingImageManager()
+    var firstItemImage: UIImage?
     
-    let cellIdentifier = "ArtAddCollectionViewCell"
-    let spacing: CGFloat = 12
-    let numOfItemsPerRow: CGFloat = 4
-    let minimumLineSpacingForSectionAt: CGFloat = 3
-    let minimumInteritemSpacingForSectionAt: CGFloat = 3
+    private var fetchResult: PHFetchResult<PHAsset>?
+    private var cameraRoll: PHAssetCollection?
     
     weak var delegate: ArtAddInstaViewControllerDelegate?
     
@@ -56,6 +58,11 @@ class ArtAddInstaViewController: UIViewController {
         textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textField.borderStyle = .none
         textField.font = UIFont.boldSystemFont(ofSize: 30)
+        textField.layer.shadowColor = UIColor.black.cgColor
+        textField.layer.shadowRadius = 3.0
+        textField.layer.shadowOpacity = 1.0
+        textField.layer.shadowOffset = CGSize(width: 4, height: 4)
+        textField.layer.masksToBounds = false
         return textField
     }()
     
@@ -63,6 +70,8 @@ class ArtAddInstaViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -124,77 +133,12 @@ class ArtAddInstaViewController: UIViewController {
         setUpViews()
         setCollectionView()
         
+        commonInit()
+        
         titleTextField.delegate = self
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonDidTap), for: .touchUpInside)
-        
-        fetchImages()
-        
-    }
-    
-    //Helper Method
-    func fetchImages() {
-            guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
-            
-            let fetchOption = PHFetchOptions()
-            fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            
-            self.fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
-            
-            let assets = self.fetchResult?.objects(at: IndexSet(0..<self.fetchResult!.count))
-            
-            for i in 0..<self.fetchResult!.count {
-                guard let assets = assets else { return }
-                let asset = assets[i]
-                
-                let width = self.view.frame.width
-                let height = self.view.frame.height * 0.5
-                
-                self.imageManager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFill, options: nil) { (image, _) in
-                    
-                    guard let image = image else { return }
-                    self.imageList.append(image)
-                    
-                        if i==0 {
-                            self.imageView.image = image
-                        }
-                }
-                
-                DispatchQueue.global().async {
-                    var imageSort = ImageSort(input: self.imageList[0])
-                    
-                    guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
-                    
-                    let orientation = r1 ? "#가로" : "#세로"
-                    let color = r2 ? "#컬러" : "#흑백"
-                    let temperature = r3 ? "#차가움" : "#따뜻함"
-                    
-                    DispatchQueue.main.async {
-                        self.showImageSortResultLabel()
-                        
-                        self.orientationLabel.text = orientation
-                        self.colorLabel.text = color
-                        self.temperatureLabel.text = temperature
-                    }
-                }
-        }
-    }
-    
-    @objc func cancelButtonDidTap() {
-        //dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func uploadButtonDidTap() {
-        //업로드
-        var title = titleTextField.text
-        
-        //title을 따로 지정해주지 않았다면, 작품명을 "무제"로 업로드함
-        if titleTextField.text?.isEmpty == true {
-            title = "무제"
-        }
-        
-        //delegate?.uploadArtwork(self, image: imageView.image, title: titleTextField.text)
     }
     
     //사용자로부터 사진첩 접근 허용 받기
@@ -217,6 +161,55 @@ class ArtAddInstaViewController: UIViewController {
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization(requestHandler)
         }
+        
+    }
+
+    func commonInit() {
+        //카메라롤에 접근
+        guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
+        
+        let fetchOption = PHFetchOptions()
+        fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
+        
+        guard let fetchResult = fetchResult else { return }
+        
+        guard let asset = fetchResult.firstObject else { return }
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
+            guard let image = image else { return }
+            self.imageView.image = image
+            
+            self.imageSorting(image: image)
+        }
+        
+        collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: .top)
+    }
+    
+    @objc func cancelButtonDidTap() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func uploadButtonDidTap() {
+        guard let titleText = titleTextField.text else { return }
+        var title = titleText
+        
+        //title을 따로 지정해주지 않았다면, 작품명을 "무제"로 업로드함
+        if title.isEmpty {
+            title = "무제"
+        }
+
+        guard let uploadImage = imageView.image else { return }
+        
+        dismiss(animated: true) {
+            self.delegate?.uploadArtwork(self, image: uploadImage, title: title)
+        }
+    }
+    
+    func showImageSortResultLabel() {
+        orientationLabel.isHidden = false
+        colorLabel.isHidden = false
+        temperatureLabel.isHidden = false
     }
     
     func setUpViews() {
@@ -225,7 +218,6 @@ class ArtAddInstaViewController: UIViewController {
         
         view.addSubview(cancelButton)
         view.addSubview(uploadButton)
-        //view.addSubview(titleTextField)
         view.addSubview(imageView)
         view.addSubview(titleTextField)
         view.addSubview(orientationLabel)
@@ -272,28 +264,19 @@ class ArtAddInstaViewController: UIViewController {
                                 forCellWithReuseIdentifier: cellIdentifier)
     }
     
-    func showImageSortResultLabel() {
-        orientationLabel.isHidden = false
-        colorLabel.isHidden = false
-        temperatureLabel.isHidden = false
-    }
-}
-
-//Collection View Delegate
-extension ArtAddInstaViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func clearImageViewLabels() {
+        orientationLabel.isHidden = true
+        colorLabel.isHidden = true
+        temperatureLabel.isHidden = true
         
         imageView.image = nil
         titleTextField.text = nil
         titleTextField.placeholder = "작품 제목"
-        
-        //FIXME: - imageView의 image 화질이 이상함
-        print(indexPath) //FIXME: - 제거
-        let selectedImage = imageList[indexPath.row]
-        imageView.image = selectedImage
-        
-        DispatchQueue.global().async {
-            var imageSort = ImageSort(input: selectedImage)
+    }
+    
+    func imageSorting(image: UIImage?) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var imageSort = ImageSort(input: image)
             
             guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
             
@@ -302,13 +285,30 @@ extension ArtAddInstaViewController: UICollectionViewDelegate {
             let temperature = r3 ? "#차가움" : "#따뜻함"
             
             DispatchQueue.main.async {
-                //self.showImageSortResultLabel()
+                self.showImageSortResultLabel()
                 
                 self.orientationLabel.text = orientation
                 self.colorLabel.text = color
                 self.temperatureLabel.text = temperature
             }
         }
+    }
+}
+
+//Collection View Delegate
+extension ArtAddInstaViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        clearImageViewLabels()
+        
+        print(indexPath) //FIXME: - 제거
+        
+        guard let selectedItem = collectionView.cellForItem(at: indexPath) as? ArtAddCollectionViewCell else { return }
+        let selectedItemImage = selectedItem.imageView.image
+        imageView.image = selectedItemImage
+        
+        //분류 알고리즘 적용
+        imageSorting(image: selectedItemImage)
     }
 }
 
@@ -321,14 +321,17 @@ extension ArtAddInstaViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ArtAddCollectionViewCell else { return ArtAddCollectionViewCell() }
+    
+        guard let asset = fetchResult?.object(at: indexPath.row) else { return ArtAddCollectionViewCell() }
         
-        cell.imageView.image = imageList[indexPath.row]
-
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
+            guard let image = image else { return }
+            cell.imageView.image = image
+        }
+        
         return cell
     }
 }
-
-
 
 extension ArtAddInstaViewController: UICollectionViewDelegateFlowLayout {
     
@@ -351,9 +354,5 @@ extension ArtAddInstaViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("textFieldDidBeginEditing")
     }
 }
