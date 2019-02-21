@@ -14,7 +14,7 @@ class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Photos"
+        label.text = "artworks".localized
         label.textColor = .white
         return label
     }()

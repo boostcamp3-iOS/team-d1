@@ -19,6 +19,7 @@ class ArtworkViewController: UIViewController {
         scrollView.zoomScale = 1
         return scrollView
     }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +27,7 @@ class ArtworkViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
     private let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +38,7 @@ class ArtworkViewController: UIViewController {
         button.layer.shadowOpacity = 1
         return button
     }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +48,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let viewsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +58,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +70,10 @@ class ArtworkViewController: UIViewController {
     }()
     
     // MARK:- Properties
+    private let imageLoader: ImageLoaderProtocol
+    private let databaseHandler: DatabaseHandler
+    private let serverDatabase: ServerDatabase
+    
     private var artistData: UserDataDecodeType?
     
     public var mainNavigationController: UINavigationController?
@@ -87,9 +96,7 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    private let imageLoader: ImageLoaderProtocol
-    private let databaseHandler: DatabaseHandler
-    private let serverDatabase: ServerDatabase
+    
     
     // MARK:- Initialize
     init(imageLoader: ImageLoaderProtocol,
@@ -128,7 +135,7 @@ class ArtworkViewController: UIViewController {
         }
         
         titleLabel.text = artwork.title
-        viewsLabel.text = artwork.views.decimalString + " Views"
+        viewsLabel.text = artwork.views.decimalString + " " + "views".localized
 
         imageLoader.fetchImage(url: url, size: .big) { (image, error) in
             self.finishFetchImage(image: image, error: error)
@@ -205,11 +212,11 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Show error alert
     private func showErrorAlert(type: errorType) {
-        let alert = UIAlertController(title: "네트워킹 오류",
-                                      message: type.rawValue,
+        let alert = UIAlertController(title: "networkError".localized,
+                                      message: type.rawValue.localized,
                                       preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "확인", style: .default) { _ in
+        let action = UIAlertAction(title: "done".localized, style: .default) { _ in
             if self.imageView.image == nil {
                 self.dismiss(animated: true, completion: nil)
             }
@@ -376,6 +383,6 @@ extension ArtworkViewController: UIScrollViewDelegate {
 }
 
 fileprivate enum errorType: String {
-    case fetchImage = "이미지를 불러올 수 없습니다."
-    case fetchArtistData = "작가 정보를 확인할 수 없습니다."
+    case fetchImage = "imageNetworkErrorMessage"
+    case fetchArtistData = "artistNetworkErrorMessage"
 }

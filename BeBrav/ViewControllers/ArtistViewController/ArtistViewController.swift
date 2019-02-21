@@ -20,28 +20,29 @@ class ArtistViewController: UIViewController {
     
     private let editButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.title = "편집"
+        barButtonItem.title = "edit".localized
         barButtonItem.style = .plain
         return barButtonItem
     }()
     
     // MARK:- Properties
     private let layout: (spacing: CGFloat, inset: CGFloat) = (5.0, 0.0)
+    private let prefetchSize = 6
     private let artworkListIdentifier = "ArtworkListCollectionViewCell"
     private let artworkListHeaderIdentifier = "ArtworkListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
+    private let imageLoader: ImageLoaderProtocol
+    private let serverDatabase: ServerDatabase
+    
+    private var artworkList: [Artwork] = []
+    private var artworkImage: [String: UIImage] = [:]
     private var isEditmode = false {
         didSet {
-            navigationItem.title = isEditmode ? "수정" : "아티스트"
-            editButton.title = isEditmode ? "확인" : "편집"
+            navigationItem.title = isEditmode ? "modification".localized : "artist".localized
+            editButton.title = isEditmode ? "done".localized : "edit".localized
             editButton.style = isEditmode ? .plain : .done
         }
     }
-    
-    private let imageLoader: ImageLoaderProtocol
-    private let serverDatabase: ServerDatabase
-    private var artworkList: [Artwork] = []
-    private var artworkImage: [String: UIImage] = [:]
     
     public var artistData: UserDataDecodeType?
     public var isUser = false {
@@ -63,7 +64,7 @@ class ArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "아티스트"
+        navigationItem.title = "artist".localized
         
         setImageList()
         
@@ -86,24 +87,44 @@ class ArtistViewController: UIViewController {
         setLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        collectionView.reloadData()
+    }
+    
+    // MARK:- Set Artist's image list
     private func setImageList() {
         guard let artistData = artistData else { return }
         artworkList = artistData.artworks.map{ $0.value }.sorted{ $0.timestamp > $1.timestamp }
-        artworkList.indices.forEach{ index in
-            self.fetchImage(index: index)
+        artworkList.indices.forEach{
+            self.fetchImage(index: $0, prefetch: true)
         }
     }
     
-    // MARK:- Set Artist's image
-    private func fetchImage(index: Int) {
+    // MARK:- Fetch image
+    private func fetchImage(index: Int, prefetch: Bool) {
         let artwork = artworkList[index]
         
-        guard let url = URL(string: artwork.artworkUrl) else { return }
-        
-        imageLoader.fetchImage(url: url, size: .small) { image, error in
-            guard let image = image else { return }
-            self.artworkImage[artwork.artworkUid] = image
+        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+            guard let url = URL(string: artwork.artworkUrl) else { return }
             
+            imageLoader.fetchImage(url: url, size: .small) { image, error in
+                guard let image = image else { return }
+                self.artworkImage[artwork.artworkUid] = image
+                
+                if !prefetch  {
+                    DispatchQueue.main.async {
+                        let indexPath = IndexPath(item: index, section: 1)
+                        
+                        self.collectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            return
+        }
+        
+        if !prefetch  {
             DispatchQueue.main.async {
                 let indexPath = IndexPath(item: index, section: 1)
                 
@@ -127,7 +148,7 @@ class ArtistViewController: UIViewController {
                                 withReuseIdentifier: artistDetailHeaderView)
     }
     
-    // MARK:- Set Layout
+    // MARK:- Set layout
     private func setLayout() {
         view.addSubview(collectionView)
         view.backgroundColor = .black
@@ -140,10 +161,9 @@ class ArtistViewController: UIViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
-    // MARK:- Edit Button Did Tap
+    // MARK:- Edit button did tap
     @objc func editButtonDidTap(_ sender: UIBarButtonItem) {
         isEditmode = !isEditmode
-        
     }
     
     // MARK:- Return ArtworkViewController
@@ -162,34 +182,63 @@ class ArtistViewController: UIViewController {
         viewController.transitioningDelegate = self
         let artwork = artworkList[index.item]
         
-        serverDatabase.read(path: "root/artworks/\(artwork.artworkUid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
-                    return
-                }
-                
-                let updateValue = data.views + 1
-                
-                let encodeData = ArtworkDecodeType(userUid: data.userUid, uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
-                
-                self.serverDatabase.write(path: "root/artworks/\(artwork.artworkUid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    case .success:
-                        print("success")
-                    }
-                })
-            }
-        }
+        updateViewsCount(id: artwork.artworkUid)
         
         viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
         viewController.artworkImage = cell.imageView.image
         viewController.artistName = artistData?.nickName
         return viewController
+    }
+    
+    private func updateViewsCount(id: String) {
+        serverDatabase.read(
+            path: "root/artworks/\(id)",
+            type: ArtworkDecodeType.self,
+            headers: ["X-Firebase-ETag": "true"],
+            queries: nil
+            )
+        { (result, response) in
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse,
+                    let eTag = formedResponse.allHeaderFields["Etag"] as? String
+                    else
+                {
+                    return
+                }
+
+                let encodeData = ArtworkDecodeType(
+                    userUid: data.userUid,
+                    authorName: data.authorName,
+                    uid: data.artworkUid,
+                    url: data.artworkUrl,
+                    title: data.title,
+                    timestamp: data.timestamp,
+                    views: data.views + 1,
+                    orientation: data.orientation,
+                    color: data.color,
+                    temperature: data.temperature
+                )
+                
+                self.serverDatabase.write(
+                    path: "root/artworks/\(id)/",
+                    data: encodeData,
+                    method: .put,
+                    headers: ["if-match": eTag]
+                    )
+                {
+                    (result, response) in
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    case .success:
+                        break
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -305,7 +354,7 @@ extension ArtistViewController: UICollectionViewDataSource {
             cell.imageView.image = image
             artworkImage.removeValue(forKey: id)
         } else {
-            fetchImage(index: indexPath.item)
+            fetchImage(index: indexPath.item, prefetch: false)
         }
         
         return cell
@@ -315,21 +364,26 @@ extension ArtistViewController: UICollectionViewDataSource {
 // MARK:- UICollectionView Delegate
 extension ArtistViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        
         let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
         let max = visubleCellsIndex.max{ $0 < $1 }
         
         guard let maxIndex = max, maxIndex != 0 else { return }
         var prefetchIndex = 0
         if maxIndex < indexPath.item {
-            prefetchIndex = min(indexPath.item + 6, artworkList.count - 1)
+            prefetchIndex = min(indexPath.item + prefetchSize, artworkList.count - 1)
         } else {
-            prefetchIndex = min(indexPath.item - 6, artworkList.count - 1)
+            prefetchIndex = min(indexPath.item - prefetchSize, artworkList.count - 1)
         }
         
-        guard prefetchIndex > 0 else { return }
+        guard  artworkList.count - prefetchIndex > prefetchSize else { return }
+        
+        guard prefetchIndex >= 0 else { return }
         let artwork = artworkList[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
-            self.fetchImage(index: prefetchIndex)
+            self.fetchImage(index: prefetchIndex, prefetch: true)
         }
     }
 }
@@ -362,9 +416,9 @@ extension ArtistViewController: UIViewControllerTransitioningDelegate {
         return nil
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath)
+    {
         let viewController = artworkViewController(index: indexPath)
         viewController.isAnimating = true
         
@@ -382,7 +436,7 @@ extension ArtistViewController: UIViewControllerPreviewingDelegate {
     {
         guard let index = collectionView.indexPathForItem(at: location),
             let cell = collectionView.cellForItem(at: index) else {
-                return .init()
+                return nil
         }
         previewingContext.sourceRect = cell.frame
         
@@ -406,7 +460,6 @@ extension ArtistViewController: UIViewControllerPreviewingDelegate {
 
 // MARK:- UICollectinoView Delegate FlowLayout
 extension ArtistViewController: UICollectionViewDelegateFlowLayout {
-    // MARK:- UICollectionView Header View Height
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int)
@@ -414,7 +467,7 @@ extension ArtistViewController: UICollectionViewDelegateFlowLayout {
     {
         switch section {
         case 0:
-            return CGSize(width: view.frame.width, height: 200)
+            return CGSize(width: view.frame.width, height: 170)
         case 1:
             return CGSize(width: view.frame.width, height: 50)
         default:

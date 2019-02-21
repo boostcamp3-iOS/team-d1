@@ -33,6 +33,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         return textView
     }()
     
+    // MARK:- Properties
     public var isEditMode = false {
         didSet {
             artistNameTextField.isEnabled = isEditMode
@@ -44,11 +45,11 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         }
     }
     
-    //MARK: - Init
+    //MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUpViews()
+        setLayout()
 
         artistNameTextField.delegate = self
     }
@@ -57,7 +58,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Method
+    //MARK: - Touches began
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if artistNameTextField.isFirstResponder {
             artistNameTextField.resignFirstResponder()
@@ -66,10 +67,8 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         }
     }
     
-    //TODO: - 편집모드 코드 추가
-    
     //MARK: - Set Layout
-    private func setUpViews() {
+    private func setLayout() {
         addSubview(artistNameTextField)
         addSubview(artistIntroTextView)
 

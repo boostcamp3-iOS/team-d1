@@ -9,10 +9,11 @@
 import Foundation
 
 struct DatabaseFactory {
+    // MARK:- Properties
     let databaseName = "BeBravDatabase"
-    
 }
 
+// MARK:- DatabaseFactoryProtocol
 extension DatabaseFactory: DatabaseFactoryProtocol {
     func buildDatabaseHandler() -> DatabaseHandler {
         let databaseHandler = DatabaseHandler.shared
