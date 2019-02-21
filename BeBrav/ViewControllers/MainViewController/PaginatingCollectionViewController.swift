@@ -97,7 +97,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     private let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.noticeLabel.text = "loading images"
+        indicator.noticeLabel.text = "loadingImages".localized
         return indicator
     }()
     
@@ -133,9 +133,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
                                 withReuseIdentifier: identifierFooter)
         
         //TODO: filtering에 맞는 이미지로 수정
-        let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
-        barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        navigationItem.rightBarButtonItem = barItem
+        let filterBarItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
+        filterBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        let userSettingBarItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector
+            (userSettingButtonDidTap))
+        userSettingBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+
+        navigationItem.rightBarButtonItems = [filterBarItem, userSettingBarItem]
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
@@ -152,7 +157,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
-        loadingIndicator.deactivateIndicatorView()
+//        loadingIndicator.deactivateIndicatorView()
+        loadingIndicator.activateIndicatorView()
     }
     
     // MARK:- Return ArtworkViewController
@@ -192,6 +198,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
                 guard let formedResponse = response as? HTTPURLResponse,
                     let eTag = formedResponse.allHeaderFields["Etag"] as? String
                     else
@@ -201,6 +208,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
+                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,
@@ -224,6 +232,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     case .success:
                         break
                     }
+                })
                 }
             }
         }
@@ -235,7 +244,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
         refreshLayout()
         
     }
-    
+   
+    @objc func userSettingButtonDidTap() {
+        print(collectionView.indexPathsForVisibleItems)
+        //TODO: setting 기능 추가
+        UserDefaults.standard.removeObject(forKey: "uid")
+        UserDefaults.standard.synchronize()
+  
+        
+    }
     @objc func addArtworkButtonDidTap() {
         let flowLayout = UICollectionViewFlowLayout()
         let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
@@ -307,6 +324,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             }
         }
     }
+
     
     private func reloadCellImage(indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else { return }
@@ -314,6 +332,22 @@ class PaginatingCollectionViewController: UICollectionViewController {
         guard let image = artworkImage[artworkBucket[indexPath.item].artworkUid] else { return }
         
         cell.artworkImageView.image = image
+    }
+  
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
+            return
+        }
+        DispatchQueue.main.async {
+            if self.traitCollection.verticalSizeClass == .compact {
+                //self.refreshLayout()
+                
+            } else {
+               // self.refreshLayout()
+
+        }
+      }
     }
 }
 
@@ -358,7 +392,7 @@ extension PaginatingCollectionViewController {
         
         if !isEndOfData {
             isLoading = true
-            loadingIndicator.activateIndicatorView()
+//            loadingIndicator.activateIndicatorView()
             
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -574,11 +608,15 @@ extension PaginatingCollectionViewController {
                                            willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        if maxOffset - currentOffset <= 40 {
-            if !isLoading {
-                fetchPages()
+     
+        if maxOffset - currentOffset <= 40{
+            if !isEndOfData {
+                self.loadingIndicator.activateIndicatorView()
             }
+            
+//            if !isLoading {
+//                fetchPages()
+//            }
         }
     }
     
@@ -762,6 +800,7 @@ extension PaginatingCollectionViewController {
         }
     }
     
+
     private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
         if front {
             let targetIndex = prefetchIndex - prefetchSize
@@ -788,6 +827,7 @@ extension PaginatingCollectionViewController {
                     artworkImage.removeValue(forKey: artwork.artworkUid)
                 }
             }
+
         }
     }
 }

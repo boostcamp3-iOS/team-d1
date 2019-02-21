@@ -15,18 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
-        
+        let container = NetworkDependencyContainer()
+        var firstOnScreenViewController = UIViewController()
+        if let uid = UserDefaults.standard.string(forKey: "uid") {
+            let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
+            let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+            firstOnScreenViewController = UINavigationController(rootViewController: PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: DatabaseHandler()))
+            
+        } else {
+            firstOnScreenViewController = UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))
+        }
+      
 //        let mainViewController = ExampleViewController()//PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader)
         
         //let newRootViewController = UINavigationController(rootViewController: mainViewController)
-        let container = NetworkDependencyContainer()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        window?.rootViewController = UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))//mainViewController//
+        window?.rootViewController = firstOnScreenViewController
         window?.makeKeyAndVisible()
         return true
     }
