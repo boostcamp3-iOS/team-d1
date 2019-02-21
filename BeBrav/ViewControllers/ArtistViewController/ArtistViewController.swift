@@ -271,7 +271,7 @@ extension ArtistViewController: UICollectionViewDataSource {
         guard let artistData = artistData else { return .init() }
         
         headerView.artistNameTextField.text = artistData.nickName
-        headerView.artistIntroTextView.text = artistData.description
+        headerView.artistIntroTextField.text = artistData.description
         headerView.isEditMode = isEditmode
         
         return headerView
