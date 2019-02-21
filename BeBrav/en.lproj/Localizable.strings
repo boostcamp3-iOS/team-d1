@@ -13,15 +13,49 @@
 "temperature" = "Temperature";
 "cancel" = "Cancel";
 
-"newArtwork" = "Share New Artwork";
-"newArtworkTitle" = "New Artwork";
+"newArtwork" = "Share new artwork";
+"newArtworkTitle" = "New artwork";
 "artworkTitle" = "Write a title";
 "share" = "Share";
 
-"loadingImages" = "Loading Images";
-"photos" = "Photos";
+"loadingImages" = "Loading images";
+"artworks" = "Artworks";
 "delete" = "Delete";
 "artist" = "Artist";
 "edit" = "Edit";
 "modification" = "Modification";
 "done" = "Done";
+"views" = "Views";
+
+"email" = "E-Mail";
+"enterEmail" = "Enter your E-Mail.";
+"isValidEmailMessage" = "It's not valid E-Mail.";
+
+"Password" = "Password";
+"enterPassword" = "Enter your password.";
+"passwordCheckMessage" = "Password must be at least 6 characters.";
+
+"signIn" = "Sign In";
+"signInError" = "Sign In Error";
+"signInErrorMessage" = "Check E-Mail and Password";
+
+"name" = "Name";
+"enterName" = "Enter your name";
+
+"informationNotEnough" = "It isn't enough information.";
+"needMoreInformation"  = "Need more information";
+
+"signInIsReady" = "Sign In is ready.";
+
+"doSignUp" = "Sign Up";
+"signUp" = "Sign Up";
+"signUpError" = "Sign Up error";
+"signUpFailarue" = "Sign Up is failure.";
+
+"signUpDone" = "Sign Up";
+
+"verifying" = "Verifying";
+
+"networkError" = "Networking Error";
+"imageNetworkErrorMessage" = "Can't get artwork image.";
+"artistNetworkErrorMessage" = "Can't get artist image.";

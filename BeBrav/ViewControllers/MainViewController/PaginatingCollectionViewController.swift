@@ -97,7 +97,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     private let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.noticeLabel.text = "loading images"
+        indicator.noticeLabel.text = "loadingImages".localized
         return indicator
     }()
     
@@ -201,6 +201,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
+                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,

@@ -135,7 +135,7 @@ class ArtworkViewController: UIViewController {
         }
         
         titleLabel.text = artwork.title
-        viewsLabel.text = artwork.views.decimalString + " Views"
+        viewsLabel.text = artwork.views.decimalString + " " + "views".localized
 
         imageLoader.fetchImage(url: url, size: .big) { (image, error) in
             self.finishFetchImage(image: image, error: error)
@@ -212,11 +212,11 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Show error alert
     private func showErrorAlert(type: errorType) {
-        let alert = UIAlertController(title: "네트워킹 오류",
-                                      message: type.rawValue,
+        let alert = UIAlertController(title: "networkError".localized,
+                                      message: type.rawValue.localized,
                                       preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "확인", style: .default) { _ in
+        let action = UIAlertAction(title: "done".localized, style: .default) { _ in
             if self.imageView.image == nil {
                 self.dismiss(animated: true, completion: nil)
             }
@@ -383,6 +383,6 @@ extension ArtworkViewController: UIScrollViewDelegate {
 }
 
 fileprivate enum errorType: String {
-    case fetchImage = "이미지를 불러올 수 없습니다."
-    case fetchArtistData = "작가 정보를 확인할 수 없습니다."
+    case fetchImage = "imageNetworkErrorMessage"
+    case fetchArtistData = "artistNetworkErrorMessage"
 }
