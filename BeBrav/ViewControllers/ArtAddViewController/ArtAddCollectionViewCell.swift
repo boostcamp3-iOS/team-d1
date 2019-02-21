@@ -46,6 +46,7 @@ class ArtAddCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         imageView.image = nil
+        filtering.backgroundColor = .clear
     }
     
     func setLayout() {
