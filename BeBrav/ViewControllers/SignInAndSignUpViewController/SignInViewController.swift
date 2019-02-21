@@ -265,17 +265,16 @@ class SignInViewController: UIViewController {
             let password = inputPasswordTextField.text else { return }
         serverAuth.signIn(email: email, password: password) { (result) in
             switch result {
-            case .failure(let error):
-                
+            case .failure:
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "signInError".localized,
                                                   message: "signInErrorMessage".localized,
                                                   preferredStyle: .alert)
                     let action = UIAlertAction(title: "done".localized, style: .default, handler: nil)
                     alert.addAction(action)
+                    
                     self.loadingIndicator.deactivateIndicatorView()
                     self.present(alert, animated: false, completion: nil)
-                    
                 }
             case .success:
                 DispatchQueue.main.async {

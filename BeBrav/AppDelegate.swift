@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let container = NetworkDependencyContainer()
         var firstOnScreenViewController = UIViewController()
-        if UserDefaults.standard.string(forKey: "uid") == nil {
+        if UserDefaults.standard.string(forKey: "uid") != nil {
             let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
             let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
             firstOnScreenViewController = UINavigationController(rootViewController: PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: DatabaseHandler()))

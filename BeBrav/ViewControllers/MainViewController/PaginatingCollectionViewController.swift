@@ -432,7 +432,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
   
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
+        guard collectionViewLayout is MostViewedArtworkFlowLayout else {
             return
         }
         DispatchQueue.main.async {
@@ -853,9 +853,7 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing,
                            commit viewControllerToCommit: UIViewController)
     {
-        guard let viewController = viewControllerToCommit as? ArtworkViewController else {
-            return
-        }
+        guard let viewController = viewControllerToCommit as? ArtworkViewController else { return }
         viewController.isPeeked = false
         
         present(viewController, animated: false, completion: nil)
@@ -899,16 +897,15 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
                 return
-            case .success(let data):
-                print("success")
+            case .success:
                 self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
                     switch result {
                     case .failure(let error):
                         print(error.localizedDescription)
                         return
-                    case .success(let data):
+                    case .success:
                         break
                     }
                 })
@@ -947,13 +944,13 @@ extension PaginatingCollectionViewController {
         }
     }
     
-
+    // MARK:- Remove prefetched artwork from ViewController
     private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
         if front {
             let targetIndex = prefetchIndex - prefetchSize
             
             guard targetIndex >= 0 else { return }
-            
+
             for i in 0..<targetIndex {
                 let artwork = artworkBucket[i]
                 
@@ -974,7 +971,6 @@ extension PaginatingCollectionViewController {
                     artworkImage.removeValue(forKey: artwork.artworkUid)
                 }
             }
-
         }
     }
     
