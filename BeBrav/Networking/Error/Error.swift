@@ -29,3 +29,37 @@ enum APIError: Error {
         }
     }
 }
+
+enum AuthError: Error {
+    case emailNotFound
+    case passwordInvalid
+    
+    var localizedDescription: String {
+        switch self {
+        case .emailNotFound: return "not registered email"
+        case .passwordInvalid: return "user enter wrong password"
+        }
+    }
+}
+
+struct ErrorDecodeType: Decodable {
+ 
+    let error: ErrorCodeType
+}
+
+struct ErrorCodeType: Decodable {
+    let message: String
+}
+/*{
+    "error": {
+        "code": 400,
+        "message": "MISSING_EMAIL",
+        "errors": [
+        {
+        "message": "MISSING_EMAIL",
+        "domain": "global",
+        "reason": "invalid"
+        }
+        ]
+    }
+}*/

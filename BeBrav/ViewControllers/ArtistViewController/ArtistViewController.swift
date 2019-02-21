@@ -20,7 +20,7 @@ class ArtistViewController: UIViewController {
     
     private let editButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.title = "편집"
+        barButtonItem.title = "edit".localized
         barButtonItem.style = .plain
         return barButtonItem
     }()
@@ -38,8 +38,8 @@ class ArtistViewController: UIViewController {
     private var artworkImage: [String: UIImage] = [:]
     private var isEditmode = false {
         didSet {
-            navigationItem.title = isEditmode ? "수정" : "아티스트"
-            editButton.title = isEditmode ? "확인" : "편집"
+            navigationItem.title = isEditmode ? "modification".localized : "artist".localized
+            editButton.title = isEditmode ? "done".localized : "edit".localized
             editButton.style = isEditmode ? .plain : .done
         }
     }
@@ -64,7 +64,7 @@ class ArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "아티스트"
+        navigationItem.title = "artist".localized
         
         setImageList()
         
@@ -199,6 +199,7 @@ class ArtistViewController: UIViewController {
 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
+                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,

@@ -68,7 +68,7 @@ struct NetworkSeparator: NetworkSeperatable {
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error), nil)
+                completion(.failure(error), response)
             case .success(let data):
                 completion(.success(data), response)
             }

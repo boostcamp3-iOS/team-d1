@@ -17,11 +17,45 @@
 "newArtworkTitle" = "작품 등록";
 "artworkTitle" = "작품명을 입력해주세요.";
 "share" = "등록";
+"views" = "조회수";
 
 "loadingImages" = "사진을 불러오는중";
-"photos" = "사진";
+"artworks" = "사진";
 "delete" = "삭제";
 "artist" = "작가";
 "edit" = "편집";
 "modification" = "수정";
 "done" = "확인";
+
+"email" = "이메일";
+"enterEmail" = "이메일 주소를 입력해주세요";
+"isValidEmailMessage" = "유효한 이메일이 아닙니다.";
+
+"Password" = "비밀번호";
+"enterPassword" = "비밀번호를 입력해주세요";
+"passwordCheckMessage" = "비밀번호가 6자 이상이어야 합니다.";
+
+"signIn" = "로그인";
+"signInError" = "로그인 오류";
+"signInErrorMessage" = "아이디 / 비밀번호를 확인해주세요";
+
+"name" = "이름";
+"enterName" = "이름를 입력해주세요";
+
+"informationNotEnough" = "아직 정보가 부족합니다.";
+"needMoreInformation"  = "정보가 더 필요합니다";
+
+"signInIsReady" = "준비가 완료되었습니다.";
+
+"doSignUp" = "가입하기";
+"signUp" = "회원가입";
+"signUpError" = "회원가입 오류";
+"signUpFailarue" = "회원가입에 실패하였습니다.";
+
+"signUpDone" = "가입 완료";
+
+"verifying" = "인증 확인중";
+
+"networkError" = "네트워킹 오류";
+"imageNetworkErrorMessage" = "이미지를 불러올 수 없습니다.";
+"artistNetworkErrorMessage" = "작가 정보를 확인할 수 없습니다.";
