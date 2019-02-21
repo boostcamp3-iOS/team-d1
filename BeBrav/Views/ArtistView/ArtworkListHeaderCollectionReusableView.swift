@@ -11,12 +11,13 @@ import UIKit
 class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
     
     // MARK:- Outlet
-    private let titleLabel: UILabel = {
+    public let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "artworks".localized
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .white
+        label.isHidden = true
         return label
     }()
     

@@ -129,7 +129,10 @@ class ArtistViewController: UIViewController {
     // MARK:- Fetch data from database
     private func fetchDataFromDatabase(id: String) {
         databaseHandler.readData(type: .artistData, id: id) { data, error in
-            guard let data = data as? ArtistModel else { return }
+            guard let data = data as? ArtistModel else {
+                self.showErrorAlert()
+                return
+            }
             
             self.databaseHandler.readArtworkArray(artist: data) { artworks, error in
                 guard let artworks = artworks else {
@@ -401,6 +404,10 @@ extension ArtistViewController: UICollectionViewDataSource {
                                               indexPath: indexPath)
         }
         
+        if artistData != nil {
+            headerView.titleLabel.isHidden = false
+        }
+        
         return headerView
     }
     
@@ -501,6 +508,7 @@ extension ArtistViewController: UICollectionViewDelegate {
         }
     }
     
+    // MARK:- Remove prefetched artwork from ViewController
     private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
         if front {
             let targetIndex = prefetchIndex - prefetchSize
