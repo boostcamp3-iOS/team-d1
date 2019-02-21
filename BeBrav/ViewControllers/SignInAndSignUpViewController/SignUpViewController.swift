@@ -52,7 +52,9 @@ class SignUpViewController: UIViewController {
         textField.autocapitalizationType = .none
         textField.placeholder = "email".localized
         textField.textColor = .white
+        textField.becomeFirstResponder()
         textField.attributedPlaceholder = NSAttributedString(string:"email".localized,
+
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -71,7 +73,7 @@ class SignUpViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
         textField.clearButtonMode = .whileEditing
-        textField.textContentType = .newPassword
+        textField.textContentType = .password
         textField.autocapitalizationType = .none
         textField.textColor = .white
         textField.attributedPlaceholder = NSAttributedString(string:"Password".localized,
@@ -92,7 +94,6 @@ class SignUpViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
-        textField.keyboardAppearance = .dark
         textField.clearButtonMode = .whileEditing
         textField.textContentType = .username
         textField.autocapitalizationType = .none
@@ -131,6 +132,14 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    private let exitButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -152,6 +161,28 @@ class SignUpViewController: UIViewController {
         
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if let emailClearButton = inputEmailTextField.value(forKey: "_clearButton") as? UIButton,
+            let passwordClearButton = inputPasswordTextField.value(forKey: "_clearButton") as? UIButton,
+         let nameClearButton = inputNameTextField.value(forKey: "_clearButton") as? UIButton {
+            let emailButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            emailClearButton.setImage(emailButtonImage, for: .normal)
+            emailClearButton.setImage(emailButtonImage, for: .highlighted)
+            emailClearButton.tintColor = .white
+            
+            let passwordButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            passwordClearButton.setImage(passwordButtonImage, for: .normal)
+            passwordClearButton.setImage(passwordButtonImage, for: .highlighted)
+            passwordClearButton.tintColor = .white
+            
+            let nameButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
+            nameClearButton.setImage(nameButtonImage, for: .normal)
+            nameClearButton.setImage(nameButtonImage, for: .highlighted)
+            nameClearButton.tintColor = .white
+        }
+    }
+    
     func setLayout() {
         
         navigationItem.title = "signUp".localized
@@ -165,15 +196,15 @@ class SignUpViewController: UIViewController {
         
         signUpScrollView.addSubview(fixedPasswordUpperLabel)
         signUpScrollView.addSubview(inputPasswordTextField)
-        
+
         signUpScrollView.addSubview(fixedNameUpperLabel)
         signUpScrollView.addSubview(inputNameTextField)
         
         signUpScrollView.addSubview(fixedConfirmLabel)
         
         signUpScrollView.addSubview(approveButton)
-        
         signUpScrollView.addSubview(loadingIndicator)
+        signUpScrollView.addSubview(exitButton)
         
         
         signUpScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -188,12 +219,18 @@ class SignUpViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 54).isActive = true
+        exitButton.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 28).isActive = true
+        exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
+        
+        fixedEmailUpperLabel.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 16).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 20).isActive = true
         
         inputEmailTextField.topAnchor.constraint(equalTo: fixedEmailUpperLabel.bottomAnchor, constant: 16).isActive = true
         inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
+        inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
         fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 20).isActive = true
         fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
@@ -210,7 +247,7 @@ class SignUpViewController: UIViewController {
         inputNameTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputNameTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
         
-        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 46).isActive = true
+        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 16).isActive = true
         fixedConfirmLabel.centerXAnchor.constraint(equalTo: signUpScrollView.centerXAnchor).isActive = true
         
         bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
@@ -218,9 +255,12 @@ class SignUpViewController: UIViewController {
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
+        
+        
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -228,28 +268,36 @@ class SignUpViewController: UIViewController {
         signUpScrollView.contentSize.height = self.view.frame.height * 1.5
     }
     
+    private func resetData() {
+        inputNameTextField.text = ""
+        inputPasswordTextField.text = ""
+        inputEmailTextField.text = ""
+    }
+    
     @objc func handleShowKeyboard(notification: NSNotification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         bottomConstraintOfButton?.constant = -(keyboardFrame.height + CGFloat(self.keyboardPadding))
-        guard let currentY = currentTextField?.frame.origin.y else { return }
-        signUpScrollView.contentInset = UIEdgeInsets(top: -currentY + 36 , left: 0, bottom: 0, right: 0)
-        
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
         
     }
+    
     @objc func handleHideKeyboard(notification: NSNotification) {
         
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)
-        signUpScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        signUpScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+      
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            
             self.view.layoutIfNeeded()
         }, completion: nil)
         
     }
+    
+    
+    @objc private func exitButtonDidTap() {
+        self.dismiss(animated: false)
+    }
+    
     
     @objc private func confirmButtonDidTap() {
         loadingIndicator.activateIndicatorView()
@@ -258,6 +306,7 @@ class SignUpViewController: UIViewController {
             let name = inputNameTextField.text else {
                 return
         }
+     
         serverAuth.signUp(email: email,
                           password: password) { (result) in
             switch result {
@@ -270,6 +319,7 @@ class SignUpViewController: UIViewController {
                     alert.addAction(action)
                     self.loadingIndicator.deactivateIndicatorView()
                     self.present(alert, animated: false, completion: nil)
+                    self.resetData()
                 }
             case .success:
                 guard let email = UserDefaults.standard.string(forKey: "userId"),
@@ -290,9 +340,10 @@ class SignUpViewController: UIViewController {
                             self.loadingIndicator.deactivateIndicatorView()
                             self.present(alert, animated: false, completion: nil)
                         }
+                        self.resetData()
                     case .success:
                         DispatchQueue.main.async {
-                            self.navigationController?.popViewController(animated: false)
+                            self.dismiss(animated: false, completion: nil)
                         }
                     }
                 }
@@ -324,6 +375,7 @@ extension SignUpViewController: UITextFieldDelegate {
             return (text.count >= 6, "passwordCheckMessage".localized)
         } else {
             return (!text.isEmpty, "needMoreInformation".localized)
+
         }
     }
     
@@ -331,13 +383,15 @@ extension SignUpViewController: UITextFieldDelegate {
         var isValid = true
         
         for textField in textFields {
-            let (valid, _) = validate(textField)
+            let (valid, text) = validate(textField)
             
             guard valid else {
                 isValid = false
                 approveButton.backgroundColor = .lightGray
+                fixedConfirmLabel.text = text
+                fixedConfirmLabel.isHidden = false
+                fixedConfirmLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
                 fixedConfirmLabel.text = "needMoreInformation".localized
-                fixedConfirmLabel.textColor = .red
                 return
             }
         }

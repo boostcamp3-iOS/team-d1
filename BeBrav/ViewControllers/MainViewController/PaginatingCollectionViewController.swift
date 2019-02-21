@@ -133,9 +133,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
                                 withReuseIdentifier: identifierFooter)
         
         //TODO: filtering에 맞는 이미지로 수정
-        let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
-        barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        navigationItem.rightBarButtonItem = barItem
+        let filterBarItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
+        filterBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
+        let userSettingBarItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector
+            (userSettingButtonDidTap))
+        userSettingBarItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+
+        navigationItem.rightBarButtonItems = [filterBarItem, userSettingBarItem]
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
@@ -152,7 +157,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
-        loadingIndicator.deactivateIndicatorView()
+//        loadingIndicator.deactivateIndicatorView()
+        loadingIndicator.activateIndicatorView()
     }
     
     // MARK:- Return ArtworkViewController
@@ -192,6 +198,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let data):
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
                 guard let formedResponse = response as? HTTPURLResponse,
                     let eTag = formedResponse.allHeaderFields["Etag"] as? String
                     else
@@ -225,6 +232,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     case .success:
                         break
                     }
+                })
                 }
             }
         }
@@ -236,7 +244,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
         refreshLayout()
         
     }
-    
+   
+    @objc func userSettingButtonDidTap() {
+        print(collectionView.indexPathsForVisibleItems)
+        //TODO: setting 기능 추가
+        UserDefaults.standard.removeObject(forKey: "uid")
+        UserDefaults.standard.synchronize()
+  
+        
+    }
     @objc func addArtworkButtonDidTap() {
         let flowLayout = UICollectionViewFlowLayout()
         let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
@@ -308,6 +324,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
             }
         }
     }
+ 
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
+            return
+        }
+        DispatchQueue.main.async {
+            if self.traitCollection.verticalSizeClass == .compact {
+                //self.refreshLayout()
+                
+            } else {
+               // self.refreshLayout()
+
+        }
+        
+    }
+    }
+        
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -351,7 +386,7 @@ extension PaginatingCollectionViewController {
         
         if !isEndOfData {
             isLoading = true
-            loadingIndicator.activateIndicatorView()
+//            loadingIndicator.activateIndicatorView()
             
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -567,11 +602,15 @@ extension PaginatingCollectionViewController {
                                            willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        if maxOffset - currentOffset <= 40 {
-            if !isLoading {
-                fetchPages()
+     
+        if maxOffset - currentOffset <= 40{
+            if !isEndOfData {
+                self.loadingIndicator.activateIndicatorView()
             }
+            
+//            if !isLoading {
+//                fetchPages()
+//            }
         }
     }
     
@@ -751,6 +790,15 @@ extension PaginatingCollectionViewController {
         let artwork = artworkBucket[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
             self.fetchImage(artwork: artwork, indexPath: nil)
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard artworkBucket.count - batchSize < indexPath.item else { return }
+        
+        if !isLoading {
+            isLoading = true
+            fetchPages()
         }
     }
 }
