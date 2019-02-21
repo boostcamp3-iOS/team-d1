@@ -200,13 +200,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let data):
-//                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
-                guard let formedResponse = response as? HTTPURLResponse,
-                    let eTag = formedResponse.allHeaderFields["Etag"] as? String
-                    else
-                {
-                    return
-                }
+                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else { return }
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
@@ -221,7 +215,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     temperature: data.temperature
                 )
                     
-                    self.serverDatabase.write(
+                self.serverDatabase.write(
                         path: "root/artworks/\(id)/",
                         data: encodeData,
                         method: .put,
@@ -235,10 +229,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
                             break
                         }
                     }
-//                }
+                }
             }
         }
-    }
     
     private func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
         let orderBy: String?
