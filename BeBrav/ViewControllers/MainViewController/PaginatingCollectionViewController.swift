@@ -125,10 +125,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
         //collectionView.prefetchDataSource = self //TODO: 이미지로더 구현이후 적용
         collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
         
-        //TODO: filtering에 맞는 이미지로 수정
-        let barItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterButtonDidTap))
-        barItem.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        navigationItem.rightBarButtonItem = barItem
+        //set filter right bar button
+        let button = UIButton(type: UIButton.ButtonType.custom)
+        button.setImage(#imageLiteral(resourceName: "filter (1)"), for: .normal)
+        button.addTarget(self, action: #selector(filterButtonDidTap), for: .touchUpInside)
+        
+        let barButton = UIBarButtonItem(customView: button)
+        barButton.customView?.translatesAutoresizingMaskIntoConstraints = false
+        barButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        barButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        navigationItem.rightBarButtonItem = barButton
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
@@ -238,13 +244,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
             filterType = .orientation
         }
         else if title == "컬러" {
-            message = "어떤 색 작품을 보여드릴까요?"
+            message = "어떤 색의 작품을 보여드릴까요?"
             trueActionTitle = "컬러사진"
             falseActionTitle = "흑백사진"
             filterType = .color
         }
         else if title == "온도" {
-            message = "어떤 온도 작품을 보여드릴까요?"
+            message = "어떤 온도의 작품을 보여드릴까요?"
             trueActionTitle = "차가운 사진"
             falseActionTitle = "따뜻한 사진"
             filterType = .temperature
@@ -771,16 +777,6 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
             self.fetchPages()
         }
     }
-}
-
-struct Queries {
-   /* static let normalViewQuery = [[URLQueryItem(name: "orderBy", value: timestamp),
-    URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
-    URLQueryItem(name: "limitToLast", value: "\(batchSize)")], [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
-                                                                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
-    ]
-    
-    ]*/
 }
 
 enum FilterType {
