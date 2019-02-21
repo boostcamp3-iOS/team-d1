@@ -168,15 +168,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return viewController
         }
         
-        viewController.transitioningDelegate = self
-        viewController.mainNavigationController = navigationController
-        
         let artwork = artworkBucket[index.row]
         
         updateViewsCount(id: artwork.artworkUid)
         
+        viewController.transitioningDelegate = self
         viewController.artwork = artwork
         viewController.artworkImage = cell.artworkImageView.image
+        viewController.mainNavigationController = navigationController
+        
         return viewController
     }
     
@@ -311,8 +311,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
     private func reloadCellImage(indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else { return }
         guard collectionView.visibleCells.contains(cell) else { return }
+        guard let image = artworkImage[artworkBucket[indexPath.item].artworkUid] else { return }
         
-        cell.artworkImageView.image = artworkImage[artworkBucket[indexPath.item].artworkUid]
+        cell.artworkImageView.image = image
     }
 }
 

@@ -96,7 +96,9 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     // MARK:- Initialize
     init(imageLoader: ImageLoaderProtocol,
@@ -125,7 +127,7 @@ class ArtworkViewController: UIViewController {
         setGestureRecognizer()
         
         closeButton.addTarget(self, action: #selector(touchUpCloseButton(_:)), for: .touchUpInside)
-    }
+    } 
     
     // MARK:- Fetch artwork image
     private func fetchArtworkImage() {
@@ -340,12 +342,13 @@ class ArtworkViewController: UIViewController {
         view.addSubview(viewsLabel)
         scrollView.addSubview(imageView)
         scrollView.alwaysBounceVertical = true
+        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.delegate = self
         
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true

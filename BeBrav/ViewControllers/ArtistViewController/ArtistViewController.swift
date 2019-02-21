@@ -77,8 +77,6 @@ class ArtistViewController: UIViewController {
         {
             registerForPreviewing(with: self, sourceView: collectionView)
         }
-        
-        collectionView.allowsSelection = true
     }
     
     override func viewWillLayoutSubviews() {
@@ -105,6 +103,7 @@ class ArtistViewController: UIViewController {
     // MARK:- Fetch image
     private func fetchImage(index: Int, prefetch: Bool) {
         let artwork = artworkList[index]
+        let indexPath = IndexPath(item: index, section: 1)
         
         if artworkImage[artwork.artworkUid] == nil {
             guard let url = URL(string: artwork.artworkUrl) else { return }
@@ -115,20 +114,9 @@ class ArtistViewController: UIViewController {
                 
                 if !prefetch  {
                     DispatchQueue.main.async {
-                        let indexPath = IndexPath(item: index, section: 1)
-                        
                         self.collectionView.reloadItems(at: [indexPath])
                     }
                 }
-            }
-            return
-        }
-        
-        if !prefetch  {
-            DispatchQueue.main.async {
-                let indexPath = IndexPath(item: index, section: 1)
-                
-                self.collectionView.reloadItems(at: [indexPath])
             }
         }
     }
@@ -137,7 +125,7 @@ class ArtistViewController: UIViewController {
     private func setCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.allowsSelection = false
+        collectionView.bounces = false
         collectionView.register(ArtworkListCollectionViewCell.self,
                                 forCellWithReuseIdentifier: artworkListIdentifier)
         collectionView.register(ArtworkListHeaderCollectionReusableView.self,
@@ -363,8 +351,9 @@ extension ArtistViewController: UICollectionViewDataSource {
 // MARK:- UICollectionView Delegate
 extension ArtistViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ArtworkListCollectionViewCell else { return }
         guard collectionView.visibleCells.contains(cell) else { return }
+        guard cell.imageView.image == nil else { return }
         
         let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
         let max = visubleCellsIndex.max{ $0 < $1 }
@@ -373,8 +362,10 @@ extension ArtistViewController: UICollectionViewDelegate {
         var prefetchIndex = 0
         if maxIndex < indexPath.item {
             prefetchIndex = min(indexPath.item + prefetchSize, artworkList.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: true)
         } else {
             prefetchIndex = min(indexPath.item - prefetchSize, artworkList.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: false)
         }
         
         guard  artworkList.count > prefetchIndex, prefetchIndex >= 0 else { return }
@@ -382,6 +373,34 @@ extension ArtistViewController: UICollectionViewDelegate {
         let artwork = artworkList[prefetchIndex]
         if artworkImage[artwork.artworkUid] == nil {
             self.fetchImage(index: prefetchIndex, prefetch: true)
+        }
+    }
+    
+    private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
+        if front {
+            let targetIndex = prefetchIndex - prefetchSize
+            
+            guard targetIndex >= 0 else { return }
+            
+            for i in 0..<targetIndex {
+                let artwork = artworkList[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
+        } else {
+            let targetIndex = prefetchIndex + prefetchSize
+            
+            guard targetIndex < artworkList.count else { return }
+            
+            for i in targetIndex..<artworkList.count {
+                let artwork = artworkList[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
         }
     }
 }
