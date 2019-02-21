@@ -59,8 +59,8 @@ struct ServerManager {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let response):
-                guard let email = UserDefaults.standard.string(forKey: "userId"),
-                    let uid = UserDefaults.standard.string(forKey: "uid") else {
+                guard let _ = UserDefaults.standard.string(forKey: "userId"),
+                    let _ = UserDefaults.standard.string(forKey: "uid") else {
                         completion(.failure(APIError.invalidData))
                         return
                 }

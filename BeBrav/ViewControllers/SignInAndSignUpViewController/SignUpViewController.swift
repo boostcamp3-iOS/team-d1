@@ -330,7 +330,7 @@ class SignUpViewController: UIViewController {
                 let user = [uid: userData]
                 self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
                     switch result {
-                    case .failure(let error):
+                    case .failure:
                         DispatchQueue.main.async {
                             let alert = UIAlertController(title: "signUpError".localized,
                                                           message: "signUpFailarue".localized,

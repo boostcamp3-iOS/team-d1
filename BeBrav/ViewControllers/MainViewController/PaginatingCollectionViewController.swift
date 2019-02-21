@@ -754,7 +754,7 @@ extension PaginatingCollectionViewController {
                                                                     withReuseIdentifier: identifierFooter,
                                                                     for: indexPath) as? ArtworkAddFooterReusableView else {
                     return .init()
-                }w
+                }
                 footerView.addArtworkButton.addTarget(self,
                                                       action: #selector(addArtworkButtonDidTap),
                                                       for: .touchUpInside)
