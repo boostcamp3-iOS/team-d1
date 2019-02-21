@@ -54,7 +54,7 @@ struct ArtworkEncodeType: Encodable {
 
 struct ArtworkDecodeType: Codable {
     let userUid: String
-    let authorName: String
+//    let authorName: String
     let artworkUid: String
     let artworkUrl: String
     let timestamp: Double
@@ -66,7 +66,7 @@ struct ArtworkDecodeType: Codable {
     
     init() {
         self.userUid = ""
-        self.authorName = ""
+//        self.authorName = ""
         self.artworkUid = ""
         self.artworkUrl = ""
         self.title = ""
@@ -79,7 +79,7 @@ struct ArtworkDecodeType: Codable {
     
     
     init(userUid: String,
-         authorName: String,
+//         authorName: String,
          uid: String,
          url: String,
          title: String,
@@ -89,7 +89,7 @@ struct ArtworkDecodeType: Codable {
          color: Bool,
          temperature: Bool) {
         self.userUid = userUid
-        self.authorName = authorName
+//        self.authorName = authorName
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
@@ -102,7 +102,7 @@ struct ArtworkDecodeType: Codable {
     
     init(artworkModel: ArtworkModel) {
         self.userUid = artworkModel.userId
-        self.authorName = artworkModel.authorName
+//        self.authorName = artworkModel.authorName
         self.artworkUid = artworkModel.id
         self.artworkUrl = artworkModel.imageURL
         self.title = artworkModel.title
@@ -115,7 +115,7 @@ struct ArtworkDecodeType: Codable {
     
     init(artwork: Artwork, userUid: String) {
         self.userUid = userUid
-        self.authorName = ""
+//        self.authorName = ""
         self.artworkUid = artwork.artworkUid
         self.artworkUrl = artwork.artworkUrl
         self.title = artwork.title

@@ -84,7 +84,7 @@ struct UserDataDecodeType: Decodable {
 
 struct Artwork: Decodable {
     let userUid: String
-    let authorName: String
+//    let authorName: String
     let artworkUid: String
     let artworkUrl: String
     let timestamp: Double
@@ -96,7 +96,7 @@ struct Artwork: Decodable {
     
     init(artworkModel: ArtworkModel) {
         self.userUid = artworkModel.userId
-        self.authorName = artworkModel.authorName
+//        self.authorName = artworkModel.authorName
         self.artworkUid = artworkModel.id
         self.artworkUrl = artworkModel.imageURL
         self.timestamp = artworkModel.timestamp

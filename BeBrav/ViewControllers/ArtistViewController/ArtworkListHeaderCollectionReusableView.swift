@@ -15,7 +15,7 @@ class ArtworkListHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "artworks".localized
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .white
         return label
     }()

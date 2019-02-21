@@ -73,9 +73,7 @@ class ArtworkViewController: UIViewController {
     private let imageLoader: ImageLoaderProtocol
     private let databaseHandler: DatabaseHandler
     private let serverDatabase: ServerDatabase
-    
-    private var artistData: UserDataDecodeType?
-    
+
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
     public var artistName: String?
@@ -95,6 +93,7 @@ class ArtworkViewController: UIViewController {
             closeButton.isHidden = isPeeked
         }
     }
+    public var isFromArtistView = false
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -119,7 +118,6 @@ class ArtworkViewController: UIViewController {
         super.viewDidLoad()
         
         fetchArtworkImage()
-        fetchArtistData()
         
         setLayout()
         setLabels()
@@ -132,7 +130,7 @@ class ArtworkViewController: UIViewController {
     // MARK:- Fetch artwork image
     private func fetchArtworkImage() {
         guard let artwork = artwork, let url = URL(string: artwork.artworkUrl) else {
-            self.showErrorAlert(type: .fetchImage)
+            self.showErrorAlert()
             return
         }
         
@@ -144,41 +142,6 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    // MARK:- Fetch artist data
-    private func fetchArtistData() {
-        if let artistName = artistName {
-            self.artistLabel.text = artistName
-            return
-        }
-        
-        guard let uid = artwork?.userUid else { return }
-        
-        let queries = [URLQueryItem(name: "orderBy", value: "\"uid\""),
-                       URLQueryItem(name: "equalTo", value: "\"\(uid)\"")
-        ]
-        
-        serverDatabase.read(path: "root/users", type:[String: UserDataDecodeType].self, headers: [:], queries: queries) { result, responds  in
-            switch result {
-            case .failure:
-                self.fetchDataFromDatabase(id: uid)
-            case .success(let data):
-                guard let data = data[uid] else { return }
-
-                self.saveDataToDatabase(data: data)
-                self.setArtistData(data: data)
-            }
-        }
-    }
-    
-    // MARK:- Set artist data
-    private func setArtistData(data: UserDataDecodeType) {
-        artistData = data
-        
-        DispatchQueue.main.async {
-            self.artistLabel.text = data.nickName
-        }
-    }
-    
      // MARK:- Save data to database
     private func saveDataToDatabase(data: UserDataDecodeType) {
         let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
@@ -186,36 +149,10 @@ class ArtworkViewController: UIViewController {
         databaseHandler.saveData(data: author)
     }
     
-    // MARK:- Fetch data from database
-    private func fetchDataFromDatabase(id: String) {
-        databaseHandler.readData(type: .artistData, id: id) { data, error in
-            guard let data = data as? ArtistModel else { return }
-
-            self.databaseHandler.readArtworkArray(artist: data) { artworks, error in
-                guard let artworks = artworks else {
-                    self.showErrorAlert(type: .fetchArtistData)
-                    return
-                }
-                
-                let list = artworks.sorted{ $0.timestamp > $1.timestamp }
-                var artworksDictionary: [String: Artwork] = [:]
-                
-                list.forEach{ artworksDictionary[$0.id] = Artwork(artworkModel: $0) }
-                
-                let artistData = UserDataDecodeType(uid: data.id,
-                                                    nickName: data.name,
-                                                    description: data.description,
-                                                    artworks: artworksDictionary)
-                
-                self.setArtistData(data: artistData)
-            }
-        }
-    }
-    
     // MARK:- Show error alert
-    private func showErrorAlert(type: errorType) {
+    private func showErrorAlert() {
         let alert = UIAlertController(title: "networkError".localized,
-                                      message: type.rawValue.localized,
+                                      message: "imageNetworkErrorMessage".localized,
                                       preferredStyle: .alert)
         
         let action = UIAlertAction(title: "done".localized, style: .default) { _ in
@@ -231,11 +168,11 @@ class ArtworkViewController: UIViewController {
     // MARK:- Finish fetch image
     private func finishFetchImage(image: UIImage?, error: Error?) {
         if error != nil {
-            self.showErrorAlert(type: .fetchImage)
+            self.showErrorAlert()
             return
         }
         guard let image = image else {
-            self.showErrorAlert(type: .fetchImage)
+            self.showErrorAlert()
             return
         }
         DispatchQueue.main.async {
@@ -248,6 +185,8 @@ class ArtworkViewController: UIViewController {
         setLabelShadow(label: titleLabel)
         setLabelShadow(label: artistLabel)
         setLabelShadow(label: viewsLabel)
+        
+        artistLabel.text = "임시 이름"//artwork?.authorName
     }
     
     private func setLabelShadow(label: UILabel) {
@@ -306,18 +245,22 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Artist label did tap
     @objc private func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
+        guard !isFromArtistView else { return }
+        
         guard let navigationController = mainNavigationController,
-            let artistData = artistData
+        let id = artwork?.userUid
             else
         {
             return
         }
         let imageLoader = ImageCacheFactory().buildImageLoader()
         let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let databaseHandler = DatabaseHandler()
         let viewController = ArtistViewController(imageLoader: imageLoader,
-                                                  serverDatabase: serverDatabase)
+                                                  serverDatabase: serverDatabase,
+                                                  databaseHandler: databaseHandler)
         
-        viewController.artistData = artistData
+        viewController.userUid = id
 
         navigationController.pushViewController(viewController, animated: false)
         
@@ -383,9 +326,4 @@ extension ArtworkViewController: UIScrollViewDelegate {
         
         dismiss(animated: true, completion: nil)
     }
-}
-
-fileprivate enum errorType: String {
-    case fetchImage = "imageNetworkErrorMessage"
-    case fetchArtistData = "artistNetworkErrorMessage"
 }
