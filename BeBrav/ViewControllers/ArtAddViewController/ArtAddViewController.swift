@@ -57,7 +57,8 @@ class ArtAddViewController: UIViewController {
         textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.boldSystemFont(ofSize: 20)
-        textField.attributedPlaceholder = NSAttributedString(string: "작품 제목", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.placeholder = "작품제목을 입력해주세요."
+        textField.attributedPlaceholder = NSAttributedString(string: "작품제목을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         textField.textAlignment = .center
         textField.backgroundColor = #colorLiteral(red: 0.2247451784, green: 0.2193362291, blue: 0.2924295654, alpha: 1)
         return textField
@@ -104,7 +105,7 @@ class ArtAddViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.isHidden = true
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowRadius = 3.0
@@ -245,7 +246,7 @@ class ArtAddViewController: UIViewController {
         
         titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         titleTextField.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
-        titleTextField.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
+        titleTextField.widthAnchor.constraint(equalToConstant: view.frame.width * 0.6).isActive = true
         titleTextField.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         orientationLabel.trailingAnchor.constraint(equalTo: colorLabel.leadingAnchor, constant: -5).isActive = true
@@ -278,7 +279,6 @@ class ArtAddViewController: UIViewController {
         
         imageView.image = nil
         titleTextField.text = nil
-        titleTextField.placeholder = "작품 제목"
     }
     
     func imageSorting(image: UIImage?) {
@@ -305,7 +305,8 @@ class ArtAddViewController: UIViewController {
 //Collection View Delegate
 extension ArtAddViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        titleTextField.becomeFirstResponder()
+        
+        titleTextField.placeholder = "작품제목을 입력해주세요."
         
         clearImageViewLabels()
         
