@@ -54,12 +54,12 @@ class ArtAddViewController: UIViewController {
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.textColor =  colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.boldSystemFont(ofSize: 20)
-        textField.attributedPlaceholder = NSAttributedString(string: "작품 제목", attributes: [NSAttributedString.Key.foregroundColor:  colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.attributedPlaceholder = NSAttributedString(string: "작품 제목", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         textField.textAlignment = .center
-        textField.backgroundColor =  colorLiteral(red: 0.2659215674, green: 0.2595216246, blue: 0.3460066593, alpha: 1)
+        textField.backgroundColor = #colorLiteral(red: 0.2247451784, green: 0.2193362291, blue: 0.2924295654, alpha: 1)
         return textField
     }()
     
