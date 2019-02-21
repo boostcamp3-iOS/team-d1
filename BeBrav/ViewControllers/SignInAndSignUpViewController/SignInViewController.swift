@@ -22,12 +22,13 @@ class SignInViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var currentTextField: UITextField?
     private var textFields: [UITextField] = []
     private var bottomConstraintOfButton: NSLayoutConstraint?
-    private var currentTextField: UITextField?
     
-    private let keyboardPadding = 0
+    private let keyboardPadding = 16
     private let minPasswordLength = 6
+    private var toppading: CGFloat = 0.0
     
     private let signUpScrollView: UIScrollView = {
         let view = UIScrollView()
@@ -108,9 +109,22 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    private let lookAroundButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        button.layer.cornerRadius = 10
+        button.setTitle("둘러보기", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayout()
+        guard let window = UIApplication.shared.keyWindow else { return }
+        toppading = window.safeAreaInsets.top
         inputEmailTextField.delegate = self
         inputPasswordTextField.delegate = self
         textFields = [ inputPasswordTextField,
@@ -123,6 +137,10 @@ class SignInViewController: UIViewController {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        signUpScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height * 1.5)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -136,8 +154,19 @@ class SignInViewController: UIViewController {
             passwordClearButton.setImage(buttonImage, for: .normal)
             passwordClearButton.setImage(buttonImage, for: .highlighted)
             passwordClearButton.tintColor = .white
+     
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let window = UIApplication.shared.keyWindow else { return }
+        let topPadding = window.safeAreaInsets.top
+       
+        signUpScrollView.setContentOffset(CGPoint(x: 0, y: logoImageView.frame.maxY - topPadding * 2), animated: true)
+        
+    }
+
     
     func setLayout() {
         
@@ -150,7 +179,6 @@ class SignInViewController: UIViewController {
                                                             NSAttributedString.Key.foregroundColor: UIColor(named: "backgroundColor")
         ]
         
-        
         view.addSubview(signUpScrollView)
         
         signUpScrollView.addSubview(fixedEmailUpperLabel)
@@ -158,15 +186,16 @@ class SignInViewController: UIViewController {
         
         signUpScrollView.addSubview(fixedPasswordUpperLabel)
         signUpScrollView.addSubview(inputPasswordTextField)
-        
+        signUpScrollView.addSubview(lookAroundButton)
         signUpScrollView.addSubview(approveButton)
+        signUpScrollView.addSubview(loadingIndicator)
+        signUpScrollView.addSubview(logoImageView)
         
         signUpScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         signUpScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         signUpScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         signUpScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        signUpScrollView.addSubview(loadingIndicator)
         loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -174,13 +203,8 @@ class SignInViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        view.addSubview(logoImageView)
-        
-        logoImageView.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 124).isActive = true
+        logoImageView.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 62).isActive = true
         logoImageView.centerXAnchor.constraint(equalTo: signUpScrollView.centerXAnchor).isActive = true
-        
-        
-        
         
         fixedEmailUpperLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 42).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
@@ -189,38 +213,35 @@ class SignInViewController: UIViewController {
         inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputEmailTextField.widthAnchor.constraint(equalTo: signUpScrollView.widthAnchor, multiplier: 0.9).isActive = true
         
-        
         fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 16).isActive = true
         fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        
         
         inputPasswordTextField.topAnchor.constraint(equalTo: fixedPasswordUpperLabel.bottomAnchor, constant: 16).isActive = true
         inputPasswordTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputPasswordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         inputPasswordTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
-        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.01, constant: -16)
+        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.01, constant: 0)
         bottomConstraintOfButton?.isActive = true
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        signUpScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height * 1.5)
-        signUpScrollView.contentSize.height = self.view.frame.height * 1.5
         
+        lookAroundButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        lookAroundButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+        lookAroundButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        lookAroundButton.bottomAnchor.constraint(equalTo: approveButton.topAnchor, constant: -8).isActive = true
+        lookAroundButton.addTarget(self, action: #selector(lookAroundButtonDidTap), for: .touchUpInside)
     }
     
     @objc func handleShowKeyboard(notification: NSNotification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         bottomConstraintOfButton?.constant = -(keyboardFrame.height + CGFloat(keyboardPadding))
-        guard let currentY = currentTextField?.frame.origin.y else { return }
-        signUpScrollView.contentInset = UIEdgeInsets(top: -currentY + 42 , left: 0, bottom: 0, right: 0)
-        
+         guard let window = UIApplication.shared.keyWindow else { return }
+        let topPadding = window.safeAreaInsets.top
+        signUpScrollView.setContentOffset(CGPoint(x: 0, y: logoImageView.frame.maxY - topPadding * 2), animated: true)
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -228,9 +249,6 @@ class SignInViewController: UIViewController {
     
     @objc func handleHideKeyboard(notification: NSNotification) {
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)
-        signUpScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        signUpScrollView.setContentOffset(CGPoint(x: 0, y: -100), animated: true)
-        
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -240,7 +258,6 @@ class SignInViewController: UIViewController {
         let container = NetworkDependencyContainer()
         let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
         present(signUpPageViewController, animated: true, completion: nil)
-       // navigationController?.pushViewController(signUpPageViewController, animated: false)
     }
     
     @objc func confirmButtonDidTap() {
@@ -273,16 +290,24 @@ class SignInViewController: UIViewController {
                     let newRootViewController = UINavigationController(rootViewController: mainViewController)
                     UIApplication.shared.keyWindow?.rootViewController = newRootViewController
                 }
-                
             }
         }
-        //TODO: 이후 메인뷰로 이동하는 로직 추가
     }
+
+    @objc func lookAroundButtonDidTap() {}
+    
 }
 
 extension SignInViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder() // currentTextField 이용한 로직 구현 가능성 있음
+        currentTextField?.resignFirstResponder()
+        signUpScrollView.setContentOffset(CGPoint(x: 0, y: -toppading), animated: true)
+        currentTextField = nil
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        currentTextField = textField
         return true
     }
     
@@ -311,6 +336,11 @@ extension SignInViewController: UITextFieldDelegate {
         }
         approveButton.isEnabled = isValid
         approveButton.backgroundColor = UIColor(named: "keyColor")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+        currentTextField?.resignFirstResponder()
     }
     
 }

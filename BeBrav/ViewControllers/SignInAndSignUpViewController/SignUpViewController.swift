@@ -195,16 +195,14 @@ class SignUpViewController: UIViewController {
         
         signUpScrollView.addSubview(fixedPasswordUpperLabel)
         signUpScrollView.addSubview(inputPasswordTextField)
-        
+
         signUpScrollView.addSubview(fixedNameUpperLabel)
         signUpScrollView.addSubview(inputNameTextField)
         
         signUpScrollView.addSubview(fixedConfirmLabel)
         
         signUpScrollView.addSubview(approveButton)
-        
         signUpScrollView.addSubview(loadingIndicator)
-        
         signUpScrollView.addSubview(exitButton)
         
         
@@ -220,12 +218,18 @@ class SignUpViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 54).isActive = true
+        exitButton.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 28).isActive = true
+        exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        exitButton.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
+        
+        fixedEmailUpperLabel.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 16).isActive = true
         fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 20).isActive = true
         
         inputEmailTextField.topAnchor.constraint(equalTo: fixedEmailUpperLabel.bottomAnchor, constant: 16).isActive = true
         inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
+        inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
         
         fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 20).isActive = true
         fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
@@ -242,7 +246,7 @@ class SignUpViewController: UIViewController {
         inputNameTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
         inputNameTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
         
-        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 46).isActive = true
+        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 16).isActive = true
         fixedConfirmLabel.centerXAnchor.constraint(equalTo: signUpScrollView.centerXAnchor).isActive = true
         
         bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
@@ -253,11 +257,7 @@ class SignUpViewController: UIViewController {
         approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
         
-        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16).isActive = true
-        exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        exitButton.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
+        
     }
     
     
@@ -281,6 +281,7 @@ class SignUpViewController: UIViewController {
         }, completion: nil)
         
     }
+    
     @objc func handleHideKeyboard(notification: NSNotification) {
         
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)

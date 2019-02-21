@@ -153,7 +153,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
-        loadingIndicator.deactivateIndicatorView()
+//        loadingIndicator.deactivateIndicatorView()
+        loadingIndicator.activateIndicatorView()
     }
     
     // MARK:- Return ArtworkViewController
@@ -178,7 +179,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error)
             case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                print("data")
+              /*  guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
                     return
                 }
 
@@ -192,7 +194,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     case .success:
                        print("success")
                     }
-                })
+                })*/
             }
         }
         
@@ -343,7 +345,7 @@ extension PaginatingCollectionViewController {
         
         if !isEndOfData {
             isLoading = true
-            loadingIndicator.activateIndicatorView()
+//            loadingIndicator.activateIndicatorView()
             
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -546,9 +548,13 @@ extension PaginatingCollectionViewController {
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
         if maxOffset - currentOffset <= 40{
-            if !isLoading {
-                fetchPages()
+            if !isEndOfData {
+                self.loadingIndicator.activateIndicatorView()
             }
+            
+//            if !isLoading {
+//                fetchPages()
+//            }
         }
     }
     
@@ -718,6 +724,15 @@ extension PaginatingCollectionViewController {
         let artwork = artworkBucket[prefetchIndex]
         if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
             self.fetchImage(artwork: artwork, indexPath: nil)
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard artworkBucket.count - batchSize < indexPath.item else { return }
+        
+        if !isLoading {
+            isLoading = true
+            fetchPages()
         }
     }
 }
