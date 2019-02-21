@@ -80,7 +80,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         artistNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70).isActive = true
         
         artistIntroTextField.topAnchor.constraint(equalTo: artistNameTextField.bottomAnchor, constant: 18).isActive = true
-        artistIntroTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
+        artistIntroTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
         artistIntroTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40).isActive = true
         artistIntroTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40).isActive = true
     }

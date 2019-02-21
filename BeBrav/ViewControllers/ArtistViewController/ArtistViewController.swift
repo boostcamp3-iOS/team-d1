@@ -12,7 +12,8 @@ class ArtistViewController: UIViewController {
     
     // MARK:- Outlet
     private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
+        let collectionView = UICollectionView(frame: CGRect(),
+                                              collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         return collectionView
@@ -38,6 +39,7 @@ class ArtistViewController: UIViewController {
     private let artworkListIdentifier = "ArtworkListCollectionViewCell"
     private let artworkListHeaderIdentifier = "ArtworkListHeaderCollectionReusableView"
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
+    private let tempIdentifier = "temp"
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: ServerDatabase
     private let databaseHandler: DatabaseHandler
@@ -113,6 +115,7 @@ class ArtistViewController: UIViewController {
             case .success(let data):
                 guard let data = data[uid] else { return }
                 self.artistData = data
+                self.saveDataToDatabase(data: data)
                 
                 DispatchQueue.main.async {
                     self.setImageList()
@@ -152,6 +155,13 @@ class ArtistViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK:- Save data to database
+    private func saveDataToDatabase(data: UserDataDecodeType) {
+        let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
+        
+        databaseHandler.saveData(data: author)
     }
     
     // MARK:- Set Artist's image list
@@ -211,14 +221,17 @@ class ArtistViewController: UIViewController {
         collectionView.register(ArtistDetailHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: artistDetailHeaderView)
+        collectionView.register(TempCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: tempIdentifier)
     }
     
     // MARK:- Set layout
     private func setLayout() {
         view.addSubview(collectionView)
-//        view.addSubview(loadingIndicator)
+        view.addSubview(loadingIndicator)
         view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-//        collectionView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        collectionView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -226,10 +239,10 @@ class ArtistViewController: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-//        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
-//        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     // MARK:- Edit button did tap
@@ -279,10 +292,10 @@ class ArtistViewController: UIViewController {
                 {
                     return
                 }
-
+                
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
-//                    authorName: data.authorName,
+                    //                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,
@@ -322,27 +335,31 @@ extension ArtistViewController: UICollectionViewDataSource {
         -> UICollectionReusableView
     {
         guard kind == UICollectionView.elementKindSectionHeader else {
-            return .init()
+            return tempCollectionReusableView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
         }
         
         switch indexPath.section {
         case 0:
-            return artistDetailHeaderView(collectionView: collectionView,
-                                          kind: kind,
-                                          indexPath: indexPath)
+            return self.artistDetailHeaderView(collectionView: collectionView,
+                                               kind: kind,
+                                               indexPath: indexPath)
         case 1:
-            return artworkListHeaderView(collectionView: collectionView,
-                                         kind: kind,
-                                         indexPath: indexPath)
+            return self.artworkListHeaderView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
         default:
-            return .init()
+            return tempCollectionReusableView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
         }
     }
     
     // MARK:- Return artistDetailHeaderView
     private func artistDetailHeaderView(collectionView: UICollectionView,
-                                kind: String,
-                                indexPath: IndexPath)
+                                        kind: String,
+                                        indexPath: IndexPath)
         -> UICollectionReusableView
     {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
@@ -350,10 +367,16 @@ extension ArtistViewController: UICollectionViewDataSource {
             withReuseIdentifier: artistDetailHeaderView,
             for: indexPath) as? ArtistDetailHeaderView else
         {
-            return .init()
+            return tempCollectionReusableView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
         }
         
-        guard let artistData = artistData else { return .init() }
+        guard let artistData = artistData else {
+            return tempCollectionReusableView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
+        }
         
         headerView.artistNameTextField.text = artistData.nickName
         headerView.artistIntroTextField.text = artistData.description
@@ -364,8 +387,8 @@ extension ArtistViewController: UICollectionViewDataSource {
     
     // MARK:- Return artworkListHeaderView
     private func artworkListHeaderView(collectionView: UICollectionView,
-                               kind: String,
-                               indexPath: IndexPath)
+                                       kind: String,
+                                       indexPath: IndexPath)
         -> UICollectionReusableView
     {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
@@ -373,10 +396,22 @@ extension ArtistViewController: UICollectionViewDataSource {
             withReuseIdentifier: artworkListHeaderIdentifier,
             for: indexPath) as? ArtworkListHeaderCollectionReusableView else
         {
-            return .init()
+            return tempCollectionReusableView(collectionView: collectionView,
+                                              kind: kind,
+                                              indexPath: indexPath)
         }
         
         return headerView
+    }
+    
+    private func tempCollectionReusableView(collectionView: UICollectionView,
+                                            kind: String,
+                                            indexPath: IndexPath)
+        -> UICollectionReusableView
+    {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                               withReuseIdentifier: tempIdentifier,
+                                                               for: indexPath)
     }
     
     // MARK:- UICollectionView Number of Sectino
@@ -413,7 +448,7 @@ extension ArtistViewController: UICollectionViewDataSource {
     
     // MARK:- Return artworkListCollectionViewCell
     private func artworkListCollectionViewCell(collectionView: UICollectionView,
-                                       indexPath: IndexPath)
+                                               indexPath: IndexPath)
         -> ArtworkListCollectionViewCell
     {
         guard let cell = collectionView.dequeueReusableCell(
@@ -469,24 +504,24 @@ extension ArtistViewController: UICollectionViewDelegate {
     private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
         if front {
             let targetIndex = prefetchIndex - prefetchSize
-
+            
             guard targetIndex >= 0 else { return }
-
+            
             for i in 0..<targetIndex {
                 let artwork = artworkList[i]
-
+                
                 if artworkImage[artwork.artworkUid] != nil {
                     artworkImage.removeValue(forKey: artwork.artworkUid)
                 }
             }
         } else {
             let targetIndex = prefetchIndex + prefetchSize
-
+            
             guard targetIndex < artworkList.count else { return }
-
+            
             for i in targetIndex..<artworkList.count {
                 let artwork = artworkList[i]
-
+                
                 if artworkImage[artwork.artworkUid] != nil {
                     artworkImage.removeValue(forKey: artwork.artworkUid)
                 }

@@ -142,13 +142,6 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-     // MARK:- Save data to database
-    private func saveDataToDatabase(data: UserDataDecodeType) {
-        let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
-        
-        databaseHandler.saveData(data: author)
-    }
-    
     // MARK:- Show error alert
     private func showErrorAlert() {
         let alert = UIAlertController(title: "networkError".localized,
@@ -167,14 +160,9 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Finish fetch image
     private func finishFetchImage(image: UIImage?, error: Error?) {
-        if error != nil {
-            self.showErrorAlert()
-            return
-        }
-        guard let image = image else {
-            self.showErrorAlert()
-            return
-        }
+        guard error == nil else { return }
+        guard let image = image else { return }
+        
         DispatchQueue.main.async {
             self.artworkImage = image
         }
