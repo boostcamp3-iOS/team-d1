@@ -14,7 +14,7 @@ class ArtistViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         return collectionView
     }()
     
@@ -139,8 +139,7 @@ class ArtistViewController: UIViewController {
     // MARK:- Set layout
     private func setLayout() {
         view.addSubview(collectionView)
-        view.backgroundColor = .black
-        collectionView.backgroundColor = .black
+        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
