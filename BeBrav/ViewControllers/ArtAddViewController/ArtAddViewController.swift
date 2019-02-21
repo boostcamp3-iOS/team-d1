@@ -55,15 +55,11 @@ class ArtAddViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        textField.borderStyle = .none
-        textField.font = UIFont.boldSystemFont(ofSize: 30)
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.attributedPlaceholder = NSAttributedString(string: "작품 제목", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
-        textField.layer.shadowColor = UIColor.black.cgColor
-        textField.layer.shadowRadius = 3.0
-        textField.layer.shadowOpacity = 1.0
-        textField.layer.shadowOffset = CGSize(width: 4, height: 4)
-        textField.layer.masksToBounds = false
-        textField.textAlignment = .right
+        textField.textAlignment = .center
+        textField.backgroundColor = #colorLiteral(red: 0.2247451784, green: 0.2193362291, blue: 0.2924295654, alpha: 1)
         return textField
     }()
     
@@ -247,19 +243,19 @@ class ArtAddViewController: UIViewController {
         imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.5).isActive = true
         
-        titleTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width * 0.5).isActive = true
-        titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height * 0.48).isActive = true
-        titleTextField.widthAnchor.constraint(equalToConstant: view.frame.width * 0.5).isActive = true
-        titleTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5).isActive = true
+        titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titleTextField.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
+        titleTextField.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
+        titleTextField.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         orientationLabel.trailingAnchor.constraint(equalTo: colorLabel.leadingAnchor, constant: -5).isActive = true
-        orientationLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 5).isActive = true
+        orientationLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -5).isActive = true
         
         colorLabel.trailingAnchor.constraint(equalTo: temperatureLabel.leadingAnchor, constant: -5).isActive = true
-        colorLabel.topAnchor.constraint(equalTo: orientationLabel.topAnchor).isActive = true
+        colorLabel.bottomAnchor.constraint(equalTo: orientationLabel.bottomAnchor).isActive = true
         
         temperatureLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5).isActive = true
-        temperatureLabel.topAnchor.constraint(equalTo: colorLabel.topAnchor).isActive = true
+        temperatureLabel.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor).isActive = true
         
         collectionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -309,6 +305,7 @@ class ArtAddViewController: UIViewController {
 //Collection View Delegate
 extension ArtAddViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        titleTextField.becomeFirstResponder()
         
         clearImageViewLabels()
         
