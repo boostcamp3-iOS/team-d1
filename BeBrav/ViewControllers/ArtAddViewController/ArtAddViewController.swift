@@ -187,11 +187,9 @@ class ArtAddViewController: UIViewController {
         
         guard let asset = fetchResult.firstObject else { return }
         imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
+            
             guard let image = image else { return }
-            DispatchQueue.main.async {
                 self.imageView.image = image
-            }
-//            self.imageView.image = image
             
             self.imageSorting(image: image)
         }
