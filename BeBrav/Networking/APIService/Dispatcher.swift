@@ -42,14 +42,27 @@ struct Dispatcher: Dispatchable {
                 }
             }
             if let error = error {
-                completion(.failure(error), nil)
+                completion(.failure(error), response)
                 return
             }
-            //Test에서 fail
-            /* guard response?.isSuccess ?? false else {
-             completion(.failure(APIError.responseUnsuccessful), nil)
+            guard response?.isSuccess ?? false else {
+                let extractedData = JsonParser().extractDecodedJsonData(decodeType: ErrorDecodeType.self, binaryData: data)
+                if let data = extractedData {
+                    var customError = NSError()
+                    if data.error.message.contains("EMAIL") {
+                        customError = NSError(domain: "이메일을 찾을 수 없습니다",
+                                code: 0,
+                                userInfo: nil)
+                    } else {
+                        customError = NSError(domain: "비밀번호를 확인해 주세요",
+                                              code: 0,
+                                              userInfo: nil)
+                    }
+                    completion(.failure(customError),response)
+                }
+                completion(.failure(error ?? APIError.responseUnsuccessful), response)
              return
-             }*/
+             }
             guard let data = data else {
                 completion(.failure(APIError.invalidData), nil)
                 return

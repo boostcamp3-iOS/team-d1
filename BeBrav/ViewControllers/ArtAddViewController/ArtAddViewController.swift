@@ -18,14 +18,14 @@ class ArtAddViewController: UIViewController {
     }()
     
     private let naviItem: UINavigationItem = {
-        let item = UINavigationItem(title: "작품 등록")
+        let item = UINavigationItem(title: "newArtworkTitle".localized)
         return item
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "작품 등록하기"
+        label.text = "newArtwork".localized
         label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
     }()
@@ -39,7 +39,7 @@ class ArtAddViewController: UIViewController {
     private let artNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "작품명을 입력해주세요."
+        textField.placeholder = "artworkTitle".localized
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
         return textField
@@ -52,8 +52,8 @@ class ArtAddViewController: UIViewController {
     }()
     
     private lazy var rightBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "등록", style: .plain, target: self, action: #selector(rightBarButtonDidTap))
-        button.title = "등록"
+        let button = UIBarButtonItem(title: "share".localized, style: .plain, target: self, action: #selector(rightBarButtonDidTap))
+        button.title = "share".localized
         return button
     }()
     

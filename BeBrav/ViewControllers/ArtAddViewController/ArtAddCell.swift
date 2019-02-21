@@ -22,7 +22,7 @@ class ArtAddCell: UICollectionViewCell {
     let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setBackgroundImage(#imageLiteral(resourceName: "cancel-1"), for: UIControl.State.normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "cancel"), for: .normal)
         return button
     }()
     

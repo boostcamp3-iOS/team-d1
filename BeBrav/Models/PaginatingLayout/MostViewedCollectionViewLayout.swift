@@ -50,9 +50,7 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     
     override init() {
         super.init()
-        self.sectionFootersPinToVisibleBounds = true
         self.footerReferenceSize = CGSize(width: 300, height: 60)
-        //self.footerReferenceSize = CGSize(width: 300, height: 100)
 
     }
     
@@ -190,11 +188,10 @@ extension MostViewedArtworkFlowLayout: PagingControlDelegate {
         let topPadding = window.safeAreaInsets.top
         let contentOffsetY = collectionView.contentOffset.y + 2 * topPadding
         var frameForSupplementaryView = layoutAttributes.frame
-        let viewHeight = collectionView.frame.height - topPadding * 2
-        let position = viewHeight - frameForSupplementaryView.height - topPadding
+        let viewHeight = collectionView.frame.height - topPadding * 3
+        let position = viewHeight - frameForSupplementaryView.height //- topPadding
         frameForSupplementaryView.origin.y = contentOffsetY + position
         layoutAttributes.frame = frameForSupplementaryView
-        
         return layoutAttributes
     }
 }

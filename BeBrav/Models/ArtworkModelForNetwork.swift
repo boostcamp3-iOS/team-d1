@@ -54,6 +54,7 @@ struct ArtworkEncodeType: Encodable {
 
 struct ArtworkDecodeType: Codable {
     let userUid: String
+    let authorName: String
     let artworkUid: String
     let artworkUrl: String
     let timestamp: Double
@@ -65,6 +66,7 @@ struct ArtworkDecodeType: Codable {
     
     init() {
         self.userUid = ""
+        self.authorName = ""
         self.artworkUid = ""
         self.artworkUrl = ""
         self.title = ""
@@ -77,6 +79,7 @@ struct ArtworkDecodeType: Codable {
     
     
     init(userUid: String,
+         authorName: String,
          uid: String,
          url: String,
          title: String,
@@ -86,6 +89,7 @@ struct ArtworkDecodeType: Codable {
          color: Bool,
          temperature: Bool) {
         self.userUid = userUid
+        self.authorName = authorName
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
@@ -96,6 +100,31 @@ struct ArtworkDecodeType: Codable {
         self.temperature = temperature
     }
     
+    init(artworkModel: ArtworkModel) {
+        self.userUid = artworkModel.userId
+        self.authorName = artworkModel.authorName
+        self.artworkUid = artworkModel.id
+        self.artworkUrl = artworkModel.imageURL
+        self.title = artworkModel.title
+        self.timestamp = artworkModel.timestamp
+        self.views = artworkModel.views
+        self.orientation = artworkModel.orientation
+        self.color = artworkModel.color
+        self.temperature = artworkModel.temperature
+    }
+    
+    init(artwork: Artwork, userUid: String) {
+        self.userUid = userUid
+        self.authorName = artwork.
+        self.artworkUid = artwork.artworkUid
+        self.artworkUrl = artwork.artworkUrl
+        self.title = artwork.title
+        self.timestamp = artwork.timestamp
+        self.views = artwork.views
+        self.orientation = artwork.orientation
+        self.color = artwork.color
+        self.temperature = artwork.temperature
+    }
 }
 
 

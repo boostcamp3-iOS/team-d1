@@ -15,16 +15,27 @@ class DatabaseHandler {
     
     // MARK:- Properties
     private let idField = "id"
+    private let databaseName = "BeBravDatabase"
+    private let databaseQueue = DispatchQueue(label: "DatabaseQueue", qos: .default)
+    private var database: SQLiteDatabaseProtocol?
     
-    public var database: SQLiteDatabaseProtocol?
+    public var fileManager: FileManagerProtocol = FileManager.default
+    
+    // MARK:- Open Database
+    private func openDatabase() throws {
+        database = try SQLiteDatabase.open(
+            name: databaseName,
+            fileManager: fileManager
+        )
+    }
     
     // MARK:- Check table is enable
     private func accessTable(data: DataModelProtocol) throws -> Bool {
-        guard let database = database else {
-            throw DatabaseError.openDatabase
+        if database == nil {
+            try openDatabase()
         }
         
-        return database.createTable(name: data.tableName, columns: data.columns)
+        return database?.createTable(name: data.tableName, columns: data.columns) ?? false
     }
     
     // MARK:- Check access is enabled
@@ -61,11 +72,11 @@ class DatabaseHandler {
         return modelArray.filter{ model.isEqual(model: $0) }
     }
     
-    // MARK:- Fetch Data from SQLite Database
+    // MARK:- Fetch data from SQLite Database
     private func fetchData(type: DataType,
-                           idField: String,
-                           idRow: String,
-                           condition: Condition = .equal)
+                           idField: String = "",
+                           idRow: String = "",
+                           condition: Condition? = .equal)
         throws -> [DataModelProtocol]
     {
         let model = type.model
@@ -88,7 +99,7 @@ class DatabaseHandler {
         return dataToModel(model: model, data: dataArray).filter{ !$0.isEmpty }
     }
     
-    // MARK:- Update Data
+    // MARK:- Update data to SQLite Database
     private func updateData(data: DataModelProtocol) throws -> Bool {
         let id = data.id
         let table = data.tableName
@@ -128,18 +139,18 @@ class DatabaseHandler {
         return false
     }
     
-    // MARK:- Save new data or Update changed data
+    // MARK:- Save new data or Update changed data to SQLite Database
     final func saveData(data: DataModelProtocol,
                         completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
-        DispatchQueue.global(qos: .utility).async {
+        databaseQueue.async {
             do {
                 guard try self.accessTable(data: data) else {
                     completion(false, DatabaseError.accessTable)
                     return
                 }
                 
-                if try !self.updateData(data: data) {
+                if try self.updateData(data: data) {
                     completion(true, nil)
                     return
                 }
@@ -161,11 +172,11 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Delete Data
+    // MARK:- Delete Data to SQLite Database
     final func deleteData(data: DataModelProtocol,
                           completion: @escaping (Bool, Error?) -> Void = {_,_ in })
     {
-        DispatchQueue.global(qos: .userInitiated).async {
+        databaseQueue.async {
             do {
                 guard try self.accessEnabled(data: data) else {
                     completion(false, DatabaseError.accessData)
@@ -185,12 +196,12 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Read Data
+    // MARK:- Read Data from SQLite Database
     final func readData(type: DataType,
                         id: String,
                         completion: @escaping (DataModelProtocol?, Error?) -> Void)
     {
-        DispatchQueue.global(qos: .userInitiated).async {
+        databaseQueue.async {
             do {
                 let modelArray = try self.fetchData(
                     type: type,
@@ -204,14 +215,14 @@ class DatabaseHandler {
         }
     }
     
-    // MARK:- Read Author's Artwork Array
-    final func readArtworkArray(author: AuthorModel,
+    // MARK:- Read Artist's Artwork Array
+    final func readArtworkArray(artist: ArtistModel,
                                 completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let type: DataType = .ArtworkData
-            let idField = "authorId"
-            let idRow = author.id
+        databaseQueue.async {
+            let type: DataType = .artworkData
+            let idField = "userId"
+            let idRow = artist.id
             
             do {
                 guard let artworkArray = try self.fetchData(
@@ -235,20 +246,44 @@ class DatabaseHandler {
     // MARK:- Read Artwork Array with date
     final func readArtworkArray(keyDate: Double,
                                 condition: Condition = .equal,
-                                completion: @escaping ([DataModelProtocol]?, Error?) -> Void = {_,_ in })
+                                completion: @escaping ([ArtworkModel]?, Error?) -> Void)
     {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let type: DataType = .ArtworkData
+        databaseQueue.async {
+            let type: DataType = .artworkData
             let idField = "date"
             let idRow = String(keyDate)
             
             do {
-                let modelArray = try self.fetchData(
+                guard let modelArray = try self.fetchData(
                     type: type,
                     idField: idField,
                     idRow: idRow,
                     condition: condition
-                )
+                    ) as? [ArtworkModel]
+                    else
+                {
+                    completion(nil, DatabaseError.fetchData)
+                    return
+                }
+                completion(modelArray, nil)
+            } catch let error {
+                completion(nil, error)
+            }
+        }
+    }
+    
+    // MARK:- Read Artwork Array
+    final func readArtworkArray(completion: @escaping ([ArtworkModel]?, Error?) -> Void)
+    {
+        databaseQueue.async {
+            let type: DataType = .artworkData
+            
+            do {
+                guard let modelArray = try self.fetchData(type: type) as? [ArtworkModel] else
+                {
+                    completion(nil, DatabaseError.fetchData)
+                    return
+                }
                 completion(modelArray, nil)
             } catch let error {
                 completion(nil, error)
@@ -258,58 +293,16 @@ class DatabaseHandler {
     
     // MARK:- Data Type Enum
     enum DataType {
-        case AuthorData
-        case ArtworkData
+        case artistData
+        case artworkData
         
         var model: DataModelProtocol {
             switch self {
-            case .AuthorData:
-                return AuthorModel()
-            case .ArtworkData:
+            case .artistData:
+                return ArtistModel()
+            case .artworkData:
                 return ArtworkModel()
             }
-        }
-    }
-}
-
-// MARK:- Database Error
-fileprivate enum DatabaseError: Error {
-    case openDatabase
-    case accessTable
-    case accessData
-    case saveData
-    case fetchData
-}
-
-extension DatabaseError: CustomNSError {
-    static var errorDomain: String = "SQLiteDatabase"
-    var errorCode: Int {
-        switch self {
-        case .openDatabase:
-            return 300
-        case .accessTable:
-            return 301
-        case .accessData:
-            return 302
-        case .saveData:
-            return 303
-        case .fetchData:
-            return 304
-        }
-    }
-    
-    var userInfo: [String : Any] {
-        switch self {
-        case .openDatabase:
-            return ["File": #file, "Type":"openDatabase", "Message":"No Database at DatabaseHandler"]
-        case .accessTable:
-            return ["File": #file, "Type":"accessTable", "Message":"Failure access table"]
-        case .accessData:
-            return ["File": #file, "Type":"accessData", "Message":"Failure access data"]
-        case .saveData:
-            return ["File": #file, "Type":"save", "Message":"Failure save data"]
-        case .fetchData:
-            return ["File": #file, "Type":"fetch", "Message":"Failure fetch data"]
         }
     }
 }

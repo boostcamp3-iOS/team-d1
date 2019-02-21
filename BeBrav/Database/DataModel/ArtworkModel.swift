@@ -12,35 +12,22 @@ struct ArtworkModel {
     
     // MARK:- Properties
     private let artworkId: String
+    public let authorName: String
     public let userId: String
     public let title: String
-    public let date: Double
+    public let timestamp: Double
     public let views: Int
     public let imageURL: String
     public let orientation: Bool
     public let temperature: Bool
     public let color: Bool
     
-    mutating func artworkDecodeType() -> ArtworkDecodeType {
-        let artwork = ArtworkDecodeType(
-            userUid: userId,
-            uid: id,
-            url: imageURL,
-            title: title,
-            timestamp: date,
-            views: views,
-            orientation: orientation,
-            color: color,
-            temperature: temperature
-        )
-        return artwork
-    }
-    
     // MARK:- Initialize
     init(id: String,
+         authorName: String,
          authorId: String,
          title: String,
-         date: Double,
+         timestamp: Double,
          imageURL: String,
          views: Int = 0,
          orientation: Bool,
@@ -49,9 +36,10 @@ struct ArtworkModel {
         )
     {
         self.artworkId = id
+        self.authorName = authorName
         self.userId = authorId
         self.title = title
-        self.date = date
+        self.timestamp = timestamp
         self.imageURL = imageURL
         self.views = views
         self.orientation = orientation
@@ -61,9 +49,10 @@ struct ArtworkModel {
     
     init(artwork:ArtworkDecodeType) {
         self.artworkId = artwork.artworkUid
+        self.authorName = artwork.authorName
         self.userId = artwork.userUid
         self.title = artwork.title
-        self.date = artwork.timestamp
+        self.timestamp = artwork.timestamp
         self.imageURL = artwork.artworkUrl
         self.views = artwork.views
         self.orientation = artwork.orientation
@@ -83,7 +72,7 @@ extension ArtworkModel: DataModelProtocol {
         return id.isEmpty
             || userId.isEmpty
             || title.isEmpty
-            || date < 0.0
+            || timestamp < 0.0
             || views < 0
     }
     public var tableName: String {
@@ -95,9 +84,10 @@ extension ArtworkModel: DataModelProtocol {
     var columns: [String] {
         return [
             "id",
+            "authorName",
             "userId",
             "title",
-            "date",
+            "timestamp",
             "views",
             "imageURL",
             "orientation",
@@ -108,14 +98,15 @@ extension ArtworkModel: DataModelProtocol {
     var rows: [Int : String] {
         return [
             0: artworkId,
-            1: userId,
-            2: title,
-            3: "\(date)",
-            4: "\(views)",
-            5: imageURL,
-            6: "\(orientation ? "" : "1")",
-            7: "\(temperature ? "" : "1")",
-            8: "\(color ? "" : "1")"
+            1: authorName,
+            2: userId,
+            3: title,
+            4: "\(timestamp)",
+            5: "\(views)",
+            6: imageURL,
+            7: "\(orientation ? "" : "1")",
+            8: "\(temperature ? "" : "1")",
+            9: "\(color ? "" : "1")"
         ]
     }
     
@@ -134,9 +125,10 @@ extension ArtworkModel: DataModelProtocol {
     // MARK:- Initialize
     init() {
         self.artworkId = ""
+        self.authorName = ""
         self.userId = ""
         self.title = ""
-        self.date = 0.0
+        self.timestamp = 0.0
         self.imageURL = ""
         self.views = 0
         self.orientation = false
@@ -146,9 +138,10 @@ extension ArtworkModel: DataModelProtocol {
     
     init(data: [String: String]) {
         self.artworkId = data["id"] ?? ""
+        self.authorName = data["authorName"] ?? ""
         self.userId = data["userId"] ?? ""
         self.title = data["title"] ?? ""
-        self.date = Double(data["date"] ?? "") ?? -0.1
+        self.timestamp = Double(data["timestamp"] ?? "") ?? -0.1
         self.views = Int(data["views"] ?? "") ?? -1
         self.imageURL = data["imageURL"] ?? ""
         self.orientation = data["orientation"]?.isEmpty ?? false
@@ -157,6 +150,7 @@ extension ArtworkModel: DataModelProtocol {
     }
 }
 
+// MARK:- ArtworkModel Equatable
 extension ArtworkModel: Equatable {
     static func == (lhs: ArtworkModel, rhs: ArtworkModel) -> Bool {
         return lhs.id == rhs.id && lhs.views == rhs.views

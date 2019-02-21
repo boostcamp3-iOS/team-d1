@@ -16,27 +16,29 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.text = ""
         textField.textAlignment = .center
-        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.font = UIFont.boldSystemFont(ofSize: 32)
         textField.textColor = .white
         textField.isEnabled = false
         return textField
     }()
     
-    public let artistIntroTextView: UITextView = {
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = ""
-        textView.textAlignment = .center
-        textView.textColor = .white
-        textView.backgroundColor = .black
-        textView.isEditable = false
-        return textView
+    public let artistIntroTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.text = ""
+        textField.textAlignment = .center
+        textField.font = UIFont.systemFont(ofSize: 20)
+        textField.textColor = .white
+        textField.backgroundColor = .black
+        textField.isEnabled = false
+        return textField
     }()
     
+    // MARK:- Properties
     public var isEditMode = false {
         didSet {
             artistNameTextField.isEnabled = isEditMode
-            artistIntroTextView.isEditable = isEditMode
+            artistIntroTextField.isEnabled = isEditMode
             
             if isEditMode {
                 artistNameTextField.becomeFirstResponder()
@@ -44,11 +46,11 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         }
     }
     
-    //MARK: - Init
+    //MARK: - Initialize
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUpViews()
+        setLayout()
 
         artistNameTextField.delegate = self
     }
@@ -57,21 +59,19 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Method
+    //MARK: - Touches began
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if artistNameTextField.isFirstResponder {
             artistNameTextField.resignFirstResponder()
         } else {
-            artistIntroTextView.resignFirstResponder()
+            artistIntroTextField.resignFirstResponder()
         }
     }
     
-    //TODO: - 편집모드 코드 추가
-    
     //MARK: - Set Layout
-    private func setUpViews() {
+    private func setLayout() {
         addSubview(artistNameTextField)
-        addSubview(artistIntroTextView)
+        addSubview(artistIntroTextField)
 
         backgroundColor = .black
         
@@ -79,10 +79,10 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         artistNameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70).isActive = true
         artistNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70).isActive = true
         
-        artistIntroTextView.topAnchor.constraint(equalTo: artistNameTextField.bottomAnchor, constant: 40).isActive = true
-        artistIntroTextView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
-        artistIntroTextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40).isActive = true
-        artistIntroTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40).isActive = true
+        artistIntroTextField.topAnchor.constraint(equalTo: artistNameTextField.bottomAnchor, constant: 20).isActive = true
+        artistIntroTextField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
+        artistIntroTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40).isActive = true
+        artistIntroTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40).isActive = true
     }
 }
 

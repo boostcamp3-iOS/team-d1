@@ -68,6 +68,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     ///
     private var latestContentsOffset: CGFloat = 0
     
+    private let prefetchSize = 6
+    
     
     ///네트워킹을 전체적으로 관리하는 인스탠스를 생성하기 위한 컨테이너 입니다.
     private let container = NetworkDependencyContainer()
@@ -83,6 +85,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
                                              uid: "123")
     
     private var thumbImage: [String: UIImage] = [:]
+    private var artworkImage: [String: UIImage] = [:]
+    private var artworkDataFromDatabase: [ArtworkModel] = []
     
     //mainCollectionView 설정 관련 프로퍼티
     private let identifierFooter = "footer"
@@ -94,12 +98,13 @@ class PaginatingCollectionViewController: UICollectionViewController {
     private let loadingIndicator: LoadingIndicatorView = {
         let indicator = LoadingIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.noticeLabel.text = "loading images"
+        indicator.noticeLabel.text = "loadingImages".localized
         return indicator
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "BeBrav"
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: UIScreen.main.bounds.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
                 batchSize = itemsPerScreen * pageSize
@@ -113,7 +118,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
         {
             registerForPreviewing(with: self, sourceView: collectionView)
-            
         }
     }
     
@@ -123,8 +127,11 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.register(PaginatingCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
         //collectionView.prefetchDataSource = self //TODO: 이미지로더 구현이후 적용
-        collectionView.register(ArtworkAddFooterReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: identifierFooter)
+        collectionView.register(ArtworkAddFooterReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: identifierFooter)
         
         //set filter right bar button
         let button = UIButton(type: UIButton.ButtonType.custom)
@@ -152,52 +159,85 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
-        loadingIndicator.deactivateIndicatorView()
+//        loadingIndicator.deactivateIndicatorView()
+        loadingIndicator.activateIndicatorView()
     }
     
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
         let imageLoader = ImageCacheFactory().buildImageLoader()
         let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let databaseHandler = DatabaseHandler()
         let viewController = ArtworkViewController(imageLoader: imageLoader,
-                                                   serverDatabase: serverDatabase)
+                                                   serverDatabase: serverDatabase,
+                                                   databaseHandler: databaseHandler)
         
         guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
             return viewController
         }
         
+        let artwork = artworkBucket[index.row]
+        
+        updateViewsCount(id: artwork.artworkUid)
+        
         viewController.transitioningDelegate = self
+        viewController.artwork = artwork
+        viewController.artworkImage = cell.artworkImageView.image
         viewController.mainNavigationController = navigationController
         
-        let uid = artworkBucket[index.row].artworkUid
-
-        serverDatabase.read(path: "root/artworks/\(uid)", type: ArtworkDecodeType.self, headers: ["X-Firebase-ETag": "true"], queries: nil) { (result, response) in
+        return viewController
+    }
+    
+    private func updateViewsCount(id: String) {
+        serverDatabase.read(
+            path: "root/artworks/\(id)",
+            type: ArtworkDecodeType.self,
+            headers: ["X-Firebase-ETag": "true"],
+            queries: nil
+            )
+        { (result, response) in
             switch result {
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             case .success(let data):
                 guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+                guard let formedResponse = response as? HTTPURLResponse,
+                    let eTag = formedResponse.allHeaderFields["Etag"] as? String
+                    else
+                {
                     return
                 }
                 
-                let updateValue = data.views + 1
+                let encodeData = ArtworkDecodeType(
+                    userUid: data.userUid,
+                    authorName: data.authorName,
+                    uid: data.artworkUid,
+                    url: data.artworkUrl,
+                    title: data.title,
+                    timestamp: data.timestamp,
+                    views: data.views + 1,
+                    orientation: data.orientation,
+                    color: data.color,
+                    temperature: data.temperature
+                )
                 
-                let encodeData = ArtworkDecodeType(userUid: data.userUid, uid: data.artworkUid, url: data.artworkUrl, title: data.title, timestamp: data.timestamp, views: updateValue, orientation: data.orientation, color: data.color, temperature: data.temperature)
-                
-                self.serverDatabase.write(path: "root/artworks/\(uid)/", data: encodeData, method: .put, headers: ["if-match": eTag], completion: { (result, response) in
+                self.serverDatabase.write(
+                    path: "root/artworks/\(id)/",
+                    data: encodeData,
+                    method: .put,
+                    headers: ["if-match": eTag]
+                    )
+                { (result, response) in
                     switch result {
                     case .failure(let error):
                         print(error.localizedDescription)
                     case .success:
-                       print("success")
+                        break
                     }
                 })
+                }
             }
         }
-        
-        viewController.artwork = self.artworkBucket[index.item]
-        viewController.artworkImage = cell.artworkImageView.image
-        return viewController
     }
     
     func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
@@ -308,7 +348,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         present(alertController, animated: true)
     }
-    
+   
+    @objc func userSettingButtonDidTap() {
+        print(collectionView.indexPathsForVisibleItems)
+        //TODO: setting 기능 추가
+        UserDefaults.standard.removeObject(forKey: "uid")
+        UserDefaults.standard.synchronize()
+  
+        
+    }
     @objc func addArtworkButtonDidTap() {
         let flowLayout = UICollectionViewFlowLayout()
         let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
@@ -333,7 +381,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     // MARK: UICollectionViewDataSource
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -343,37 +390,67 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? PaginatingCell else {
-            assertionFailure("failed to make cell")
             return .init()
         }
 
         let artwork = artworkBucket[indexPath.row]
         
-        if let image = thumbImage[artwork.artworkUid] {
+        if let image = artworkImage[artwork.artworkUid] {
             cell.artworkImageView.image = image
-            thumbImage.removeValue(forKey: artwork.artworkUid)
+            artworkImage.removeValue(forKey: artwork.artworkUid)
         } else {
             fetchImage(artwork: artwork, indexPath: indexPath)
         }
         return cell
     }
     
-    private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath) {
-        guard let url = URL(string: artwork.artworkUrl) else { return }
-        
-        imageLoader.fetchImage(url: url, size: .small) { (image, error) in
-            if error != nil {
-                assertionFailure("failed to make cell")
-                return
+    private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath?) {
+        if artworkImage[artwork.artworkUid] == nil {
+            guard let url = URL(string: artwork.artworkUrl) else { return }
+            
+            imageLoader.fetchImage(url: url, size: .small) { image, error in
+                guard let image = image else { return }
+                self.artworkImage[artwork.artworkUid] = image
+                
+                if let indexPath = indexPath {
+                    DispatchQueue.main.async {
+                        self.reloadCellImage(indexPath: indexPath)
+                    }
+                }
             }
-            
-            guard let image = image else { return }
-            self.thumbImage[artwork.artworkUid] = image
-            
+            return
+        }
+        
+        if let indexPath = indexPath {
             DispatchQueue.main.async {
-                self.collectionView.reloadItems(at: [indexPath])
+                self.reloadCellImage(indexPath: indexPath)
             }
         }
+    }
+
+    
+    private func reloadCellImage(indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        guard let image = artworkImage[artworkBucket[indexPath.item].artworkUid] else { return }
+        
+        cell.artworkImageView.image = image
+    }
+  
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
+            return
+        }
+        DispatchQueue.main.async {
+            if self.traitCollection.verticalSizeClass == .compact {
+                //self.refreshLayout()
+                
+            } else {
+               // self.refreshLayout()
+
+        }
+      }
     }
 }
 
@@ -381,7 +458,9 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+                        sizeForItemAt indexPath: IndexPath)
+        -> CGSize
+    {
          let insetsNumber = columns + 1
          let width = (collectionView.frame.width - (insetsNumber * spacing) - (insetsNumber * insets)) / columns
          return CGSize(width: width, height: width)
@@ -389,12 +468,14 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+                        insetForSectionAt section: Int)
+        -> UIEdgeInsets
+    {
         return UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
     }
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-        
+    override func collectionView(_ collectionView: UICollectionView,
+                                 didSelectItemAt indexPath: IndexPath)
+    {
         let viewController = artworkViewController(index: indexPath)
         viewController.isAnimating = true
         
@@ -471,7 +552,7 @@ extension PaginatingCollectionViewController {
         
         if !isEndOfData {
             isLoading = true
-            loadingIndicator.activateIndicatorView()
+//            loadingIndicator.activateIndicatorView()
             
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -486,13 +567,20 @@ extension PaginatingCollectionViewController {
                               queries: queries) {
                                 (result, response) in
                     switch result {
-                    case .failure(let error):
-                        //TODO: 유저에게 보여줄 에러메세지 생성
-                        print(error)
+                    case .failure:
+                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
+                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
                     case .success(let data):
                         self.processData(data: data,
                                          doNeedMore: false,
                                          targetLayout: layout)
+                    }
+                    defer {
+                        DispatchQueue.main.async {
+                            self.loadingIndicator.deactivateIndicatorView()
+                        }
                     }
                 }
             } else {
@@ -508,18 +596,20 @@ extension PaginatingCollectionViewController {
                               queries: queries) {
                                 (result, response) in
                     switch result {
-                    case .failure(let error):
-                        //TODO: 유저에게 보여줄 에러메세지 생성
-                        print(error)
+                    case .failure:
+                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
+                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
                     case .success(let data):
                         self.processData(data: data,
                                          doNeedMore: true,
                                          targetLayout: layout)
-                        defer {
-                            DispatchQueue.main.async {
-                                self.loadingIndicator.deactivateIndicatorView()
-                                self.isLoading = false
-                            }
+                    }
+                    defer {
+                        DispatchQueue.main.async {
+                            
+                            self.loadingIndicator.deactivateIndicatorView()
                         }
                     }
                 }
@@ -527,12 +617,74 @@ extension PaginatingCollectionViewController {
         }
     }
     
+    private func fetchDataFromDatabase(filter: FilterType,
+                                       isOn: Bool,
+                                       doNeedMore: Bool,
+                                       targetLayout: MostViewedArtworkFlowLayout)
+    {
+        if artworkDataFromDatabase.isEmpty {
+            databaseHandler.readArtworkArray{ data, error in
+                guard let data = data else { return }
+                
+                self.artworkDataFromDatabase = data.sorted{ $0.timestamp > $1.timestamp }
+                
+                self.processDataFromDatabase(filter: filter,
+                                             isOn: isOn,
+                                             doNeedMore: doNeedMore,
+                                             targetLayout: targetLayout)
+            }
+        } else {
+            processDataFromDatabase(filter: filter,
+                                    isOn: isOn,
+                                    doNeedMore: doNeedMore,
+                                    targetLayout: targetLayout)
+        }
+    }
+    
+    private func processDataFromDatabase(filter: FilterType,
+                                         isOn: Bool,
+                                         doNeedMore: Bool,
+                                         targetLayout: MostViewedArtworkFlowLayout)
+    {
+        var pageArtwork = artworkDataFromDatabase
+        
+        if let recentTimestamp = recentTimestamp {
+            pageArtwork = artworkDataFromDatabase.filter{ $0.timestamp < recentTimestamp }
+        }
+        
+        if filter != .none {
+            switch filter {
+            case .orientation:
+                pageArtwork = pageArtwork.filter{ $0.orientation }
+            case .color:
+                pageArtwork = pageArtwork.filter{ $0.color }
+            case .temperature:
+                pageArtwork = pageArtwork.filter{ $0.temperature }
+            case .none:
+                break
+            }
+        }
+        
+        var artworksData: [String: ArtworkDecodeType] = [:]
+        
+        pageArtwork[0..<min(self.batchSize, pageArtwork.count)].forEach{
+            artworksData[$0.id] = ArtworkDecodeType(artworkModel: $0)
+        }
+        
+        self.processData(data: artworksData, doNeedMore: doNeedMore, targetLayout: targetLayout)
+    }
+    
     private func processData(data: [String: ArtworkDecodeType],
                              doNeedMore: Bool,
                              targetLayout: MostViewedArtworkFlowLayout) {
         
+        let result = data.values.sorted()
+        result.forEach{
+            self.databaseHandler.saveData(data: ArtworkModel(artwork: $0))
+            self.fetchImage(artwork: $0, indexPath: nil)
+        }
+        
         if doNeedMore {
-            let result = data.values.sorted()
             var indexList: [Int] = []
             
             self.currentKey = result.first?.artworkUid
@@ -542,7 +694,7 @@ extension PaginatingCollectionViewController {
                 self.isEndOfData = true
             }
             let infoBucket =  self.calculateCellInfo(fetchedData: result,
-                                       batchSize: self.itemsPerScreen)
+                                                     batchSize: self.itemsPerScreen)
             
             infoBucket.forEach {
                 self.artworkBucket.append(contentsOf: $0.sortedArray)
@@ -556,8 +708,6 @@ extension PaginatingCollectionViewController {
             }
             
         } else {
-            let result = data.values.sorted()
-            
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
@@ -574,14 +724,8 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
-                
+                self.isLoading = false
                 self.collectionView.reloadData()
-            }
-            defer {
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.loadingIndicator.deactivateIndicatorView()
-                }
             }
         }
     }
@@ -623,35 +767,34 @@ extension PaginatingCollectionViewController {
                                            willDecelerate decelerate: Bool) {
         let currentOffset = scrollView.contentOffset.y
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
+     
         if maxOffset - currentOffset <= 40{
-            if !isLoading {
-                collectionView.layoutIfNeeded()
-                fetchPages()
+            if !isEndOfData {
+                self.loadingIndicator.activateIndicatorView()
             }
         }
     }
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         latestContentsOffset = scrollView.contentOffset.y;
+        print(scrollView.contentOffset.y)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 0 {
             if self.latestContentsOffset > scrollView.contentOffset.y {
-                UIView.animate(withDuration: 1) {
                 self.footerView?.addArtworkButton.alpha = 1
-                }
             }
             else if (self.latestContentsOffset < scrollView.contentOffset.y) {
-                UIView.animate(withDuration: 1) {
                     self.footerView?.addArtworkButton.alpha = 0
-                }
             }
         }
     }
     
-   private func calculateCellInfo(fetchedData: [ArtworkDecodeType], batchSize: Int) -> [CalculatedInformation] {
+   private func calculateCellInfo(fetchedData: [ArtworkDecodeType],
+                                  batchSize: Int)
+    -> [CalculatedInformation]
+   {
         var mutableDataBucket = fetchedData
         var calculatedInfoBucket: [CalculatedInformation] = []
         let numberOfPages = fetchedData.count / batchSize
@@ -679,7 +822,9 @@ extension PaginatingCollectionViewController {
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+    func collectionView(_ collectionView: UICollectionView,
+                        prefetchItemsAt indexPaths: [IndexPath])
+    {
         indexPaths.forEach {
             guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
                 return
@@ -724,7 +869,7 @@ extension PaginatingCollectionViewController: UIViewControllerPreviewingDelegate
     }
 }
 
-// MARK:- PaginatingCollection ViewController
+// MARK:- PaginatingCollectionViewController Transitioning Delegate
 extension PaginatingCollectionViewController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
@@ -739,7 +884,7 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
             return nil
         }
         
-        let transition = PaginatingViewControllerPresentAnimator()
+        let transition = CollectionViewControllerPresentAnimator()
         
         transition.viewFrame = view.frame
         transition.originFrame = collectionView.convert(cell.frame, to: nil)
@@ -768,10 +913,10 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
                 self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
                     switch result {
                     case .failure(let error):
-                        print(error)
+                        print(error.localizedDescription)
                         return
                     case .success(let data):
-                        print(data)
+                        break
                     }
                 })
             }
@@ -783,7 +928,65 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
     }
 }
 
-enum FilterType {
+extension PaginatingCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        
+        let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
+        let max = visubleCellsIndex.max{ $0 < $1 }
+        
+        guard let maxIndex = max, maxIndex != 0 else { return }
+        var prefetchIndex = 0
+        if maxIndex < indexPath.item {
+            prefetchIndex = min(indexPath.item + prefetchSize, artworkBucket.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: true)
+        } else {
+            prefetchIndex = min(indexPath.item - prefetchSize, artworkBucket.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: false)
+        }
+        
+        guard  artworkBucket.count > prefetchIndex, prefetchIndex >= 0 else { return }
+        
+        let artwork = artworkBucket[prefetchIndex]
+        if artworkImage[artwork.artworkUid] == nil {
+            self.fetchImage(artwork: artwork, indexPath: nil)
+        }
+    }
+    
+
+    private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
+        if front {
+            let targetIndex = prefetchIndex - prefetchSize
+            
+            guard targetIndex >= 0 else { return }
+            
+            for i in 0..<targetIndex {
+                let artwork = artworkBucket[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
+            
+        } else {
+            let targetIndex = prefetchIndex + prefetchSize
+            
+            guard targetIndex < artworkBucket.count else { return }
+            
+            for i in targetIndex..<artworkBucket.count {
+                let artwork = artworkBucket[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
+
+        }
+    }
+}
+
+fileprivate enum FilterType {
     case orientation
     case color
     case temperature

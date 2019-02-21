@@ -19,6 +19,7 @@ class ArtworkViewController: UIViewController {
         scrollView.zoomScale = 1
         return scrollView
     }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +27,7 @@ class ArtworkViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
     private let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +38,7 @@ class ArtworkViewController: UIViewController {
         button.layer.shadowOpacity = 1
         return button
     }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +48,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let viewsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +58,7 @@ class ArtworkViewController: UIViewController {
         label.textAlignment = .right
         return label
     }()
+    
     private let artistLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,10 +70,15 @@ class ArtworkViewController: UIViewController {
     }()
     
     // MARK:- Properties
+    private let imageLoader: ImageLoaderProtocol
+    private let databaseHandler: DatabaseHandler
+    private let serverDatabase: ServerDatabase
+    
     private var artistData: UserDataDecodeType?
     
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
+    public var artistName: String?
     public var artworkImage: UIImage? {
         didSet {
             imageView.image = artworkImage
@@ -81,18 +91,23 @@ class ArtworkViewController: UIViewController {
     }
     public var isPeeked = false {
         didSet {
-            view.backgroundColor = isPeeked ? .clear : .black
+            view.backgroundColor = isPeeked ? .clear : #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
             closeButton.isHidden = isPeeked
         }
     }
     
-    private let imageLoader: ImageLoaderProtocol
-    private let serverDatabase: ServerDatabase
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     // MARK:- Initialize
-    init(imageLoader: ImageLoaderProtocol, serverDatabase: ServerDatabase) {
+    init(imageLoader: ImageLoaderProtocol,
+         serverDatabase: ServerDatabase,
+         databaseHandler: DatabaseHandler)
+    {
         self.imageLoader = imageLoader
         self.serverDatabase = serverDatabase
+        self.databaseHandler = databaseHandler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -112,24 +127,30 @@ class ArtworkViewController: UIViewController {
         setGestureRecognizer()
         
         closeButton.addTarget(self, action: #selector(touchUpCloseButton(_:)), for: .touchUpInside)
-    }
+    } 
     
     // MARK:- Fetch artwork image
     private func fetchArtworkImage() {
         guard let artwork = artwork, let url = URL(string: artwork.artworkUrl) else {
-            assertionFailure("No artwork information") // TODO: 오류처리 추가 후 변경
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         
         titleLabel.text = artwork.title
-        viewsLabel.text = artwork.views.decimalString + " Views"
+        viewsLabel.text = artwork.views.decimalString + " " + "views".localized
 
         imageLoader.fetchImage(url: url, size: .big) { (image, error) in
             self.finishFetchImage(image: image, error: error)
         }
     }
     
+    // MARK:- Fetch artist data
     private func fetchArtistData() {
+        if let artistName = artistName {
+            self.artistLabel.text = artistName
+            return
+        }
+        
         guard let uid = artwork?.userUid else { return }
         
         let queries = [URLQueryItem(name: "orderBy", value: "\"uid\""),
@@ -138,16 +159,19 @@ class ArtworkViewController: UIViewController {
         
         serverDatabase.read(path: "root/users", type:[String: UserDataDecodeType].self, headers: [:], queries: queries) { result, responds  in
             switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure:
+                self.fetchDataFromDatabase(id: uid)
             case .success(let data):
-                self.setArtistData(data: data[uid])
+                guard let data = data[uid] else { return }
+
+                self.saveDataToDatabase(data: data)
+                self.setArtistData(data: data)
             }
         }
     }
     
-    private func setArtistData(data: UserDataDecodeType?) {
-        guard let data = data else { return }
+    // MARK:- Set artist data
+    private func setArtistData(data: UserDataDecodeType) {
         artistData = data
         
         DispatchQueue.main.async {
@@ -155,14 +179,63 @@ class ArtworkViewController: UIViewController {
         }
     }
     
+     // MARK:- Save data to database
+    private func saveDataToDatabase(data: UserDataDecodeType) {
+        let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
+        
+        databaseHandler.saveData(data: author)
+    }
+    
+    // MARK:- Fetch data from database
+    private func fetchDataFromDatabase(id: String) {
+        databaseHandler.readData(type: .artistData, id: id) { data, error in
+            guard let data = data as? ArtistModel else { return }
+
+            self.databaseHandler.readArtworkArray(artist: data) { artworks, error in
+                guard let artworks = artworks else {
+                    self.showErrorAlert(type: .fetchArtistData)
+                    return
+                }
+                
+                let list = artworks.sorted{ $0.timestamp > $1.timestamp }
+                var artworksDictionary: [String: Artwork] = [:]
+                
+                list.forEach{ artworksDictionary[$0.id] = Artwork(artworkModel: $0) }
+                
+                let artistData = UserDataDecodeType(uid: data.id,
+                                                    nickName: data.name,
+                                                    description: data.description,
+                                                    artworks: artworksDictionary)
+                
+                self.setArtistData(data: artistData)
+            }
+        }
+    }
+    
+    // MARK:- Show error alert
+    private func showErrorAlert(type: errorType) {
+        let alert = UIAlertController(title: "networkError".localized,
+                                      message: type.rawValue.localized,
+                                      preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "done".localized, style: .default) { _ in
+            if self.imageView.image == nil {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        alert.addAction(action)
+
+        present(alert, animated: false, completion: nil)
+    }
+    
     // MARK:- Finish fetch image
     private func finishFetchImage(image: UIImage?, error: Error?) {
-        if let error = error {
-            assertionFailure(error.localizedDescription) // TODO: 오류처리 추가 후 삭제
+        if error != nil {
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         guard let image = image else {
-            assertionFailure("failed to fetch image Data") // TODO: 오류처리 추가 후 삭제
+            self.showErrorAlert(type: .fetchImage)
             return
         }
         DispatchQueue.main.async {
@@ -197,7 +270,7 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Set gesture recognizer
     private func setGestureRecognizer() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(artistLabelDidTap(_:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self,action: #selector(artistLabelDidTap(_:)))
         artistLabel.isUserInteractionEnabled = true
         artistLabel.addGestureRecognizer(tapGestureRecognizer)
         
@@ -223,7 +296,7 @@ class ArtworkViewController: UIViewController {
             })
         }
         
-        view.backgroundColor = isAnimating ? .clear : .black
+        view.backgroundColor = isAnimating ? .clear : #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
     }
     
     // MARK:- Touch up close button
@@ -233,7 +306,10 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Artist label did tap
     @objc private func artistLabelDidTap(_ sender: UITapGestureRecognizer) {
-        guard let navigationController = mainNavigationController else {
+        guard let navigationController = mainNavigationController,
+            let artistData = artistData
+            else
+        {
             return
         }
         let imageLoader = ImageCacheFactory().buildImageLoader()
@@ -266,12 +342,13 @@ class ArtworkViewController: UIViewController {
         view.addSubview(viewsLabel)
         scrollView.addSubview(imageView)
         scrollView.alwaysBounceVertical = true
+        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.delegate = self
         
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
@@ -306,4 +383,9 @@ extension ArtworkViewController: UIScrollViewDelegate {
         
         dismiss(animated: true, completion: nil)
     }
+}
+
+fileprivate enum errorType: String {
+    case fetchImage = "imageNetworkErrorMessage"
+    case fetchArtistData = "artistNetworkErrorMessage"
 }
