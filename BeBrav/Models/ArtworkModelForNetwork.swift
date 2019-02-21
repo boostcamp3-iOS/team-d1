@@ -115,7 +115,7 @@ struct ArtworkDecodeType: Codable {
     
     init(artwork: Artwork, userUid: String) {
         self.userUid = userUid
-        self.authorName = artwork.
+        self.authorName = ""
         self.artworkUid = artwork.artworkUid
         self.artworkUrl = artwork.artworkUrl
         self.title = artwork.title

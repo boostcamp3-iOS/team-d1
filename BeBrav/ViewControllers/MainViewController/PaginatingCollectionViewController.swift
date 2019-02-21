@@ -220,27 +220,27 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     color: data.color,
                     temperature: data.temperature
                 )
-                
-                self.serverDatabase.write(
-                    path: "root/artworks/\(id)/",
-                    data: encodeData,
-                    method: .put,
-                    headers: ["if-match": eTag]
-                    )
-                { (result, response) in
-                    switch result {
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    case .success:
-                        break
+                    
+                    self.serverDatabase.write(
+                        path: "root/artworks/\(id)/",
+                        data: encodeData,
+                        method: .put,
+                        headers: ["if-match": eTag]
+                        )
+                    { (result, response) in
+                        switch result {
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        case .success:
+                            break
+                        }
                     }
-                })
                 }
             }
         }
     }
     
-    func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
+    private func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
         let orderBy: String?
         let queries: [URLQueryItem]?
         
@@ -364,7 +364,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         present(artAddCollectionViewController, animated: true, completion: nil)
     }
 
-    func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
+    private func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
         guard let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout else {
             return
         }
@@ -486,7 +486,7 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 }
 
 extension PaginatingCollectionViewController {
-    func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
+    private func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
         
         if !isEndOfData {
             isLoading = true
