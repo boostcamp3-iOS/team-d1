@@ -143,25 +143,35 @@ class ArtAddViewController: UIViewController {
     
     //사용자로부터 사진첩 접근 허용 받기
     func requestAlbumAuth() {
-        let requestHandler = { (status: PHAuthorizationStatus) in
-            switch status {
-            case PHAuthorizationStatus.authorized:
-                print("사진첩 접근 허용됨")
-            case PHAuthorizationStatus.denied:
-                print("사진첩 접근 거부됨")
-            default:
-                break
-            }
-        }
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .authorized: print("사진첩 접근 허용됨")
-        case .denied: print("사진첩 접근 거부됨")
-        case .restricted: print("사진첩 접근 제한됨")
+        switch photoAuthorizationStatus {
+        case .authorized:
+//            self.commonInit()
+//            OperationQueue.main.addOperation {
+//                self.collectionView.reloadData()
+//            }
+            print("authorized")
+        case .denied:
+            print("denied")
         case .notDetermined:
-            PHPhotoLibrary.requestAuthorization(requestHandler)
+            print("notDetermined")
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                switch status {
+                case .authorized:
+                    print("authorized")
+//                    self.commonInit()
+//                    OperationQueue.main.addOperation {
+//                        self.collectionView.reloadData()
+//                    }
+                case .denied:
+                    print("denied")
+                default: break
+                }
+            })
+        case .restricted:
+            print("restricted")
         }
-        
     }
     
     func commonInit() {
@@ -178,7 +188,10 @@ class ArtAddViewController: UIViewController {
         guard let asset = fetchResult.firstObject else { return }
         imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
             guard let image = image else { return }
-            self.imageView.image = image
+            DispatchQueue.main.async {
+                self.imageView.image = image
+            }
+//            self.imageView.image = image
             
             self.imageSorting(image: image)
         }
