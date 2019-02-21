@@ -135,44 +135,49 @@ class ArtAddInstaViewController: UIViewController {
     
     //Helper Method
     func fetchImages() {
-        guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
-        
-        let fetchOption = PHFetchOptions()
-        fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
-        fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
-        
-        for i in 0..<fetchResult!.count {
-        let asset = fetchResult?.object(at: i)
-        
-        let width = view.frame.width
-        let height = view.frame.height * 0.5
-        
-            imageManager.requestImage(for: asset!, targetSize: CGSize(width: width, height: height), contentMode: .aspectFill, options: nil) { (image, _) in
-            self.imageList.append(image!)
+            guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
             
-            if i==0 {
-                self.imageView.image = image
-            }
-        }
+            let fetchOption = PHFetchOptions()
+            fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             
-            DispatchQueue.global().async {
-                var imageSort = ImageSort(input: self.imageList[0])
+            self.fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
+            
+            let assets = self.fetchResult?.objects(at: IndexSet(0..<self.fetchResult!.count))
+            
+            for i in 0..<self.fetchResult!.count {
+                guard let assets = assets else { return }
+                let asset = assets[i]
                 
-                guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
+                let width = self.view.frame.width
+                let height = self.view.frame.height * 0.5
                 
-                let orientation = r1 ? "#가로" : "#세로"
-                let color = r2 ? "#컬러" : "#흑백"
-                let temperature = r3 ? "#차가움" : "#따뜻함"
-                
-                DispatchQueue.main.async {
-                    self.showImageSortResultLabel()
+                self.imageManager.requestImage(for: asset, targetSize: CGSize(width: width, height: height), contentMode: .aspectFill, options: nil) { (image, _) in
                     
-                    self.orientationLabel.text = orientation
-                    self.colorLabel.text = color
-                    self.temperatureLabel.text = temperature
+                    guard let image = image else { return }
+                    self.imageList.append(image)
+                    
+                        if i==0 {
+                            self.imageView.image = image
+                        }
                 }
-            }
+                
+                DispatchQueue.global().async {
+                    var imageSort = ImageSort(input: self.imageList[0])
+                    
+                    guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
+                    
+                    let orientation = r1 ? "#가로" : "#세로"
+                    let color = r2 ? "#컬러" : "#흑백"
+                    let temperature = r3 ? "#차가움" : "#따뜻함"
+                    
+                    DispatchQueue.main.async {
+                        self.showImageSortResultLabel()
+                        
+                        self.orientationLabel.text = orientation
+                        self.colorLabel.text = color
+                        self.temperatureLabel.text = temperature
+                    }
+                }
         }
     }
     
@@ -235,9 +240,6 @@ class ArtAddInstaViewController: UIViewController {
         uploadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         uploadButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         
-//        titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        titleTextField.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
-//
         imageView.topAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: 10).isActive = true
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
@@ -245,6 +247,7 @@ class ArtAddInstaViewController: UIViewController {
         
         titleTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width * 0.5).isActive = true 
         titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height * 0.48).isActive = true
+        titleTextField.widthAnchor.constraint(equalToConstant: view.frame.width * 0.5).isActive = true
         
         temperatureLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -10).isActive = true
         temperatureLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -5).isActive = true
@@ -324,6 +327,7 @@ extension ArtAddInstaViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
 
 
 extension ArtAddInstaViewController: UICollectionViewDelegateFlowLayout {

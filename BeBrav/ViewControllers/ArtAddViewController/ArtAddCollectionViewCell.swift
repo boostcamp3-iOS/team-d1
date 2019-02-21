@@ -26,7 +26,7 @@ class ArtAddCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            if isSelected == true {
+            if isSelected {
                 filtering.backgroundColor = UIColor(white: 1, alpha: 0.5)
             } else {
                 filtering.backgroundColor = .clear
