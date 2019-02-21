@@ -106,7 +106,7 @@ class ArtistViewController: UIViewController {
     private func fetchImage(index: Int, prefetch: Bool) {
         let artwork = artworkList[index]
         
-        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+        if artworkImage[artwork.artworkUid] == nil {
             guard let url = URL(string: artwork.artworkUrl) else { return }
             
             imageLoader.fetchImage(url: url, size: .small) { image, error in
@@ -377,11 +377,10 @@ extension ArtistViewController: UICollectionViewDelegate {
             prefetchIndex = min(indexPath.item - prefetchSize, artworkList.count - 1)
         }
         
-        guard  artworkList.count - prefetchIndex > prefetchSize else { return }
+        guard  artworkList.count > prefetchIndex, prefetchIndex >= 0 else { return }
         
-        guard prefetchIndex >= 0 else { return }
         let artwork = artworkList[prefetchIndex]
-        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+        if artworkImage[artwork.artworkUid] == nil {
             self.fetchImage(index: prefetchIndex, prefetch: true)
         }
     }
