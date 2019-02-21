@@ -200,7 +200,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
+//                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else {
                 guard let formedResponse = response as? HTTPURLResponse,
                     let eTag = formedResponse.allHeaderFields["Etag"] as? String
                     else
@@ -235,7 +235,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                             break
                         }
                     }
-                }
+//                }
             }
         }
     }
@@ -982,6 +982,15 @@ extension PaginatingCollectionViewController {
                 }
             }
 
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard artworkBucket.count - batchSize < indexPath.item else { return }
+        
+        if !isLoading {
+            isLoading = true
+            fetchPages()
         }
     }
 }
