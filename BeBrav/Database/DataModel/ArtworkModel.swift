@@ -12,7 +12,7 @@ struct ArtworkModel {
     
     // MARK:- Properties
     private let artworkId: String
-    public let authorName: String
+//    public let authorName: String
     public let userId: String
     public let title: String
     public let timestamp: Double
@@ -36,7 +36,7 @@ struct ArtworkModel {
         )
     {
         self.artworkId = id
-        self.authorName = authorName
+//        self.authorName = authorName
         self.userId = authorId
         self.title = title
         self.timestamp = timestamp
@@ -49,7 +49,7 @@ struct ArtworkModel {
     
     init(artwork:ArtworkDecodeType) {
         self.artworkId = artwork.artworkUid
-        self.authorName = artwork.authorName
+//        self.authorName = artwork.authorName
         self.userId = artwork.userUid
         self.title = artwork.title
         self.timestamp = artwork.timestamp
@@ -98,7 +98,7 @@ extension ArtworkModel: DataModelProtocol {
     var rows: [Int : String] {
         return [
             0: artworkId,
-            1: authorName,
+//            1: authorName,
             2: userId,
             3: title,
             4: "\(timestamp)",
@@ -125,7 +125,7 @@ extension ArtworkModel: DataModelProtocol {
     // MARK:- Initialize
     init() {
         self.artworkId = ""
-        self.authorName = ""
+//        self.authorName = ""
         self.userId = ""
         self.title = ""
         self.timestamp = 0.0
@@ -138,7 +138,7 @@ extension ArtworkModel: DataModelProtocol {
     
     init(data: [String: String]) {
         self.artworkId = data["id"] ?? ""
-        self.authorName = data["authorName"] ?? ""
+//        self.authorName = data["authorName"] ?? ""
         self.userId = data["userId"] ?? ""
         self.title = data["title"] ?? ""
         self.timestamp = Double(data["timestamp"] ?? "") ?? -0.1

@@ -204,7 +204,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
-                    authorName: data.authorName,
+//                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,
@@ -350,11 +350,11 @@ class PaginatingCollectionViewController: UICollectionViewController {
   
         
     }
+    
     @objc func addArtworkButtonDidTap() {
-        let flowLayout = UICollectionViewFlowLayout()
-        let artAddCollectionViewController = ArtAddCollectionViewController(collectionViewLayout: flowLayout)
-        artAddCollectionViewController.delegate = self
-        present(artAddCollectionViewController, animated: true, completion: nil)
+        let artAddInstaViewController = ArtAddInstaViewController()
+        artAddInstaViewController.delegate = self
+        present(artAddInstaViewController, animated: true, completion: nil)
     }
 
     private func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
@@ -892,9 +892,8 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
     }
 }
 
-extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDelegate {
-    func uploadArtwork(_ controller: ArtAddCollectionViewController, image: UIImage) {
-        
+extension PaginatingCollectionViewController: ArtAddInstaViewControllerDelegate {
+    func uploadArtwork(_ controller: ArtAddInstaViewController, image: UIImage, title: String) {
         //FIXME: - SignIn 머지되면 수정
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {
@@ -903,23 +902,20 @@ extension PaginatingCollectionViewController: ArtAddCollectionViewControllerDele
                 return
             case .success(let data):
                 print("success")
-                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: "test401", completion: { (result) in
+                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: title, completion: { (result) in
                     switch result {
                     case .failure(let error):
-                        print(error.localizedDescription)
+                        print(error)
                         return
                     case .success(let data):
-                        break
+                        print(data)
                     }
                 })
             }
         }
-        
-        DispatchQueue.main.async {
-            self.fetchPages()
-        }
     }
 }
+
 
 extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
