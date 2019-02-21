@@ -12,6 +12,7 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
+    //private var currentFilterType: String = ""
     
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: FirebaseDatabaseService
@@ -239,31 +240,34 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         if title == "방향" {
             message = "어떤 방향의 작품을 보여드릴까요?"
-            trueActionTitle = "가로사진"
-            falseActionTitle = "세로사진"
+            trueActionTitle = "가로 작품"
+            falseActionTitle = "세로 작품"
             filterType = .orientation
         }
         else if title == "컬러" {
             message = "어떤 색의 작품을 보여드릴까요?"
-            trueActionTitle = "컬러사진"
-            falseActionTitle = "흑백사진"
+            trueActionTitle = "컬러 작품"
+            falseActionTitle = "흑백 작품"
             filterType = .color
         }
         else if title == "온도" {
             message = "어떤 온도의 작품을 보여드릴까요?"
-            trueActionTitle = "차가운 사진"
-            falseActionTitle = "따뜻한 사진"
+            trueActionTitle = "차가운 작품"
+            falseActionTitle = "따뜻한 작품"
             filterType = .temperature
         }
+        
+        guard let type = filterType else { return }
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
         let trueAction = UIAlertAction(title: trueActionTitle, style: .default, handler: { (action) in
-            self.makeQueryAndRefresh(filterType: filterType!, isOn: true)
+            
+            self.makeQueryAndRefresh(filterType: type, isOn: true)
         })
         
         let falseAction = UIAlertAction(title: falseActionTitle, style: .default, handler: { (action) in
-            self.makeQueryAndRefresh(filterType: filterType!, isOn: false)
+            self.makeQueryAndRefresh(filterType: type, isOn: false)
         })
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
