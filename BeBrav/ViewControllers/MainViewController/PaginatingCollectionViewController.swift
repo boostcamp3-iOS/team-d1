@@ -158,8 +158,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        
-//        loadingIndicator.deactivateIndicatorView()
+
         loadingIndicator.activateIndicatorView()
     }
     
@@ -347,8 +346,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         //TODO: setting 기능 추가
         UserDefaults.standard.removeObject(forKey: "uid")
         UserDefaults.standard.synchronize()
-  
-        
     }
     
     @objc func addArtworkButtonDidTap() {
@@ -497,8 +494,10 @@ extension PaginatingCollectionViewController {
                                 (result, response) in
                                 switch result {
                                 case .failure(let error):
-                                    //TODO: 유저에게 보여줄 에러메세지 생성
-                                    print(error)
+                                    self.fetchDataFromDatabase(filter: type,
+                                                               isOn: isOn,
+                                                               doNeedMore: false,
+                                                               targetLayout: layout)
                                 case .success(let data):
                                     self.processData(data: data,
                                                      doNeedMore: false,
@@ -519,8 +518,10 @@ extension PaginatingCollectionViewController {
                                 (result, response) in
                                 switch result {
                                 case .failure(let error):
-                                    //TODO: 유저에게 보여줄 에러메세지 생성
-                                    print(error)
+                                    self.fetchDataFromDatabase(filter: type,
+                                                               isOn: isOn,
+                                                               doNeedMore: true,
+                                                               targetLayout: layout)
                                 case .success(let data):
                                     self.processData(data: data,
                                                      doNeedMore: true,
@@ -617,7 +618,15 @@ extension PaginatingCollectionViewController {
     {
         if artworkDataFromDatabase.isEmpty {
             databaseHandler.readArtworkArray{ data, error in
-                guard let data = data else { return }
+                if error != nil {
+                    //TODO: 유저에게 보여줄 에러메세지 생성
+                    return
+                }
+                
+                guard let data = data else {
+                    //TODO: 유저에게 보여줄 에러메세지 생성
+                    return
+                }
                 
                 self.artworkDataFromDatabase = data.sorted{ $0.timestamp > $1.timestamp }
                 
@@ -744,15 +753,15 @@ extension PaginatingCollectionViewController {
                     collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                     withReuseIdentifier: identifierFooter,
                                                                     for: indexPath) as? ArtworkAddFooterReusableView else {
-                    return UICollectionReusableView.init()
-                }
+                    return .init()
+                }w
                 footerView.addArtworkButton.addTarget(self,
                                                       action: #selector(addArtworkButtonDidTap),
                                                       for: .touchUpInside)
                 self.footerView = footerView
                 return footerView
         default:
-        return UICollectionReusableView.init()
+        return .init()
         }
     }
     
@@ -811,24 +820,6 @@ extension PaginatingCollectionViewController {
             calculatedInfoBucket.append(calculatedInfo)
         }
         return calculatedInfoBucket
-    }
-}
-
-extension PaginatingCollectionViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView,
-                        prefetchItemsAt indexPaths: [IndexPath])
-    {
-        indexPaths.forEach {
-            guard let url = URL(string: artworkBucket[$0.row].artworkUrl) else {
-                return
-            }//TODO: 이미지로더 구현이후 적용
-            imageLoader.fetchImage(url: url, size: .small) { (image, error) in
-                if error != nil {
-                    assertionFailure("failed to make cell")
-                    return
-                }
-            }
-        }
     }
 }
 
