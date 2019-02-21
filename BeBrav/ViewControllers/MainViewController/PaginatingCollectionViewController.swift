@@ -174,15 +174,15 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return viewController
         }
         
-        viewController.transitioningDelegate = self
-        viewController.mainNavigationController = navigationController
-        
         let artwork = artworkBucket[index.row]
         
         updateViewsCount(id: artwork.artworkUid)
         
+        viewController.transitioningDelegate = self
         viewController.artwork = artwork
         viewController.artworkImage = cell.artworkImageView.image
+        viewController.mainNavigationController = navigationController
+        
         return viewController
     }
     
@@ -302,7 +302,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     private func fetchImage(artwork: ArtworkDecodeType, indexPath: IndexPath?) {
-        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+        if artworkImage[artwork.artworkUid] == nil {
             guard let url = URL(string: artwork.artworkUrl) else { return }
             
             imageLoader.fetchImage(url: url, size: .small) { image, error in
@@ -311,7 +311,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 if let indexPath = indexPath {
                     DispatchQueue.main.async {
-                        self.collectionView.reloadItems(at: [indexPath])
+                        self.reloadCellImage(indexPath: indexPath)
                     }
                 }
             }
@@ -320,12 +320,20 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         if let indexPath = indexPath {
             DispatchQueue.main.async {
-                self.collectionView.reloadItems(at: [indexPath])
+                self.reloadCellImage(indexPath: indexPath)
             }
         }
     }
- 
+
     
+    private func reloadCellImage(indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PaginatingCell else { return }
+        guard collectionView.visibleCells.contains(cell) else { return }
+        guard let image = artworkImage[artworkBucket[indexPath.item].artworkUid] else { return }
+        
+        cell.artworkImageView.image = image
+    }
+  
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
@@ -339,10 +347,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
                // self.refreshLayout()
 
         }
-        
+      }
     }
-    }
-        
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -780,25 +786,48 @@ extension PaginatingCollectionViewController {
         var prefetchIndex = 0
         if maxIndex < indexPath.item {
             prefetchIndex = min(indexPath.item + prefetchSize, artworkBucket.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: true)
         } else {
             prefetchIndex = min(indexPath.item - prefetchSize, artworkBucket.count - 1)
+            removePrefetchedArtwork(prefetchIndex: prefetchIndex, front: false)
         }
         
-        guard  artworkBucket.count - prefetchIndex > prefetchSize else { return }
+        guard  artworkBucket.count > prefetchIndex, prefetchIndex >= 0 else { return }
         
-        guard prefetchIndex >= 0 else { return }
         let artwork = artworkBucket[prefetchIndex]
-        if !artworkImage.contains(where: { $0.key == artwork.artworkUid}) {
+        if artworkImage[artwork.artworkUid] == nil {
             self.fetchImage(artwork: artwork, indexPath: nil)
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard artworkBucket.count - batchSize < indexPath.item else { return }
-        
-        if !isLoading {
-            isLoading = true
-            fetchPages()
+
+    private func removePrefetchedArtwork(prefetchIndex: Int, front: Bool) {
+        if front {
+            let targetIndex = prefetchIndex - prefetchSize
+            
+            guard targetIndex >= 0 else { return }
+            
+            for i in 0..<targetIndex {
+                let artwork = artworkBucket[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
+            
+        } else {
+            let targetIndex = prefetchIndex + prefetchSize
+            
+            guard targetIndex < artworkBucket.count else { return }
+            
+            for i in targetIndex..<artworkBucket.count {
+                let artwork = artworkBucket[i]
+                
+                if artworkImage[artwork.artworkUid] != nil {
+                    artworkImage.removeValue(forKey: artwork.artworkUid)
+                }
+            }
+
         }
     }
 }
