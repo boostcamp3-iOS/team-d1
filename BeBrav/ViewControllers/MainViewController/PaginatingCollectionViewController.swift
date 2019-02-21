@@ -352,7 +352,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func addArtworkButtonDidTap() {
-        let artAddInstaViewController = ArtAddInstaViewController()
+        let artAddInstaViewController = ArtAddViewController()
         artAddInstaViewController.delegate = self
         present(artAddInstaViewController, animated: true, completion: nil)
     }
@@ -892,8 +892,8 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
     }
 }
 
-extension PaginatingCollectionViewController: ArtAddInstaViewControllerDelegate {
-    func uploadArtwork(_ controller: ArtAddInstaViewController, image: UIImage, title: String) {
+extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
+    func uploadArtwork(_ controller: ArtAddViewController, image: UIImage, title: String) {
         //FIXME: - SignIn 머지되면 수정
         manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
             switch result {

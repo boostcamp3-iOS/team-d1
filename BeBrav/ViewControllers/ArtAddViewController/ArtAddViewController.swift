@@ -9,11 +9,11 @@
 import UIKit
 import Photos
 
-protocol ArtAddInstaViewControllerDelegate: class {
-    func uploadArtwork(_ controller: ArtAddInstaViewController, image: UIImage, title: String)
+protocol ArtAddViewControllerDelegate: class {
+    func uploadArtwork(_ controller: ArtAddViewController, image: UIImage, title: String)
 }
 
-class ArtAddInstaViewController: UIViewController {
+class ArtAddViewController: UIViewController {
     
     private let cellIdentifier = "ArtAddCollectionViewCell"
     private let spacing: CGFloat = 12
@@ -29,7 +29,7 @@ class ArtAddInstaViewController: UIViewController {
     private var fetchResult: PHFetchResult<PHAsset>?
     private var cameraRoll: PHAssetCollection?
     
-    weak var delegate: ArtAddInstaViewControllerDelegate?
+    weak var delegate: ArtAddViewControllerDelegate?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -296,7 +296,7 @@ class ArtAddInstaViewController: UIViewController {
 }
 
 //Collection View Delegate
-extension ArtAddInstaViewController: UICollectionViewDelegate {
+extension ArtAddViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         clearImageViewLabels()
@@ -311,7 +311,7 @@ extension ArtAddInstaViewController: UICollectionViewDelegate {
 }
 
 //Collection View Data Source
-extension ArtAddInstaViewController: UICollectionViewDataSource {
+extension ArtAddViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchResult?.count ?? 0
@@ -331,7 +331,7 @@ extension ArtAddInstaViewController: UICollectionViewDataSource {
     }
 }
 
-extension ArtAddInstaViewController: UICollectionViewDelegateFlowLayout {
+extension ArtAddViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = (collectionView.frame.width - spacing) / numOfItemsPerRow
@@ -348,7 +348,7 @@ extension ArtAddInstaViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ArtAddInstaViewController: UITextFieldDelegate {
+extension ArtAddViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
