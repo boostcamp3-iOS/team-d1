@@ -15,8 +15,8 @@
 "grayScale" = "흑백 작품";
 "orientationQuestion" = "어떤 방향의 작품을 보여드릴까요?";
 "orientation" = "방향";
-"horizontal" = "가로 작품"
-"vertical" = "세로 작품"
+"horizontal" = "가로 작품";
+"vertical" = "세로 작품";
 "temperature" = "색 온도";
 "temperatureQuestion" = "어떤 온도의 작품을 보여드릴까요?";
 "coldArtwork" = "차가운 작품";

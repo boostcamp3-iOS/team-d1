@@ -15,8 +15,8 @@
 "grayScale" = "Gray-scale";
 "orientationQuestion" = "What kind of orientation artworks do you want to see?";
 "orientation" = "Orientation";
-"horizontal" = "Horizontal"
-"vertical" = "Vertical"
+"horizontal" = "Horizontal";
+"vertical" = "Vertical";
 "temperature" = "Temperature";
 "temperatureQuestion" = "What kind of temperature artworks do you want to see?";
 "coldArtwork" = "Cold";

@@ -15,8 +15,8 @@
 "grayScale" = "مقياس الرمادي";
 "orientationQuestion" = "أي نوع من الأعمال الفنية التي ترغب في رؤيتها؟";
 "orientation" = "اتجاه";
-"horizontal" = "أفقي"
-"vertical" = "عمودي"
+"horizontal" = "أفقي";
+"vertical" = "عمودي";
 "temperature" = "درجة الحرارة";
 "temperatureQuestion" = "ما نوع الأعمال الفنية لدرجة الحرارة التي ترغب في رؤيتها؟";
 "coldArtwork" = "البرد";
