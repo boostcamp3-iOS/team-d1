@@ -349,9 +349,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func addArtworkButtonDidTap() {
-        let artAddInstaViewController = ArtAddViewController()
-        artAddInstaViewController.delegate = self
-        present(artAddInstaViewController, animated: true, completion: nil)
+        let artAddViewController = ArtAddViewController()
+        artAddViewController.delegate = self
+        present(artAddViewController, animated: true, completion: nil)
     }
 
     private func refreshLayout(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
@@ -885,29 +885,13 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
 }
 
 extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
-    func uploadArtwork(_ controller: ArtAddViewController, image: UIImage, title: String) {
-        //FIXME: - SignIn 머지되면 수정
-        manager.signIn(email: "t1@naver.com", password: "123456") { (result) in
-            switch result {
-            case .failure(let error):
-                print(error)
-                return
-            case .success(let data):
-                print("success")
-                self.manager.uploadArtwork(image: image, scale: 0.1, path: "artworks", fileName: title, completion: { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                        return
-                    case .success(let data):
-                        print(data)
-                    }
-                })
-            }
+    func reloadMainView(controller: ArtAddViewController) {
+        fetchPages()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 }
-
 
 extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 protocol ArtAddViewControllerDelegate: class {
-    func uploadArtwork(_ controller: ArtAddViewController, image: UIImage, title: String)
+    func reloadMainView(controller: ArtAddViewController)
 }
 
 class ArtAddViewController: UIViewController {
@@ -30,6 +30,18 @@ class ArtAddViewController: UIViewController {
     private var cameraRoll: PHAssetCollection?
     
     weak var delegate: ArtAddViewControllerDelegate?
+    
+    let uid = UserDefaults.standard.string(forKey: "uid")
+    
+    private let container = NetworkDependencyContainer()
+    
+    private lazy var serverDB = container.buildServerDatabase()
+    private lazy var serverST = container.buildServerStorage()
+    private lazy var serverAu = container.buildServerAuth()
+    private lazy var manager = ServerManager(authManager: serverAu,
+                                             databaseManager: serverDB,
+                                             storageManager: serverST,
+                                             uid: self.uid!)
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -233,7 +245,15 @@ class ArtAddViewController: UIViewController {
         guard let uploadImage = imageView.image else { return }
         
         dismiss(animated: true) {
-            self.delegate?.uploadArtwork(self, image: uploadImage, title: title)
+            self.manager.uploadArtwork(image: uploadImage, scale: 0.1, path: "artworks", fileName: title, completion: { (result) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let data):
+                    print("upload success")
+                }
+            })
+            self.delegate?.reloadMainView(controller: self)
         }
     }
     
