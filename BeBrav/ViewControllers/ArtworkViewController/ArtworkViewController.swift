@@ -76,7 +76,11 @@ class ArtworkViewController: UIViewController {
     
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
-    public var artistName: String?
+    public var artistName: String = "" {
+        didSet {
+            artistLabel.text = artistName
+        }
+    }
     public var artworkImage: UIImage? {
         didSet {
             imageView.image = artworkImage
@@ -168,15 +172,18 @@ class ArtworkViewController: UIViewController {
         }
     }
     
-    // MARK:- Set Labels
+    // MARK:- Set labels
     private func setLabels() {
         setLabelShadow(label: titleLabel)
         setLabelShadow(label: artistLabel)
         setLabelShadow(label: viewsLabel)
         
-        artistLabel.text = artwork?.authorName
+        if artistLabel.text?.isEmpty ?? true {
+            artistLabel.text = artwork?.authorName
+        }
     }
     
+    // MARK:- Set labels shadow
     private func setLabelShadow(label: UILabel) {
         label.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         label.shadowOffset = CGSize(width: 0.5, height: 0.5)

@@ -273,7 +273,8 @@ class ArtistViewController: UIViewController {
         
         viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
         viewController.artworkImage = cell.imageView.image
-        viewController.artistName = artistData?.nickName
+        viewController.artistName = artistData?.nickName ?? ""
+        
         return viewController
     }
     
