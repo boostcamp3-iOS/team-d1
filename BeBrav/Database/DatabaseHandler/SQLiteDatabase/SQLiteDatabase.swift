@@ -35,14 +35,14 @@ class SQLiteDatabase: SQLiteDatabaseProtocol {
     {
         var database: OpaquePointer?
         
-        let fileURL = try? fileManager.url(
+        let fileURL = try fileManager.url(
             for: .documentDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
             create: false
             ).appendingPathComponent("\(name).sqlite")
         
-        if sqlite3_open(fileURL?.path, &database) != SQLITE_OK {
+        if sqlite3_open(fileURL.path, &database) != SQLITE_OK {
             defer {
                 if database != nil { sqlite3_close(database) }
             }
