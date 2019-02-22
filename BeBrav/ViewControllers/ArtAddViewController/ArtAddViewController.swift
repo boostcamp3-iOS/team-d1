@@ -23,7 +23,7 @@ class ArtAddViewController: UIViewController {
     private let targetSizeWidth = 250
     private let targetSizeHeight = 250
     
-    private let imageManager = PHCachingImageManager()
+    private lazy var imageManager = PHCachingImageManager()
     var firstItemImage: UIImage?
     
     private var fetchResult: PHFetchResult<PHAsset>?
@@ -38,7 +38,7 @@ class ArtAddViewController: UIViewController {
     let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("cancel".localized, for: .normal)
+        button.setTitle("취소", for: .normal)
         button.titleLabel?.tintColor = .white
         return button
     }()
@@ -46,7 +46,7 @@ class ArtAddViewController: UIViewController {
     let uploadButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("share".localized, for: .normal)
+        button.setTitle("등록", for: .normal)
         button.titleLabel?.tintColor = .white
         return button
     }()
@@ -57,8 +57,8 @@ class ArtAddViewController: UIViewController {
         textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.boldSystemFont(ofSize: 20)
-        textField.placeholder = "artworkTitle".localized
-        textField.attributedPlaceholder = NSAttributedString(string: "artworkTitle".localized, attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.placeholder = "작품제목을 입력해주세요."
+        textField.attributedPlaceholder = NSAttributedString(string: "작품제목을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         textField.textAlignment = .center
         textField.backgroundColor = #colorLiteral(red: 0.2247451784, green: 0.2193362291, blue: 0.2924295654, alpha: 1)
         return textField
@@ -130,39 +130,49 @@ class ArtAddViewController: UIViewController {
         setUpViews()
         setCollectionView()
         
-        commonInit()
-        
         titleTextField.delegate = self
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonDidTap), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        requestAlbumAuth()
+    }
+    
     //사용자로부터 사진첩 접근 허용 받기
     func requestAlbumAuth() {
         let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        
         switch photoAuthorizationStatus {
         case .authorized:
-//            self.commonInit()
-//            OperationQueue.main.addOperation {
-//                self.collectionView.reloadData()
-//            }
             print("authorized")
+            self.getFetchResult()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                self.commonInit()
+            }
         case .denied:
             print("denied")
+            showDeniedAlert()
+            
         case .notDetermined:
             print("notDetermined")
             PHPhotoLibrary.requestAuthorization({ (status) in
                 switch status {
                 case .authorized:
                     print("authorized")
-//                    self.commonInit()
-//                    OperationQueue.main.addOperation {
-//                        self.collectionView.reloadData()
-//                    }
+                    self.getFetchResult()
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                        self.commonInit()
+                    }
                 case .denied:
                     print("denied")
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 default: break
                 }
             })
@@ -171,7 +181,19 @@ class ArtAddViewController: UIViewController {
         }
     }
     
-    func commonInit() {
+    func showDeniedAlert() {
+        let alertController = UIAlertController(title: "사진첩 접근 제한", message: "사진첩 접근이 거절되어, 작품 등록이 불가능합니다.", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "ok", style: .default) { (action) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func getFetchResult() {
         //카메라롤에 접근
         guard let cameraRoll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil).firstObject else { return }
         
@@ -179,14 +201,15 @@ class ArtAddViewController: UIViewController {
         fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         fetchResult = PHAsset.fetchAssets(in: cameraRoll, options: fetchOption)
-        
+    }
+    
+    func commonInit() {
         guard let fetchResult = fetchResult else { return }
-        
         guard let asset = fetchResult.firstObject else { return }
         imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
             
             guard let image = image else { return }
-                self.imageView.image = image
+            self.imageView.image = image
             
             self.imageSorting(image: image)
         }
@@ -204,7 +227,7 @@ class ArtAddViewController: UIViewController {
         
         //title을 따로 지정해주지 않았다면, 작품명을 "무제"로 업로드함
         if title.isEmpty {
-            title = "noTitle".localized
+            title = "무제"
         }
         
         guard let uploadImage = imageView.image else { return }
@@ -287,9 +310,9 @@ class ArtAddViewController: UIViewController {
             
             guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
             
-            let orientation = r1 ? "#horizontal".localized : "#vertical".localized
-            let color = r2 ? "#color".localized : "#gray".localized
-            let temperature = r3 ? "#cold".localized : "#warm".localized
+            let orientation = r1 ? "#가로" : "#세로"
+            let color = r2 ? "#컬러" : "#흑백"
+            let temperature = r3 ? "#차가움" : "#따뜻함"
             
             DispatchQueue.main.async {
                 self.showImageSortResultLabel()
@@ -306,7 +329,7 @@ class ArtAddViewController: UIViewController {
 extension ArtAddViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        titleTextField.placeholder = "artworkTitle".localized
+        titleTextField.placeholder = "작품제목을 입력해주세요."
         
         clearImageViewLabels()
         
