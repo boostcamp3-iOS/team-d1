@@ -38,6 +38,8 @@
 "#cold" = "#차가움";
 "#warm" = "#따뜻함";
 
+"photoAccessDenied" = "사진첩 접근 제한";
+"photoAccessDeniedMessage" = "사진을 등록하기 위해서 앨범에 접근을 허용해 주세요.";
 "loadingImages" = "Bilder laden";
 "artworks" = "Kunstwerke";
 "delete" = "Löschen";

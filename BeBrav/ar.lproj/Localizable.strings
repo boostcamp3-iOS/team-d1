@@ -38,6 +38,8 @@
 "#cold" = "#البرد";
 "#warm" = "#دافئ";
 
+"photoAccessDenied" = "الألبوم الوصول مرفوض";
+"photoAccessDeniedMessage" = "يرجى السماح للألبوم بتسجيل صورك";
 "loadingImages" = "تحميل الصور";
 "artworks" = "الصور";
 "delete" = "حذف";

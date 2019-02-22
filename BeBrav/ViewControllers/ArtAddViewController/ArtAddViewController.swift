@@ -38,7 +38,7 @@ class ArtAddViewController: UIViewController {
     let cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("취소", for: .normal)
+        button.setTitle("cancel".localized, for: .normal)
         button.titleLabel?.tintColor = .white
         return button
     }()
@@ -46,7 +46,7 @@ class ArtAddViewController: UIViewController {
     let uploadButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("등록", for: .normal)
+        button.setTitle("share".localized, for: .normal)
         button.titleLabel?.tintColor = .white
         return button
     }()
@@ -57,8 +57,8 @@ class ArtAddViewController: UIViewController {
         textField.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.boldSystemFont(ofSize: 20)
-        textField.placeholder = "작품제목을 입력해주세요."
-        textField.attributedPlaceholder = NSAttributedString(string: "작품제목을 입력해주세요.", attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
+        textField.placeholder = "artworkTitle".localized
+        textField.attributedPlaceholder = NSAttributedString(string: "artworkTitle".localized, attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)])
         textField.textAlignment = .center
         textField.backgroundColor = #colorLiteral(red: 0.2247451784, green: 0.2193362291, blue: 0.2924295654, alpha: 1)
         return textField
@@ -182,9 +182,9 @@ class ArtAddViewController: UIViewController {
     }
     
     func showDeniedAlert() {
-        let alertController = UIAlertController(title: "사진첩 접근 제한", message: "사진첩 접근이 거절되어, 작품 등록이 불가능합니다.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "photoAccessDenied".localized, message: "photoAccessDeniedMessage".localized, preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "ok", style: .default) { (action) in
+        let okAction = UIAlertAction(title: "done".localized, style: .default) { (action) in
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -227,7 +227,7 @@ class ArtAddViewController: UIViewController {
         
         //title을 따로 지정해주지 않았다면, 작품명을 "무제"로 업로드함
         if title.isEmpty {
-            title = "무제"
+            title = "noTitle".localized
         }
         
         guard let uploadImage = imageView.image else { return }
@@ -310,9 +310,9 @@ class ArtAddViewController: UIViewController {
             
             guard let r1 = imageSort.orientationSort(), let r2 = imageSort.colorSort(), let r3 = imageSort.temperatureSort() else { return }
             
-            let orientation = r1 ? "#가로" : "#세로"
-            let color = r2 ? "#컬러" : "#흑백"
-            let temperature = r3 ? "#차가움" : "#따뜻함"
+            let orientation = r1 ? "#horizontal".localized : "#vertical".localized
+            let color = r2 ? "#color".localized : "#gray".localized
+            let temperature = r3 ? "#cold".localized : "#warm".localized
             
             DispatchQueue.main.async {
                 self.showImageSortResultLabel()
@@ -329,7 +329,7 @@ class ArtAddViewController: UIViewController {
 extension ArtAddViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        titleTextField.placeholder = "작품제목을 입력해주세요."
+        titleTextField.placeholder = "artworkTitle".localized
         
         clearImageViewLabels()
         

@@ -38,6 +38,8 @@
 "#cold" = "#cold";
 "#warm" = "#warm";
 
+"photoAccessDenied" = "Album Access Denied";
+"photoAccessDeniedMessage" = "Please allow album access to register your photos.";
 "loadingImages" = "Loading images";
 "artworks" = "Artworks";
 "delete" = "Delete";
