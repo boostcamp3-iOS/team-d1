@@ -13,6 +13,8 @@ private let reuseIdentifier = "Cell"
 class PaginatingCollectionViewController: UICollectionViewController {
     
     //private var currentFilterType: String = ""
+    var filterType: FilterType?
+    var isOn = true
     
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: FirebaseDatabaseService
@@ -268,7 +270,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         var message: String?
         var trueActionTitle: String?
         var falseActionTitle: String?
-        var filterType: FilterType?
         
         if title == "orientation".localized {
             message = "orientationQuestion".localized
@@ -294,11 +295,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
         let trueAction = UIAlertAction(title: trueActionTitle, style: .default, handler: { (action) in
-            
+            self.isOn = true
             self.makeQueryAndRefresh(filterType: type, isOn: true)
         })
         
         let falseAction = UIAlertAction(title: falseActionTitle, style: .default, handler: { (action) in
+            self.isOn = false
             self.makeQueryAndRefresh(filterType: type, isOn: false)
         })
         
@@ -327,6 +329,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
         
         let originAction = UIAlertAction(title: "allArtworks".localized, style: .default) { (action) in
+            self.isOn = true
             self.makeQueryAndRefresh(filterType: .none, isOn: true)
         }
         
@@ -508,10 +511,10 @@ extension PaginatingCollectionViewController {
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
-                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
-                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
-                ]
+             //   let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                  //             URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
+                   //            URLQueryItem(name: "limitToLast", value: "\(batchSize)")//
+                //]
                 serverDB.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
                               headers: [:],
@@ -955,12 +958,13 @@ extension PaginatingCollectionViewController {
         
         if !isLoading {
             isLoading = true
+            //fetchPages(queries: <#T##[URLQueryItem]#>, type: <#T##FilterType#>, isOn: <#T##Bool#>)
             fetchPages()
         }
     }
 }
 
-fileprivate enum FilterType {
+enum FilterType {
     case orientation
     case color
     case temperature

@@ -39,7 +39,7 @@ struct ImageSort                                                                
         let diff2 = abs(r-b)
         let diff3 = abs(g-b)
         
-        if diff1 > 10 || diff2 > 10 || diff3 > 10 {
+        if diff1 > 3 || diff2 > 3 || diff3 > 3 {
             color = true
         }
         return color
