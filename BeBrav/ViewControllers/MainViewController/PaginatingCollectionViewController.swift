@@ -270,22 +270,22 @@ class PaginatingCollectionViewController: UICollectionViewController {
         var falseActionTitle: String?
         var filterType: FilterType?
         
-        if title == "방향" {
-            message = "어떤 방향의 작품을 보여드릴까요?"
-            trueActionTitle = "가로 작품"
-            falseActionTitle = "세로 작품"
+        if title == "orientation".localized {
+            message = "orientationQuestion".localized
+            trueActionTitle = "horizontal".localized
+            falseActionTitle = "vertical".localized
             filterType = .orientation
         }
-        else if title == "컬러" {
-            message = "어떤 색의 작품을 보여드릴까요?"
-            trueActionTitle = "컬러 작품"
-            falseActionTitle = "흑백 작품"
+        else if title == "color".localized {
+            message = "colorQuestion".localized
+            trueActionTitle = "colorScale".localized
+            falseActionTitle = "grayScale".localized
             filterType = .color
         }
-        else if title == "온도" {
-            message = "어떤 온도의 작품을 보여드릴까요?"
-            trueActionTitle = "차가운 작품"
-            falseActionTitle = "따뜻한 작품"
+        else if title == "temperature".localized {
+            message = "orientationQuestion".localized
+            trueActionTitle = "coldArtwork".localized
+            falseActionTitle = "warmArtwork".localized
             filterType = .temperature
         }
         
@@ -302,7 +302,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
             self.makeQueryAndRefresh(filterType: type, isOn: false)
         })
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel, handler: nil)
         
         alertController.addAction(trueAction)
         alertController.addAction(falseAction)
@@ -312,25 +312,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
     
     @objc func filterButtonDidTap() {
-        let alertController = UIAlertController(title: "filtering", message: "작품을 어떻게 필터링 할까요?", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "filtering".localized, message: "chooseFilterDescription".localized, preferredStyle: .actionSheet)
         
-        let orientationAction = UIAlertAction(title: "방향", style: .default) { (action) in
+        let orientationAction = UIAlertAction(title: "orientation".localized, style: .default) { (action) in
             self.makeAlert(title: action.title)
         }
         
-        let colorAction = UIAlertAction(title: "컬러", style: .default) { (action) in
+        let colorAction = UIAlertAction(title: "color".localized, style: .default) { (action) in
             self.makeAlert(title: action.title)
         }
         
-        let temperatureAction = UIAlertAction(title: "온도", style: .default) { (action) in
+        let temperatureAction = UIAlertAction(title: "temperature".localized, style: .default) { (action) in
             self.makeAlert(title: action.title)
         }
         
-        let originAction = UIAlertAction(title: "모아보기", style: .default) { (action) in
+        let originAction = UIAlertAction(title: "allArtworks".localized, style: .default) { (action) in
             self.makeQueryAndRefresh(filterType: .none, isOn: true)
         }
         
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel, handler: nil)
         
         alertController.addAction(orientationAction)
         alertController.addAction(colorAction)
@@ -425,6 +425,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         guard let image = artworkImage[artworkBucket[indexPath.item].artworkUid] else { return }
         
         cell.artworkImageView.image = image
+        artworkImage.removeValue(forKey: artworkBucket[indexPath.item].artworkUid)
     }
   
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

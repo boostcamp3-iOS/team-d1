@@ -6,17 +6,37 @@
  Copyright © 2019 bumslap. All rights reserved.
  */
 
+"filtering" = "작품 분류";
 "chooseFilterTitle" = "Bildfilter auswählen";
 "chooseFilterDescription" = "Welche Art von Bildern möchtest du?";
 "color" = "Farbe";
+"colorQuestion" = "어떤 색의 작품을 보여드릴까요?";
+"colorScale" = "컬러 작품";
+"grayScale" = "흑백 작품";
+"orientationQuestion" = "어떤 방향의 작품을 보여드릴까요?";
 "orientation" = "Orientierung";
+"horizontal" = "가로 작품"
+"vertical" = "세로 작품"
 "temperature" = "Temperatur";
+"temperatureQuestion" = "어떤 온도의 작품을 보여드릴까요?";
+"coldArtwork" = "차가운 작품";
+"warmArtwork" = "따뜻한 작품";
 "cancel" = "Stornieren";
+"allArtworks" = "모아보기";
 
 "newArtwork" = "Teilen Sie neue Kunstwerke";
 "newArtworkTitle" = "Neues Kunstwerk";
 "artworkTitle" = "Schreibe einen Titel";
 "share" = "Aktie";
+"views" = "Ansichten";
+"noTitle" = "무제";
+
+"#horizontal" = "#가로";
+"#vertical" = "#세로";
+"#color" = "#컬러";
+"#gray" = "#흑백";
+"#cold" = "#차가움";
+"#warm" = "#따뜻함";
 
 "loadingImages" = "Bilder laden";
 "artworks" = "Kunstwerke";
@@ -25,7 +45,6 @@
 "edit" = "Bearbeiten";
 "modification" = "Änderung";
 "done" = "Erledigt";
-"views" = "Ansichten";
 
 "email" = "E-Mail";
 "enterEmail" = "Geben sie ihre E-Mail Adresse ein.";
@@ -55,6 +74,8 @@
 "signUpDone" = "Erfolg Melden Sie sich an";
 
 "verifying" = "Überprüfung";
+
+"tour" = "둘러보기";
 
 "networkError" = "Netzwerkfehler";
 "imageNetworkErrorMessage" = "Ich kann kein Bildmaterial erhalten.";

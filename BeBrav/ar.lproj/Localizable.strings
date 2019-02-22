@@ -6,17 +6,37 @@
  Copyright © 2019 bumslap. All rights reserved.
  */
 
+"filtering" = "تصفية";
 "chooseFilterTitle" = "اختر مرشح الصورة";
 "chooseFilterDescription" = "أي نوع من الصور تريد؟";
 "color" = "اللون";
+"colorQuestion" = "ما نوع الأعمال الفنية الملونة التي ترغب في رؤيتها؟";
+"colorScale" = "اللون على نطاق";
+"grayScale" = "مقياس الرمادي";
+"orientationQuestion" = "أي نوع من الأعمال الفنية التي ترغب في رؤيتها؟";
 "orientation" = "اتجاه";
+"horizontal" = "أفقي"
+"vertical" = "عمودي"
 "temperature" = "درجة الحرارة";
+"temperatureQuestion" = "ما نوع الأعمال الفنية لدرجة الحرارة التي ترغب في رؤيتها؟";
+"coldArtwork" = "البرد";
+"warmArtwork" = "دافئ";
 "cancel" = "إلغاء";
+"allArtworks" = "جميع الأعمال الفنية";
 
 "newArtwork" = "مشاركة العمل الفني الجديد";
 "newArtworkTitle" = "عمل فني جديد";
 "artworkTitle" = "اكتب العنوان";
 "share" = "شارك";
+"views" = "الآراء";
+"noTitle" = "بلا عنوان";
+
+"#horizontal" = "#أفقي";
+"#vertical" = "#عمودي";
+"#color" = "#اللون";
+"#gray" = "#اللون الرمادي";
+"#cold" = "#البرد";
+"#warm" = "#دافئ";
 
 "loadingImages" = "تحميل الصور";
 "artworks" = "الصور";
@@ -25,7 +45,6 @@
 "edit" = "تصحيح";
 "modification" = "تعديل";
 "done" = "فعله";
-"views" = "الآراء";
 
 "email" = "البريد الإلكتروني";
 "enterEmail" = "أدخل بريدك الإلكتروني";
@@ -55,6 +74,8 @@
 "signUpDone" = "نجاح التسجيل";
 
 "verifying" = "التحقق";
+
+"tour" = "جولة";
 
 "networkError" = "خطأ في الشبكة";
 "imageNetworkErrorMessage" = "لا يمكن الحصول على صورة عمل فني";

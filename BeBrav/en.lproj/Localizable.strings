@@ -6,17 +6,37 @@
  Copyright © 2019 bumslap. All rights reserved.
  */
 
+"filtering" = "Filtering";
 "chooseFilterTitle" = "Choose image filter";
-"chooseFilterDescription" = "What kind of images do you want?";
+"chooseFilterDescription" = "What kind of artwork do you want?";
 "color" = "Color";
+"colorQuestion" = "What kind of color artworks do you want to see?";
+"colorScale" = "Color-scale";
+"grayScale" = "Gray-scale";
+"orientationQuestion" = "What kind of orientation artworks do you want to see?";
 "orientation" = "Orientation";
+"horizontal" = "Horizontal"
+"vertical" = "Vertical"
 "temperature" = "Temperature";
+"temperatureQuestion" = "What kind of temperature artworks do you want to see?";
+"coldArtwork" = "Cold";
+"warmArtwork" = "Warm";
 "cancel" = "Cancel";
+"allArtworks" = "All Artworks";
 
 "newArtwork" = "Share new artwork";
 "newArtworkTitle" = "New artwork";
 "artworkTitle" = "Write a title";
 "share" = "Share";
+"views" = "Views";
+"noTitle" = "No title";
+
+"#horizontal" = "#horizontal";
+"#vertical" = "#vertical";
+"#color" = "#color";
+"#gray" = "#gray";
+"#cold" = "#cold";
+"#warm" = "#warm";
 
 "loadingImages" = "Loading images";
 "artworks" = "Artworks";
@@ -25,7 +45,6 @@
 "edit" = "Edit";
 "modification" = "Modification";
 "done" = "Done";
-"views" = "Views";
 
 "email" = "E-Mail";
 "enterEmail" = "Enter your E-Mail.";
@@ -55,6 +74,8 @@
 "signUpDone" = "Sign Up";
 
 "verifying" = "Verifying";
+
+"tour" = "Tour";
 
 "networkError" = "Networking Error";
 "imageNetworkErrorMessage" = "Can't get artwork image.";
