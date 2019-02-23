@@ -275,13 +275,16 @@ class ArtistViewController: UIViewController {
             return viewController
         }
         
-        viewController.transitioningDelegate = self
-        let artwork = artworkList[index.item]
-        
+         let artwork = artworkList[index.item]
+
         updateViewsCount(id: artwork.artworkUid)
         
-        viewController.artwork = ArtworkDecodeType(artwork: artwork, userName: artistDate.nickName, userUid: artistDate.uid)
+        viewController.transitioningDelegate = self
+        viewController.isFromArtistView = true
         viewController.artworkImage = cell.imageView.image
+        viewController.artwork = ArtworkDecodeType(artwork: artwork,
+                                                   userName: artistDate.nickName,
+                                                   userUid: artistDate.uid)
         
         return viewController
     }
@@ -580,7 +583,6 @@ extension ArtistViewController: UIViewControllerTransitioningDelegate {
     {
         let viewController = artworkViewController(index: indexPath)
         viewController.isAnimating = true
-        viewController.isFromArtistView = true
         
         present(viewController, animated: true) {
             viewController.isAnimating = false
