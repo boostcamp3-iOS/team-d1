@@ -20,8 +20,8 @@ class ArtAddViewController: UIViewController {
     private let numOfItemsPerRow: CGFloat = 4
     private let minimumLineSpacingForSectionAt: CGFloat = 3
     private let minimumInteritemSpacingForSectionAt: CGFloat = 3
-    private let targetSizeWidth = 250
-    private let targetSizeHeight = 250
+    private let targetSizeWidth = 280
+    private let targetSizeHeight = 280
     
     private lazy var imageManager = PHCachingImageManager()
     var firstItemImage: UIImage?
@@ -146,12 +146,6 @@ class ArtAddViewController: UIViewController {
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonDidTap), for: .touchUpInside)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        requestAlbumAuth()
     }
     
     //사용자로부터 사진첩 접근 허용 받기
@@ -372,6 +366,7 @@ extension ArtAddViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? ArtAddCollectionViewCell else { return ArtAddCollectionViewCell() }
         
+        print(fetchResult?.count)
         guard let asset = fetchResult?.object(at: indexPath.row) else { return ArtAddCollectionViewCell() }
         
         imageManager.requestImage(for: asset, targetSize: CGSize(width: targetSizeWidth, height: targetSizeHeight), contentMode: .aspectFill, options: nil) { (image, _) in
