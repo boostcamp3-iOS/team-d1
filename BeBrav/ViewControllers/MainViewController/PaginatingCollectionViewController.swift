@@ -515,7 +515,7 @@ extension PaginatingCollectionViewController {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
                 let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp+1))"),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp - 1))"),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")//
                 ]
                 serverDB.read(path: "root/artworks",
@@ -588,7 +588,7 @@ extension PaginatingCollectionViewController {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
                 let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp + 1))"),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp - 1))"),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
                 serverDB.read(path: "root/artworks",
