@@ -13,7 +13,7 @@ private let reuseIdentifier = "Cell"
 class PaginatingCollectionViewController: UICollectionViewController {
     
     //private var currentFilterType: String = ""
-    var filterType: FilterType?
+    var filterType: FilterType = .none
     var isOn = true
     
     private let imageLoader: ImageLoaderProtocol
@@ -205,7 +205,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
-                    authorName: data.authorName,
+//                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,
@@ -234,9 +234,9 @@ class PaginatingCollectionViewController: UICollectionViewController {
             }
         }
     
-    private func makeQueryAndRefresh(filterType: FilterType, isOn: Bool) {
+    private func getQuery(filterType: FilterType, isOn: Bool) -> [URLQueryItem] {
         let orderBy: String?
-        let queries: [URLQueryItem]?
+        let queries: [URLQueryItem]
         
         switch filterType {
         case .orientation:
@@ -261,9 +261,14 @@ class PaginatingCollectionViewController: UICollectionViewController {
                        URLQueryItem(name: "limitToLast", value: "\(batchSize)")]
         }
         
-        if let queries = queries {
-            refreshLayout(queries: queries, type: filterType, isOn: isOn)
-        }
+        return queries
+    }
+    
+    private func refreshFilteredLayout(filterType: FilterType, isOn: Bool) {
+        
+        let queries = getQuery(filterType: filterType, isOn: isOn)
+        
+        refreshLayout(queries: queries, type: filterType, isOn: isOn)
     }
     
     func makeAlert(title: String?) {
@@ -290,18 +295,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
             filterType = .temperature
         }
         
-        guard let type = filterType else { return }
-        
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         
         let trueAction = UIAlertAction(title: trueActionTitle, style: .default, handler: { (action) in
             self.isOn = true
-            self.makeQueryAndRefresh(filterType: type, isOn: true)
+            self.refreshFilteredLayout(filterType: self.filterType, isOn: true)
         })
         
         let falseAction = UIAlertAction(title: falseActionTitle, style: .default, handler: { (action) in
             self.isOn = false
-            self.makeQueryAndRefresh(filterType: type, isOn: false)
+            self.refreshFilteredLayout(filterType: self.filterType, isOn: false)
         })
         
         let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel, handler: nil)
@@ -330,7 +333,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         let originAction = UIAlertAction(title: "allArtworks".localized, style: .default) { (action) in
             self.isOn = true
-            self.makeQueryAndRefresh(filterType: .none, isOn: true)
+            self.refreshFilteredLayout(filterType: .none, isOn: true)
         }
         
         let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel, handler: nil)
@@ -958,8 +961,8 @@ extension PaginatingCollectionViewController {
         
         if !isLoading {
             isLoading = true
-            //fetchPages(queries: <#T##[URLQueryItem]#>, type: <#T##FilterType#>, isOn: <#T##Bool#>)
-            fetchPages()
+            let queries = getQuery(filterType: filterType, isOn: isOn)
+            fetchPages(queries:queries, type: filterType, isOn: isOn)
         }
     }
 }
