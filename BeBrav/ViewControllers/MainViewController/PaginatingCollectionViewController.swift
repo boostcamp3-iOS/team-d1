@@ -205,7 +205,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
-//                    authorName: data.authorName,
+                    authorName: data.authorName,
                     uid: data.artworkUid,
                     url: data.artworkUrl,
                     title: data.title,

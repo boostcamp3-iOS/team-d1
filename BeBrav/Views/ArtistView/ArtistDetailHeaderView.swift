@@ -29,7 +29,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 20)
         textField.textColor = .white
-        textField.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        textField.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
         textField.isEnabled = false
         return textField
     }()
@@ -73,7 +73,7 @@ class ArtistDetailHeaderView: UICollectionReusableView {
         addSubview(artistNameTextField)
         addSubview(artistIntroTextField)
         
-        backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
         
         artistNameTextField.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
         artistNameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70).isActive = true

@@ -104,9 +104,9 @@ extension ArtworkModel: DataModelProtocol {
             4: "\(timestamp)",
             5: "\(views)",
             6: imageURL,
-            7: "\(orientation ? "" : "1")",
-            8: "\(temperature ? "" : "1")",
-            9: "\(color ? "" : "1")"
+            7: "\(orientation ? "0" : "1")",
+            8: "\(temperature ? "0" : "1")",
+            9: "\(color ? "0" : "1")"
         ]
     }
     
@@ -144,9 +144,9 @@ extension ArtworkModel: DataModelProtocol {
         self.timestamp = Double(data["timestamp"] ?? "") ?? -0.1
         self.views = Int(data["views"] ?? "") ?? -1
         self.imageURL = data["imageURL"] ?? ""
-        self.orientation = data["orientation"]?.isEmpty ?? false
-        self.temperature = data["temperature"]?.isEmpty ?? false
-        self.color = data["color"]?.isEmpty ?? false
+        self.orientation = (data["orientation"] ?? "") == "0"
+        self.temperature = (data["temperature"] ?? "") == "0"
+        self.color = (data["color"] ?? "") == "0"
     }
 }
 

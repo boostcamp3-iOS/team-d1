@@ -76,11 +76,6 @@ class ArtworkViewController: UIViewController {
     
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
-    public var artistName: String = "" {
-        didSet {
-            artistLabel.text = artistName
-        }
-    }
     public var artworkImage: UIImage? {
         didSet {
             imageView.image = artworkImage
@@ -178,9 +173,7 @@ class ArtworkViewController: UIViewController {
         setLabelShadow(label: artistLabel)
         setLabelShadow(label: viewsLabel)
         
-        if artistLabel.text?.isEmpty ?? true {
-            artistLabel.text = artwork?.authorName
-        }
+        artistLabel.text = artwork?.authorName
     }
     
     // MARK:- Set labels shadow

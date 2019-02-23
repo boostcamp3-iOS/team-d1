@@ -39,6 +39,7 @@ class ArtworkListCollectionViewCell: UICollectionViewCell {
     // MARK:- Set Layout
     private func setLayout() {
         contentView.addSubview(imageView)
+        contentView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         contentView.layer.borderWidth = 5
         contentView.layer.borderColor = UIColor.clear.cgColor
         

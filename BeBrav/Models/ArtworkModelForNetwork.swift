@@ -113,9 +113,9 @@ struct ArtworkDecodeType: Codable {
         self.temperature = artworkModel.temperature
     }
     
-    init(artwork: Artwork, userUid: String) {
+    init(artwork: Artwork, userName: String, userUid: String) {
         self.userUid = userUid
-        self.authorName = ""
+        self.authorName = userName
         self.artworkUid = artwork.artworkUid
         self.artworkUrl = artwork.artworkUrl
         self.title = artwork.title
