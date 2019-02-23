@@ -24,14 +24,14 @@ class ArtAddViewController: UIViewController {
     private let targetSizeHeight = 280
     
     private lazy var imageManager = PHCachingImageManager()
-    var firstItemImage: UIImage?
+    private var firstItemImage: UIImage?
     
     private var fetchResult: PHFetchResult<PHAsset>?
     private var cameraRoll: PHAssetCollection?
     
     weak var delegate: ArtAddViewControllerDelegate?
     
-    let uid = UserDefaults.standard.string(forKey: "uid")
+    private let uid = UserDefaults.standard.string(forKey: "uid")
     
     private let container = NetworkDependencyContainer()
     
@@ -41,7 +41,7 @@ class ArtAddViewController: UIViewController {
     private lazy var manager = ServerManager(authManager: serverAu,
                                              databaseManager: serverDB,
                                              storageManager: serverST,
-                                             uid: self.uid!)
+                                             uid: self.uid ?? "")
     
     override var prefersStatusBarHidden: Bool {
         return true
