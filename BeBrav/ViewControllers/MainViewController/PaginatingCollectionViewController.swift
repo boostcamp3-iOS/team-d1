@@ -233,7 +233,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
                 }
             }
         }
-    
+   
     private func getQuery(filterType: FilterType, isOn: Bool) -> [URLQueryItem] {
         let orderBy: String?
         let queries: [URLQueryItem]
@@ -514,10 +514,10 @@ extension PaginatingCollectionViewController {
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
-             //   let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                  //             URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
-                   //            URLQueryItem(name: "limitToLast", value: "\(batchSize)")//
-                //]
+                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp+1))"),
+                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")//
+                ]
                 serverDB.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
                               headers: [:],
@@ -588,7 +588,7 @@ extension PaginatingCollectionViewController {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
                 let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp))"),
+                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp + 1))"),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
                 serverDB.read(path: "root/artworks",
@@ -676,7 +676,7 @@ extension PaginatingCollectionViewController {
         
         var artworksData: [String: ArtworkDecodeType] = [:]
         
-        pageArtwork[0..<min(self.batchSize, pageArtwork.count)].forEach{
+        pageArtwork[0..<min(self.batchSize, pageArtwork.count)].forEach {
             artworksData[$0.id] = ArtworkDecodeType(artworkModel: $0)
         }
         
@@ -688,7 +688,7 @@ extension PaginatingCollectionViewController {
                              targetLayout: MostViewedArtworkFlowLayout) {
         
         let result = data.values.sorted()
-        result.forEach{
+        result.forEach {
             self.databaseHandler.saveData(data: ArtworkModel(artwork: $0))
             self.fetchImage(artwork: $0, indexPath: nil)
         }
