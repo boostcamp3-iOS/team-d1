@@ -165,6 +165,12 @@ class ArtistViewController: UIViewController {
         let author = ArtistModel(id: data.uid, name: data.nickName, description: data.description)
         
         databaseHandler.saveData(data: author)
+        
+        data.artworks.forEach{
+            let artwork = ArtworkDecodeType(artwork: $0.value, userName: data.nickName, userUid: data.uid)
+            
+            databaseHandler.saveData(data: ArtworkModel(artwork: artwork))
+        }
     }
     
     // MARK:- Set Artist's image list
@@ -233,8 +239,8 @@ class ArtistViewController: UIViewController {
     private func setLayout() {
         view.addSubview(collectionView)
         view.addSubview(loadingIndicator)
-        view.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        collectionView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
+        collectionView.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
         
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -262,7 +268,10 @@ class ArtistViewController: UIViewController {
                                                    serverDatabase: serverDatabase,
                                                    databaseHandler: databaseHandler)
         
-        guard let cell = collectionView.cellForItem(at: index) as? ArtworkListCollectionViewCell else {
+        guard let cell = collectionView.cellForItem(at: index) as? ArtworkListCollectionViewCell,
+            let artistDate = artistData
+            else
+        {
             return viewController
         }
         
@@ -271,9 +280,8 @@ class ArtistViewController: UIViewController {
         
         updateViewsCount(id: artwork.artworkUid)
         
-        viewController.artwork = ArtworkDecodeType(artwork: artwork, userUid: artistData?.uid ?? "")
+        viewController.artwork = ArtworkDecodeType(artwork: artwork, userName: artistDate.nickName, userUid: artistDate.uid)
         viewController.artworkImage = cell.imageView.image
-        viewController.artistName = artistData?.nickName ?? ""
         
         return viewController
     }
