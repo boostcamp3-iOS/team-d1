@@ -10,6 +10,7 @@ import UIKit
 
 struct ArtworkEncodeType: Encodable {
     let userUid: String
+    let authorName: String
     let artworkUid: String
     let artworkUrl: String
     let title: String
@@ -20,6 +21,7 @@ struct ArtworkEncodeType: Encodable {
     let temperature: Bool
     
     init(userUid: String,
+         authorName: String,
          uid: String,
          url: String,
          title: String,
@@ -29,6 +31,7 @@ struct ArtworkEncodeType: Encodable {
          color: Bool,
          temperature: Bool) {
         self.userUid = userUid
+        self.authorName = authorName
         self.artworkUid = uid
         self.artworkUrl = url
         self.title = title
@@ -40,6 +43,7 @@ struct ArtworkEncodeType: Encodable {
     }
     
     init() {
+        self.authorName = ""
         self.userUid = ""
         self.artworkUid = ""
         self.artworkUrl = ""

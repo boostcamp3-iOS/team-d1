@@ -460,7 +460,7 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 
 extension PaginatingCollectionViewController {
     private func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
-        
+        loadingIndicator.activateIndicatorView()
         if !isEndOfData {
             isLoading = true
             
@@ -474,17 +474,17 @@ extension PaginatingCollectionViewController {
                               type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                                 (result, response) in
-                                switch result {
-                                case .failure(let error):
-                                    self.fetchDataFromDatabase(filter: type,
-                                                               isOn: isOn,
-                                                               doNeedMore: false,
-                                                               targetLayout: layout)
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: false,
-                                                     targetLayout: layout)
-                                }
+                    switch result {
+                    case .failure(let error):
+                        self.fetchDataFromDatabase(filter: type,
+                                                   isOn: isOn,
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: false,
+                                         targetLayout: layout)
+                    }
                 }
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
@@ -498,29 +498,29 @@ extension PaginatingCollectionViewController {
                               headers: [:],
                               queries: queries) {
                                 (result, response) in
-                                switch result {
-                                case .failure(let error):
-                                    self.fetchDataFromDatabase(filter: type,
-                                                               isOn: isOn,
-                                                               doNeedMore: true,
-                                                               targetLayout: layout)
-                                    defer {
-                                        DispatchQueue.main.async {
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.isLoading = false
-                                        }
-                                    }
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: true,
-                                                     targetLayout: layout)
-                                    defer {
-                                        DispatchQueue.main.async {
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.isLoading = false
-                                        }
-                                    }
-                                }
+                    switch result {
+                    case .failure(let error):
+                        self.fetchDataFromDatabase(filter: type,
+                                                   isOn: isOn,
+                                                   doNeedMore: true,
+                                                   targetLayout: layout)
+                        defer {
+                            DispatchQueue.main.async {
+                                self.loadingIndicator.deactivateIndicatorView()
+                                self.isLoading = false
+                            }
+                        }
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: true,
+                                         targetLayout: layout)
+                        defer {
+                            DispatchQueue.main.async {
+                                self.loadingIndicator.deactivateIndicatorView()
+                                self.isLoading = false
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -686,6 +686,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                self.loadingIndicator.deactivateIndicatorView()
                 self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
                 let indexPaths = self.calculateIndexPathsForReloading(from: result)
                 self.collectionView.insertItems(at: indexPaths)
@@ -708,6 +709,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                self.loadingIndicator.deactivateIndicatorView()
                 self.isLoading = false
                 self.collectionView.reloadData()
             }
@@ -867,10 +869,7 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
 
 extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
     func reloadMainView(controller: ArtAddViewController) {
-        fetchPages()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        self.refreshFilteredLayout(filterType: .none, isOn: true)
     }
 }
 
