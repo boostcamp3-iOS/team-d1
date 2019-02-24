@@ -13,7 +13,9 @@ class ArtAddCollectionViewCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -50,13 +52,14 @@ class ArtAddCollectionViewCell: UICollectionViewCell {
     }
     
     func setLayout() {
-        contentView.addSubview(imageView)
+        addSubview(imageView)
+        //contentView.addSubview(imageView)
         imageView.addSubview(filtering)
         
-        imageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         
         filtering.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         filtering.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
