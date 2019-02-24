@@ -127,6 +127,14 @@ class ArtAddViewController: UIViewController {
         return label
     }()
     
+    private let loadingIndicator: LoadingIndicatorView = {
+        let indicator = LoadingIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.deactivateIndicatorView()
+        indicator.noticeLabel.text = "uploading artwork".localized
+        return indicator
+    }()
+    
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -141,11 +149,19 @@ class ArtAddViewController: UIViewController {
         
         setUpViews()
         setCollectionView()
-        
+        setLoadingView()
         titleTextField.delegate = self
         
         cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonDidTap), for: .touchUpInside)
+    }
+    
+    func setLoadingView() {
+        view.addSubview(loadingIndicator)
+        loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingIndicator.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        loadingIndicator.widthAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     //사용자로부터 사진첩 접근 허용 받기
@@ -228,6 +244,7 @@ class ArtAddViewController: UIViewController {
     }
     
     @objc func uploadButtonDidTap() {
+        loadingIndicator.activateIndicatorView()
         guard let titleText = titleTextField.text else { return }
         var title = titleText
         
@@ -238,17 +255,21 @@ class ArtAddViewController: UIViewController {
         
         guard let uploadImage = imageView.image else { return }
         
-        dismiss(animated: true) {
+        uploadButton.isEnabled = false
             self.manager.uploadArtwork(image: uploadImage, scale: 0.1, path: "artworks", fileName: title, completion: { (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
-                case .success(let data):
-                    print("upload success")
+                case .success:
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: {
+                            self.uploadButton.isEnabled = true
+                            self.loadingIndicator.deactivateIndicatorView()
+                            self.delegate?.reloadMainView(controller: self)
+                        })
+                    }
                 }
             })
-            self.delegate?.reloadMainView(controller: self)
-        }
     }
     
     func showImageSortResultLabel() {

@@ -108,7 +108,9 @@ class ArtistViewController: UIViewController {
                        URLQueryItem(name: "equalTo", value: "\"\(uid)\"")
         ]
         
-        serverDatabase.read(path: "root/users", type:[String: UserDataDecodeType].self, headers: [:], queries: queries) { result, responds  in
+        serverDatabase.read(path: "root/users",
+                            type:[String: UserDataDecodeType].self,
+                            headers: [:], queries: queries) { result, responds  in
             switch result {
             case .failure:
                 self.fetchDataFromDatabase(id: uid)

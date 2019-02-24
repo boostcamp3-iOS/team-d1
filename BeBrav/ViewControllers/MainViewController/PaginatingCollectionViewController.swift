@@ -350,7 +350,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
    
     @objc func userSettingButtonDidTap() {
         print(collectionView.indexPathsForVisibleItems)
-        //TODO: setting 기능 추가
         UserDefaults.standard.removeObject(forKey: "uid")
         UserDefaults.standard.synchronize()
     }
@@ -366,7 +365,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return
         }
         layout.layoutRefresh()
-        //layout.fetchPage = pageSize
         isEndOfData = false
         isLoading = false
         recentTimestamp = nil
@@ -427,22 +425,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         cell.artworkImageView.image = image
         artworkImage.removeValue(forKey: artworkBucket[indexPath.item].artworkUid)
     }
-  
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
-            return
-        }
-        DispatchQueue.main.async {
-            if self.traitCollection.verticalSizeClass == .compact {
-                //self.refreshLayout()
-                
-            } else {
-               // self.refreshLayout()
-
-        }
-      }
-    }
 }
 
 extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -478,7 +460,7 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 
 extension PaginatingCollectionViewController {
     private func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
-        
+        loadingIndicator.activateIndicatorView()
         if !isEndOfData {
             isLoading = true
             
@@ -492,17 +474,17 @@ extension PaginatingCollectionViewController {
                               type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                                 (result, response) in
-                                switch result {
-                                case .failure(let error):
-                                    self.fetchDataFromDatabase(filter: type,
-                                                               isOn: isOn,
-                                                               doNeedMore: false,
-                                                               targetLayout: layout)
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: false,
-                                                     targetLayout: layout)
-                                }
+                    switch result {
+                    case .failure(let error):
+                        self.fetchDataFromDatabase(filter: type,
+                                                   isOn: isOn,
+                                                   doNeedMore: false,
+                                                   targetLayout: layout)
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: false,
+                                         targetLayout: layout)
+                    }
                 }
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
@@ -516,29 +498,29 @@ extension PaginatingCollectionViewController {
                               headers: [:],
                               queries: queries) {
                                 (result, response) in
-                                switch result {
-                                case .failure(let error):
-                                    self.fetchDataFromDatabase(filter: type,
-                                                               isOn: isOn,
-                                                               doNeedMore: true,
-                                                               targetLayout: layout)
-                                    defer {
-                                        DispatchQueue.main.async {
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.isLoading = false
-                                        }
-                                    }
-                                case .success(let data):
-                                    self.processData(data: data,
-                                                     doNeedMore: true,
-                                                     targetLayout: layout)
-                                    defer {
-                                        DispatchQueue.main.async {
-                                            self.loadingIndicator.deactivateIndicatorView()
-                                            self.isLoading = false
-                                        }
-                                    }
-                                }
+                    switch result {
+                    case .failure(let error):
+                        self.fetchDataFromDatabase(filter: type,
+                                                   isOn: isOn,
+                                                   doNeedMore: true,
+                                                   targetLayout: layout)
+                        defer {
+                            DispatchQueue.main.async {
+                                self.loadingIndicator.deactivateIndicatorView()
+                                self.isLoading = false
+                            }
+                        }
+                    case .success(let data):
+                        self.processData(data: data,
+                                         doNeedMore: true,
+                                         targetLayout: layout)
+                        defer {
+                            DispatchQueue.main.async {
+                                self.loadingIndicator.deactivateIndicatorView()
+                                self.isLoading = false
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -704,6 +686,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                self.loadingIndicator.deactivateIndicatorView()
                 self.pagingDelegate.constructNextLayout(indexList: indexList, pageSize: result.count)
                 let indexPaths = self.calculateIndexPathsForReloading(from: result)
                 self.collectionView.insertItems(at: indexPaths)
@@ -726,6 +709,7 @@ extension PaginatingCollectionViewController {
             }
             
             DispatchQueue.main.async {
+                self.loadingIndicator.deactivateIndicatorView()
                 self.isLoading = false
                 self.collectionView.reloadData()
             }
@@ -885,10 +869,7 @@ extension PaginatingCollectionViewController: UIViewControllerTransitioningDeleg
 
 extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
     func reloadMainView(controller: ArtAddViewController) {
-        fetchPages()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        self.refreshFilteredLayout(filterType: .none, isOn: true)
     }
 }
 
