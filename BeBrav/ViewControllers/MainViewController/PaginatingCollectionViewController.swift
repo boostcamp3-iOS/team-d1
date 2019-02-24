@@ -258,7 +258,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
             queries = [URLQueryItem(name: "orderBy", value: orderBy),
                        URLQueryItem(name: "orderBy", value: "\"timestamp\""),
                        URLQueryItem(name: "equalTo", value: "\(isOn)"),
-                       URLQueryItem(name: "limitToLast", value: "\(batchSize)")]
+                       URLQueryItem(name: "limitToLast", value: "\(batchSize)")
+            ]
         }
         
         return queries
@@ -412,13 +413,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
                     }
                 }
             }
-            return
-        }
-        
-        if let indexPath = indexPath {
-            DispatchQueue.main.async {
-                self.reloadCellImage(indexPath: indexPath)
-            }
         }
     }
 
@@ -469,7 +463,6 @@ extension PaginatingCollectionViewController {
         
         if !isEndOfData {
             isLoading = true
-            loadingIndicator.activateIndicatorView()
             
             guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
                 return
@@ -511,6 +504,12 @@ extension PaginatingCollectionViewController {
                                                                isOn: isOn,
                                                                doNeedMore: true,
                                                                targetLayout: layout)
+                                    defer {
+                                        DispatchQueue.main.async {
+                                            self.loadingIndicator.deactivateIndicatorView()
+                                            self.isLoading = false
+                                        }
+                                    }
                                 case .success(let data):
                                     self.processData(data: data,
                                                      doNeedMore: true,
@@ -551,8 +550,8 @@ extension PaginatingCollectionViewController {
                                 (result, response) in
                     switch result {
                     case .failure:
-                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
-                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
+                        self.fetchDataFromDatabase(filter: .none,
+                                                   isOn: false,
                                                    doNeedMore: false,
                                                    targetLayout: layout)
                     case .success(let data):
@@ -580,9 +579,9 @@ extension PaginatingCollectionViewController {
                                 (result, response) in
                     switch result {
                     case .failure:
-                        self.fetchDataFromDatabase(filter: .none, // TODO: 분류 필터 기능 추가후 수정
-                                                   isOn: false, // TODO: 분류 필터 기능 추가후 수정
-                                                   doNeedMore: false,
+                        self.fetchDataFromDatabase(filter: .none,
+                                                   isOn: false,
+                                                   doNeedMore: true,
                                                    targetLayout: layout)
                     case .success(let data):
                         self.processData(data: data,
@@ -607,15 +606,9 @@ extension PaginatingCollectionViewController {
     {
         if artworkDataFromDatabase.isEmpty {
             databaseHandler.readArtworkArray{ data, error in
-                if error != nil {
-                    //TODO: 유저에게 보여줄 에러메세지 생성
-                    return
-                }
+                if error != nil { return }
                 
-                guard let data = data else {
-                    //TODO: 유저에게 보여줄 에러메세지 생성
-                    return
-                }
+                guard let data = data else { return }
                 
                 self.artworkDataFromDatabase = data.sorted{ $0.timestamp > $1.timestamp }
                 
@@ -646,11 +639,11 @@ extension PaginatingCollectionViewController {
         if filter != .none {
             switch filter {
             case .orientation:
-                pageArtwork = pageArtwork.filter{ $0.orientation }
+                pageArtwork = pageArtwork.filter{ $0.orientation == isOn }
             case .color:
-                pageArtwork = pageArtwork.filter{ $0.color }
+                pageArtwork = pageArtwork.filter{ $0.color == isOn }
             case .temperature:
-                pageArtwork = pageArtwork.filter{ $0.temperature }
+                pageArtwork = pageArtwork.filter{ $0.temperature == isOn }
             case .none:
                 break
             }
@@ -760,7 +753,7 @@ extension PaginatingCollectionViewController {
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
      
         if maxOffset - currentOffset <= 40{
-            if !isEndOfData {
+            if !isEndOfData, !isLoading {
                 self.loadingIndicator.activateIndicatorView()
             }
         }
@@ -883,9 +876,10 @@ extension PaginatingCollectionViewController: ArtAddViewControllerDelegate {
 
 extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
-        guard collectionView.visibleCells.contains(cell) else { return }
-        
+        prefetchArtworkImage(indexPath: indexPath)
+    }
+    // MARK:- Prefetch artwork image
+    private func prefetchArtworkImage(indexPath: IndexPath) {
         let visubleCellsIndex = collectionView.visibleCells.map{collectionView.indexPath(for: $0)?.item ?? 0}
         let max = visubleCellsIndex.max{ $0 < $1 }
         
@@ -941,7 +935,7 @@ extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard artworkBucket.count - batchSize < indexPath.item else { return }
         
-        if !isLoading {
+        if !isEndOfData, !isLoading {
             isLoading = true
             let queries = getQuery(filterType: filterType, isOn: isOn)
             fetchPages(queries:queries, type: filterType, isOn: isOn)
