@@ -349,7 +349,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
    
     @objc func userSettingButtonDidTap() {
         print(collectionView.indexPathsForVisibleItems)
-        //TODO: setting 기능 추가
         UserDefaults.standard.removeObject(forKey: "uid")
         UserDefaults.standard.synchronize()
     }
@@ -365,7 +364,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
             return
         }
         layout.layoutRefresh()
-        //layout.fetchPage = pageSize
         isEndOfData = false
         isLoading = false
         recentTimestamp = nil
@@ -432,22 +430,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         cell.artworkImageView.image = image
         artworkImage.removeValue(forKey: artworkBucket[indexPath.item].artworkUid)
-    }
-  
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        guard let layout = collectionViewLayout as? MostViewedArtworkFlowLayout else {
-            return
-        }
-        DispatchQueue.main.async {
-            if self.traitCollection.verticalSizeClass == .compact {
-                //self.refreshLayout()
-                
-            } else {
-               // self.refreshLayout()
-
-        }
-      }
     }
 }
 
