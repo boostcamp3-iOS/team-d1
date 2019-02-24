@@ -495,10 +495,6 @@ extension ArtistViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath)
     {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ArtworkListCollectionViewCell else { return }
-        guard collectionView.visibleCells.contains(cell) else { return }
-        guard cell.imageView.image == nil else { return }
-        
         let visubleCellsIndex = collectionView.visibleCells.map{ collectionView.indexPath(for: $0)?.item ?? 0 }
         let max = visubleCellsIndex.max{ $0 < $1 }
         
