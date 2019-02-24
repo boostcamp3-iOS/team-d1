@@ -63,7 +63,7 @@
 "name" = "Name";
 "enterName" = "Enter your name";
 
-"informationNotEnough" = "It isn't enough information.";
+"informationNotEnough" = "please enter your information for sign up";
 "needMoreInformation"  = "Need more information";
 
 "signInIsReady" = "Sign In is ready.";

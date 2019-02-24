@@ -54,7 +54,7 @@ class SignUpViewController: UIViewController {
         textField.textColor = .white
         textField.becomeFirstResponder()
         textField.attributedPlaceholder = NSAttributedString(string:"email".localized,
-
+                                                             
                                                              attributes: [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.3)])
         return textField
     }()
@@ -73,7 +73,7 @@ class SignUpViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.boldSystemFont(ofSize: 36)
         textField.clearButtonMode = .whileEditing
-        textField.textContentType = .password
+        // textField.textContentType = .password
         textField.autocapitalizationType = .none
         textField.textColor = .white
         textField.attributedPlaceholder = NSAttributedString(string:"Password".localized,
@@ -117,7 +117,7 @@ class SignUpViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.text = "informationNotEnough".localized
-        label.textColor = .red
+        label.textColor = .lightGray
         return label
     }()
     
@@ -165,7 +165,7 @@ class SignUpViewController: UIViewController {
         super.viewWillLayoutSubviews()
         if let emailClearButton = inputEmailTextField.value(forKey: "_clearButton") as? UIButton,
             let passwordClearButton = inputPasswordTextField.value(forKey: "_clearButton") as? UIButton,
-         let nameClearButton = inputNameTextField.value(forKey: "_clearButton") as? UIButton {
+            let nameClearButton = inputNameTextField.value(forKey: "_clearButton") as? UIButton {
             let emailButtonImage = emailClearButton.currentImage?.withRenderingMode(.alwaysTemplate)
             emailClearButton.setImage(emailButtonImage, for: .normal)
             emailClearButton.setImage(emailButtonImage, for: .highlighted)
@@ -196,7 +196,7 @@ class SignUpViewController: UIViewController {
         
         signUpScrollView.addSubview(fixedPasswordUpperLabel)
         signUpScrollView.addSubview(inputPasswordTextField)
-
+        
         signUpScrollView.addSubview(fixedNameUpperLabel)
         signUpScrollView.addSubview(inputNameTextField)
         
@@ -219,43 +219,42 @@ class SignUpViewController: UIViewController {
         
         loadingIndicator.deactivateIndicatorView()
         
-        exitButton.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 28).isActive = true
-        exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 28).isActive = true
+        exitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24).isActive = true
         exitButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         exitButton.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
         
-        fixedEmailUpperLabel.topAnchor.constraint(equalTo: exitButton.bottomAnchor, constant: 16).isActive = true
-        fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 20).isActive = true
+        fixedEmailUpperLabel.topAnchor.constraint(equalTo: signUpScrollView.topAnchor, constant: 32).isActive = true
+        fixedEmailUpperLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         inputEmailTextField.topAnchor.constraint(equalTo: fixedEmailUpperLabel.bottomAnchor, constant: 16).isActive = true
-        inputEmailTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        inputEmailTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
+        inputEmailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        inputEmailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
         fixedPasswordUpperLabel.topAnchor.constraint(equalTo: inputEmailTextField.bottomAnchor, constant: 20).isActive = true
-        fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
+        fixedPasswordUpperLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         
         inputPasswordTextField.topAnchor.constraint(equalTo: fixedPasswordUpperLabel.bottomAnchor, constant: 16).isActive = true
-        inputPasswordTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        inputNameTextField.widthAnchor.constraint(equalTo: signUpScrollView.widthAnchor, multiplier: 0.8).isActive = true
-        inputPasswordTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: 0).isActive = true
+        inputPasswordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        inputPasswordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
         fixedNameUpperLabel.topAnchor.constraint(equalTo: inputPasswordTextField.bottomAnchor, constant: 20).isActive = true
-        fixedNameUpperLabel.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
+        fixedNameUpperLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         
         inputNameTextField.topAnchor.constraint(equalTo: fixedNameUpperLabel.bottomAnchor, constant: 16).isActive = true
-        inputNameTextField.leadingAnchor.constraint(equalTo: signUpScrollView.leadingAnchor, constant: 16).isActive = true
-        inputNameTextField.trailingAnchor.constraint(equalTo: signUpScrollView.trailingAnchor, constant: -16).isActive = true
+        inputNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        inputNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
-        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 16).isActive = true
-        fixedConfirmLabel.centerXAnchor.constraint(equalTo: signUpScrollView.centerXAnchor).isActive = true
+        fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 4).isActive = true
+        fixedConfirmLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0)
+        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.02, constant: 0)
         bottomConstraintOfButton?.isActive = true
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
         
         
@@ -264,8 +263,8 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        signUpScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height * 1.5)
-        signUpScrollView.contentSize.height = self.view.frame.height * 1.5
+        signUpScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + inputNameTextField.frame.origin.y)
+        
     }
     
     private func resetData() {
@@ -286,7 +285,7 @@ class SignUpViewController: UIViewController {
     @objc func handleHideKeyboard(notification: NSNotification) {
         
         bottomConstraintOfButton?.constant = CGFloat(-self.keyboardPadding)
-      
+        
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -306,7 +305,7 @@ class SignUpViewController: UIViewController {
             let name = inputNameTextField.text else {
                 return
         }
-     
+        
         serverAuth.signUp(email: email,
                           password: password) { (result) in
             switch result {
@@ -364,6 +363,7 @@ extension SignUpViewController: UITextFieldDelegate {
         return true
     }
     
+    
     private func validate(_ textField: UITextField) -> (Bool, String?) {
         guard let text = textField.text else {
             return (false, nil)
@@ -375,7 +375,6 @@ extension SignUpViewController: UITextFieldDelegate {
             return (text.count >= 6, "passwordCheckMessage".localized)
         } else {
             return (!text.isEmpty, "needMoreInformation".localized)
-
         }
     }
     
@@ -391,13 +390,12 @@ extension SignUpViewController: UITextFieldDelegate {
                 fixedConfirmLabel.text = text
                 fixedConfirmLabel.isHidden = false
                 fixedConfirmLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-                fixedConfirmLabel.text = "needMoreInformation".localized
                 return
             }
         }
         approveButton.isEnabled = isValid
         approveButton.backgroundColor = UIColor(named: "keyColor")
-        fixedConfirmLabel.text = "signInIsReady".localized
-        fixedConfirmLabel.textColor = UIColor(named: "keyColor")
+        fixedConfirmLabel.text = "now you're ready".localized
+        fixedConfirmLabel.textColor = .white
     }
 }
