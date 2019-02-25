@@ -16,7 +16,7 @@ struct MockJsonParser: ResponseParser {
     }
     
     func extractDecodedJsonData<T>(decodeType: T.Type, binaryData: Data?) -> T? where T : Decodable {
-        return [String: ArtworkDecodeType]() as! T
+        return ["mock": ArtworkDecodeType(userUid: "", authorName: "", uid: "", url: "", title: "", timestamp: 0, views: 0, orientation: false, color: false, temperature: false)] as? T
     }
     
     func extractEncodedJsonData<T>(data: T) -> Data? where T : Encodable {

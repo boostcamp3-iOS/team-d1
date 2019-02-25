@@ -26,8 +26,6 @@ struct JsonParser: ResponseParser {
      func extractDecodedJsonData<T: Decodable>(decodeType: T.Type,
                                                binaryData: Data?) -> T? {
         guard let data = binaryData else { return nil }
-        print(decodeType)
-        print(String(bytes: data, encoding: String.Encoding.utf8))
         do {
             let decodeData = try JSONDecoder().decode(decodeType, from: data)
             return decodeData

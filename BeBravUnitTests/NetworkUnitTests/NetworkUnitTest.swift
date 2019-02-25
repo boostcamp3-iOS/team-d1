@@ -85,9 +85,9 @@ class NetworkUnitTest: XCTestCase {
         let exp = expectation(for: pred, evaluatedWith: self, handler: nil)
         let res = XCTWaiter.wait(for: [exp], timeout: 5.0)
         if res == XCTWaiter.Result.completed {
-            XCTAssertNotNil(resultData, "No data recived from the server for InfoView content")
+            XCTAssertNotNil(resultData, "No data recived from the server")
         } else {
-            XCTAssert(false, "The call to get the URL ran into some other error")
+            XCTAssert(false, "The call to get data ran into some other error")
         }
     }
     
@@ -97,7 +97,6 @@ class NetworkUnitTest: XCTestCase {
         guard let components = FirebaseDatabase.reference.urlComponents else {
             return
         }
-        var isRequestSuccess = false
         let mockParser = MockJsonParser()
         let dispatcher = Dispatcher(components: components, session: session)
         let seperator = NetworkSeparator(dispatcher: dispatcher, requestMaker: requestMaker)
@@ -110,19 +109,16 @@ class NetworkUnitTest: XCTestCase {
                 print(error)
                 return
             case .success(let data):
-                isRequestSuccess = true
+                self.serverDatabaseResult = data
+                print(self.serverDatabaseResult)
             }
         }
         
         //then
         let pred = NSPredicate(format: "serverDatabaseResult != nil")
         let exp = expectation(for: pred, evaluatedWith: self, handler: nil)
-        let res = XCTWaiter.wait(for: [exp], timeout: 5.0)
-        if res == XCTWaiter.Result.completed {
-            XCTAssertNotNil(serverDatabaseResult, "No data recived from the server for InfoView content")
-        } else {
-            XCTAssert(false, "The call to get the URL ran into some other error")
-        }
+        let res = XCTWaiter.wait(for: [exp], timeout: 3.0)
+        XCTAssertFalse(serverDatabaseResult.isEmpty)
     }
     
     
