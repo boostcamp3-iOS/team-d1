@@ -171,10 +171,19 @@ https://github.com/raywenderlich/swift-style-guide
 <img width="200" alt="signup_2" src="https://user-images.githubusercontent.com/34180216/53310381-f6c5ad00-38ef-11e9-8c37-31a9a0640cbc.png" hspace=5>
 
 </div>
- - Main View
+
+  - Main View
 <div align="middle">
 <img width="200" alt="main_1" src="https://user-images.githubusercontent.com/34180216/53310541-ac90fb80-38f0-11e9-89e2-b8c742b26b9a.png" hspace=5>
 <img width="200" alt="main_2" src="https://user-images.githubusercontent.com/34180216/53310542-ad299200-38f0-11e9-87b8-cd8fbd62a2a6.png" hspace=5>
  </div>
+ 
+   - Filtering
+ <div align="middle">
+ <img width="200" alt="filter_1" src="https://user-images.githubusercontent.com/34180216/53310617-e95cf280-38f0-11e9-9557-cb8d615fccbd.png" hspace=5>
+ <img width="200" alt="filter_2" src="https://user-images.githubusercontent.com/34180216/53310616-e8c45c00-38f0-11e9-9bca-a97798eb4b3b.png" hspace=5>
+ <img width="200" alt="filter_3" src="https://user-images.githubusercontent.com/34180216/53310615-e8c45c00-38f0-11e9-9f8c-d1333acd2c5d.png" hspace=5>
+ </div>
+
 
 
