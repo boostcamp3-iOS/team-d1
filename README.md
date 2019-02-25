@@ -180,7 +180,8 @@ https://github.com/raywenderlich/swift-style-guide
  
   - Detail ArtView & Detail Artist View
  <div align="middle">
- <img width="200" alt="artview" src="https://user-images.githubusercontent.com/34180216/53310808-b23b1100-38f1-11e9-8f34-fb48874cdb8e.png" hspace=5>
+ <img width="200" alt="artdetail" src="https://user-images.githubusercontent.com/34180216/53310894-ffb77e00-38f1-11e9-87f0-52f903717e31.png" hspace=5>
+
 <img width="200" alt="artistpage" src="https://user-images.githubusercontent.com/34180216/53310809-b23b1100-38f1-11e9-9751-bdc5008e5e55.png" hspace=5>
  </div>
 
