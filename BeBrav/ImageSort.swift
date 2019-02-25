@@ -35,9 +35,9 @@ struct ImageSort                                                                
         guard let averageColor = image.averageColor else { return nil }
         guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }
         
-        let diff1 = abs(r-g)
-        let diff2 = abs(r-b)
-        let diff3 = abs(g-b)
+        let diff1 = abs(r - g)
+        let diff2 = abs(r - b)
+        let diff3 = abs(g - b)
         
         if diff1 > 3 || diff2 > 3 || diff3 > 3 {
             color = true
@@ -46,19 +46,17 @@ struct ImageSort                                                                
     }
     
     //알고리즘3 - 차가운/따뜻한 이미지 분류
-    //FIXME: - 더 개선해볼것
     mutating func temperatureSort() -> Bool? {
         guard let image = image else { return nil }
         guard let averageColor = image.averageColor else { return nil }
         guard let r = averageColor["r"], let g = averageColor["g"], let b = averageColor["b"] else { return nil }
         
-        //FIXME: - 기준을 좀 더 구체화 해보기
         if r > g && r > b {
-            if b > g && (b-g > 60) {
+            if b > g && (b - g > 60) {
                 temperature = true
             }
         } else if g > r && g > b {
-            if b > r && (b-r > 60) {
+            if b > r && (b - r > 60) {
                 temperature = true
             }
         } else if b > r && b > g {

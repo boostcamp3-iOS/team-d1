@@ -62,5 +62,39 @@ class BeBravUnitTests: XCTestCase {
         }
         
     }
-
+    
+    func testImageSort() {
+        //세로, 흑백 테스트
+        var imageSort = ImageSort(input: #imageLiteral(resourceName: "angelina-litvin-37698-unsplash"))
+        
+        let orientation = imageSort.orientationSort()
+        let color = imageSort.colorSort()
+        let temperature = imageSort.temperatureSort()
+        
+        XCTAssert(orientation == false, "orientation sorting is failed.")
+        XCTAssert(color == false, "orientation sorting is failed.")
+        XCTAssert(temperature == false, "orientation sorting is failed.")
+        
+        //가로, 컬러, 따뜻함 테스트
+        imageSort.image = #imageLiteral(resourceName: "cat2")
+        
+        let orientation2 = imageSort.orientationSort()
+        let color2 = imageSort.colorSort()
+        let temperature2 = imageSort.temperatureSort()
+        
+        XCTAssert(orientation2 == true, "orientation sorting is failed.")
+        XCTAssert(color2 == true, "orientation sorting is failed.")
+        XCTAssert(temperature2 == false, "orientation sorting is failed.")
+        
+        //차가움 테스트
+        imageSort.image = #imageLiteral(resourceName: "bruce-christianson-559084-unsplash")
+        
+        let orientation3 = imageSort.orientationSort()
+        let color3 = imageSort.colorSort()
+        let temperature3 = imageSort.temperatureSort()
+        
+        XCTAssert(orientation3 == true, "orientation sorting is failed.")
+        XCTAssert(color3 == true, "orientation sorting is failed.")
+        XCTAssert(temperature3 == true, "orientation sorting is failed.")
+    }
 }
