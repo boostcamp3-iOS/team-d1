@@ -28,7 +28,7 @@ struct RequestMaker: RequestMakable {
         }
         request.httpBody = body
         
-        print(request)
+        print("request: \(request)")
 
         switch method {
         case .get:
