@@ -178,6 +178,12 @@ https://github.com/raywenderlich/swift-style-guide
 <img width="200" alt="main_2" src="https://user-images.githubusercontent.com/34180216/53310542-ad299200-38f0-11e9-87b8-cd8fbd62a2a6.png" hspace=5>
  </div>
  
+  - Detail ArtView & Detail Artist View
+ <div align="middle">
+ <img width="200" alt="artview" src="https://user-images.githubusercontent.com/34180216/53310808-b23b1100-38f1-11e9-8f34-fb48874cdb8e.png" hspace=5>
+<img width="200" alt="artistpage" src="https://user-images.githubusercontent.com/34180216/53310809-b23b1100-38f1-11e9-9751-bdc5008e5e55.png" hspace=5>
+ </div>
+
    - Filtering
  <div align="middle">
  <img width="200" alt="filter_1" src="https://user-images.githubusercontent.com/34180216/53310617-e95cf280-38f0-11e9-9557-cb8d615fccbd.png" hspace=5>
