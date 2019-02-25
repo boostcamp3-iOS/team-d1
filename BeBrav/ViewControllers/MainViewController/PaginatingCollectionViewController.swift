@@ -500,8 +500,8 @@ extension PaginatingCollectionViewController {
                 ]
 
                 if filterType != .none {
-                    queries.insert(URLQueryItem(name: "orderBy", value: currentOrderBy), at: 1)
-                    queries.insert(URLQueryItem(name: "equalTo", value: "\(isOn)"), at: 2)
+                    queries.insert(URLQueryItem(name: "orderBy", value: currentOrderBy), at: 2)
+                    queries.insert(URLQueryItem(name: "equalTo", value: "\(isOn)"), at: 3)
                 }
                 
                 serverDB.read(path: "root/artworks",
