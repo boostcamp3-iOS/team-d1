@@ -12,8 +12,9 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
 
-    var filterType: FilterType = .none
-    var isOn = true
+    private var filterType: FilterType = .none
+    private var isOn = true
+    private var isOptionOn = false
     
     private let imageLoader: ImageLoaderProtocol
     private let serverDatabase: FirebaseDatabaseService
@@ -257,7 +258,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
         else {
             queries = [URLQueryItem(name: "orderBy", value: orderBy),
-                       URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                      // URLQueryItem(name: "orderBy", value: "\"timestamp\""),
                        URLQueryItem(name: "equalTo", value: "\(isOn)")
                        //URLQueryItem(name: "limitToLast", value: "\(batchSize)")
             ]
@@ -322,19 +323,23 @@ class PaginatingCollectionViewController: UICollectionViewController {
         let alertController = UIAlertController(title: "filtering".localized, message: "chooseFilterDescription".localized, preferredStyle: .actionSheet)
         
         let orientationAction = UIAlertAction(title: "orientation".localized, style: .default) { (action) in
+            self.isOptionOn = true
             self.makeAlert(title: action.title)
         }
         
         let colorAction = UIAlertAction(title: "color".localized, style: .default) { (action) in
             self.makeAlert(title: action.title)
+            self.isOptionOn = true
         }
         
         let temperatureAction = UIAlertAction(title: "temperature".localized, style: .default) { (action) in
+            self.isOptionOn = true
             self.makeAlert(title: action.title)
         }
         
         let originAction = UIAlertAction(title: "allArtworks".localized, style: .default) { (action) in
             self.isOn = true
+            self.isOptionOn = false
             self.refreshFilteredLayout(filterType: .none, isOn: true)
         }
         
@@ -605,6 +610,7 @@ extension PaginatingCollectionViewController {
             
             if result.count != self.batchSize {
                 self.isEndOfData = true
+                
             }
             let infoBucket =  self.calculateCellInfo(fetchedData: result,
                                                      batchSize: self.itemsPerScreen)
@@ -685,7 +691,7 @@ extension PaginatingCollectionViewController {
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
      
         if maxOffset - currentOffset <= 40{
-            if !isEndOfData, !isLoading {
+            if !isEndOfData, !isLoading, !isOptionOn {
                 self.loadingIndicator.activateIndicatorView()
             }
         }
@@ -863,7 +869,7 @@ extension PaginatingCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard artworkBucket.count - batchSize < indexPath.item else { return }
         
-        if !isEndOfData, !isLoading {
+        if !isEndOfData, !isLoading, !isOptionOn {
             isLoading = true
             let queries = getQuery(filterType: filterType, isOn: isOn)
             fetchPages(queries:queries, type: filterType, isOn: isOn)
