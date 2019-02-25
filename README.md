@@ -160,4 +160,16 @@ https://github.com/raywenderlich/swift-style-guide
   - 통합 테스트 진행
   - 부분적 테스트 코드 작성
   - Localization / RTL 
+  
+# 완성된 뷰 
+  - Sign In & Sign Up
+  <div align="middle">
+  <img width="200" alt="login_1" src="https://user-images.githubusercontent.com/34180216/53310370-f0cfcc00-38ef-11e9-9eed-5cb89ab62a71.png" hspace=5>
+  <img width="200" alt="login_2" src="https://user-images.githubusercontent.com/34180216/53310369-f0373580-38ef-11e9-908e-a293f0c4709e.png" hspace=5>
+
+<img width="200" alt="signup_1" src="https://user-images.githubusercontent.com/34180216/53310377-f3cabc80-38ef-11e9-949e-1f8a5179507f.png" hspace=5>
+<img width="200" alt="signup_2" src="https://user-images.githubusercontent.com/34180216/53310381-f6c5ad00-38ef-11e9-8c37-31a9a0640cbc.png" hspace=5>
+
+</div>
+
 
