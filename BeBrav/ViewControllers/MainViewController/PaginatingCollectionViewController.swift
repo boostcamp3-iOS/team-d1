@@ -11,8 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
-    
-    var currentOrderBy = ""
+
     var filterType: FilterType = .none
     var isOn = true
     
@@ -242,29 +241,25 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         switch filterType {
         case .orientation:
-            currentOrderBy = "\"orientation\""
             orderBy = "\"orientation\""
         case .color:
-            currentOrderBy = "\"color\""
             orderBy = "\"color\""
         case .temperature:
-            currentOrderBy = "\"temperature\""
             orderBy = "\"temperature\""
         case .none:
-            currentOrderBy = "\"timestamp\""
             orderBy = "\"timestamp\""
         }
         
         if filterType == .none {
-            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
-                       URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\"")
+                       //URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
             ]
         }
         else {
             queries = [URLQueryItem(name: "orderBy", value: orderBy),
                        URLQueryItem(name: "orderBy", value: "\"timestamp\""),
-                       URLQueryItem(name: "equalTo", value: "\(isOn)"),
-                       URLQueryItem(name: "limitToLast", value: "\(batchSize)")
+                       URLQueryItem(name: "equalTo", value: "\(isOn)")
+                       //URLQueryItem(name: "limitToLast", value: "\(batchSize)")
             ]
         }
         
@@ -498,11 +493,6 @@ extension PaginatingCollectionViewController {
                                URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp - 1))"),
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
-
-                if filterType != .none {
-                    queries.insert(URLQueryItem(name: "orderBy", value: currentOrderBy), at: 2)
-                    queries.insert(URLQueryItem(name: "equalTo", value: "\(isOn)"), at: 3)
-                }
                 
                 serverDB.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
@@ -613,7 +603,7 @@ extension PaginatingCollectionViewController {
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
-            if result.count < self.batchSize {
+            if result.count != self.batchSize {
                 self.isEndOfData = true
             }
             let infoBucket =  self.calculateCellInfo(fetchedData: result,
@@ -635,7 +625,7 @@ extension PaginatingCollectionViewController {
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
-            if result.count < self.batchSize {
+            if result.count != self.batchSize {
                 self.isEndOfData = true
             }
             targetLayout.fetchPage = result.count
