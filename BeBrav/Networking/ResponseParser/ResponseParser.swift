@@ -13,8 +13,8 @@ import Foundation
 
 protocol ResponseParser {
 
-    func parseResponse(response: URLResponse?,
-                       mimeType: MimeType) -> URLResponse
+    func parseResponse(response: URLResponseProtocol?,
+                       mimeType: MimeType) -> URLResponseProtocol
     
     func extractDecodedJsonData<T: Decodable>(decodeType: T.Type,
                                               binaryData: Data?) -> T?

@@ -107,15 +107,17 @@ class PaginatingCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "BeBrav"
+        
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             itemsPerScreen = calculateNumberOfArtworksPerPage(numberOfColumns: CGFloat(columns), viewWidth: UIScreen.main.bounds.width, viewHeight: self.view.frame.height, spacing: padding, insets: padding)
                 batchSize = itemsPerScreen * pageSize
             layout.numberOfItems = itemsPerScreen
             pagingDelegate = layout
         }
+        
         setCollectionView()
         setLoadingView()
-        fetchPages()
+        refreshFilteredLayout(filterType: .none, isOn: true)
         
         if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
         {
@@ -130,7 +132,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = #colorLiteral(red: 0.1780431867, green: 0.1711916029, blue: 0.2278442085, alpha: 1)
-        //collectionView.prefetchDataSource = self //TODO: 이미지로더 구현이후 적용
         collectionView.register(ArtworkAddFooterReusableView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                 withReuseIdentifier: identifierFooter)
@@ -201,7 +202,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let data):
-                guard let formedResponse = response as? HTTPURLResponse, let eTag = formedResponse.allHeaderFields["Etag"] as? String else { return }
+                guard let formedResponse = response as? HTTPURLResponse,
+                    let eTag = formedResponse.allHeaderFields["Etag"] as? String else { return }
                 
                 let encodeData = ArtworkDecodeType(
                     userUid: data.userUid,
@@ -349,7 +351,6 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
    
     @objc func userSettingButtonDidTap() {
-        print(collectionView.indexPathsForVisibleItems)
         UserDefaults.standard.removeObject(forKey: "uid")
         UserDefaults.standard.synchronize()
     }
@@ -526,78 +527,6 @@ extension PaginatingCollectionViewController {
         }
     }
     
-    /// 컬렉션 뷰의 데이터를 페이지 단위로 받아오기 위한 메서드입니다.
-    /// 이전에 데이터를 받아온 적이 있는지 currentKey를 통해서 확인합니다. 이후 쿼리를 생성하여 timestamp로
-    /// 정렬된 데이터를 batchSize만큼 요청합니다. checkIfValidPosition()메서드를 이용하여 리턴된 값을
-    /// 데이터 소스에 추가하고 nextLayoutYPosition을 Layout인스탠스의 pageNumber 프로퍼티에 전달해줍니다.
-    func fetchPages() {
-        
-        if !isEndOfData {
-            isLoading = true
-//            loadingIndicator.activateIndicatorView()
-            
-            guard let layout = self.collectionViewLayout as? MostViewedArtworkFlowLayout else {
-                return
-            }
-            if currentKey == nil {
-                let queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
-                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
-                ]
-                
-                serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self, headers: [:],
-                              queries: queries) {
-                                (result, response) in
-                    switch result {
-                    case .failure:
-                        self.fetchDataFromDatabase(filter: .none,
-                                                   isOn: false,
-                                                   doNeedMore: false,
-                                                   targetLayout: layout)
-                    case .success(let data):
-                        self.processData(data: data,
-                                         doNeedMore: false,
-                                         targetLayout: layout)
-                    }
-                    defer {
-                        DispatchQueue.main.async {
-                            self.loadingIndicator.deactivateIndicatorView()
-                        }
-                    }
-                }
-            } else {
-                //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
-                let timestamp = "\"timestamp\""
-                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
-                               URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp - 1))"),
-                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
-                ]
-                serverDB.read(path: "root/artworks",
-                              type: [String: ArtworkDecodeType].self,
-                              headers: [:],
-                              queries: queries) {
-                                (result, response) in
-                    switch result {
-                    case .failure:
-                        self.fetchDataFromDatabase(filter: .none,
-                                                   isOn: false,
-                                                   doNeedMore: true,
-                                                   targetLayout: layout)
-                    case .success(let data):
-                        self.processData(data: data,
-                                         doNeedMore: true,
-                                         targetLayout: layout)
-                    }
-                    defer {
-                        DispatchQueue.main.async {
-                            
-                            self.loadingIndicator.deactivateIndicatorView()
-                        }
-                    }
-                }
-            }
-        }
-    }
     
     private func fetchDataFromDatabase(filter: FilterType,
                                        isOn: Bool,
@@ -725,7 +654,8 @@ extension PaginatingCollectionViewController {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForFooterInSection section: Int) -> CGSize {
-            return .init(width: view.frame.width, height: 60)
+        print(view.frame.width / 3)
+            return .init(width: view.frame.width / 3, height: 60)
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -763,7 +693,6 @@ extension PaginatingCollectionViewController {
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         latestContentsOffset = scrollView.contentOffset.y;
-        print(scrollView.contentOffset.y)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {

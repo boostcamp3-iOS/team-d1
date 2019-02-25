@@ -12,9 +12,9 @@ protocol FirebaseAuthService: FirebaseService {
     
     func signUp(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ())
+                completion: @escaping (Result<URLResponseProtocol?>) -> ())
     
     func signIn(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ())
+                completion: @escaping (Result<URLResponseProtocol?>) -> ())
 }

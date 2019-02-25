@@ -24,7 +24,7 @@ struct NetworkSeparator: NetworkSeperatable {
     func read(path: String,
               headers: [String: String],
               queries: [URLQueryItem]? = nil,
-              completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+              completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         guard var components = dispatcher.components else {
             completion(.failure(APIError.urlFailure), nil)
             return
@@ -55,7 +55,7 @@ struct NetworkSeparator: NetworkSeperatable {
                data: Data,
                method: HTTPMethod,
                headers: [String: String],
-               completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+               completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
@@ -76,7 +76,7 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func delete(path: String,
-                completion: @escaping (Result<URLResponse?>) -> Void) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
