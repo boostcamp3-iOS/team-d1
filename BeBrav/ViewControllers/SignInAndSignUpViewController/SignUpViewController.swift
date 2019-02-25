@@ -249,7 +249,7 @@ class SignUpViewController: UIViewController {
         fixedConfirmLabel.topAnchor.constraint(equalTo: inputNameTextField.bottomAnchor, constant: 4).isActive = true
         fixedConfirmLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.02, constant: 0)
+        bottomConstraintOfButton = NSLayoutConstraint(item: approveButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.01, constant: 0)
         bottomConstraintOfButton?.isActive = true
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

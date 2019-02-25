@@ -54,11 +54,11 @@ struct ImageSort                                                                
         
         //FIXME: - 기준을 좀 더 구체화 해보기
         if r > g && r > b {
-            if b > g && (b-g > 60) {
+            if b > g && (b - g > 60) {
                 temperature = true
             }
         } else if g > r && g > b {
-            if b > r && (b-r > 60) {
+            if b > r && (b - r > 60) {
                 temperature = true
             }
         } else if b > r && b > g {

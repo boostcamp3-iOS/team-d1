@@ -25,7 +25,7 @@ struct ServerManager {
     
     func signUp(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ()) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> ()) {
         authManager.signUp(email: email,
                            password: password) { (result) in
                             switch result {
@@ -53,7 +53,7 @@ struct ServerManager {
     
     func signIn(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ()) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> ()) {
         authManager.signIn(email: email, password: password) { (result) in
             switch result {
             case .failure(let error):
@@ -73,7 +73,7 @@ struct ServerManager {
                        scale: CGFloat,
                        path: String,
                        fileName: String,
-                       completion: @escaping (Result<URLResponse?>)->()) {
+                       completion: @escaping (Result<URLResponseProtocol?>)->()) {
         
         //이미지에 분류 알고리즘 적용
         var imageSort = ImageSort(input: image)
