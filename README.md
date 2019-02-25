@@ -164,7 +164,7 @@ https://github.com/raywenderlich/swift-style-guide
 # 완성된 뷰 
   - Sign In & Sign Up
   <div align="middle">
-  <img width="200" alt="login_1" src="https://user-images.githubusercontent.com/34180216/53310370-f0cfcc00-38ef-11e9-9eed-5cb89ab62a71.png" hspace=5>
+  <img width="200" alt="2019-02-25 11 28 27" src="https://user-images.githubusercontent.com/34180216/53310504-85d2c500-38f0-11e9-8c98-1dcb9e39b586.png" hspace=5>
   <img width="200" alt="login_2" src="https://user-images.githubusercontent.com/34180216/53310369-f0373580-38ef-11e9-908e-a293f0c4709e.png" hspace=5>
 
 <img width="200" alt="signup_1" src="https://user-images.githubusercontent.com/34180216/53310377-f3cabc80-38ef-11e9-949e-1f8a5179507f.png" hspace=5>
