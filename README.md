@@ -185,5 +185,11 @@ https://github.com/raywenderlich/swift-style-guide
  <img width="200" alt="filter_3" src="https://user-images.githubusercontent.com/34180216/53310615-e8c45c00-38f0-11e9-9f8c-d1333acd2c5d.png" hspace=5>
  </div>
 
+   - Uploading View
+<div align="middle">
+<img width="200" alt="upload_asking" src="https://user-images.githubusercontent.com/34180216/53310692-4789d580-38f1-11e9-9526-b2a7668fde9a.png" hspace=5>
+<img width="200" alt="upload" src="https://user-images.githubusercontent.com/34180216/53310694-48bb0280-38f1-11e9-9298-1c8fb070a57c.png" hspace=5>
+ </div>
+
 
 
