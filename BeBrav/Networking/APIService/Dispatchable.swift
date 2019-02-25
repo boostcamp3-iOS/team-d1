@@ -18,6 +18,6 @@ protocol Dispatchable {
     var session: URLSessionProtocol { get }
     
     func dispatch(request: URLRequest,
-                  completion: @escaping (Result<Data>, URLResponse?)->())
+                  completion: @escaping (Result<Data>, URLResponseProtocol?)->())
 }
 

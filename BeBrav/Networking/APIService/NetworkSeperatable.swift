@@ -16,13 +16,13 @@ protocol NetworkSeperatable {
     func read(path: String,
               headers: [String: String],
               queries: [URLQueryItem]?,
-              completion: @escaping (Result<Data>, URLResponse?) -> Void)
+              completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void)
     
     func write(path: String, data: Data, method: HTTPMethod,
                headers: [String: String],
-               completion: @escaping (Result<Data>, URLResponse?) -> Void)
+               completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void)
     
-    func delete(path: String, completion: @escaping (Result<URLResponse?>) -> Void)
+    func delete(path: String, completion: @escaping (Result<URLResponseProtocol?>) -> Void)
     
     
 }

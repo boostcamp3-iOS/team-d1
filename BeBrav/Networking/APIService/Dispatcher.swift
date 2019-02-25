@@ -31,7 +31,7 @@ struct Dispatcher: Dispatchable {
     ///            Result<Data>, URLResponse? 로 전달되는 이유는 어떤 데이터는 HTTPHeader에
     ///            또 어떤 데이터는 body에만 전달되는 경우가 있기 때문입니다.
     func dispatch(request: URLRequest,
-                  completion: @escaping (Result<Data>, URLResponse?) -> ()) {
+                  completion: @escaping (Result<Data>, URLResponseProtocol?) -> ()) {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
