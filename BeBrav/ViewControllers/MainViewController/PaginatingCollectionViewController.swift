@@ -12,7 +12,7 @@ private let reuseIdentifier = "Cell"
 
 class PaginatingCollectionViewController: UICollectionViewController {
     
-    //private var currentFilterType: String = ""
+    var currentOrderBy = ""
     var filterType: FilterType = .none
     var isOn = true
     
@@ -242,12 +242,16 @@ class PaginatingCollectionViewController: UICollectionViewController {
         
         switch filterType {
         case .orientation:
+            currentOrderBy = "\"orientation\""
             orderBy = "\"orientation\""
         case .color:
+            currentOrderBy = "\"color\""
             orderBy = "\"color\""
         case .temperature:
+            currentOrderBy = "\"temperature\""
             orderBy = "\"temperature\""
         case .none:
+            currentOrderBy = "\"timestamp\""
             orderBy = "\"timestamp\""
         }
         
@@ -490,10 +494,16 @@ extension PaginatingCollectionViewController {
             } else {
                 //xcode버그 있어서 그대로 넣으면 가끔 빌드가 안됩니다.
                 let timestamp = "\"timestamp\""
-                let queries = [URLQueryItem(name: "orderBy", value: timestamp),
+                var queries = [URLQueryItem(name: "orderBy", value: timestamp),
                                URLQueryItem(name: "endAt", value: "\(Int(recentTimestamp - 1))"),
-                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")//
+                               URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
+
+                if filterType != .none {
+                    queries.insert(URLQueryItem(name: "orderBy", value: currentOrderBy), at: 1)
+                    queries.insert(URLQueryItem(name: "equalTo", value: "\(isOn)"), at: 2)
+                }
+                
                 serverDB.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
                               headers: [:],
