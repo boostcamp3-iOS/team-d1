@@ -187,7 +187,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         guard let cell = collectionView.cellForItem(at: index) as? PaginatingCell else {
             return viewController
         }
-        
+        artworkBucket[index.row].views += 1
         let artwork = artworkBucket[index.row]
         
         updateViewsCount(id: artwork.artworkUid)
