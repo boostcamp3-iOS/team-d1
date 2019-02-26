@@ -183,7 +183,7 @@ class SignInViewController: UIViewController {
         
         signUpScrollView.addSubview(fixedPasswordUpperLabel)
         signUpScrollView.addSubview(inputPasswordTextField)
-        signUpScrollView.addSubview(lookAroundButton)
+        //signUpScrollView.addSubview(lookAroundButton)
         signUpScrollView.addSubview(approveButton)
         signUpScrollView.addSubview(loadingIndicator)
         
@@ -226,15 +226,17 @@ class SignInViewController: UIViewController {
         
         approveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         approveButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        approveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         approveButton.addTarget(self, action: #selector(confirmButtonDidTap), for: .touchUpInside)
         
+        /* TODO: 이후 구현
         lookAroundButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         lookAroundButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         lookAroundButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         lookAroundButton.bottomAnchor.constraint(equalTo: approveButton.topAnchor, constant: -8).isActive = true
         lookAroundButton.addTarget(self, action: #selector(lookAroundButtonDidTap), for: .touchUpInside)
-    }
+ */
+ }
     
     
     @objc func signUpTextButtonDidTap() {
