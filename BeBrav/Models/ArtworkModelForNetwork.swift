@@ -63,7 +63,7 @@ struct ArtworkDecodeType: Codable {
     let artworkUrl: String
     let timestamp: Double
     let title: String
-    let views: Int
+    var views: Int
     let orientation: Bool
     let color: Bool
     let temperature: Bool
