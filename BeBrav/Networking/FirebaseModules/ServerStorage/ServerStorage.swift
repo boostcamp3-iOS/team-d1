@@ -45,7 +45,7 @@ struct ServerStorage: FirebaseStorageService {
     func get(path: String,
              fileName: String,
              completion: @escaping (Result<String>) -> Void) {
-        seperator.read(path: "\(path)%2F\(fileName)", queries: nil) { (result, response) in
+        seperator.read(path: "\(path)%2F\(fileName)", headers: [:], queries: nil) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
@@ -85,7 +85,7 @@ struct ServerStorage: FirebaseStorageService {
     /// - Returns: Result enum 타입으로 성공시 토큰이 포함된 주소값을 감싸서 연관 값으로 전달합니다.
     ///            실패시 Error를 전달합니다.
     func post(image: UIImage, scale: CGFloat, path: String, fileName: String,
-              completion: @escaping (Result<Data>, URLResponse?)->()) {
+              completion: @escaping (Result<Data>, URLResponseProtocol?)->()) {
         guard let scaledImage = image.jpegData(compressionQuality: scale) else {
             completion(.failure(APIError.invalidData), nil)
             return
@@ -117,7 +117,7 @@ struct ServerStorage: FirebaseStorageService {
     ///            completion을 이용해서 처리해야합니다.
     func delete(path: String,
                 fileName: String,
-                completion: @escaping (Result<URLResponse?>) -> Void) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
         self.seperator.delete(path: "\(path)%2F\(fileName)") { (result) in
             switch result {
             case .failure(let error):

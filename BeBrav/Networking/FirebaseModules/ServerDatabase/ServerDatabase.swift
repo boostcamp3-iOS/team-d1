@@ -41,20 +41,22 @@ struct ServerDatabase: FirebaseDatabaseService {
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다.
     func read<T : Decodable>(path: String,
                              type: T.Type,
+                             headers: [String: String],
                              queries: [URLQueryItem]? = nil,
-                             completion: @escaping (Result<T>, URLResponse?) -> Void) {
-        seperator.read(path: "\(path).json", queries: queries) { (result, response) in
+                             completion: @escaping (Result<T>, URLResponseProtocol?) -> Void) {
+        seperator.read(path: "\(path).json", headers: headers, queries: queries) { (result, response) in
             switch result {
             case .failure(let error):
                 completion(.failure(error), nil)
             case .success(let data):
+                print("success")
                 guard let extractedData =
                     self.parser.extractDecodedJsonData(decodeType: type,
                                                        binaryData: data) else {
-                    completion(.failure(APIError.jsonParsingFailure), nil)
-                    return
+                                                        completion(.failure(APIError.jsonParsingFailure), nil)
+                                                        return
                 }
-                completion(.success(extractedData), nil)
+                completion(.success(extractedData), response)
                 return
             }
         }
@@ -76,23 +78,24 @@ struct ServerDatabase: FirebaseDatabaseService {
     func write<T: Encodable>(path: String,
                              data: T,
                              method: HTTPMethod,
-                             completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+                             headers: [String: String],
+                             completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         guard let extractedData =
             self.parser.extractEncodedJsonData(data: data) else {
                 completion(.failure(APIError.jsonParsingFailure), nil)
                 return
         }
         seperator.write(path: "\(path).json",
-                        data: extractedData,
-                        method: method,
-                        headers: ["Content-Type": MimeType.json.rawValue]) { (result, response) in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error), nil)
-            case .success(let data):
-                completion(.success(data), response)
-                return
-            }
+            data: extractedData,
+            method: method,
+            headers: headers) { (result, response) in
+                switch result {
+                case .failure(let error):
+                    completion(.failure(error), nil)
+                case .success(let data):
+                    completion(.success(data), response)
+                    return
+                }
         }
     }
     
@@ -104,7 +107,7 @@ struct ServerDatabase: FirebaseDatabaseService {
     ///   - completion: 메서드가 리턴된 이후에 호출되는 클로저입니다.
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다
     func delete(path: String,
-                completion: @escaping (Result<URLResponse?>) -> Void) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
         seperator.delete(path: "\(path).json") { (result) in
             switch result {
             case .failure(let error):

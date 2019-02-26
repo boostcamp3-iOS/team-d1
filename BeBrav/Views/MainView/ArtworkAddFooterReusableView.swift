@@ -13,10 +13,10 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     let addArtworkButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .white
-        button.backgroundColor = UIColor(named: "keyColor")
+        button.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.002250103978, green: 0.3397829235, blue: 1, alpha: 1)
         button.layer.cornerRadius = 10
-        button.setTitle("작품 등록하기", for: .normal)
+        button.setTitle("newArtwork".localized, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         return button
     }()
@@ -30,15 +30,14 @@ class ArtworkAddFooterReusableView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        UISetUp()
-   
+        setLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func UISetUp() {
+    private func setLayout() {
         self.backgroundColor = .clear
         addSubview(addArtworkButton)
         addSubview(indicator)

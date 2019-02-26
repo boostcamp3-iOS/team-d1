@@ -46,4 +46,8 @@ class FileManagerStub: FileManagerProtocol {
     func removeItem(atPath path: String) throws {
         return
     }
+    
+    func contents(atPath: String) -> Data? {
+        return Data()
+    }
 }

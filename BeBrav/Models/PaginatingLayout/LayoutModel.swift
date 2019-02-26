@@ -16,10 +16,7 @@ import UIKit
 ///   - data: ArtworkDecodeType 타입의 배열을 인자로 받습니다.
 /// - Returns: 배열을 검사한 이후에 views가 가장 큰 원소의 index를 리턴합니다.
 func findMostViewedArtwork(in data: [ArtworkDecodeType]) -> Int {
-    var viewsTempArray: [Int] = []
-    for view in data {
-        viewsTempArray.append(view.views)
-    }
+    let viewsTempArray = data.map{ $0.views }
     guard let index = viewsTempArray.firstIndex(of: viewsTempArray.max() ?? 0) else { return 0 }
     return index
 }
@@ -36,11 +33,10 @@ func checkIfValidPosition(data: [ArtworkDecodeType],
                           numberOfColumns: Int) -> ([ArtworkDecodeType], Int) {
     var mutableDataArray = data
     var index = findMostViewedArtwork(in: data)
-   
-        if ((index + 1) % numberOfColumns) == 0 {
-                mutableDataArray.swapAt(index, index - 1)
-                index = index - 1
-        }
+    if ((index + 1) % numberOfColumns) == 0 {
+            mutableDataArray.swapAt(index, index - 1)
+            index = index - 1
+    }
     
     return (sortedArray: mutableDataArray, index: index)
 }

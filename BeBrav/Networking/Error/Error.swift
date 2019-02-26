@@ -15,6 +15,7 @@ enum APIError: Error {
     case responseUnsuccessful
     case jsonParsingFailure
     case urlFailure
+    case waitRequest
     
     var localizedDescription: String {
         switch self {
@@ -24,6 +25,41 @@ enum APIError: Error {
         case .jsonParsingFailure: return "JSON Parsing Failure"
         case .jsonConversionFailure: return "JSON Conversion Failure"
         case .urlFailure: return "url Failure, app is gonna be off"
+        case .waitRequest: return "Request is waiting"
         }
     }
 }
+
+enum AuthError: Error {
+    case emailNotFound
+    case passwordInvalid
+    
+    var localizedDescription: String {
+        switch self {
+        case .emailNotFound: return "not registered email"
+        case .passwordInvalid: return "user enter wrong password"
+        }
+    }
+}
+
+struct ErrorDecodeType: Decodable {
+ 
+    let error: ErrorCodeType
+}
+
+struct ErrorCodeType: Decodable {
+    let message: String
+}
+/*{
+    "error": {
+        "code": 400,
+        "message": "MISSING_EMAIL",
+        "errors": [
+        {
+        "message": "MISSING_EMAIL",
+        "domain": "global",
+        "reason": "invalid"
+        }
+        ]
+    }
+}*/

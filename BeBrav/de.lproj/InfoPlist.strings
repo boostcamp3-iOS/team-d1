@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  BeBrav
+
+  Created by Seonghun Kim on 22/02/2019.
+  Copyright © 2019 bumslap. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "Bitte erlauben Sie den Zugriff auf das Fotoalbum zum Hochladen Ihres Bildmaterials.";

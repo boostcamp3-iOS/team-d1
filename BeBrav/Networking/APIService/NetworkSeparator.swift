@@ -22,22 +22,23 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func read(path: String,
+              headers: [String: String],
               queries: [URLQueryItem]? = nil,
-              completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+              completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         guard var components = dispatcher.components else {
-             completion(.failure(APIError.urlFailure), nil)
+            completion(.failure(APIError.urlFailure), nil)
             return
         }
         components.queryItems = queries
         var url = components.url
         url?.appendPathComponent(path)
-        //print(url?.asUrlWithoutEncoding())
+        
         guard let request = requestMaker.makeRequest(url: url,
                                                      method: .get,
-                                                     headers: [:],
+                                                     headers: headers,
                                                      body: nil) else {
-            completion(.failure(APIError.requestFailed), nil)
-            return
+                                                        completion(.failure(APIError.requestFailed), nil)
+                                                        return
         }
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {
@@ -54,20 +55,20 @@ struct NetworkSeparator: NetworkSeperatable {
                data: Data,
                method: HTTPMethod,
                headers: [String: String],
-               completion: @escaping (Result<Data>, URLResponse?) -> Void) {
+               completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: method,
                                                      headers: headers,
                                                      body: data) else {
-            completion(.failure(APIError.requestFailed), nil)
-            return
+                                                        completion(.failure(APIError.requestFailed), nil)
+                                                        return
         }
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error), nil)
+                completion(.failure(error), response)
             case .success(let data):
                 completion(.success(data), response)
             }
@@ -75,15 +76,15 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func delete(path: String,
-                completion: @escaping (Result<URLResponse?>) -> Void) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: .delete,
                                                      headers: [:],
                                                      body: nil) else {
-            completion(.failure(APIError.requestFailed))
-            return
+                                                        completion(.failure(APIError.requestFailed))
+                                                        return
         }
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {

@@ -7,25 +7,25 @@
 //
 
 
-/// MostViewedCollectionViewLayout의 Offset을 계산하기 위해 만들어진 구조체입니다.
+///MostViewedCollectionViewLayout의 Offset을 계산하기 위해 만들어진 구조체입니다.
 
-/// Offset이란?
-/// 컬렉션뷰의 레이아웃을 구성하기 위해서는 각 셀마다 여러가지 정보 (크기, 위치..) Attribute라는
-/// 인스탠스를 제공해주어야합니다. 이를 위해서 CollectionViewController는 셀을 만들때 CollectionViewLayout
-/// 인스탠스에게 이 정보를 요청하게 됩니다. 이 정보를 프로젝트에 적용하게 되면 메인 뷰를 구성하기 위해서는
-/// 가장 뷰 수가 많은 셀의 크기가 2x2 (다른 셀이 1x1이라고 했을때) 입니다. -> 각 셀당 크기는 레이아웃내에서
-/// 컬럼의 숫자로 화면의 width를 나눈 값이며 만약 컬럼이 3개 width가 300이라고 했을때 한 셀의 크기와 높이는
-/// 일반셀 (100,100), 뷰수가 많은셀(200,200) 이 될것입니다.
+///Offset이란?
+///컬렉션뷰의 레이아웃을 구성하기 위해서는 각 셀마다 여러가지 정보 (크기, 위치..) Attribute라는
+///인스탠스를 제공해주어야합니다. 이를 위해서 CollectionViewController는 셀을 만들때 CollectionViewLayout
+///인스탠스에게 이 정보를 요청하게 됩니다. 이 정보를 프로젝트에 적용하게 되면 메인 뷰를 구성하기 위해서는
+///가장 뷰 수가 많은 셀의 크기가 2x2 (다른 셀이 1x1이라고 했을때) 입니다. -> 각 셀당 크기는 레이아웃내에서
+///컬럼의 숫자로 화면의 width를 나눈 값이며 만약 컬럼이 3개 width가 300이라고 했을때 한 셀의 크기와 높이는
+///일반셀 (100,100), 뷰수가 많은셀(200,200) 이 될것입니다.
 
-/// 위 정보를 셀이 정사각형 모양이므로 (width * 1 , width * 1) , (width * 2 , width * 2) 로 바꿀 수
-/// 있을 것이고 width는 레이아웃 클래스에서 계산한다고 했을때 (1,1) (2,2)로 정보를 축약할 수 있습니다.
-/// 이제 크기는 계산할 수 있지만 Attribute에서는 해당 셀이 어느 위치에 올지 Frame(x,y,width,height)정보를 주어야 합니다.
-/// 이 부분을 담당하는 것이 바로 OffsetPointer 구조체입니다.
+///위 정보를 셀이 정사각형 모양이므로 (width * 1 , width * 1) , (width * 2 , width * 2) 로 바꿀 수
+///있을 것이고 width는 레이아웃 클래스에서 계산한다고 했을때 (1,1) (2,2)로 정보를 축약할 수 있습니다.
+///이제 크기는 계산할 수 있지만 Attribute에서는 해당 셀이 어느 위치에 올지 Frame(x,y,width,height)정보를 주어야 합니다.
+///이 부분을 담당하는 것이 바로 OffsetPointer 구조체입니다.
 
-/// 동작 방식:
-/// 컬럼이 3개, 일반적인 1x1셀만 존재한다고 했을때 셀의 xOffset은 (0 * width, 1 * width, 2 * width) ->
-/// width 제외시에 (0,1,2) 반복되는 형태가 될 것입니다. 여기에 yOffset은 일반적으로 한 row가 끝나면 1 씩 증가하므로 0부터 시작해
-/// 계속 증가하는 형태가 될것입니다. 이를 조합해서 3개의 컬럼을 가진 레이아웃을 구성해보면 아래와 같습니다
+///동작 방식:
+///컬럼이 3개, 일반적인 1x1셀만 존재한다고 했을때 셀의 xOffset은 (0 * width, 1 * width, 2 * width) ->
+///width 제외시에 (0,1,2) 반복되는 형태가 될 것입니다. 여기에 yOffset은 일반적으로 한 row가 끝나면 1 씩 증가하므로 0부터 시작해
+///계속 증가하는 형태가 될것입니다. 이를 조합해서 3개의 컬럼을 가진 레이아웃을 구성해보면 아래와 같습니다
 
 /*
  [(0,0),(1,0),(2,0)]
@@ -38,10 +38,10 @@
         .
  */
 
-/// 하지만 이 프로젝트의 메인뷰는 위 처럼 구성할 수 없습니다.(위의 방식은 CollectionViewFlowLayout이 구성해 줍니다)
-/// 컬럼이 3개, 일반적인 1x1셀, 페이지당 1개의 2x2셀이 존재하게 되면  2x2 셀이 없는 row에서는 xOffset이
-/// width 제외시에 (0,1,2)이 되겠지만 2x2셀이 생성되면 2개의 row에 영향을 주게됩니다. 아래의 예는 해당 셀이
-/// 두번쨰 row의 left위치에 생성되었다고 가정합니다.
+///하지만 이 프로젝트의 메인뷰는 위 처럼 구성할 수 없습니다.(위의 방식은 CollectionViewFlowLayout이 구성해 줍니다)
+///컬럼이 3개, 일반적인 1x1셀, 페이지당 1개의 2x2셀이 존재하게 되면  2x2 셀이 없는 row에서는 xOffset이
+///width 제외시에 (0,1,2)이 되겠지만 2x2셀이 생성되면 2개의 row에 영향을 주게됩니다. 아래의 예는 해당 셀이
+///두번쨰 row의 left위치에 생성되었다고 가정합니다.
 
 /*
  [(0,0),(1,0),(2,0)]
@@ -54,7 +54,7 @@
         .
  */
 
-/// 실제 형태는 아래와 같습니다
+///실제 형태는 아래와 같습니다
 /*
  [1x1, 1x1, 1x1]
  [2x2, 2x2, 1x1] <- 2x2셀이 자리를 차지했습니다.
@@ -64,24 +64,24 @@
         .
         .
  */
-/// OffsetPointer구조체를 생성하게 되면 init 인자로 컬럼수와 만들어 내야하는 yOffset의 위치를 주어야 합니다.
+///OffsetPointer구조체를 생성하게 되면 init 인자로 컬럼수와 만들어 내야하는 yOffset의 위치를 주어야 합니다.
 
-/// 제공된 컬럼 수를 이용하여 먼저 설정한 것은 referenceColumn 이라는 배열입니다. 이는 xOffset을
-/// 만들어내는 간단한 배열이지만 전체적으로 이 배열을 참고해서 offset들을 구성하게 됩니다. 확장성을 위해 기본적으로
-/// 컬럼 수에 따라서 xOffset배열을 만들도록 초기화 할 수 있습니다. (3개 컬럼 [0, 1, 2] / 4개 [0, 1, 2, 3]..)
-/// yOffset인자는 다음 batchSize의 데이터를 받아왔을때 이전 yOffset의 다음 위치에 offset을 생성하기 위해서 만들어진
-/// 값 입니다.
+///제공된 컬럼 수를 이용하여 먼저 설정한 것은 referenceColumn 이라는 배열입니다. 이는 xOffset을
+///만들어내는 간단한 배열이지만 전체적으로 이 배열을 참고해서 offset들을 구성하게 됩니다. 확장성을 위해 기본적으로
+///컬럼 수에 따라서 xOffset배열을 만들도록 초기화 할 수 있습니다. (3개 컬럼 [0, 1, 2] / 4개 [0, 1, 2, 3]..)
+///yOffset인자는 다음 batchSize의 데이터를 받아왔을때 이전 yOffset의 다음 위치에 offset을 생성하기 위해서 만들어진
+///값 입니다.
 
-/// 위와 같은 방식으로 OffsetPointer를 인스탠스화 하게되면 getOffsets(count: Int,freezeAt number: Int) -> [(CGFloat, CGFloat)] 메서드를 사용할 수 있게됩니다. count는 batchSize(몇개의 아이템이 있는지 확인)입니다.
-/// freeze는 2x2 offset을 만들어내라는 신호와 같으므로 freezeAt은 해당하는 index의 셀을 2x2 로 만들겠다는 의미와
-/// 같습니다. 내부에서는 calculateOffsets (count: Int, freezeAt: Int) 메서드를 호출하게 되고 이 메서드는
-/// 받아온 인자로 정상적인(1x1 셀을 만드는) 방식으로 연산하다가 freezeAt에 해당하는 수가 나오게 되면 freeze() 메서드를 실행합니다
-/// freeze() 메서드는 단순히 isNextRowFreezed 프로퍼티를 true로 만들고 바로 뒤에오는 offset의 값을 -1(block)으로 만들게 됩니다
-/// 이후 isNextRowFreezed 상태를 검사하여 position에 따라서 연산을 실행하는데 이는 다음 row에서 offset생성을 막는 역할을(block)
-/// 담당합니다. 이 연산이 모두 진행되면 restore() 메서드를 호출하여 원래의 일반적인 셀(1x1)을 만들어 내게 됩니다.
-/// 이에따라서 block이 포함된 xOffset그리고 정상적으로 크기가 1씩 증가한 yOffset이 생성되고 이는 zip연산을 통하여 합쳐지는
-/// 동시에 filter를 거쳐 block이 포함된 offset은 뛰어넘게되고 마지막으로 나온 x,yOffset이 튜플 형태로 그리고 zippedBucket
-/// 에 담겨서 전부 return되게 됩니다.
+///위와 같은 방식으로 OffsetPointer를 인스탠스화 하게되면 getOffsets(count: Int,freezeAt number: Int) -> [(CGFloat, CGFloat)] 메서드를 사용할 수 있게됩니다. count는 batchSize(몇개의 아이템이 있는지 확인)입니다.
+///freeze는 2x2 offset을 만들어내라는 신호와 같으므로 freezeAt은 해당하는 index의 셀을 2x2 로 만들겠다는 의미와
+///같습니다. 내부에서는 calculateOffsets (count: Int, freezeAt: Int) 메서드를 호출하게 되고 이 메서드는
+///받아온 인자로 정상적인(1x1 셀을 만드는) 방식으로 연산하다가 freezeAt에 해당하는 수가 나오게 되면 freeze() 메서드를 실행합니다
+///freeze() 메서드는 단순히 isNextRowFreezed 프로퍼티를 true로 만들고 바로 뒤에오는 offset의 값을 -1(block)으로 만들게 됩니다
+///이후 isNextRowFreezed 상태를 검사하여 position에 따라서 연산을 실행하는데 이는 다음 row에서 offset생성을 막는 역할을(block)
+///담당합니다. 이 연산이 모두 진행되면 restore() 메서드를 호출하여 원래의 일반적인 셀(1x1)을 만들어 내게 됩니다.
+///이에따라서 block이 포함된 xOffset그리고 정상적으로 크기가 1씩 증가한 yOffset이 생성되고 이는 zip연산을 통하여 합쳐지는
+///동시에 filter를 거쳐 block이 포함된 offset은 뛰어넘게되고 마지막으로 나온 x,yOffset이 튜플 형태로 그리고 zippedBucket
+///에 담겨서 전부 return되게 됩니다.
 
 
 import UIKit
@@ -173,8 +173,9 @@ struct OffsetPointer {
     ///   - freezeAt: 2x2셀을 만들어낼 offset의 index입니다.
     /// - Returns:
     private mutating func calculateOffsets(count: Int, freezeAt: Int) {
-        position = (freezeAt % 3 == 0) ? .left : .right
-        
+        if freezeAt % 3 == 0 { position = .left } else {
+            position = .right
+        }
         for number in 0..<count {
             
             if (referenceColumn.count - 1) == xOffsetPointer {

@@ -11,26 +11,23 @@
 import UIKit
 
 class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
+   
+    var prepareIndex: [Int] = []
     
-    ///MostViewLayoutDelegate 타입의 프로퍼티로 현재 만드려는 레이아웃(한 페이지)에서 어떤 데이터가
-    ///가장 많은 뷰 수를 가지는지를 물어보기 위해 만든 프로퍼티입니다.
-    weak var delegate: MostViewLayoutDelegate!
-    
-    ///pageNuber 프로퍼티는 Controller 측에서 페이지를 업로드 할때마다 값을 늘려서 전달해주어야 하기때문에 internal 입니다.
-    var pageNumber = 0
+    var fetchPage = 0
+    ///pageNumber 프로퍼티는 Controller 측에서 페이지를 업로드 할때마다 값을 내부적으로 증가시킵니다.
+    private var pageNumber = 0
     ///numberOfItems 프로퍼티는 Controller 측에서 width를 계산한 이후에 전달해 주어야합니다.
     var numberOfItems = 0
     ///한 페이지에 해당하는 offset을 전부 저장합니다.
     var offsetBucket: [(CGFloat, CGFloat)] = []
     
-    
-    private var latestOrientation: Orientation = .portrait
     ///레이아웃의 기본설정을 맡는 프로퍼티입니다.
     private var numberOfColumns = 3
     private var cellPadding: CGFloat = 2
     
     ///레이아웃을 UICollectionViewLayoutAttributes로 만들어 놓고 저장해두는 cache 입니다.
-    private var cache = [UICollectionViewLayoutAttributes]()
+    private var cache: [UICollectionViewLayoutAttributes] = []
     
     ///현재 뷰의 width를 계산하는 computed 프로퍼티 입니다.
     private var contentWidth: CGFloat {
@@ -42,82 +39,45 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
             return collectionView.bounds.width - (insets.left + insets.right)
         }
     }
-    
+
     private var contentHeight: CGFloat = 0
     
     override var collectionViewContentSize: CGSize {
+        let lastBiggestYItem = cache.suffix(numberOfColumns).max()
+        contentHeight = max(contentHeight, lastBiggestYItem?.frame.maxY ?? 0.0)
         return CGSize(width: contentWidth, height: contentHeight)
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+      
     }
     
     /// UICollectionViewFlowLayout의 prepare() 메서드를 override하였습니다. 이 메서드는 bounds가 변경되면 불리게 됩니다.
     /// 내부 동작방식:
-    /// 먼저 column의 갯수로 contentWidth 로 나누어 각 셀당 얼마의 width를 가져야 할 지 계산합니다. 이후 delegate를 통해서
-    /// 요청한 한 페이지 중 가장 뷰 수가 많은 데이터의 인덱스를 요청합니다. 이를 기반으로 OffsetPointer 인스탠스를 만들게 되고
-    /// 리턴된 offset을 offsetBucket에 넣어 저장합니다. 이후 루프를 돌면서 (pageNumber * numberOfItems)를 이용하여 요청된
-    /// 페이지에 해당하는 부분의 UICollectionViewLayoutAttributes를 생성한 후 이를 cache에 저장합니다.
+    /// 미리 받아온 prepareIndex로 makeAttributes() 메서드를 실행합니다. 첫번째에서만 실행하기 때문에 이후 해당 배열을
+    /// 지워주게 됩니다.
     override func prepare() {
+        super.prepare()
         
-        guard let collectionView = collectionView,
-            collectionView.numberOfItems(inSection: 0) != 0 else {
-                return
+        if prepareIndex.isEmpty {
+            return
         }
         
-        var currentOrientation: Orientation = .portrait
-        
-        if collectionView.frame.width > collectionView.frame.height {
-            currentOrientation = .landScape
-        } else {
-            currentOrientation = .portrait
-        }
-        
-        if currentOrientation == latestOrientation {
-            
-        } else {
-            
-        }
-        let columnWidth = contentWidth / CGFloat(numberOfColumns)
-        let index = delegate.getCurrentMostViewedArtworkIndex()
-        let rowHeight = numberOfItems / numberOfColumns + 1
-        
-        
-        var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-        var offsetPointer = OffsetPointer(numberOfColums: numberOfColumns,
-                                          yOffset: pageNumber * rowHeight)
-        let offsets = offsetPointer.getOffsets(count: numberOfItems + 3, freezeAt: index)
-        print("offset count\(offsets.count)")
-            for offset in offsets {
-                offsetBucket.append(offset)
-            }
-        
-            for item in (pageNumber * numberOfItems) ..< collectionView.numberOfItems(inSection: 0) {
-                let indexPath = IndexPath(item: item, section: 0)
-                if item == (index + (pageNumber * numberOfItems)) {
-                    frame = CGRect(x: columnWidth * CGFloat(offsetBucket[item].0),
-                                   y: columnWidth * CGFloat(offsetBucket[item].1),
-                                   width: columnWidth * 2,
-                                   height: columnWidth * 2)
-                } else {
-                    frame = CGRect(x: columnWidth * CGFloat(offsetBucket[item].0),
-                                   y: columnWidth * CGFloat(offsetBucket[item].1),
-                                   width: columnWidth,
-                                   height: columnWidth)
-                }
-                
-                let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = insetFrame
-                print("attr\(attributes.frame)")
-                cache.append(attributes)
-            }
-        contentHeight = cache.last?.frame.maxY ?? 0.0
-        }
+        makeAttributes(indexList: prepareIndex, pageSize: fetchPage)
+        prepareIndex.removeAll()
+    }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
         
-        var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
-
         for attributes in cache {
             if attributes.frame.intersects(rect) {
+                
                 visibleLayoutAttributes.append(attributes)
             }
         }
@@ -127,27 +87,112 @@ class MostViewedArtworkFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
-    
-    func invalidateCache() {
-        cache.removeAll()
-        
-    }
-    
-    override func invalidateLayout() {
-        guard let collectionView = collectionView,
-            collectionView.numberOfItems(inSection: 0) != 0 else {
-                return
-        }
-        if collectionView.frame.width > collectionView.frame.height {
-            latestOrientation = .landScape
-        } else {
-            latestOrientation = .portrait
-        }
-        super.invalidateLayout()
+}
+
+extension UICollectionViewLayoutAttributes: Comparable {
+    public static func < (lhs: UICollectionViewLayoutAttributes, rhs: UICollectionViewLayoutAttributes) -> Bool {
+        return lhs.frame.maxY < rhs.frame.maxY
     }
 }
 
-enum Orientation {
-    case portrait
-    case landScape
+extension MostViewedArtworkFlowLayout: PagingControlDelegate {
+    
+    func layoutRefresh() {
+        prepareIndex.removeAll()
+        fetchPage = 0
+        pageNumber = 0
+        offsetBucket.removeAll()
+        cache.removeAll()
+    }
+    
+    /// PagingControlDelegate 의 구현 메서드 입니다. PaginationCollectionViewController에서 호출하게 됩니다.
+    ///
+    /// - Parameters:
+    ///   - indexList: 빅사이즈 셀의 index를 담아놓은 배열입니다.
+    ///   - pageSize: 한번에 받아올 batchSize를 의미합니다.
+    /// - Returns:
+    func constructNextLayout(indexList: [Int], pageSize: Int) {
+            makeAttributes(indexList: indexList, pageSize: pageSize)
+    }
+    
+    /// makeAttributes() 메서드는 빅사이즈 셀에 대한 정보와 batchSize를 받아서 해당하는 Attributes를
+    /// 생성해주는 메서드입니다.
+    ///
+    /// - Parameters:
+    ///   - indexList: 빅사이즈 셀의 index를 담아놓은 배열입니다.
+    ///   - pageSize: 한번에 받아올 batchSize를 의미합니다.
+    /// - Returns: cache에 Attributes를 담고 contentHeight를 업데이트합니다.
+    private func makeAttributes(indexList: [Int], pageSize: Int) {
+        let columnWidth = contentWidth / CGFloat(numberOfColumns)
+        let rowHeight = numberOfItems / numberOfColumns + 1
+        var inspectableRange = 0..<0
+        var yOffset = pageNumber
+        
+        indexList.forEach {
+            var offsetPointer = OffsetPointer(numberOfColums: numberOfColumns,
+                                              yOffset: yOffset * rowHeight)
+            let offsets = offsetPointer.getOffsets(count: numberOfItems + 3, freezeAt: $0)
+            for offset in offsets {
+                offsetBucket.append(offset)
+            }
+            yOffset = yOffset + 1
+        }
+        
+        var frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+        var target = indexList[0] + pageNumber * numberOfItems
+        inspectableRange = (pageNumber * numberOfItems) ..< (pageNumber * numberOfItems + pageSize)
+        inspectableRange.forEach {
+            let indexPath = IndexPath(item: $0, section: 0)
+            
+            if $0 % numberOfItems == 0  && inspectableRange.first != $0 {
+                let index = pageNumber == 0 ? ($0 / numberOfItems) : ($0 / (pageNumber * numberOfItems))
+                target = indexList[index] + numberOfItems * (pageNumber + index)
+            }
+            
+            if $0 == target {
+                frame = CGRect(x: columnWidth * CGFloat(offsetBucket[$0].0),
+                               y: columnWidth * CGFloat(offsetBucket[$0].1),
+                               width: columnWidth * 2,
+                               height: columnWidth * 2)
+            } else {
+                frame = CGRect(x: columnWidth * CGFloat(offsetBucket[$0].0),
+                               y: columnWidth * CGFloat(offsetBucket[$0].1),
+                               width: columnWidth,
+                               height: columnWidth)
+            }
+            let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
+            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            contentHeight = attributes.frame.maxY
+            attributes.frame = insetFrame
+            cache.append(attributes)
+        }
+        pageNumber = pageNumber + indexList.count
+    }
+   override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        return true
+    }
+    
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        guard let layoutAttributes = super.layoutAttributesForSupplementaryView(ofKind: elementKind,
+                                                                                at: indexPath) else {
+                                                                                    return nil
+        }
+        guard let collectionView = collectionView else {
+            return layoutAttributes
+        }
+        guard let window = UIApplication.shared.keyWindow else {
+            return .init()
+        }
+        let topPadding = window.safeAreaInsets.top
+        let windowCenterX = window.center.x
+        let contentOffsetY = collectionView.contentOffset.y + 2 * topPadding
+        var frameForSupplementaryView = layoutAttributes.frame
+        let viewHeight = collectionView.frame.height - topPadding * 3
+        let position = viewHeight - frameForSupplementaryView.height
+        frameForSupplementaryView.origin.y = contentOffsetY + position
+        frameForSupplementaryView.size.width = 140
+        frameForSupplementaryView.origin.x = windowCenterX - frameForSupplementaryView.size.width / 2
+        layoutAttributes.frame = frameForSupplementaryView
+        return layoutAttributes
+    }
 }

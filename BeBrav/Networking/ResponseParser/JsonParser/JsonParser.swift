@@ -13,8 +13,8 @@ import Foundation
 
 struct JsonParser: ResponseParser {
     
-    func parseResponse(response: URLResponse?,
-                       mimeType: MimeType) -> URLResponse {
+    func parseResponse(response: URLResponseProtocol?,
+                       mimeType: MimeType) -> URLResponseProtocol {
         guard let response = response, response.isSuccess,
             response.isMimeType(type: mimeType) else {
                 assertionFailure("response parsing failed")
@@ -26,7 +26,6 @@ struct JsonParser: ResponseParser {
      func extractDecodedJsonData<T: Decodable>(decodeType: T.Type,
                                                binaryData: Data?) -> T? {
         guard let data = binaryData else { return nil }
-       // print(String(data: data, encoding: String.Encoding.utf8))
         do {
             let decodeData = try JSONDecoder().decode(decodeType, from: data)
             return decodeData

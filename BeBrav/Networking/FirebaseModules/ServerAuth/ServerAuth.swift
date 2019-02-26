@@ -39,7 +39,7 @@ struct ServerAuth: FirebaseAuthService {
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다.
     func signUp(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ()) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> ()) {
         let userData = AuthRequestType.SignUpAndSignIn(email: email,
                                                        password: password,
                                                        returnSecureToken: true)
@@ -64,10 +64,10 @@ struct ServerAuth: FirebaseAuthService {
                     completion(.failure(APIError.jsonParsingFailure))
                     return
                 }
-                UserDefaults.standard.removeObject(forKey: "userId")
-                UserDefaults.standard.removeObject(forKey: "uid")
+                
                 UserDefaults.standard.set(extractedData.email, forKey: "userId")
                 UserDefaults.standard.set(extractedData.localId, forKey: "uid")
+                UserDefaults.standard.synchronize()
                 completion(.success(response))
             }
         }
@@ -84,7 +84,7 @@ struct ServerAuth: FirebaseAuthService {
     ///            로그인의 경우 성공시에 유저의 UID 정보를 UserDefault에 저장합니다
     func signIn(email: String,
                 password: String,
-                completion: @escaping (Result<URLResponse?>) -> ()) {
+                completion: @escaping (Result<URLResponseProtocol?>) -> ()) {
         let userData = AuthRequestType.SignUpAndSignIn(email: email,
                                                        password: password,
                                                        returnSecureToken: true)
@@ -109,10 +109,10 @@ struct ServerAuth: FirebaseAuthService {
                         completion(.failure(APIError.jsonParsingFailure))
                         return
                 }
-                UserDefaults.standard.removeObject(forKey: "userId")
-                UserDefaults.standard.removeObject(forKey: "uid")
+              
                 UserDefaults.standard.set(extractedData.email, forKey: "userId")
                 UserDefaults.standard.set(extractedData.localId, forKey: "uid")
+                UserDefaults.standard.synchronize()
                 completion(.success(response))
             }
         }

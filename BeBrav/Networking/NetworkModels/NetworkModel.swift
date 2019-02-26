@@ -55,14 +55,54 @@ struct FirebaseUidData: Decodable {
 
 struct UserData: Encodable {
     let uid: String
+    let description: String
     let nickName: String
     let email: String
-    let userProfileUrl: String
     let artworks: [String: ArtworkEncodeType]
 }
 
 enum Result<Value> {
     case success(Value)
     case failure(Error)
+}
+
+struct UserDataDecodeType: Decodable {
+    let uid: String
+    let nickName: String
+    let email: String
+    let description: String
+    let artworks: [String: Artwork]
+    
+    init(uid: String, nickName: String, description: String, artworks: [String: Artwork]) {
+        self.uid = uid
+        self.nickName = nickName
+        self.email = ""
+        self.description = description
+        self.artworks = artworks
+    }
+}
+
+struct Artwork: Decodable {
+    let userUid: String
+    let artworkUid: String
+    let artworkUrl: String
+    let timestamp: Double
+    let title: String
+    let views: Int
+    let orientation: Bool
+    let color: Bool
+    let temperature: Bool
+    
+    init(artworkModel: ArtworkModel) {
+        self.userUid = artworkModel.userId
+        self.artworkUid = artworkModel.id
+        self.artworkUrl = artworkModel.imageURL
+        self.timestamp = artworkModel.timestamp
+        self.title = artworkModel.title
+        self.views = artworkModel.views
+        self.orientation = artworkModel.orientation
+        self.color = artworkModel.color
+        self.temperature = artworkModel.temperature
+    }
 }
 
