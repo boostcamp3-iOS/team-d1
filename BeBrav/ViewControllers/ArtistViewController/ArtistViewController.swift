@@ -86,7 +86,7 @@ class ArtistViewController: UIViewController {
         fetchArtistData()
         
         signOutButton.target = self
-        signOutButton.action = #selector(editButtonDidTap(_:))
+        signOutButton.action = #selector(signOutButtonDidTap(_:))
         loadingIndicator.activateIndicatorView()
         
         if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
@@ -258,8 +258,17 @@ class ArtistViewController: UIViewController {
     }
     
     // MARK:- Edit button did tap
-    @objc func editButtonDidTap(_ sender: UIBarButtonItem) {
-        isEditmode = !isEditmode
+    @objc func signOutButtonDidTap(_ sender: UIBarButtonItem) {
+        UserDefaults.standard.removeObject(forKey: "uid")
+        
+        let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let databaseHandler = DatabaseFactory().buildDatabaseHandler()
+        
+        let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: databaseHandler)
+        
+        let newRootViewController = UINavigationController(rootViewController: mainViewController)
+        UIApplication.shared.keyWindow?.rootViewController = newRootViewController
     }
     
     // MARK:- Return ArtworkViewController
