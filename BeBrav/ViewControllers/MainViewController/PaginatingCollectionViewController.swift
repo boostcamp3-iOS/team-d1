@@ -141,16 +141,21 @@ class PaginatingCollectionViewController: UICollectionViewController {
         filterButton.setImage(#imageLiteral(resourceName: "filter (1)"), for: .normal)
         filterButton.addTarget(self, action: #selector(filterButtonDidTap), for: .touchUpInside)
         
+        let userButton = UIButton(type: UIButton.ButtonType.custom)
+        userButton.setImage(#imageLiteral(resourceName: "userImage"), for: .normal)
+        userButton.addTarget(self, action: #selector(userSettingButtonDidTap), for: .touchUpInside)
         
-        let userBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: self, action: #selector(userSettingButtonDidTap))
+        let userBarButton = UIBarButtonItem(customView: userButton)
+        userBarButton.customView?.translatesAutoresizingMaskIntoConstraints = false
+        userBarButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        userBarButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         let filterBarButton = UIBarButtonItem(customView: filterButton)
         filterBarButton.customView?.translatesAutoresizingMaskIntoConstraints = false
         filterBarButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
         filterBarButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        navigationItem.rightBarButtonItems = [userBarButton, filterBarButton]
-        
-        
+        navigationItem.rightBarButtonItem = filterBarButton
+        navigationItem.leftBarButtonItem = userBarButton
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
