@@ -252,8 +252,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
         }
         
         if filterType == .none {
-            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\"")
-                       //URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
+            queries = [URLQueryItem(name: "orderBy", value: "\"timestamp\""),
+                       URLQueryItem(name: "limitToLast", value: "\(self.batchSize)")
             ]
         }
         else {
@@ -609,7 +609,7 @@ extension PaginatingCollectionViewController {
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
-            if result.count != self.batchSize {
+            if result.count < self.batchSize {
                 self.isEndOfData = true
                 
             }
@@ -632,7 +632,7 @@ extension PaginatingCollectionViewController {
             self.currentKey = result.first?.artworkUid
             self.recentTimestamp = result.first?.timestamp
             
-            if result.count != self.batchSize {
+            if result.count < self.batchSize {
                 self.isEndOfData = true
             }
             targetLayout.fetchPage = result.count
