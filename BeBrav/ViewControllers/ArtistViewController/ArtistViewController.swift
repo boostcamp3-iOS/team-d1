@@ -261,13 +261,10 @@ class ArtistViewController: UIViewController {
     @objc func signOutButtonDidTap(_ sender: UIBarButtonItem) {
         UserDefaults.standard.removeObject(forKey: "uid")
         
-        let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
-        let databaseHandler = DatabaseFactory().buildDatabaseHandler()
+        let server = NetworkDependencyContainer().buildServerAuth()
+        let signInViewController = SignInViewController(serverAuth: server)
         
-        let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: databaseHandler)
-        
-        let newRootViewController = UINavigationController(rootViewController: mainViewController)
+        let newRootViewController = UINavigationController(rootViewController: signInViewController)
         UIApplication.shared.keyWindow?.rootViewController = newRootViewController
     }
     
