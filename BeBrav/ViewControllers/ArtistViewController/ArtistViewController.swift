@@ -57,7 +57,8 @@ class ArtistViewController: UIViewController {
     public var userUid: String?
     public var isUser = false {
         didSet {
-            navigationItem.rightBarButtonItem = editButton
+//            navigationItem.rightBarButtonItem = editButton
+            userUid = UserDefaults.standard.string(forKey: "uid")
         }
     }
     
