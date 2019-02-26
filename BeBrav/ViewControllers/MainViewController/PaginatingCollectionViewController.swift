@@ -137,15 +137,20 @@ class PaginatingCollectionViewController: UICollectionViewController {
                                 withReuseIdentifier: identifierFooter)
         
         //set filter right bar button
-        let button = UIButton(type: UIButton.ButtonType.custom)
-        button.setImage(#imageLiteral(resourceName: "filter (1)"), for: .normal)
-        button.addTarget(self, action: #selector(filterButtonDidTap), for: .touchUpInside)
+        let filterButton = UIButton(type: UIButton.ButtonType.custom)
+        filterButton.setImage(#imageLiteral(resourceName: "filter (1)"), for: .normal)
+        filterButton.addTarget(self, action: #selector(filterButtonDidTap), for: .touchUpInside)
         
-        let barButton = UIBarButtonItem(customView: button)
-        barButton.customView?.translatesAutoresizingMaskIntoConstraints = false
-        barButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        barButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        navigationItem.rightBarButtonItem = barButton
+        
+        let userBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: self, action: #selector(userSettingButtonDidTap))
+        
+        let filterBarButton = UIBarButtonItem(customView: filterButton)
+        filterBarButton.customView?.translatesAutoresizingMaskIntoConstraints = false
+        filterBarButton.customView?.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        filterBarButton.customView?.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        navigationItem.rightBarButtonItems = [userBarButton, filterBarButton]
+        
+        
         
         if let layout = collectionView.collectionViewLayout as? MostViewedArtworkFlowLayout {
             layout.minimumInteritemSpacing = 0
@@ -355,8 +360,12 @@ class PaginatingCollectionViewController: UICollectionViewController {
     }
    
     @objc func userSettingButtonDidTap() {
-        UserDefaults.standard.removeObject(forKey: "uid")
-        UserDefaults.standard.synchronize()
+        let imageLoader = ImageCacheFactory().buildImageLoader()
+        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let databaseHandler = DatabaseHandler()
+        let userInformationViewController = ArtistViewController(imageLoader: imageLoader, serverDatabase: serverDatabase, databaseHandler: databaseHandler)
+        userInformationViewController.isUser = true
+        navigationController?.pushViewController(userInformationViewController, animated: true)
     }
     
     @objc func addArtworkButtonDidTap() {
