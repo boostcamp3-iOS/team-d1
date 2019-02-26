@@ -376,6 +376,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
         currentKey = nil
         artworkBucket.removeAll()
         thumbImage.removeAll()
+        loadingIndicator.activateIndicatorView()
         fetchPages(queries: queries, type: type, isOn: isOn)
     }
     
@@ -465,7 +466,7 @@ extension PaginatingCollectionViewController: UICollectionViewDelegateFlowLayout
 
 extension PaginatingCollectionViewController {
     private func fetchPages(queries: [URLQueryItem], type: FilterType, isOn: Bool) {
-        loadingIndicator.activateIndicatorView()
+//        loadingIndicator.activateIndicatorView()
         if !isEndOfData {
             isLoading = true
             
