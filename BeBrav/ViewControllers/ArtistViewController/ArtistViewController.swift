@@ -19,9 +19,9 @@ class ArtistViewController: UIViewController {
         return collectionView
     }()
     
-    private let editButton: UIBarButtonItem = {
+    private let signOutButton: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.title = "edit".localized
+        barButtonItem.title = "signOut".localized
         barButtonItem.style = .plain
         return barButtonItem
     }()
@@ -50,14 +50,14 @@ class ArtistViewController: UIViewController {
     private var isEditmode = false {
         didSet {
             navigationItem.title = isEditmode ? "modification".localized : "artist".localized
-            editButton.title = isEditmode ? "done".localized : "edit".localized
-            editButton.style = isEditmode ? .plain : .done
+            signOutButton.title = isEditmode ? "done".localized : "edit".localized
+            signOutButton.style = isEditmode ? .plain : .done
         }
     }
     public var userUid: String?
     public var isUser = false {
         didSet {
-//            navigationItem.rightBarButtonItem = editButton
+            navigationItem.rightBarButtonItem = signOutButton
             userUid = UserDefaults.standard.string(forKey: "uid")
         }
     }
@@ -85,8 +85,8 @@ class ArtistViewController: UIViewController {
         
         fetchArtistData()
         
-        editButton.target = self
-        editButton.action = #selector(editButtonDidTap(_:))
+        signOutButton.target = self
+        signOutButton.action = #selector(editButtonDidTap(_:))
         loadingIndicator.activateIndicatorView()
         
         if UIApplication.shared.keyWindow?.traitCollection.forceTouchCapability == .available
