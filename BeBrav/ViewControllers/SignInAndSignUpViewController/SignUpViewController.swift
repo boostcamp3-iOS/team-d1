@@ -327,7 +327,7 @@ class SignUpViewController: UIViewController {
                 }
                 let userData = UserData(uid: uid, description: "", nickName: name, email: email, artworks: [:])
                 let user = [uid: userData]
-                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:]){ (result, response) in
+                self.serverDatabase.write(path: "root/users", data: user, method: .patch, headers: [:], queries: nil){ (result, response) in
                     switch result {
                     case .failure:
                         DispatchQueue.main.async {

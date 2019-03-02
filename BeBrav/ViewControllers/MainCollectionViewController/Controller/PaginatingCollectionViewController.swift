@@ -29,12 +29,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    ///checkIfValidPosition() 메서드가 적용된 이후 리턴되는 튜플을 구분하기 쉽게 적용한 type입니다.
-    typealias CalculatedInformation = (sortedArray: [ArtworkDecodeType], index: Int)
-    
+
     ///
     weak var pagingDelegate: PagingControlDelegate!
     
@@ -232,8 +227,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
                         path: "root/artworks/\(id)/",
                         data: encodeData,
                         method: .put,
-                        headers: ["if-match": eTag]
-                        )
+                        headers: ["if-match": eTag],
+                        queries: nil)
                     { (result, response) in
                         switch result {
                         case .failure(let error):
@@ -627,8 +622,9 @@ extension PaginatingCollectionViewController {
                 self.isEndOfData = true
                 
             }
-            let infoBucket =  self.calculateCellInfo(fetchedData: result,
-                                                     batchSize: self.itemsPerScreen)
+            let infoBucket =  calculateCellInfo(fetchedData: result,
+                                                batchSize: self.itemsPerScreen,
+                                                columns:self.columns)
             
             infoBucket.forEach {
                 self.artworkBucket.append(contentsOf: $0.sortedArray)
@@ -651,8 +647,9 @@ extension PaginatingCollectionViewController {
             }
             targetLayout.fetchPage = result.count
             let infoBucket =
-                self.calculateCellInfo(fetchedData: result,
-                                       batchSize: self.itemsPerScreen)
+                calculateCellInfo(fetchedData: result,
+                                  batchSize: self.itemsPerScreen,
+                                  columns: self.columns)
             infoBucket.forEach {
                 self.artworkBucket.append(contentsOf: $0.sortedArray)
                 targetLayout.prepareIndex.append($0.index)
@@ -672,31 +669,24 @@ extension PaginatingCollectionViewController {
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForFooterInSection section: Int) -> CGSize {
-        print(view.frame.width / 3)
-            return .init(width: view.frame.width / 3, height: 60)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView,
                                  viewForSupplementaryElementOfKind kind: String,
                                  at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionFooter:
-                guard let footerView =
-                    collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                    withReuseIdentifier: identifierFooter,
-                                                                    for: indexPath) as? ArtworkAddFooterReusableView else {
-                    return .init()
-                }
-                footerView.addArtworkButton.addTarget(self,
-                                                      action: #selector(addArtworkButtonDidTap),
-                                                      for: .touchUpInside)
-                self.footerView = footerView
-                return footerView
+            guard let footerView =
+                collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                withReuseIdentifier: identifierFooter,
+                                                                for: indexPath) as? ArtworkAddFooterReusableView else {
+                return .init()
+            }
+            footerView.addArtworkButton.addTarget(self,
+                                                  action: #selector(addArtworkButtonDidTap),
+                                                  for: .touchUpInside)
+            self.footerView = footerView
+            return footerView
         default:
-        return .init()
+            return .init()
         }
     }
     
@@ -725,35 +715,6 @@ extension PaginatingCollectionViewController {
                     self.footerView?.addArtworkButton.alpha = 0
             }
         }
-    }
-    
-   private func calculateCellInfo(fetchedData: [ArtworkDecodeType],
-                                  batchSize: Int)
-    -> [CalculatedInformation]
-   {
-        var mutableDataBucket = fetchedData
-        var calculatedInfoBucket: [CalculatedInformation] = []
-        let numberOfPages = fetchedData.count / batchSize
-        for _ in 0..<numberOfPages {
-            
-            var currentBucket: [ArtworkDecodeType] = []
-            for _ in 0..<batchSize {
-                currentBucket.append(mutableDataBucket.removeLast())
-            }
-            let calculatedInfo: CalculatedInformation =
-                checkIfValidPosition(data: currentBucket,
-                                     numberOfColumns: Int(columns))
-            calculatedInfoBucket.append(calculatedInfo)
-            currentBucket.removeAll()
-        }
-        
-        if !mutableDataBucket.isEmpty {
-            let calculatedInfo: CalculatedInformation =
-                checkIfValidPosition(data: mutableDataBucket,
-                                     numberOfColumns: Int(columns))
-            calculatedInfoBucket.append(calculatedInfo)
-        }
-        return calculatedInfoBucket
     }
 }
 

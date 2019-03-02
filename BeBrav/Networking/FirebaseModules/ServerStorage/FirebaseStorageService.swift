@@ -19,5 +19,5 @@ protocol FirebaseStorageService: FirebaseService {
     
     func delete(path: String,
                 fileName: String,
-                completion: @escaping (Result<URLResponseProtocol?>) -> Void)
+                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void)
 }

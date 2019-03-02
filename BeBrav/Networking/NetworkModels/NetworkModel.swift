@@ -6,6 +6,7 @@
 //  Copyright © 2019 bumslap. All rights reserved.
 //
 
+
 import Foundation
 
 struct AuthRequestType: Codable {
@@ -105,4 +106,3 @@ struct Artwork: Decodable {
         self.temperature = artworkModel.temperature
     }
 }
-

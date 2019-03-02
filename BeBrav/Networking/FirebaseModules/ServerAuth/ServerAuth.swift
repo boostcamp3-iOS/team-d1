@@ -51,7 +51,8 @@ struct ServerAuth: FirebaseAuthService {
         seperator.write(path: "signupNewUser",
                         data: extractedData,
                         method: .post,
-                        headers: ["Content-Type": MimeType.json.rawValue])
+                        headers: ["Content-Type": MimeType.json.rawValue],
+                        queries: nil)
         { (result, response) in
             switch result {
             case .failure(let error):
@@ -96,7 +97,8 @@ struct ServerAuth: FirebaseAuthService {
         seperator.write(path: "verifyPassword",
                         data: extractedData,
                         method: .post,
-                        headers: ["Content-Type": MimeType.json.rawValue])
+                        headers: ["Content-Type": MimeType.json.rawValue],
+                        queries: nil)
         { (result, response) in
             switch result {
             case .failure(let error):

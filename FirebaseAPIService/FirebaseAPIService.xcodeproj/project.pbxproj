@@ -1,0 +1,766 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C925481D222A52A800C022DF /* FirebaseAPIService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9254813222A52A800C022DF /* FirebaseAPIService.framework */; };
+		C9254822222A52A800C022DF /* FirebaseAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254821222A52A800C022DF /* FirebaseAPIServiceTests.swift */; };
+		C9254824222A52A800C022DF /* FirebaseAPIService.h in Headers */ = {isa = PBXBuildFile; fileRef = C9254816222A52A800C022DF /* FirebaseAPIService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C925485D222A55B600C022DF /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925485C222A55B500C022DF /* Dispatchable.swift */; };
+		C925485E222A55B600C022DF /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925485C222A55B500C022DF /* Dispatchable.swift */; };
+		C9254860222A55C400C022DF /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925485F222A55C400C022DF /* Dispatcher.swift */; };
+		C9254861222A55C400C022DF /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925485F222A55C400C022DF /* Dispatcher.swift */; };
+		C9254864222A55DA00C022DF /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254862222A55D900C022DF /* NetworkSeparator.swift */; };
+		C9254865222A55DA00C022DF /* NetworkSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254862222A55D900C022DF /* NetworkSeparator.swift */; };
+		C9254866222A55DA00C022DF /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254863222A55D900C022DF /* NetworkSeperatable.swift */; };
+		C9254867222A55DA00C022DF /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254863222A55D900C022DF /* NetworkSeperatable.swift */; };
+		C925486A222A55EC00C022DF /* FirebaseEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254868222A55EC00C022DF /* FirebaseEndPoint.swift */; };
+		C925486B222A55EC00C022DF /* FirebaseEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254868222A55EC00C022DF /* FirebaseEndPoint.swift */; };
+		C925486C222A55EC00C022DF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254869222A55EC00C022DF /* HTTPMethod.swift */; };
+		C925486D222A55EC00C022DF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254869222A55EC00C022DF /* HTTPMethod.swift */; };
+		C925486F222A55F500C022DF /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925486E222A55F500C022DF /* Error.swift */; };
+		C9254870222A55F500C022DF /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925486E222A55F500C022DF /* Error.swift */; };
+		C9254873222A560A00C022DF /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254871222A560A00C022DF /* URL+.swift */; };
+		C9254874222A560A00C022DF /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254871222A560A00C022DF /* URL+.swift */; };
+		C9254875222A560A00C022DF /* URLResponse+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254872222A560A00C022DF /* URLResponse+.swift */; };
+		C9254876222A560A00C022DF /* URLResponse+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254872222A560A00C022DF /* URLResponse+.swift */; };
+		C9254882222A564E00C022DF /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254880222A564E00C022DF /* FirebaseAuthService.swift */; };
+		C9254883222A564E00C022DF /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254880222A564E00C022DF /* FirebaseAuthService.swift */; };
+		C9254884222A564E00C022DF /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254881222A564E00C022DF /* ServerAuth.swift */; };
+		C9254885222A564E00C022DF /* ServerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254881222A564E00C022DF /* ServerAuth.swift */; };
+		C9254888222A565900C022DF /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254886222A565900C022DF /* FirebaseDatabaseService.swift */; };
+		C9254889222A565900C022DF /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254886222A565900C022DF /* FirebaseDatabaseService.swift */; };
+		C925488A222A565900C022DF /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254887222A565900C022DF /* ServerDatabase.swift */; };
+		C925488B222A565900C022DF /* ServerDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254887222A565900C022DF /* ServerDatabase.swift */; };
+		C925488E222A566600C022DF /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925488C222A566600C022DF /* FirebaseStorageService.swift */; };
+		C925488F222A566600C022DF /* FirebaseStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925488C222A566600C022DF /* FirebaseStorageService.swift */; };
+		C9254890222A566600C022DF /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925488D222A566600C022DF /* ServerStorage.swift */; };
+		C9254891222A566600C022DF /* ServerStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925488D222A566600C022DF /* ServerStorage.swift */; };
+		C9254893222A569000C022DF /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254892222A569000C022DF /* NetworkModel.swift */; };
+		C9254894222A569000C022DF /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254892222A569000C022DF /* NetworkModel.swift */; };
+		C9254897222A569600C022DF /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254895222A569600C022DF /* RequestMaker.swift */; };
+		C9254898222A569600C022DF /* RequestMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254895222A569600C022DF /* RequestMaker.swift */; };
+		C9254899222A569600C022DF /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254896222A569600C022DF /* RequestMakable.swift */; };
+		C925489A222A569600C022DF /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9254896222A569600C022DF /* RequestMakable.swift */; };
+		C925489C222A56A000C022DF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925489B222A56A000C022DF /* ResponseParser.swift */; };
+		C925489D222A56A000C022DF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925489B222A56A000C022DF /* ResponseParser.swift */; };
+		C92548A0222A56AB00C022DF /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925489F222A56AB00C022DF /* JsonParser.swift */; };
+		C92548A1222A56AB00C022DF /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C925489F222A56AB00C022DF /* JsonParser.swift */; };
+		C92548AC222A573C00C022DF /* MockTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A4222A573C00C022DF /* MockTask.swift */; };
+		C92548AD222A573C00C022DF /* MockTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A4222A573C00C022DF /* MockTask.swift */; };
+		C92548AE222A573C00C022DF /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A5222A573C00C022DF /* URLSessionTaskProtocol.swift */; };
+		C92548AF222A573C00C022DF /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A5222A573C00C022DF /* URLSessionTaskProtocol.swift */; };
+		C92548B0222A573C00C022DF /* HTTPURLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A6222A573C00C022DF /* HTTPURLResponseProtocol.swift */; };
+		C92548B1222A573C00C022DF /* HTTPURLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A6222A573C00C022DF /* HTTPURLResponseProtocol.swift */; };
+		C92548B2222A573C00C022DF /* URLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A7222A573C00C022DF /* URLResponseProtocol.swift */; };
+		C92548B3222A573C00C022DF /* URLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A7222A573C00C022DF /* URLResponseProtocol.swift */; };
+		C92548B4222A573C00C022DF /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A8222A573C00C022DF /* URLSessionProtocol.swift */; };
+		C92548B5222A573C00C022DF /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A8222A573C00C022DF /* URLSessionProtocol.swift */; };
+		C92548B6222A573C00C022DF /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A9222A573C00C022DF /* MockHTTPURLResponse.swift */; };
+		C92548B7222A573C00C022DF /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548A9222A573C00C022DF /* MockHTTPURLResponse.swift */; };
+		C92548B8222A573C00C022DF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548AA222A573C00C022DF /* MockSession.swift */; };
+		C92548B9222A573C00C022DF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548AA222A573C00C022DF /* MockSession.swift */; };
+		C92548BA222A573C00C022DF /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548AB222A573C00C022DF /* MockResponse.swift */; };
+		C92548BB222A573C00C022DF /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548AB222A573C00C022DF /* MockResponse.swift */; };
+		C92548BD222A57F400C022DF /* ArtworkModelForNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548BC222A57F300C022DF /* ArtworkModelForNetwork.swift */; };
+		C92548BE222A57F400C022DF /* ArtworkModelForNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548BC222A57F300C022DF /* ArtworkModelForNetwork.swift */; };
+		C92548C0222ACAD700C022DF /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548BF222ACAD700C022DF /* FirebaseService.swift */; };
+		C92548C1222ACAD700C022DF /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92548BF222ACAD700C022DF /* FirebaseService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C925481E222A52A800C022DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C925480A222A52A800C022DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9254812222A52A800C022DF;
+			remoteInfo = FirebaseAPIService;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C9254813222A52A800C022DF /* FirebaseAPIService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseAPIService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9254816222A52A800C022DF /* FirebaseAPIService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirebaseAPIService.h; sourceTree = "<group>"; };
+		C9254817222A52A800C022DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C925481C222A52A800C022DF /* FirebaseAPIServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirebaseAPIServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9254821222A52A800C022DF /* FirebaseAPIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAPIServiceTests.swift; sourceTree = "<group>"; };
+		C9254823222A52A800C022DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C925485C222A55B500C022DF /* Dispatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Dispatchable.swift; path = ../../../BeBrav/Networking/APIService/Dispatchable.swift; sourceTree = "<group>"; };
+		C925485F222A55C400C022DF /* Dispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Dispatcher.swift; path = ../../../BeBrav/Networking/APIService/Dispatcher.swift; sourceTree = "<group>"; };
+		C9254862222A55D900C022DF /* NetworkSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkSeparator.swift; path = ../../../BeBrav/Networking/APIService/NetworkSeparator.swift; sourceTree = "<group>"; };
+		C9254863222A55D900C022DF /* NetworkSeperatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkSeperatable.swift; path = ../../../BeBrav/Networking/APIService/NetworkSeperatable.swift; sourceTree = "<group>"; };
+		C9254868222A55EC00C022DF /* FirebaseEndPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseEndPoint.swift; path = ../../../BeBrav/Networking/EndPoint/FirebaseEndPoint.swift; sourceTree = "<group>"; };
+		C9254869222A55EC00C022DF /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = ../../../BeBrav/Networking/EndPoint/HTTPMethod.swift; sourceTree = "<group>"; };
+		C925486E222A55F500C022DF /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Error.swift; path = ../../../BeBrav/Networking/Error/Error.swift; sourceTree = "<group>"; };
+		C9254871222A560A00C022DF /* URL+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URL+.swift"; path = "../../../BeBrav/Networking/Extensions/URL+.swift"; sourceTree = "<group>"; };
+		C9254872222A560A00C022DF /* URLResponse+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URLResponse+.swift"; path = "../../../BeBrav/Networking/Extensions/URLResponse+.swift"; sourceTree = "<group>"; };
+		C9254880222A564E00C022DF /* FirebaseAuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseAuthService.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerAuth/FirebaseAuthService.swift; sourceTree = "<group>"; };
+		C9254881222A564E00C022DF /* ServerAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerAuth.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerAuth/ServerAuth.swift; sourceTree = "<group>"; };
+		C9254886222A565900C022DF /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseDatabaseService.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerDatabase/FirebaseDatabaseService.swift; sourceTree = "<group>"; };
+		C9254887222A565900C022DF /* ServerDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerDatabase.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerDatabase/ServerDatabase.swift; sourceTree = "<group>"; };
+		C925488C222A566600C022DF /* FirebaseStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirebaseStorageService.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerStorage/FirebaseStorageService.swift; sourceTree = "<group>"; };
+		C925488D222A566600C022DF /* ServerStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerStorage.swift; path = ../../../../BeBrav/Networking/FirebaseModules/ServerStorage/ServerStorage.swift; sourceTree = "<group>"; };
+		C9254892222A569000C022DF /* NetworkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkModel.swift; path = ../../../BeBrav/Networking/NetworkModels/NetworkModel.swift; sourceTree = "<group>"; };
+		C9254895222A569600C022DF /* RequestMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestMaker.swift; path = ../../../BeBrav/Networking/RequestMaker/RequestMaker.swift; sourceTree = "<group>"; };
+		C9254896222A569600C022DF /* RequestMakable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestMakable.swift; path = ../../../BeBrav/Networking/RequestMaker/RequestMakable.swift; sourceTree = "<group>"; };
+		C925489B222A56A000C022DF /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseParser.swift; path = ../../../BeBrav/Networking/ResponseParser/ResponseParser.swift; sourceTree = "<group>"; };
+		C925489F222A56AB00C022DF /* JsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonParser.swift; path = ../../../../BeBrav/Networking/ResponseParser/JsonParser/JsonParser.swift; sourceTree = "<group>"; };
+		C92548A4222A573C00C022DF /* MockTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockTask.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/MockTask.swift; sourceTree = "<group>"; };
+		C92548A5222A573C00C022DF /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLSessionTaskProtocol.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
+		C92548A6222A573C00C022DF /* HTTPURLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPURLResponseProtocol.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/HTTPURLResponseProtocol.swift; sourceTree = "<group>"; };
+		C92548A7222A573C00C022DF /* URLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLResponseProtocol.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/URLResponseProtocol.swift; sourceTree = "<group>"; };
+		C92548A8222A573C00C022DF /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLSessionProtocol.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/URLSessionProtocol.swift; sourceTree = "<group>"; };
+		C92548A9222A573C00C022DF /* MockHTTPURLResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockHTTPURLResponse.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/MockHTTPURLResponse.swift; sourceTree = "<group>"; };
+		C92548AA222A573C00C022DF /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockSession.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/MockSession.swift; sourceTree = "<group>"; };
+		C92548AB222A573C00C022DF /* MockResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockResponse.swift; path = ../../../../BeBravUnitTests/NetworkUnitTests/Utils/Session/MockResponse.swift; sourceTree = "<group>"; };
+		C92548BC222A57F300C022DF /* ArtworkModelForNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArtworkModelForNetwork.swift; path = ../../../BeBrav/Models/ArtworkModelForNetwork.swift; sourceTree = "<group>"; };
+		C92548BF222ACAD700C022DF /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9254810222A52A800C022DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9254819222A52A800C022DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C925481D222A52A800C022DF /* FirebaseAPIService.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9254809222A52A800C022DF = {
+			isa = PBXGroup;
+			children = (
+				C9254815222A52A800C022DF /* FirebaseAPIService */,
+				C9254820222A52A800C022DF /* FirebaseAPIServiceTests */,
+				C9254814222A52A800C022DF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9254814222A52A800C022DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9254813222A52A800C022DF /* FirebaseAPIService.framework */,
+				C925481C222A52A800C022DF /* FirebaseAPIServiceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9254815222A52A800C022DF /* FirebaseAPIService */ = {
+			isa = PBXGroup;
+			children = (
+				C925485B222A558E00C022DF /* ResponseParser */,
+				C925485A222A558600C022DF /* RequeustMaker */,
+				C9254859222A557C00C022DF /* NetworkModels */,
+				C9254858222A552E00C022DF /* FirebaseModules */,
+				C9254857222A552500C022DF /* Extensions */,
+				C9254856222A551700C022DF /* Error */,
+				C9254855222A53D800C022DF /* EndPoint */,
+				C9254854222A53CD00C022DF /* NetworkSeperator */,
+				C9254853222A53C100C022DF /* Dispatcher */,
+				C9254816222A52A800C022DF /* FirebaseAPIService.h */,
+				C9254817222A52A800C022DF /* Info.plist */,
+			);
+			path = FirebaseAPIService;
+			sourceTree = "<group>";
+		};
+		C9254820222A52A800C022DF /* FirebaseAPIServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				C92548A2222A56EB00C022DF /* Utils */,
+				C9254821222A52A800C022DF /* FirebaseAPIServiceTests.swift */,
+				C9254823222A52A800C022DF /* Info.plist */,
+			);
+			path = FirebaseAPIServiceTests;
+			sourceTree = "<group>";
+		};
+		C9254853222A53C100C022DF /* Dispatcher */ = {
+			isa = PBXGroup;
+			children = (
+				C925485F222A55C400C022DF /* Dispatcher.swift */,
+				C925485C222A55B500C022DF /* Dispatchable.swift */,
+			);
+			path = Dispatcher;
+			sourceTree = "<group>";
+		};
+		C9254854222A53CD00C022DF /* NetworkSeperator */ = {
+			isa = PBXGroup;
+			children = (
+				C9254862222A55D900C022DF /* NetworkSeparator.swift */,
+				C9254863222A55D900C022DF /* NetworkSeperatable.swift */,
+			);
+			path = NetworkSeperator;
+			sourceTree = "<group>";
+		};
+		C9254855222A53D800C022DF /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				C9254868222A55EC00C022DF /* FirebaseEndPoint.swift */,
+				C9254869222A55EC00C022DF /* HTTPMethod.swift */,
+			);
+			path = EndPoint;
+			sourceTree = "<group>";
+		};
+		C9254856222A551700C022DF /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				C925486E222A55F500C022DF /* Error.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		C9254857222A552500C022DF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C9254871222A560A00C022DF /* URL+.swift */,
+				C9254872222A560A00C022DF /* URLResponse+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C9254858222A552E00C022DF /* FirebaseModules */ = {
+			isa = PBXGroup;
+			children = (
+				C92548BF222ACAD700C022DF /* FirebaseService.swift */,
+				C925487F222A562E00C022DF /* FirebaseAuth */,
+				C925487E222A562600C022DF /* FirebaseStorage */,
+				C925487D222A561E00C022DF /* FirebaseDatabase */,
+			);
+			path = FirebaseModules;
+			sourceTree = "<group>";
+		};
+		C9254859222A557C00C022DF /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				C92548BC222A57F300C022DF /* ArtworkModelForNetwork.swift */,
+				C9254892222A569000C022DF /* NetworkModel.swift */,
+			);
+			path = NetworkModels;
+			sourceTree = "<group>";
+		};
+		C925485A222A558600C022DF /* RequeustMaker */ = {
+			isa = PBXGroup;
+			children = (
+				C9254896222A569600C022DF /* RequestMakable.swift */,
+				C9254895222A569600C022DF /* RequestMaker.swift */,
+			);
+			path = RequeustMaker;
+			sourceTree = "<group>";
+		};
+		C925485B222A558E00C022DF /* ResponseParser */ = {
+			isa = PBXGroup;
+			children = (
+				C925489E222A56A200C022DF /* JsonParser */,
+				C925489B222A56A000C022DF /* ResponseParser.swift */,
+			);
+			path = ResponseParser;
+			sourceTree = "<group>";
+		};
+		C925487D222A561E00C022DF /* FirebaseDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				C9254886222A565900C022DF /* FirebaseDatabaseService.swift */,
+				C9254887222A565900C022DF /* ServerDatabase.swift */,
+			);
+			path = FirebaseDatabase;
+			sourceTree = "<group>";
+		};
+		C925487E222A562600C022DF /* FirebaseStorage */ = {
+			isa = PBXGroup;
+			children = (
+				C925488C222A566600C022DF /* FirebaseStorageService.swift */,
+				C925488D222A566600C022DF /* ServerStorage.swift */,
+			);
+			path = FirebaseStorage;
+			sourceTree = "<group>";
+		};
+		C925487F222A562E00C022DF /* FirebaseAuth */ = {
+			isa = PBXGroup;
+			children = (
+				C9254880222A564E00C022DF /* FirebaseAuthService.swift */,
+				C9254881222A564E00C022DF /* ServerAuth.swift */,
+			);
+			path = FirebaseAuth;
+			sourceTree = "<group>";
+		};
+		C925489E222A56A200C022DF /* JsonParser */ = {
+			isa = PBXGroup;
+			children = (
+				C925489F222A56AB00C022DF /* JsonParser.swift */,
+			);
+			path = JsonParser;
+			sourceTree = "<group>";
+		};
+		C92548A2222A56EB00C022DF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C92548A3222A56F200C022DF /* Network */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		C92548A3222A56F200C022DF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C92548A6222A573C00C022DF /* HTTPURLResponseProtocol.swift */,
+				C92548A9222A573C00C022DF /* MockHTTPURLResponse.swift */,
+				C92548AB222A573C00C022DF /* MockResponse.swift */,
+				C92548AA222A573C00C022DF /* MockSession.swift */,
+				C92548A4222A573C00C022DF /* MockTask.swift */,
+				C92548A7222A573C00C022DF /* URLResponseProtocol.swift */,
+				C92548A8222A573C00C022DF /* URLSessionProtocol.swift */,
+				C92548A5222A573C00C022DF /* URLSessionTaskProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C925480E222A52A800C022DF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9254824222A52A800C022DF /* FirebaseAPIService.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C9254812222A52A800C022DF /* FirebaseAPIService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9254827222A52A800C022DF /* Build configuration list for PBXNativeTarget "FirebaseAPIService" */;
+			buildPhases = (
+				C925480E222A52A800C022DF /* Headers */,
+				C925480F222A52A800C022DF /* Sources */,
+				C9254810222A52A800C022DF /* Frameworks */,
+				C9254811222A52A800C022DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FirebaseAPIService;
+			productName = FirebaseAPIService;
+			productReference = C9254813222A52A800C022DF /* FirebaseAPIService.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C925481B222A52A800C022DF /* FirebaseAPIServiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C925482A222A52A800C022DF /* Build configuration list for PBXNativeTarget "FirebaseAPIServiceTests" */;
+			buildPhases = (
+				C9254818222A52A800C022DF /* Sources */,
+				C9254819222A52A800C022DF /* Frameworks */,
+				C925481A222A52A800C022DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C925481F222A52A800C022DF /* PBXTargetDependency */,
+			);
+			name = FirebaseAPIServiceTests;
+			productName = FirebaseAPIServiceTests;
+			productReference = C925481C222A52A800C022DF /* FirebaseAPIServiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C925480A222A52A800C022DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = bumslap;
+				TargetAttributes = {
+					C9254812222A52A800C022DF = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
+					};
+					C925481B222A52A800C022DF = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = C925480D222A52A800C022DF /* Build configuration list for PBXProject "FirebaseAPIService" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9254809222A52A800C022DF;
+			productRefGroup = C9254814222A52A800C022DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9254812222A52A800C022DF /* FirebaseAPIService */,
+				C925481B222A52A800C022DF /* FirebaseAPIServiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9254811222A52A800C022DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C925481A222A52A800C022DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C925480F222A52A800C022DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C92548B4222A573C00C022DF /* URLSessionProtocol.swift in Sources */,
+				C9254864222A55DA00C022DF /* NetworkSeparator.swift in Sources */,
+				C925486A222A55EC00C022DF /* FirebaseEndPoint.swift in Sources */,
+				C92548B8222A573C00C022DF /* MockSession.swift in Sources */,
+				C92548B2222A573C00C022DF /* URLResponseProtocol.swift in Sources */,
+				C925486C222A55EC00C022DF /* HTTPMethod.swift in Sources */,
+				C92548BA222A573C00C022DF /* MockResponse.swift in Sources */,
+				C9254873222A560A00C022DF /* URL+.swift in Sources */,
+				C92548AC222A573C00C022DF /* MockTask.swift in Sources */,
+				C9254882222A564E00C022DF /* FirebaseAuthService.swift in Sources */,
+				C925488A222A565900C022DF /* ServerDatabase.swift in Sources */,
+				C9254875222A560A00C022DF /* URLResponse+.swift in Sources */,
+				C92548B0222A573C00C022DF /* HTTPURLResponseProtocol.swift in Sources */,
+				C92548BD222A57F400C022DF /* ArtworkModelForNetwork.swift in Sources */,
+				C9254866222A55DA00C022DF /* NetworkSeperatable.swift in Sources */,
+				C92548B6222A573C00C022DF /* MockHTTPURLResponse.swift in Sources */,
+				C92548C0222ACAD700C022DF /* FirebaseService.swift in Sources */,
+				C9254899222A569600C022DF /* RequestMakable.swift in Sources */,
+				C92548AE222A573C00C022DF /* URLSessionTaskProtocol.swift in Sources */,
+				C9254897222A569600C022DF /* RequestMaker.swift in Sources */,
+				C9254860222A55C400C022DF /* Dispatcher.swift in Sources */,
+				C925486F222A55F500C022DF /* Error.swift in Sources */,
+				C925485D222A55B600C022DF /* Dispatchable.swift in Sources */,
+				C9254893222A569000C022DF /* NetworkModel.swift in Sources */,
+				C9254890222A566600C022DF /* ServerStorage.swift in Sources */,
+				C9254884222A564E00C022DF /* ServerAuth.swift in Sources */,
+				C925488E222A566600C022DF /* FirebaseStorageService.swift in Sources */,
+				C9254888222A565900C022DF /* FirebaseDatabaseService.swift in Sources */,
+				C92548A0222A56AB00C022DF /* JsonParser.swift in Sources */,
+				C925489C222A56A000C022DF /* ResponseParser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9254818222A52A800C022DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C92548B5222A573C00C022DF /* URLSessionProtocol.swift in Sources */,
+				C9254876222A560A00C022DF /* URLResponse+.swift in Sources */,
+				C9254870222A55F500C022DF /* Error.swift in Sources */,
+				C92548BE222A57F400C022DF /* ArtworkModelForNetwork.swift in Sources */,
+				C92548BB222A573C00C022DF /* MockResponse.swift in Sources */,
+				C9254874222A560A00C022DF /* URL+.swift in Sources */,
+				C9254885222A564E00C022DF /* ServerAuth.swift in Sources */,
+				C92548B9222A573C00C022DF /* MockSession.swift in Sources */,
+				C92548B3222A573C00C022DF /* URLResponseProtocol.swift in Sources */,
+				C9254889222A565900C022DF /* FirebaseDatabaseService.swift in Sources */,
+				C92548A1222A56AB00C022DF /* JsonParser.swift in Sources */,
+				C925488F222A566600C022DF /* FirebaseStorageService.swift in Sources */,
+				C9254894222A569000C022DF /* NetworkModel.swift in Sources */,
+				C925489D222A56A000C022DF /* ResponseParser.swift in Sources */,
+				C9254867222A55DA00C022DF /* NetworkSeperatable.swift in Sources */,
+				C9254883222A564E00C022DF /* FirebaseAuthService.swift in Sources */,
+				C92548C1222ACAD700C022DF /* FirebaseService.swift in Sources */,
+				C925486B222A55EC00C022DF /* FirebaseEndPoint.swift in Sources */,
+				C925489A222A569600C022DF /* RequestMakable.swift in Sources */,
+				C925486D222A55EC00C022DF /* HTTPMethod.swift in Sources */,
+				C9254891222A566600C022DF /* ServerStorage.swift in Sources */,
+				C9254898222A569600C022DF /* RequestMaker.swift in Sources */,
+				C92548B7222A573C00C022DF /* MockHTTPURLResponse.swift in Sources */,
+				C925488B222A565900C022DF /* ServerDatabase.swift in Sources */,
+				C9254865222A55DA00C022DF /* NetworkSeparator.swift in Sources */,
+				C9254822222A52A800C022DF /* FirebaseAPIServiceTests.swift in Sources */,
+				C92548AF222A573C00C022DF /* URLSessionTaskProtocol.swift in Sources */,
+				C92548B1222A573C00C022DF /* HTTPURLResponseProtocol.swift in Sources */,
+				C925485E222A55B600C022DF /* Dispatchable.swift in Sources */,
+				C92548AD222A573C00C022DF /* MockTask.swift in Sources */,
+				C9254861222A55C400C022DF /* Dispatcher.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C925481F222A52A800C022DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9254812222A52A800C022DF /* FirebaseAPIService */;
+			targetProxy = C925481E222A52A800C022DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C9254825222A52A800C022DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		C9254826222A52A800C022DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C9254828222A52A800C022DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FirebaseAPIService/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.FirebaseAPIService;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C9254829222A52A800C022DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FirebaseAPIService/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.FirebaseAPIService;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C925482B222A52A800C022DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				INFOPLIST_FILE = FirebaseAPIServiceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.FirebaseAPIServiceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C925482C222A52A800C022DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CMXKRM464P;
+				INFOPLIST_FILE = FirebaseAPIServiceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = bumslap.com.FirebaseAPIServiceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C925480D222A52A800C022DF /* Build configuration list for PBXProject "FirebaseAPIService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9254825222A52A800C022DF /* Debug */,
+				C9254826222A52A800C022DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9254827222A52A800C022DF /* Build configuration list for PBXNativeTarget "FirebaseAPIService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9254828222A52A800C022DF /* Debug */,
+				C9254829222A52A800C022DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C925482A222A52A800C022DF /* Build configuration list for PBXNativeTarget "FirebaseAPIServiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C925482B222A52A800C022DF /* Debug */,
+				C925482C222A52A800C022DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C925480A222A52A800C022DF /* Project object */;
+}

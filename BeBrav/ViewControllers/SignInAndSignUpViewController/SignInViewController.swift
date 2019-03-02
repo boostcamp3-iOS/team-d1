@@ -295,7 +295,7 @@ class SignInViewController: UIViewController {
     
     @objc func lookAroundButtonDidTap() {}
     
-}
+    }
 
 extension SignInViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

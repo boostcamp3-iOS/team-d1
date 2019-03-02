@@ -24,7 +24,7 @@
 import UIKit
 
 struct ServerStorage: FirebaseStorageService {
-    
+  
     let parser: ResponseParser
     let seperator: NetworkSeperatable
     
@@ -93,7 +93,8 @@ struct ServerStorage: FirebaseStorageService {
         seperator.write(path: "\(path)%2F\(fileName)",
                         data: scaledImage,
                         method: .post,
-                        headers: ["Content-Type": MimeType.jpeg.rawValue])
+                        headers: ["Content-Type": MimeType.jpeg.rawValue],
+                        queries: nil)
         { (result, response) in
             switch result {
             case .failure(let error):
@@ -117,13 +118,13 @@ struct ServerStorage: FirebaseStorageService {
     ///            completion을 이용해서 처리해야합니다.
     func delete(path: String,
                 fileName: String,
-                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
-        self.seperator.delete(path: "\(path)%2F\(fileName)") { (result) in
+                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
+        self.seperator.delete(path: "\(path)%2F\(fileName)") { (result, response)  in
             switch result {
             case .failure(let error):
-                completion(.failure(error))
-            case .success(let response):
-                completion(.success(response))
+                completion(.failure(error), response)
+            case .success(let data):
+                completion(.success(data), response)
                 return
             }
         }

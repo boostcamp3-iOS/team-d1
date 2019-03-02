@@ -14,6 +14,7 @@ protocol FirebaseDatabaseService: FirebaseService {
                              data: T,
                              method: HTTPMethod,
                              headers: [String: String],
+                             queries: [URLQueryItem]?,
                              completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void)
     
     func read<T : Decodable>(path: String,
@@ -23,5 +24,5 @@ protocol FirebaseDatabaseService: FirebaseService {
                              completion: @escaping (Result<T>, URLResponseProtocol?) -> Void)
     
     func delete(path: String,
-                completion: @escaping (Result<URLResponseProtocol?>) -> Void)
+                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void)
 }

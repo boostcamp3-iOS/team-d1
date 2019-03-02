@@ -43,7 +43,7 @@ struct NetworkSeparator: NetworkSeperatable {
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error), nil)
+                completion(.failure(error), response)
             case .success(let data):
                 completion(.success(data), response)
             }
@@ -55,9 +55,11 @@ struct NetworkSeparator: NetworkSeperatable {
                data: Data,
                method: HTTPMethod,
                headers: [String: String],
+               queries: [URLQueryItem]?,
                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
+        
         guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
                                                      method: method,
                                                      headers: headers,
@@ -76,22 +78,23 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     func delete(path: String,
-                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
+                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)
-        guard let request = requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
-                                                     method: .delete,
-                                                     headers: [:],
-                                                     body: nil) else {
-                                                        completion(.failure(APIError.requestFailed))
-                                                        return
-        }
+        guard let request =
+            requestMaker.makeRequest(url: url?.asUrlWithoutEncoding(),
+                                     method: .delete,
+                                     headers: [:],
+                                     body: nil) else {
+                                                    completion(.failure(APIError.requestFailed), nil)
+                                                    return
+                                                }
         dispatcher.dispatch(request: request) { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error))
-            case .success:
-                completion(.success(response))
+                completion(.failure(error), response)
+            case .success(let data):
+                completion(.success(data), response)
             }
         }
     }

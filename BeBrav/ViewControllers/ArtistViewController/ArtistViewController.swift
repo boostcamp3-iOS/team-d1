@@ -334,8 +334,8 @@ class ArtistViewController: UIViewController {
                     path: "root/artworks/\(id)/",
                     data: encodeData,
                     method: .put,
-                    headers: ["if-match": eTag]
-                    )
+                    headers: ["if-match": eTag],
+                    queries: nil)
                 {
                     (result, response) in
                     switch result {

@@ -5,7 +5,6 @@
 //  Created by bumslap on 06/02/2019.
 //  Copyright © 2019 bumslap. All rights reserved.
 //
-
 import UIKit
 
 struct ArtworkEncodeType: Encodable {
@@ -63,7 +62,7 @@ struct ArtworkDecodeType: Codable {
     let artworkUrl: String
     let timestamp: Double
     let title: String
-    let views: Int
+    var views: Int
     let orientation: Bool
     let color: Bool
     let temperature: Bool

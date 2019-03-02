@@ -49,7 +49,6 @@ struct ServerDatabase: FirebaseDatabaseService {
             case .failure(let error):
                 completion(.failure(error), nil)
             case .success(let data):
-                print("success")
                 guard let extractedData =
                     self.parser.extractDecodedJsonData(decodeType: type,
                                                        binaryData: data) else {
@@ -79,6 +78,7 @@ struct ServerDatabase: FirebaseDatabaseService {
                              data: T,
                              method: HTTPMethod,
                              headers: [String: String],
+                             queries: [URLQueryItem]?,
                              completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
         guard let extractedData =
             self.parser.extractEncodedJsonData(data: data) else {
@@ -88,7 +88,7 @@ struct ServerDatabase: FirebaseDatabaseService {
         seperator.write(path: "\(path).json",
             data: extractedData,
             method: method,
-            headers: headers) { (result, response) in
+            headers: headers, queries: queries) { (result, response) in
                 switch result {
                 case .failure(let error):
                     completion(.failure(error), nil)
@@ -107,13 +107,13 @@ struct ServerDatabase: FirebaseDatabaseService {
     ///   - completion: 메서드가 리턴된 이후에 호출되는 클로저입니다.
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다
     func delete(path: String,
-                completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
-        seperator.delete(path: "\(path).json") { (result) in
+                completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
+        seperator.delete(path: "\(path).json") { (result, response) in
             switch result {
             case .failure(let error):
-                completion(.failure(error))
-            case .success(let response):
-                completion(.success(response))
+                completion(.failure(error), response)
+            case .success(let data):
+                completion(.success(data), response)
                 return
             }
         }
