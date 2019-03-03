@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAPIService
 
 private let reuseIdentifier = "Cell"
 
