@@ -12,6 +12,7 @@
 
 import Foundation
 import NetworkServiceProtocols
+import NetworkService
 
 struct NetworkDependencyContainer {}
 

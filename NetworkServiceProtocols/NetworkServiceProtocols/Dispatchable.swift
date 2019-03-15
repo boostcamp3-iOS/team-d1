@@ -11,7 +11,7 @@
 
 import UIKit
 
-protocol Dispatchable {
+public protocol Dispatchable {
     
     var components: URLComponents?{ get }
     

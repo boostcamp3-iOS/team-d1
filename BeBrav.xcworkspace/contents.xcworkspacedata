@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:FirebaseModuleProtocols/FirebaseModuleProtocols.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FirebaseService/FirebaseService.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:DependencyContainer/DependencyContainer.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:NetworkService/NetworkService.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:NetworkServiceProtocols/NetworkServiceProtocols.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:BeBrav.xcodeproj">
+   </FileRef>
+</Workspace>

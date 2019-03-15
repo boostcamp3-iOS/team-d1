@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AuthRequestType: Codable {
+public struct AuthRequestType: Codable {
     struct SignUpAndSignIn: Codable {
         let email: String
         let password: String
@@ -16,13 +16,7 @@ struct AuthRequestType: Codable {
     }
 }
 
-enum MimeType: String {
-    case jpeg = "image/jpeg"
-    case png = "image/png"
-    case json = "application/json"
-}
-
-struct FirebaseAuthResponseType: Codable {
+public struct FirebaseAuthResponseType: Codable {
     let kind: String
     let idToken: String
     let email: String
@@ -31,7 +25,7 @@ struct FirebaseAuthResponseType: Codable {
     let localId: String
 }
 
-struct FirebaseStorageResponseDataType: Decodable {
+public struct FirebaseStorageResponseDataType: Decodable {
     let name: String
     let bucket: String
     let generation: String
@@ -49,11 +43,11 @@ struct FirebaseStorageResponseDataType: Decodable {
     let downloadTokens: String
 }
 
-struct FirebaseUidData: Decodable {
+public struct FirebaseUidData: Decodable {
     let name: String
 }
 
-struct UserData: Encodable {
+public struct UserData: Encodable {
     let uid: String
     let description: String
     let nickName: String
@@ -61,12 +55,7 @@ struct UserData: Encodable {
     let artworks: [String: ArtworkEncodeType]
 }
 
-enum Result<Value> {
-    case success(Value)
-    case failure(Error)
-}
-
-struct UserDataDecodeType: Decodable {
+public struct UserDataDecodeType: Decodable {
     let uid: String
     let nickName: String
     let email: String
@@ -82,7 +71,7 @@ struct UserDataDecodeType: Decodable {
     }
 }
 
-struct Artwork: Decodable {
+public struct Artwork: Decodable {
     let userUid: String
     let artworkUid: String
     let artworkUrl: String
