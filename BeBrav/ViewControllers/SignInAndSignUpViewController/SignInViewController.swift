@@ -8,6 +8,8 @@
 //
 
 import UIKit
+import DependencyContainer
+import FirebaseModuleProtocols
 
 class SignInViewController: UIViewController {
     
@@ -240,8 +242,9 @@ class SignInViewController: UIViewController {
     
     
     @objc func signUpTextButtonDidTap() {
-        let container = NetworkDependencyContainer()
-        let signUpPageViewController = SignUpViewController(serverAuth: container.buildServerAuth(), serverDatabase: container.buildServerDatabase())
+        let firebaseDatabaseService: FirebaseDatabaseService = DependencyContainer.shared.getDependency(key: .firebaseDatabase)
+        let firebaseAuthService: FirebaseAuthService = DependencyContainer.shared.getDependency(key: .firebaseAuth)
+        let signUpPageViewController = SignUpViewController(serverAuth: firebaseAuthService, serverDatabase: firebaseDatabaseService)
         present(signUpPageViewController, animated: false, completion: nil)
     }
     @objc func handleShowKeyboard(notification: NSNotification) {
@@ -281,7 +284,7 @@ class SignInViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.loadingIndicator.deactivateIndicatorView()
                     let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
-                    let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+                    let serverDatabase: FirebaseDatabaseService = DependencyContainer.shared.getDependency(key: .firebaseDatabase)
                     let databaseHandler = DatabaseFactory().buildDatabaseHandler()
                     
                     let mainViewController = PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: databaseHandler)

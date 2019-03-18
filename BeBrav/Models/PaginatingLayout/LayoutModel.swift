@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sharing
 
 
 /// ArtworkDecodeType배열을 받아서 각 인스탠스의 views 프로퍼티를 배열안에 담아서 해당 배열에서 가장

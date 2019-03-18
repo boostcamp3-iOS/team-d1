@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import DependencyContainer
+import FirebaseModuleProtocols
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,15 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let container = NetworkDependencyContainer()
+        let firebaseDatabase: FirebaseDatabaseService = DependencyContainer.shared.getDependency(key: .firebaseDatabase)
+        let firebaseAuth: FirebaseAuthService = DependencyContainer.shared.getDependency(key: .firebaseAuth)
         var firstOnScreenViewController = UIViewController()
         if let _ = UserDefaults.standard.string(forKey: "uid") {
             let imageLoader = ImageLoader(session: URLSession.shared, diskCache: DiskCache(), memoryCache: MemoryCache())
-            let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
-            firstOnScreenViewController = UINavigationController(rootViewController: PaginatingCollectionViewController(serverDatabase: serverDatabase, imageLoader: imageLoader, databaseHandler: DatabaseHandler()))
+            firstOnScreenViewController = UINavigationController(rootViewController: PaginatingCollectionViewController(serverDatabase: firebaseDatabase, imageLoader: imageLoader, databaseHandler: DatabaseHandler()))
             
         } else {
-            firstOnScreenViewController = UINavigationController(rootViewController: SignInViewController(serverAuth: container.buildServerAuth()))
+            firstOnScreenViewController = UINavigationController(rootViewController: SignInViewController(serverAuth: firebaseAuth))
         }
       
         window = UIWindow(frame: UIScreen.main.bounds)

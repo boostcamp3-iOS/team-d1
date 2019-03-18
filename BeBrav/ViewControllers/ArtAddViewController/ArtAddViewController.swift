@@ -8,6 +8,8 @@
 
 import UIKit
 import Photos
+import DependencyContainer
+import FirebaseModuleProtocols
 
 protocol ArtAddViewControllerDelegate: class {
     func reloadMainView(controller: ArtAddViewController)
@@ -33,15 +35,10 @@ class ArtAddViewController: UIViewController {
     
     private let uid = UserDefaults.standard.string(forKey: "uid")
     
-    private let container = NetworkDependencyContainer()
+    private let firebaseServerService: FirebaseServerService = DependencyContainer.shared.getDependency(key: .firebaseServer)
     
-    private lazy var serverDB = container.buildServerDatabase()
-    private lazy var serverST = container.buildServerStorage()
-    private lazy var serverAu = container.buildServerAuth()
-    private lazy var manager = ServerManager(authManager: serverAu,
-                                             databaseManager: serverDB,
-                                             storageManager: serverST,
-                                             uid: self.uid ?? "")
+
+    private lazy var manager = firebaseServerService
     
     override var prefersStatusBarHidden: Bool {
         return true
