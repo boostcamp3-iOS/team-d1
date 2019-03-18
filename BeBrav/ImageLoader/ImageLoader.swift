@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NetworkServiceProtocols
+import Sharing
 
 class ImageLoader: ImageLoaderProtocol {
     
