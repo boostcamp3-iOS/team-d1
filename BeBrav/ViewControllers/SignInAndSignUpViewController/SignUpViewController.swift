@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseModuleProtocols
+import Sharing
 
 class SignUpViewController: UIViewController {
     

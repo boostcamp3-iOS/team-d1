@@ -7,45 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C9F3CC7C223BA233003FD2A4 /* NetworkServiceProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F3CC7A223BA233003FD2A4 /* NetworkServiceProtocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9F3CC87223BA29D003FD2A4 /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC82223BA29D003FD2A4 /* NetworkSeperatable.swift */; };
-		C9F3CC88223BA29D003FD2A4 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC83223BA29D003FD2A4 /* ResponseParser.swift */; };
-		C9F3CC89223BA29D003FD2A4 /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC84223BA29D003FD2A4 /* RequestMakable.swift */; };
-		C9F3CC8A223BA29D003FD2A4 /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC85223BA29D003FD2A4 /* Dispatchable.swift */; };
-		C9F3CC8B223BA29D003FD2A4 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC86223BA29D003FD2A4 /* NetworkModel.swift */; };
-		C9F3CC8D223BA2BF003FD2A4 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC8C223BA2BF003FD2A4 /* HTTPMethod.swift */; };
-		C9F3CC97223BA300003FD2A4 /* MockTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC8F223BA300003FD2A4 /* MockTask.swift */; };
-		C9F3CC98223BA300003FD2A4 /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC90223BA300003FD2A4 /* MockHTTPURLResponse.swift */; };
-		C9F3CC99223BA300003FD2A4 /* HTTPURLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC91223BA300003FD2A4 /* HTTPURLResponseProtocol.swift */; };
-		C9F3CC9A223BA300003FD2A4 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC92223BA300003FD2A4 /* URLSessionProtocol.swift */; };
-		C9F3CC9B223BA300003FD2A4 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC93223BA300003FD2A4 /* MockSession.swift */; };
-		C9F3CC9C223BA300003FD2A4 /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC94223BA300003FD2A4 /* MockResponse.swift */; };
-		C9F3CC9D223BA300003FD2A4 /* URLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC95223BA300003FD2A4 /* URLResponseProtocol.swift */; };
-		C9F3CC9E223BA300003FD2A4 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3CC96223BA300003FD2A4 /* URLSessionTaskProtocol.swift */; };
+		03CEAFE15AC6896EB68675AD6119A63F /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD5EE4C189D9C2EC1ECEEC0723CEC7A /* HTTPMethod.swift */; };
+		07A29AF508197138CEB024599002F4C1 /* URLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3E6801A31DE7032EA97A9CDE63DF8A /* URLResponseProtocol.swift */; };
+		17BB8E008D2B15871B768DAAA458C339 /* Dispatchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61B2DBC22E63022A0B810678722FD /* Dispatchable.swift */; };
+		204A6D48088B3A7E126D2D2BC7299F84 /* MockHTTPURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB15FBB2820A39A2259FE2B081B70F2 /* MockHTTPURLResponse.swift */; };
+		208836247277F03F51C9A042D0F7D7B6 /* RequestMakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23AC6C78B8978717E70137670FE60E /* RequestMakable.swift */; };
+		310A34E41A7A04F3D4C6260F6102634C /* MockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AB6E2180520B9CE0B66AEE3C34CB11 /* MockResponse.swift */; };
+		49E6BDF8EFCE4E0085968B502F72AA0E /* HTTPURLResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0CA083294BBEB7617370E321AFB9CB /* HTTPURLResponseProtocol.swift */; };
+		5F4606A67DEC095E268881C06F8EE040 /* MockTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492390CF02C1FFEE85F226BD9E0AA149 /* MockTask.swift */; };
+		74BB51FE345488B99EAA5F29416B1818 /* URLSessionTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A2F667ECC7EC6421C4A0CF11AE87B /* URLSessionTaskProtocol.swift */; };
+		783AAF57989756BD9BA77AC909DB5666 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D01CDC97544D9211951358A5804BC4 /* ResponseParser.swift */; };
+		7A18A7E85348FDB23FF6FEB022FA5292 /* NetworkSeperatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8363F09222B4A317F70F1514F794FA9E /* NetworkSeperatable.swift */; };
+		81D6CBF880BFCC2322EB393ACCB49F40 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A827183DF5A6F41D10C04363CE10B300 /* MockSession.swift */; };
+		8BB8003A6BA1AA4810C5F10E195C9D13 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD82DFCAE6E383BE626903EB42FC7F1 /* URLSessionProtocol.swift */; };
+		B990BD4826E767D19564A895A33C07D2 /* NetworkServiceProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = 00B2820D1F403DC94D230A9C49CA5EFF /* NetworkServiceProtocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C9F3CC77223BA233003FD2A4 /* NetworkServiceProtocols.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkServiceProtocols.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9F3CC7A223BA233003FD2A4 /* NetworkServiceProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkServiceProtocols.h; sourceTree = "<group>"; };
-		C9F3CC7B223BA233003FD2A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9F3CC82223BA29D003FD2A4 /* NetworkSeperatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSeperatable.swift; sourceTree = "<group>"; };
-		C9F3CC83223BA29D003FD2A4 /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
-		C9F3CC84223BA29D003FD2A4 /* RequestMakable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
-		C9F3CC85223BA29D003FD2A4 /* Dispatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
-		C9F3CC86223BA29D003FD2A4 /* NetworkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
-		C9F3CC8C223BA2BF003FD2A4 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		C9F3CC8F223BA300003FD2A4 /* MockTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTask.swift; sourceTree = "<group>"; };
-		C9F3CC90223BA300003FD2A4 /* MockHTTPURLResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockHTTPURLResponse.swift; sourceTree = "<group>"; };
-		C9F3CC91223BA300003FD2A4 /* HTTPURLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseProtocol.swift; sourceTree = "<group>"; };
-		C9F3CC92223BA300003FD2A4 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
-		C9F3CC93223BA300003FD2A4 /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
-		C9F3CC94223BA300003FD2A4 /* MockResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockResponse.swift; sourceTree = "<group>"; };
-		C9F3CC95223BA300003FD2A4 /* URLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLResponseProtocol.swift; sourceTree = "<group>"; };
-		C9F3CC96223BA300003FD2A4 /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
+		00B2820D1F403DC94D230A9C49CA5EFF /* NetworkServiceProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkServiceProtocols.h; sourceTree = "<group>"; };
+		0DB15FBB2820A39A2259FE2B081B70F2 /* MockHTTPURLResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockHTTPURLResponse.swift; sourceTree = "<group>"; };
+		1E3E6801A31DE7032EA97A9CDE63DF8A /* URLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLResponseProtocol.swift; sourceTree = "<group>"; };
+		492390CF02C1FFEE85F226BD9E0AA149 /* MockTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTask.swift; sourceTree = "<group>"; };
+		53AB6E2180520B9CE0B66AEE3C34CB11 /* MockResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockResponse.swift; sourceTree = "<group>"; };
+		5C23AC6C78B8978717E70137670FE60E /* RequestMakable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMakable.swift; sourceTree = "<group>"; };
+		8363F09222B4A317F70F1514F794FA9E /* NetworkSeperatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSeperatable.swift; sourceTree = "<group>"; };
+		9AD82DFCAE6E383BE626903EB42FC7F1 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		A2A61B2DBC22E63022A0B810678722FD /* Dispatchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatchable.swift; sourceTree = "<group>"; };
+		A827183DF5A6F41D10C04363CE10B300 /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		CF9A2F667ECC7EC6421C4A0CF11AE87B /* URLSessionTaskProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionTaskProtocol.swift; sourceTree = "<group>"; };
+		CFAD339E0EFA69571CAE54483CDAB12D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D332C56E4469FEC79ADB5AFAC89EC23A /* NetworkServiceProtocols.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkServiceProtocols.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBD5EE4C189D9C2EC1ECEEC0723CEC7A /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		F8D01CDC97544D9211951358A5804BC4 /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
+		FF0CA083294BBEB7617370E321AFB9CB /* HTTPURLResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURLResponseProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C9F3CC74223BA233003FD2A4 /* Frameworks */ = {
+		5D7B31D622B05B7336FDA86698C72BF2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -55,49 +53,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9F3CC6D223BA233003FD2A4 = {
+		DB3C53ECD46556741CA30AA10C0D8374 = {
 			isa = PBXGroup;
 			children = (
-				C9F3CC79223BA233003FD2A4 /* NetworkServiceProtocols */,
-				C9F3CC78223BA233003FD2A4 /* Products */,
+				88DF16854F706A22F1382C7CD17EC664 /* NetworkServiceProtocols */,
+				B6473CAE72C41ABCB4AD3B267599B6ED /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C9F3CC78223BA233003FD2A4 /* Products */ = {
+		B6473CAE72C41ABCB4AD3B267599B6ED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9F3CC77223BA233003FD2A4 /* NetworkServiceProtocols.framework */,
+				D332C56E4469FEC79ADB5AFAC89EC23A /* NetworkServiceProtocols.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C9F3CC79223BA233003FD2A4 /* NetworkServiceProtocols */ = {
+		88DF16854F706A22F1382C7CD17EC664 /* NetworkServiceProtocols */ = {
 			isa = PBXGroup;
 			children = (
-				C9F3CC8E223BA2E1003FD2A4 /* Utils */,
-				C9F3CC8C223BA2BF003FD2A4 /* HTTPMethod.swift */,
-				C9F3CC85223BA29D003FD2A4 /* Dispatchable.swift */,
-				C9F3CC86223BA29D003FD2A4 /* NetworkModel.swift */,
-				C9F3CC82223BA29D003FD2A4 /* NetworkSeperatable.swift */,
-				C9F3CC84223BA29D003FD2A4 /* RequestMakable.swift */,
-				C9F3CC83223BA29D003FD2A4 /* ResponseParser.swift */,
-				C9F3CC7A223BA233003FD2A4 /* NetworkServiceProtocols.h */,
-				C9F3CC7B223BA233003FD2A4 /* Info.plist */,
+				99FFBEFA2B104DA79EFB5D2B15174185 /* Utils */,
+				A2A61B2DBC22E63022A0B810678722FD /* Dispatchable.swift */,
+				EBD5EE4C189D9C2EC1ECEEC0723CEC7A /* HTTPMethod.swift */,
+				CFAD339E0EFA69571CAE54483CDAB12D /* Info.plist */,
+				8363F09222B4A317F70F1514F794FA9E /* NetworkSeperatable.swift */,
+				00B2820D1F403DC94D230A9C49CA5EFF /* NetworkServiceProtocols.h */,
+				5C23AC6C78B8978717E70137670FE60E /* RequestMakable.swift */,
+				F8D01CDC97544D9211951358A5804BC4 /* ResponseParser.swift */,
 			);
 			path = NetworkServiceProtocols;
 			sourceTree = "<group>";
 		};
-		C9F3CC8E223BA2E1003FD2A4 /* Utils */ = {
+		99FFBEFA2B104DA79EFB5D2B15174185 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C9F3CC91223BA300003FD2A4 /* HTTPURLResponseProtocol.swift */,
-				C9F3CC90223BA300003FD2A4 /* MockHTTPURLResponse.swift */,
-				C9F3CC94223BA300003FD2A4 /* MockResponse.swift */,
-				C9F3CC93223BA300003FD2A4 /* MockSession.swift */,
-				C9F3CC8F223BA300003FD2A4 /* MockTask.swift */,
-				C9F3CC95223BA300003FD2A4 /* URLResponseProtocol.swift */,
-				C9F3CC92223BA300003FD2A4 /* URLSessionProtocol.swift */,
-				C9F3CC96223BA300003FD2A4 /* URLSessionTaskProtocol.swift */,
+				FF0CA083294BBEB7617370E321AFB9CB /* HTTPURLResponseProtocol.swift */,
+				0DB15FBB2820A39A2259FE2B081B70F2 /* MockHTTPURLResponse.swift */,
+				53AB6E2180520B9CE0B66AEE3C34CB11 /* MockResponse.swift */,
+				A827183DF5A6F41D10C04363CE10B300 /* MockSession.swift */,
+				492390CF02C1FFEE85F226BD9E0AA149 /* MockTask.swift */,
+				1E3E6801A31DE7032EA97A9CDE63DF8A /* URLResponseProtocol.swift */,
+				9AD82DFCAE6E383BE626903EB42FC7F1 /* URLSessionProtocol.swift */,
+				CF9A2F667ECC7EC6421C4A0CF11AE87B /* URLSessionTaskProtocol.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -105,25 +102,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		C9F3CC72223BA233003FD2A4 /* Headers */ = {
+		ADBE4865F061534DF9B67D9474B5B708 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F3CC7C223BA233003FD2A4 /* NetworkServiceProtocols.h in Headers */,
+				B990BD4826E767D19564A895A33C07D2 /* NetworkServiceProtocols.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C9F3CC76223BA233003FD2A4 /* NetworkServiceProtocols */ = {
+		0F210C22557DA3D1D1634DFF3138B8B5 /* NetworkServiceProtocols */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9F3CC7F223BA233003FD2A4 /* Build configuration list for PBXNativeTarget "NetworkServiceProtocols" */;
+			buildConfigurationList = 5BACD35383D156727BCC06DD107FC848 /* Build configuration list for PBXNativeTarget "NetworkServiceProtocols" */;
 			buildPhases = (
-				C9F3CC72223BA233003FD2A4 /* Headers */,
-				C9F3CC73223BA233003FD2A4 /* Sources */,
-				C9F3CC74223BA233003FD2A4 /* Frameworks */,
-				C9F3CC75223BA233003FD2A4 /* Resources */,
+				ADBE4865F061534DF9B67D9474B5B708 /* Headers */,
+				0059CC682BCF428A381617081C52DF0E /* Sources */,
+				5D7B31D622B05B7336FDA86698C72BF2 /* Frameworks */,
+				9944BC51971749EE27FEE8A089A0B7DE /* Resources */,
 			);
 			buildRules = (
 			);
@@ -131,43 +128,43 @@
 			);
 			name = NetworkServiceProtocols;
 			productName = NetworkServiceProtocols;
-			productReference = C9F3CC77223BA233003FD2A4 /* NetworkServiceProtocols.framework */;
+			productReference = D332C56E4469FEC79ADB5AFAC89EC23A /* NetworkServiceProtocols.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C9F3CC6E223BA233003FD2A4 /* Project object */ = {
+		DDB4ECE547FA49DA4E3F84A03FC700B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = bumslap;
 				TargetAttributes = {
-					C9F3CC76223BA233003FD2A4 = {
+					0F210C22557DA3D1D1634DFF3138B8B5 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
 				};
 			};
-			buildConfigurationList = C9F3CC71223BA233003FD2A4 /* Build configuration list for PBXProject "NetworkServiceProtocols" */;
+			buildConfigurationList = 96EFEF1ECC2580F71D70D9DFDE2B48E4 /* Build configuration list for PBXProject "NetworkServiceProtocols" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = C9F3CC6D223BA233003FD2A4;
-			productRefGroup = C9F3CC78223BA233003FD2A4 /* Products */;
+			mainGroup = DB3C53ECD46556741CA30AA10C0D8374;
+			productRefGroup = B6473CAE72C41ABCB4AD3B267599B6ED /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C9F3CC76223BA233003FD2A4 /* NetworkServiceProtocols */,
+				0F210C22557DA3D1D1634DFF3138B8B5 /* NetworkServiceProtocols */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C9F3CC75223BA233003FD2A4 /* Resources */ = {
+		9944BC51971749EE27FEE8A089A0B7DE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -177,31 +174,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C9F3CC73223BA233003FD2A4 /* Sources */ = {
+		0059CC682BCF428A381617081C52DF0E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9F3CC9A223BA300003FD2A4 /* URLSessionProtocol.swift in Sources */,
-				C9F3CC98223BA300003FD2A4 /* MockHTTPURLResponse.swift in Sources */,
-				C9F3CC9D223BA300003FD2A4 /* URLResponseProtocol.swift in Sources */,
-				C9F3CC89223BA29D003FD2A4 /* RequestMakable.swift in Sources */,
-				C9F3CC8A223BA29D003FD2A4 /* Dispatchable.swift in Sources */,
-				C9F3CC9B223BA300003FD2A4 /* MockSession.swift in Sources */,
-				C9F3CC8D223BA2BF003FD2A4 /* HTTPMethod.swift in Sources */,
-				C9F3CC9E223BA300003FD2A4 /* URLSessionTaskProtocol.swift in Sources */,
-				C9F3CC9C223BA300003FD2A4 /* MockResponse.swift in Sources */,
-				C9F3CC87223BA29D003FD2A4 /* NetworkSeperatable.swift in Sources */,
-				C9F3CC8B223BA29D003FD2A4 /* NetworkModel.swift in Sources */,
-				C9F3CC88223BA29D003FD2A4 /* ResponseParser.swift in Sources */,
-				C9F3CC99223BA300003FD2A4 /* HTTPURLResponseProtocol.swift in Sources */,
-				C9F3CC97223BA300003FD2A4 /* MockTask.swift in Sources */,
+				17BB8E008D2B15871B768DAAA458C339 /* Dispatchable.swift in Sources */,
+				03CEAFE15AC6896EB68675AD6119A63F /* HTTPMethod.swift in Sources */,
+				49E6BDF8EFCE4E0085968B502F72AA0E /* HTTPURLResponseProtocol.swift in Sources */,
+				204A6D48088B3A7E126D2D2BC7299F84 /* MockHTTPURLResponse.swift in Sources */,
+				310A34E41A7A04F3D4C6260F6102634C /* MockResponse.swift in Sources */,
+				81D6CBF880BFCC2322EB393ACCB49F40 /* MockSession.swift in Sources */,
+				5F4606A67DEC095E268881C06F8EE040 /* MockTask.swift in Sources */,
+				7A18A7E85348FDB23FF6FEB022FA5292 /* NetworkSeperatable.swift in Sources */,
+				208836247277F03F51C9A042D0F7D7B6 /* RequestMakable.swift in Sources */,
+				783AAF57989756BD9BA77AC909DB5666 /* ResponseParser.swift in Sources */,
+				07A29AF508197138CEB024599002F4C1 /* URLResponseProtocol.swift in Sources */,
+				8BB8003A6BA1AA4810C5F10E195C9D13 /* URLSessionProtocol.swift in Sources */,
+				74BB51FE345488B99EAA5F29416B1818 /* URLSessionTaskProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C9F3CC7D223BA233003FD2A4 /* Debug */ = {
+		2D96B6097F9EBA4186E78A63FEA05BC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -265,7 +261,7 @@
 			};
 			name = Debug;
 		};
-		C9F3CC7E223BA233003FD2A4 /* Release */ = {
+		BDC6BEED48B6A811850292361556EA35 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -323,7 +319,7 @@
 			};
 			name = Release;
 		};
-		C9F3CC80223BA233003FD2A4 /* Debug */ = {
+		B07149CD54C3C0AC297B905EE7A5C211 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -350,7 +346,7 @@
 			};
 			name = Debug;
 		};
-		C9F3CC81223BA233003FD2A4 /* Release */ = {
+		94A3378A6BD78F6BC199D63CB69089F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -379,25 +375,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C9F3CC71223BA233003FD2A4 /* Build configuration list for PBXProject "NetworkServiceProtocols" */ = {
+		96EFEF1ECC2580F71D70D9DFDE2B48E4 /* Build configuration list for PBXProject "NetworkServiceProtocols" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9F3CC7D223BA233003FD2A4 /* Debug */,
-				C9F3CC7E223BA233003FD2A4 /* Release */,
+				2D96B6097F9EBA4186E78A63FEA05BC0 /* Debug */,
+				BDC6BEED48B6A811850292361556EA35 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9F3CC7F223BA233003FD2A4 /* Build configuration list for PBXNativeTarget "NetworkServiceProtocols" */ = {
+		5BACD35383D156727BCC06DD107FC848 /* Build configuration list for PBXNativeTarget "NetworkServiceProtocols" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9F3CC80223BA233003FD2A4 /* Debug */,
-				C9F3CC81223BA233003FD2A4 /* Release */,
+				B07149CD54C3C0AC297B905EE7A5C211 /* Debug */,
+				94A3378A6BD78F6BC199D63CB69089F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = C9F3CC6E223BA233003FD2A4 /* Project object */;
+	rootObject = DDB4ECE547FA49DA4E3F84A03FC700B7 /* Project object */;
 }

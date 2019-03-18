@@ -12,9 +12,11 @@
 import Foundation
 import NetworkServiceProtocols
 
-struct RequestMaker: RequestMakable {
+public struct RequestMaker: RequestMakable {
     
-    func makeRequest(url: URL?,
+   public init(){}
+    
+   public func makeRequest(url: URL?,
                      method: HTTPMethod = .get,
                      headers: [String: String] = [:],
                      body: Data? = nil) -> URLRequest? {
@@ -28,8 +30,6 @@ struct RequestMaker: RequestMakable {
             request.setValue(value, forHTTPHeaderField: key)
         }
         request.httpBody = body
-        
-        print("request: \(request)")
 
         switch method {
         case .get:

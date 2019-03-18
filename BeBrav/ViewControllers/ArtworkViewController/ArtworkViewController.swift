@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseModuleProtocols
+import DependencyContainer
+import Sharing
 
 class ArtworkViewController: UIViewController {
     
@@ -72,7 +75,7 @@ class ArtworkViewController: UIViewController {
     // MARK:- Properties
     private let imageLoader: ImageLoaderProtocol
     private let databaseHandler: DatabaseHandler
-    private let serverDatabase: ServerDatabase
+    private let serverDatabase: FirebaseDatabaseService
     
     public var mainNavigationController: UINavigationController?
     public var artwork: ArtworkDecodeType?
@@ -100,7 +103,7 @@ class ArtworkViewController: UIViewController {
     
     // MARK:- Initialize
     init(imageLoader: ImageLoaderProtocol,
-         serverDatabase: ServerDatabase,
+         serverDatabase: FirebaseDatabaseService,
          databaseHandler: DatabaseHandler)
     {
         self.imageLoader = imageLoader
@@ -242,7 +245,8 @@ class ArtworkViewController: UIViewController {
             return
         }
         let imageLoader = ImageCacheFactory().buildImageLoader()
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let serverDatabase: FirebaseDatabaseService =
+            DependencyContainer.shared.getDependency(key: .firebaseDatabase)
         let databaseHandler = DatabaseHandler()
         let viewController = ArtistViewController(imageLoader: imageLoader,
                                                   serverDatabase: serverDatabase,

@@ -11,18 +11,19 @@
 
 import UIKit
 import NetworkServiceProtocols
+import Sharing
 
-struct NetworkSeparator: NetworkSeperatable {
+public struct NetworkSeparator: NetworkSeperatable {
     
-    let dispatcher: Dispatchable
-    let requestMaker: RequestMakable
+    public let dispatcher: Dispatchable
+    public let requestMaker: RequestMakable
     
-    init(dispatcher: Dispatchable, requestMaker: RequestMakable) {
+    public init(dispatcher: Dispatchable, requestMaker: RequestMakable) {
         self.dispatcher = dispatcher
         self.requestMaker = requestMaker
     }
     
-    func read(path: String,
+    public func read(path: String,
               headers: [String: String],
               queries: [URLQueryItem]? = nil,
               completion: @escaping (Result<Data>, URLResponseProtocol?) -> Void) {
@@ -52,7 +53,7 @@ struct NetworkSeparator: NetworkSeperatable {
     }
     
     // POST, PUT, PATCH 만 유효함
-    func write(path: String,
+    public func write(path: String,
                data: Data,
                method: HTTPMethod,
                headers: [String: String],
@@ -76,7 +77,7 @@ struct NetworkSeparator: NetworkSeperatable {
         }
     }
     
-    func delete(path: String,
+    public func delete(path: String,
                 completion: @escaping (Result<URLResponseProtocol?>) -> Void) {
         var url = dispatcher.components?.url
         url?.appendPathComponent(path)

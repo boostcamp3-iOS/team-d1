@@ -8,6 +8,7 @@
 
 import Foundation
 import NetworkServiceProtocols
+import Sharing
 
 extension URLResponse {
     

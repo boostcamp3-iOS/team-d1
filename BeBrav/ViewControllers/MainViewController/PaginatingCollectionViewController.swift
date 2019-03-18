@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import DependencyContainer
+import NetworkServiceProtocols
+import FirebaseModuleProtocols
+import Sharing
 
 
 private let reuseIdentifier = "Cell"
@@ -75,17 +79,8 @@ class PaginatingCollectionViewController: UICollectionViewController {
     
     
     ///네트워킹을 전체적으로 관리하는 인스탠스를 생성하기 위한 컨테이너 입니다.
-    private let container = NetworkDependencyContainer()
-    
-    ///컨테이너로 만든 ServerDatabase 인스탠스입니다.
-    private lazy var serverDB = container.buildServerDatabase()
-    
-    private lazy var serverST = container.buildServerStorage()
-    private lazy var serverAu = container.buildServerAuth()
-    private lazy var manager = ServerManager(authManager: serverAu,
-                                             databaseManager: serverDB,
-                                             storageManager: serverST,
-                                             uid: "123")
+
+    private lazy var manager: FirebaseServerService = DependencyContainer.shared.getDependency(key: .firebaseServer)
     
     private var thumbImage: [String: UIImage] = [:]
     private var artworkImage: [String: UIImage] = [:]
@@ -179,7 +174,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
         let imageLoader = ImageCacheFactory().buildImageLoader()
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let serverDatabase: FirebaseDatabaseService = DependencyContainer.shared.getDependency(key: .firebaseDatabase)
         let databaseHandler = DatabaseHandler()
         let viewController = ArtworkViewController(imageLoader: imageLoader,
                                                    serverDatabase: serverDatabase,
@@ -367,7 +362,7 @@ class PaginatingCollectionViewController: UICollectionViewController {
    
     @objc func userSettingButtonDidTap() {
         let imageLoader = ImageCacheFactory().buildImageLoader()
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let serverDatabase = self.serverDatabase
         let databaseHandler = DatabaseHandler()
         let userInformationViewController = ArtistViewController(imageLoader: imageLoader, serverDatabase: serverDatabase, databaseHandler: databaseHandler)
         userInformationViewController.isUser = true
@@ -491,7 +486,7 @@ extension PaginatingCollectionViewController {
             if currentKey == nil {
                 let queries = queries
                 
-                serverDB.read(path: "root/artworks",
+                serverDatabase.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self, headers: [:],
                               queries: queries) {
                                 (result, response) in
@@ -515,7 +510,7 @@ extension PaginatingCollectionViewController {
                                URLQueryItem(name: "limitToLast", value: "\(batchSize)")
                 ]
                 
-                serverDB.read(path: "root/artworks",
+                serverDatabase.read(path: "root/artworks",
                               type: [String: ArtworkDecodeType].self,
                               headers: [:],
                               queries: queries) {

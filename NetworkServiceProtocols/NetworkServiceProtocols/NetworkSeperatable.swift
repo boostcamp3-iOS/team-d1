@@ -10,6 +10,7 @@
 /// NetworkSeperatable은 다양한 HTTPMethod을 3개의 메서드로 추상화 하여 구분하는 프로토콜입니다.
 
 import Foundation
+import Sharing
 
 public protocol NetworkSeperatable {
     

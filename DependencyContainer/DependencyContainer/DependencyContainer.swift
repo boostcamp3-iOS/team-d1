@@ -9,6 +9,7 @@
 import Foundation
 import NetworkServiceProtocols
 import NetworkService
+import FirebaseService
 
 public class DependencyContainer {
     
@@ -18,17 +19,17 @@ public class DependencyContainer {
     
     private init() {
         
-        let firebaseAuthService = NetworkDependencyContainer().buildServerAuth
-        register(key: .firebaseAuth, value: firebaseAuthService)
+        let firebaseAuthService = NetworkDependencyContainer().buildServerAuth()
+        register(key: .firebaseAuth, dependency: firebaseAuthService)
         
-        let firebaseDatabaseService = NetworkDependencyContainer().buildServerDatabase
-        register(key: .firebaseDatabase, value: firebaseDatabaseService)
+        let firebaseDatabaseService = NetworkDependencyContainer().buildServerDatabase()
+        register(key: .firebaseDatabase, dependency: firebaseDatabaseService)
         
-        let firebaseStorageService = NetworkDependencyContainer().buildServerStorage
-        register(key: .firebaseStorage, value: firebaseStorageService)
+        let firebaseStorageService = NetworkDependencyContainer().buildServerStorage()
+        register(key: .firebaseStorage, dependency: firebaseStorageService)
         
-        let firebaseServerManager = ServerManager()//ServiceFactory.createFoodOptionService(network: mockServer)
-        register(key: .firebaseServer, value: firebaseServerManager)
+        let firebaseServerManager = ServerManager(authManager: firebaseAuthService, databaseManager: firebaseDatabaseService, storageManager: firebaseStorageService)//ServiceFactory.createFoodOptionService(network: mockServer)
+        register(key: .firebaseServer, dependency: firebaseServerManager)
         
     }
     
@@ -58,6 +59,7 @@ public class DependencyContainer {
     }
     
 }
+
 public enum DependencyKey {
     case firebaseAuth
     case firebaseDatabase

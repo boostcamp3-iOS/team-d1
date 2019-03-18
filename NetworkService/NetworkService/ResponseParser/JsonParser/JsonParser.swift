@@ -11,10 +11,13 @@
 
 import Foundation
 import NetworkServiceProtocols
+import Sharing
 
-struct JsonParser: ResponseParser {
+public struct JsonParser: ResponseParser {
     
-    func parseResponse(response: URLResponseProtocol?,
+    public init(){}
+    
+    public func parseResponse(response: URLResponseProtocol?,
                        mimeType: MimeType) -> URLResponseProtocol {
         guard let response = response, response.isSuccess,
             response.isMimeType(type: mimeType) else {
@@ -24,7 +27,7 @@ struct JsonParser: ResponseParser {
         return response
     }
     
-     func extractDecodedJsonData<T: Decodable>(decodeType: T.Type,
+     public func extractDecodedJsonData<T: Decodable>(decodeType: T.Type,
                                                binaryData: Data?) -> T? {
         guard let data = binaryData else { return nil }
         do {
@@ -35,7 +38,7 @@ struct JsonParser: ResponseParser {
         }
     }
     
-    func extractEncodedJsonData<T: Encodable>(data: T) -> Data? {
+    public func extractEncodedJsonData<T: Encodable>(data: T) -> Data? {
         do {
             
             let encodeData = try JSONEncoder().encode(data)

@@ -9,7 +9,8 @@
 ///
 
 import Foundation
-import NetworkServiceProtocols
+import NetworkService
+import FirebaseService
 
 protocol NetworkFactory {
     

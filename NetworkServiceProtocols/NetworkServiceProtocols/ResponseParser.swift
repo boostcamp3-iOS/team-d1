@@ -10,6 +10,7 @@
 /// 프로토콜입니다.
 
 import Foundation
+import Sharing
 
 public protocol ResponseParser {
 

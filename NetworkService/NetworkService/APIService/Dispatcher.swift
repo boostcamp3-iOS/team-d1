@@ -11,13 +11,14 @@
 
 import UIKit
 import NetworkServiceProtocols
+import Sharing
 
-struct Dispatcher: Dispatchable {
+public struct Dispatcher: Dispatchable {
     
-    var components: URLComponents?
-    var session: URLSessionProtocol
+    public var components: URLComponents?
+    public var session: URLSessionProtocol
     
-    init(components: URLComponents?, session: URLSessionProtocol) {
+    public init(components: URLComponents?, session: URLSessionProtocol) {
         self.components = components
         self.session = session
     }
@@ -31,7 +32,7 @@ struct Dispatcher: Dispatchable {
     /// - Returns: Result enum 타입으로 값을 감싸서 연관 값으로 전달합니다.
     ///            Result<Data>, URLResponse? 로 전달되는 이유는 어떤 데이터는 HTTPHeader에
     ///            또 어떤 데이터는 body에만 전달되는 경우가 있기 때문입니다.
-    func dispatch(request: URLRequest,
+    public func dispatch(request: URLRequest,
                   completion: @escaping (Result<Data>, URLResponseProtocol?) -> ()) {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true

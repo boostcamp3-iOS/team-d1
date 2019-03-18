@@ -10,6 +10,7 @@
 /// 실행할 수 있도록 하는 프로토콜 입니다.
 
 import UIKit
+import Sharing
 
 public protocol Dispatchable {
     

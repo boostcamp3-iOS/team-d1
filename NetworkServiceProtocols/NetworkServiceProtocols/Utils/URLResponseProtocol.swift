@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Sharing
 
 public protocol URLResponseProtocol {
     var isSuccess: Bool { get }

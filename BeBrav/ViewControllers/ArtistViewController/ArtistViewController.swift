@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Sharing
+import FirebaseModuleProtocols
+import DependencyContainer
 
 class ArtistViewController: UIViewController {
     
@@ -41,7 +44,7 @@ class ArtistViewController: UIViewController {
     private let artistDetailHeaderView = "ArtistDetailHeaderView"
     private let tempIdentifier = "temp"
     private let imageLoader: ImageLoaderProtocol
-    private let serverDatabase: ServerDatabase
+    private let serverDatabase: FirebaseDatabaseService
     private let databaseHandler: DatabaseHandler
     
     private var artworkList: [Artwork] = []
@@ -64,7 +67,7 @@ class ArtistViewController: UIViewController {
     
     // MARK:- Initialize
     init(imageLoader: ImageLoaderProtocol,
-         serverDatabase: ServerDatabase,
+         serverDatabase: FirebaseDatabaseService,
          databaseHandler: DatabaseHandler)
     {
         self.imageLoader = imageLoader
@@ -261,8 +264,8 @@ class ArtistViewController: UIViewController {
     @objc func signOutButtonDidTap(_ sender: UIBarButtonItem) {
         UserDefaults.standard.removeObject(forKey: "uid")
         
-        let server = NetworkDependencyContainer().buildServerAuth()
-        let signInViewController = SignInViewController(serverAuth: server)
+        let firebaseAuthServiece: FirebaseAuthService = DependencyContainer.shared.getDependency(key: .firebaseAuth)
+        let signInViewController = SignInViewController(serverAuth: firebaseAuthServiece)
         
         let newRootViewController = UINavigationController(rootViewController: signInViewController)
         UIApplication.shared.keyWindow?.rootViewController = newRootViewController
@@ -271,7 +274,7 @@ class ArtistViewController: UIViewController {
     // MARK:- Return ArtworkViewController
     private func artworkViewController(index: IndexPath) -> ArtworkViewController {
         let imageLoader = ImageCacheFactory().buildImageLoader()
-        let serverDatabase = NetworkDependencyContainer().buildServerDatabase()
+        let serverDatabase: FirebaseDatabaseService = DependencyContainer.shared.getDependency(key: .firebaseDatabase)
         let databaseHandler = DatabaseHandler()
         let viewController = ArtworkViewController(imageLoader: imageLoader,
                                                    serverDatabase: serverDatabase,
